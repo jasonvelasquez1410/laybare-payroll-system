@@ -22,7 +22,10 @@ if (process.env.DATABASE_URL || (process.env.DB_HOST && process.env.DB_USER)) {
   console.log('Using PostgreSQL database.');
 } else {
   dbType = 'sqlite';
-  const dbPath = path.join(__dirname, 'payroll.db');
+  // On Vercel, use the writeable /tmp directory to avoid read-only filesystem errors
+  const dbPath = process.env.VERCEL
+    ? path.join('/tmp', 'payroll.db')
+    : path.join(__dirname, 'payroll.db');
   sqliteDb = new sqlite3.Database(dbPath);
   console.log(`Using SQLite database at: ${dbPath}`);
 }
