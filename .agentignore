@@ -1,0 +1,28 @@
+# Web Development (React/Node/PWA)
+node_modules/
+dist/
+build/
+.next/
+out/
+
+# Python & Odoo
+.venv/
+venv/
+__pycache__/
+filestore/
+sessions/
+*.dump
+*.sql
+
+# Data Analytics (Datasets)
+*.csv
+*.xlsx
+*.parquet
+datasets/
+data/
+archive/
+
+# General / OS
+.git/
+.DS_Store
+Thumbs.db

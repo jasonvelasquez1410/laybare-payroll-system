@@ -1,0 +1,76 @@
+<html xmlns:o="urn:schemas-microsoft-com:office:office"
+      xmlns:w="urn:schemas-microsoft-com:office:word"
+      xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+<meta charset="utf-8">
+<title>Project Proposal: Payroll System Development</title>
+<style>
+  body { font-family: Arial, sans-serif; font-size: 11pt; line-height: 1.5; margin: 1in; }
+  h1 { font-size: 18pt; text-align: center; color: #2e74b5; }
+  h2 { font-size: 14pt; color: #2e74b5; border-bottom: 1px solid #ccc; padding-bottom: 2px; }
+  p { margin-bottom: 10px; }
+  ul { margin-top: 5px; margin-bottom: 15px; }
+  li { margin-bottom: 5px; }
+  .signature-line { margin-top: 50px; border-top: 1px solid #000; width: 300px; padding-top: 5px; }
+</style>
+</head>
+<body>
+
+<h1>Project Proposal: Payroll System Development</h1>
+
+<p><strong>Date:</strong> August 14, 2026<br>
+<strong>To:</strong> Ms. Jehan Abedin, General Manager<br>
+<strong>Company:</strong> ALRAJJ LEGACY Fortified Business Corp.<br>
+<strong>From:</strong> [Your Name/Company Name]</p>
+
+<hr style="margin: 20px 0; border: 0; border-top: 1px solid #ccc;">
+
+<h2>1. Project Overview</h2>
+<p>This proposal outlines the development and implementation of a customized Payroll System designed specifically for the operations of ALRAJJ LEGACY Fortified Business Corp. The system will initially be deployed across your three (3) currently operational locations: <strong>Centrio</strong>, <strong>Ketkai</strong>, and <strong>SM Downtown</strong>.</p>
+
+<h2>2. Scope of Work</h2>
+<ul>
+  <li><strong>Custom Payroll System Development:</strong> A comprehensive system to handle employee attendance, salary computations, and other payroll-related processes.</li>
+  <li><strong>Multi-Location Support:</strong> The system will manage payroll for the 3 active branches.</li>
+  <li><strong>Multi-Brand Support:</strong> Specific support for the Centrio location to handle both the Waxing Salon and Passion Nails brands.</li>
+  <li><em>Note: The Iligan branch is excluded from this initial deployment since it is not yet operational, but the system's architecture will easily accommodate adding new branches in the future.</em></li>
+</ul>
+
+<h2>3. Total Investment</h2>
+<p>The total project cost for the development and implementation of the Payroll System is <strong>PHP 85,000.00</strong>.</p>
+
+<h2>4. Payment Terms</h2>
+<p>To provide flexibility for the company, we offer the following installment plan based on project milestones:</p>
+<ul>
+  <li><strong>Downpayment (30%):</strong> PHP 25,500.00
+    <br><em>Due upon signing of this proposal and project commencement.</em></li>
+  <li><strong>Milestone 1 (30%):</strong> PHP 25,500.00
+    <br><em>Due upon completion of core system development and initial system demonstration.</em></li>
+  <li><strong>Milestone 2 (20%):</strong> PHP 17,000.00
+    <br><em>Due upon successful deployment, training, and User Acceptance Testing (UAT) across the 3 locations.</em></li>
+  <li><strong>Final Payment (20%):</strong> PHP 17,000.00
+    <br><em>Due upon final system turnover and live implementation.</em></li>
+</ul>
+<p><em>(Note: These percentages and milestones are open for discussion and can be adjusted to better fit your preferences).</em></p>
+
+<h2>5. System Maintenance and Retainer</h2>
+<ul>
+  <li><strong>First Year (Year 1):</strong> <strong>FREE</strong> of charge.
+    <br>Included in the initial project cost, covering system support, bug fixes, and maintenance for the first 12 months after going live.</li>
+  <li><strong>Second Year Onwards (Year 2+):</strong> <strong>PHP 1,500.00 per month</strong>
+    <br>A fixed, affordable monthly retainer fee (guaranteed to be less than PHP 2,000.00) starting on the second year to ensure continuous system reliability, updates, and priority technical support.</li>
+</ul>
+
+<hr style="margin: 20px 0; border: 0; border-top: 1px solid #ccc;">
+
+<p><strong>Approval:</strong><br>
+If you agree with the terms outlined above, please sign below to indicate your approval to proceed with the project.</p>
+
+<div class="signature-line">
+  <strong>Ms. Jehan Abedin</strong><br>
+  General Manager, ALRAJJ LEGACY Fortified Business Corp.<br>
+  Date: ________________________
+</div>
+
+</body>
+</html>
