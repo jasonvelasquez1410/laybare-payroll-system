@@ -463,10 +463,10 @@ export default function App() {
   });
 
   return (
-    <div className="min-h-screen font-sans antialiased text-[#1C1C1A] dark:text-[#F4F4EB] bg-[#F5F4EB] dark:bg-[#121211] pb-24 transition-colors duration-300">
+    <div className="min-h-screen font-sans antialiased text-[#1C1C1A] dark:text-[#F4F4EB] bg-[#FAF9F5] dark:bg-[#121211] pb-24 transition-colors duration-300">
       
       {/* 1. TOP HEADER / APP BAR */}
-      <header className="sticky top-0 z-40 bg-[#F5F4EB]/85 dark:bg-[#121211]/85 backdrop-blur-xl border-b border-[#E7E5DB] dark:border-[#262624] px-4 lg:px-8 py-3.5 transition-colors">
+      <header className="sticky top-0 z-40 bg-[#FAF9F5]/90 dark:bg-[#121211]/90 backdrop-blur-xl border-b border-[#ECEAE1] dark:border-[#262624] px-4 lg:px-8 py-3.5 transition-colors">
         <div className="max-w-[1520px] mx-auto flex items-center justify-between gap-4">
           
           {/* Logo & Brand Info */}
@@ -475,14 +475,14 @@ export default function App() {
               <img 
                 src="/logo.png.jpg" 
                 alt="Lay Bare Logo" 
-                className="h-11 w-11 object-cover rounded-2xl shadow-sm border border-[#E6E4DA] dark:border-[#2C2C28] p-0.5 bg-white dark:bg-[#1C1C1B]" 
+                className="h-11 w-11 object-cover rounded-2xl shadow-sm border border-[#EAE8DE] dark:border-[#2C2C28] p-0.5 bg-white dark:bg-[#1C1C1B]" 
               />
-              <span className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-[#D4F938] border-2 border-[#F5F4EB] dark:border-[#121211] rounded-full"></span>
+              <span className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-[#D4F938] border-2 border-[#FAF9F5] dark:border-[#121211] rounded-full"></span>
             </div>
             <div>
               <div className="flex items-center space-x-2">
                 <span className="text-lg font-extrabold tracking-tight font-sans text-stone-900 dark:text-stone-50">LAYBARE</span>
-                <span className="bg-[#E7E5DC] dark:bg-[#2A2A27] text-[10px] font-bold tracking-wider px-2 py-0.5 rounded-full uppercase text-stone-600 dark:text-stone-300">HQ Payroll</span>
+                <span className="bg-[#ECEAE1] dark:bg-[#2A2A27] text-[10px] font-bold tracking-wider px-2.5 py-0.5 rounded-full uppercase text-stone-700 dark:text-stone-300">HQ Payroll</span>
               </div>
               <p className="text-[11px] text-stone-500 dark:text-stone-400 font-medium tracking-wide">Biometric Attendance & Compliance System</p>
             </div>
@@ -491,29 +491,29 @@ export default function App() {
           {/* Quick Header Actions */}
           <div className="flex items-center space-x-2.5 sm:space-x-3">
             
-            {/* User Profile Pill (inspired by reference @shahinurstk02 pill) */}
-            <div className="hidden md:flex items-center space-x-2 bg-white dark:bg-[#1C1C1B] border border-[#E7E5DB] dark:border-[#2C2C28] rounded-full px-3 py-1.5 shadow-sm text-xs font-semibold">
+            {/* User Profile Pill */}
+            <div className="hidden md:flex items-center space-x-2 bg-white dark:bg-[#1C1C1B] border border-[#ECEAE1] dark:border-[#2C2C28] rounded-full px-3.5 py-1.5 shadow-sm text-xs font-semibold">
               <div className="w-6 h-6 rounded-full bg-[#D4F938] text-stone-950 flex items-center justify-center font-bold text-[11px]">
                 LB
               </div>
-              <span className="text-stone-700 dark:text-stone-300 font-medium">hr.admin@laybare.ph</span>
+              <span className="text-stone-800 dark:text-stone-200 font-medium">hr.admin@laybare.ph</span>
             </div>
 
             {/* Notification Bell Circle */}
             <button 
-              className="w-10 h-10 rounded-full bg-white dark:bg-[#1C1C1B] border border-[#E7E5DB] dark:border-[#2C2C28] flex items-center justify-center text-stone-700 dark:text-stone-300 hover:bg-[#EBEAE0] dark:hover:bg-[#272725] transition-colors relative shadow-sm"
+              className="w-10 h-10 rounded-full bg-white dark:bg-[#1C1C1B] border border-[#ECEAE1] dark:border-[#2C2C28] flex items-center justify-center text-stone-700 dark:text-stone-300 hover:bg-[#F2F0E6] dark:hover:bg-[#272725] transition-colors relative shadow-sm"
               title="System Notifications"
             >
               <Bell className="h-4 w-4" />
               {exceptions.length > 0 && (
-                <span className="absolute top-2 right-2 w-2 h-2 bg-rose-500 rounded-full animate-ping"></span>
+                <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-rose-500 rounded-full animate-ping"></span>
               )}
             </button>
 
             {/* Dark/Light Toggle Circle */}
             <button
               onClick={() => setDarkMode(!darkMode)}
-              className="w-10 h-10 rounded-full bg-white dark:bg-[#1C1C1B] border border-[#E7E5DB] dark:border-[#2C2C28] flex items-center justify-center text-stone-700 dark:text-stone-300 hover:bg-[#EBEAE0] dark:hover:bg-[#272725] transition-colors shadow-sm"
+              className="w-10 h-10 rounded-full bg-white dark:bg-[#1C1C1B] border border-[#ECEAE1] dark:border-[#2C2C28] flex items-center justify-center text-stone-700 dark:text-stone-300 hover:bg-[#F2F0E6] dark:hover:bg-[#272725] transition-colors shadow-sm"
               title="Toggle Theme"
             >
               {darkMode ? <Sun className="h-4 w-4 text-[#D4F938]" /> : <Moon className="h-4 w-4 text-stone-700" />}
@@ -522,7 +522,7 @@ export default function App() {
             {/* + Add Employee Action (Vibrant Lime Pill Button) */}
             <button
               onClick={() => setShowAddEmployeeModal(true)}
-              className="bg-[#D4F938] hover:bg-[#C4EB28] text-stone-950 font-bold text-xs sm:text-sm rounded-full px-4 sm:px-5 py-2.5 flex items-center space-x-2 transition-all shadow-sm hover:shadow active:scale-95"
+              className="bg-[#D4F938] hover:bg-[#C4EB28] text-stone-950 font-bold text-xs sm:text-sm rounded-full px-5 py-2.5 flex items-center space-x-2 transition-all shadow-sm hover:shadow active:scale-95"
             >
               <Plus className="h-4 w-4" />
               <span>Add Employee</span>
@@ -534,8 +534,8 @@ export default function App() {
       {/* 2. MAIN APP CONTENT CONTAINER */}
       <main className="max-w-[1520px] mx-auto px-4 lg:px-8 pt-6 space-y-6">
         
-        {/* Navigation Tabs Pill Bar (Inspired by the capsule bar in the reference mockup) */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#E7E5DB] dark:border-[#262624] pb-4">
+        {/* Navigation Tabs Pill Bar */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#ECEAE1] dark:border-[#262624] pb-4">
           
           {/* Main Module Tabs */}
           <div className="flex items-center overflow-x-auto space-x-2 py-1 scrollbar-none">
@@ -551,10 +551,10 @@ export default function App() {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center space-x-2 px-4 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all whitespace-nowrap ${
+                  className={`flex items-center space-x-2 px-4.5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all whitespace-nowrap ${
                     isActive
-                      ? 'bg-stone-900 text-white dark:bg-white dark:text-stone-950 shadow-sm'
-                      : 'bg-white/60 dark:bg-[#1C1C1B]/60 text-stone-600 dark:text-stone-400 hover:bg-white dark:hover:bg-[#1C1C1B] border border-[#E7E5DB] dark:border-[#2C2C28]'
+                      ? 'bg-white text-stone-950 shadow-sm border border-[#E0DED5] dark:bg-white dark:text-stone-950'
+                      : 'bg-[#ECEAE2] text-stone-700 hover:bg-[#E2E0D6] dark:bg-[#1C1C1B]/60 dark:text-stone-400 dark:hover:bg-[#1C1C1B]'
                   }`}
                 >
                   <tab.icon className="h-3.5 w-3.5" />
@@ -569,9 +569,9 @@ export default function App() {
             })}
           </div>
 
-          {/* Sub-filter / View options (Dashboard, Salary Insight, Report, Summary pills like in reference mockup) */}
+          {/* Sub-filter / View options */}
           {activeTab === 'dashboard' && (
-            <div className="flex items-center space-x-1.5 bg-[#E8E6DD] dark:bg-[#222220] p-1 rounded-full w-fit">
+            <div className="flex items-center space-x-1.5 bg-[#ECEAE2] dark:bg-[#222220] p-1 rounded-full w-fit">
               {[
                 { id: 'dashboard', label: 'Dashboard' },
                 { id: 'salary', label: 'Salary Insight' },
@@ -581,10 +581,10 @@ export default function App() {
                 <button
                   key={sub.id}
                   onClick={() => setSubTab(sub.id)}
-                  className={`px-3 py-1 rounded-full text-xs font-semibold transition-all ${
+                  className={`px-3.5 py-1 rounded-full text-xs font-semibold transition-all ${
                     subTab === sub.id
-                      ? 'bg-white dark:bg-[#121211] text-stone-950 dark:text-stone-100 shadow-sm'
-                      : 'text-stone-500 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-200'
+                      ? 'bg-white text-stone-950 shadow-sm dark:bg-[#121211] dark:text-stone-100'
+                      : 'text-stone-600 hover:text-stone-950 dark:text-stone-400 dark:hover:text-stone-200'
                   }`}
                 >
                   {sub.label}
@@ -705,7 +705,7 @@ export default function App() {
 
                 <button 
                   onClick={() => setActiveTab('payroll')}
-                  className="w-full bg-[#1C1C1A] dark:bg-white text-white dark:text-stone-950 hover:opacity-90 font-bold py-2 rounded-full text-xs transition-all flex items-center justify-center space-x-1.5 shadow-sm"
+                  className="w-full bg-[#FAF9F5] dark:bg-[#242422] hover:bg-[#EFEFEA] text-stone-900 dark:text-stone-100 border border-[#ECEAE1] dark:border-[#2C2C28] font-bold py-2.5 rounded-full text-xs transition-all flex items-center justify-center space-x-1.5 shadow-sm"
                 >
                   <span>Run Calculations</span>
                   <ArrowUpRight className="h-3.5 w-3.5" />
