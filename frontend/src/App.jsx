@@ -384,9 +384,7 @@ export default function App() {
       <header className="border-b border-zinc-200 dark:border-zinc-800 bg-white/70 dark:bg-[#0c0c0f]/70 backdrop-blur-md sticky top-0 z-50">
         <div className="max-w-[1600px] mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <div className="bg-emerald-600 dark:bg-emerald-500 text-white rounded-lg p-2 flex items-center justify-center font-bold text-lg shadow-md shadow-emerald-500/10">
-              LB
-            </div>
+            <img src="/logo.png.jpg" alt="Lay Bare Logo" className="h-12 w-12 object-cover rounded-md drop-shadow-md" />
             <div>
               <h1 className="text-xl font-extrabold tracking-tight">LAYBARE</h1>
               <p className="text-xs text-zinc-500 dark:text-zinc-400 font-semibold tracking-wider uppercase">Smart Payroll System</p>
