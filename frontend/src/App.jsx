@@ -540,16 +540,16 @@ export default function App() {
           {/* Logo Branding */}
           <div className="flex items-center space-x-3 pb-2 border-b border-[#F2F0E8]">
             <img 
-              src="/logo.png.jpg" 
-              alt="Lay Bare Logo" 
-              className="h-10 w-10 object-cover rounded-xl border border-[#EAE8E2] p-0.5 shadow-sm bg-[#FCFBF7]" 
+              src="/alrajj-icon.png" 
+              alt="ALRAJJ LEGACY Logo" 
+              className="h-11 w-11 object-contain rounded-xl border border-[#031134]/15 p-1 shadow-sm bg-[#031134]" 
             />
             <div>
               <div className="flex items-center space-x-1.5">
-                <span className="font-extrabold text-base tracking-tight text-[#4A2E1B]">LAYBARE</span>
-                <span className="bg-[#77BC2E]/15 text-[#5A9A1E] text-[10px] font-extrabold px-1.5 py-0.2 rounded-md">HRMS</span>
+                <span className="font-extrabold text-sm tracking-tight text-[#031134]">ALRAJJ LEGACY</span>
+                <span className="bg-[#031134]/10 text-[#031134] text-[9px] font-extrabold px-1.5 py-0.5 rounded-md tracking-wider">HRMS</span>
               </div>
-              <p className="text-[10px] text-[#8A817C] font-semibold">Payroll & Time Tracking</p>
+              <p className="text-[10px] text-[#8A817C] font-semibold">Fortified Business Corp.</p>
             </div>
           </div>
 
@@ -1650,8 +1650,11 @@ export default function App() {
 
             {/* Printable Letter Layout */}
             <div className="border border-[#EAE8E2] rounded-2xl p-6 bg-[#FAF9F5] font-serif text-[#2D2520] space-y-3.5 max-h-[420px] overflow-y-auto text-xs leading-relaxed">
-              <div className="text-center font-bold uppercase tracking-widest text-xs border-b border-[#EAE8E2] pb-2 font-sans text-[#4A2E1B]">
-                LAYBARE SALON HR & OPERATIONS DEPARTMENT
+              <div className="flex items-center justify-center space-x-2.5 border-b border-[#EAE8E2] pb-2">
+                <img src="/alrajj-icon.png" alt="ALRAJJ Logo" className="h-6 w-6 rounded-md bg-[#031134] p-0.5" />
+                <div className="text-center font-bold uppercase tracking-widest text-xs font-sans text-[#031134]">
+                  ALRAJJ LEGACY FORTIFIED BUSINESS CORP. &bull; HR OPERATIONS
+                </div>
               </div>
               <div className="space-y-1 font-sans text-[11px] text-[#8A817C]">
                 <div>Date: {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</div>
@@ -1665,7 +1668,7 @@ export default function App() {
                 Our biometric automated monitoring system recorded that you have accumulated <strong className="font-sans font-bold text-[#D47098]">{selectedNteEmployee.late_count} instances</strong> of late clock-ins, totaling <strong className="font-sans font-bold text-[#D47098]">{selectedNteEmployee.total_late_minutes} minutes</strong> in the current payroll cutoff.
               </p>
               <p>
-                Under Section 4.2 of the LAYBARE employee handbook, employees are expected to report for shifts punctually. Exceeding three late clock-ins constitutes chronic tardiness, which is subject to standard company disciplinary review.
+                Under Section 4.2 of the company employee handbook, employees are expected to report for shifts punctually. Exceeding three late clock-ins constitutes chronic tardiness, which is subject to standard company disciplinary review.
               </p>
               <p>
                 You are hereby required to submit a written explanation within forty-eight (48) hours from receipt of this notice to explain why disciplinary measures should not be initiated against you.
@@ -1673,7 +1676,7 @@ export default function App() {
               <p className="pt-2 font-sans text-[11px] text-[#8A817C]">
                 Sincerely yours,<br />
                 <strong>Kristene HR Manager</strong><br />
-                LAYBARE Head Office
+                ALRAJJ LEGACY Head Office
               </p>
             </div>
 

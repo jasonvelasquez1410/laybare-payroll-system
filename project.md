@@ -47,7 +47,7 @@ The UI uses the exact palette derived from the official **Lay Bare logo** and br
 ## 4. Architecture & Key Modules
 
 ### A. Left Navigation Sidebar
-- **Branding Header**: Official Lay Bare Logo (`/logo.png.jpg`) + `LAYBARE HRMS` tag.
+- **Branding Header**: Official ALRAJJ LEGACY Logo (`/alrajj-icon.png` & `/alrajj-logo.png`) + `ALRAJJ LEGACY HRMS` tag.
 - **Search Menu**: Real-time interactive menu search filter.
 - **Categorized Sections**:
   - **Overview**: `General Dashboard`, `Accounting & Payroll`
@@ -97,7 +97,9 @@ The UI uses the exact palette derived from the official **Lay Bare logo** and br
 LAYBARE-payroll-system/
 ├── frontend/
 │   ├── public/
-│   │   └── logo.png.jpg          <-- Official Lay Bare Logo
+│   │   ├── alrajj-logo.png       <-- Official ALRAJJ LEGACY Logo
+│   │   ├── alrajj-icon.png       <-- Star Emblem Icon / Favicon
+│   │   └── logo.png.jpg          <-- Logo compatibility asset
 │   ├── src/
 │   │   ├── App.jsx               <-- Main Dashboard (HRMS Sidebar + Lay Bare Palette)
 │   │   ├── index.css             <-- Tailwind v4 & Design Tokens
