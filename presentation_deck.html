@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ALRAJJ LEGACY - Smart Biometric Payroll System Demo Presentation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #031134;
+      --navy-card: #0A1B45;
+      --gold: #D4AF37;
+      --green: #77BC2E;
+      --green-dark: #62A021;
+      --pink: #E89BB9;
+      --lilac: #B58EBE;
+      --bg: #F8F9FA;
+      --card-border: #E2E8F0;
+      --text-dark: #1E293B;
+      --text-muted: #64748B;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: #0B0F19;
+      color: var(--text-dark);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+      padding: 20px;
+    }
+
+    /* Presentation Wrapper */
+    .deck-container {
+      width: 100%;
+      max-width: 1100px;
+      aspect-ratio: 16 / 9;
+      background: var(--bg);
+      border-radius: 20px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.45);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .slide {
+      display: none;
+      width: 100%;
+      height: 100%;
+      padding: 50px 60px;
+      flex-direction: column;
+      justify-content: space-between;
+      animation: fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .slide.active {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Slide Themes */
+    .slide-navy {
+      background: radial-gradient(circle at top right, #0F2A66, #031134);
+      color: #FFFFFF;
+    }
+
+    .slide-light {
+      background: #F8F9FA;
+      color: var(--text-dark);
+    }
+
+    /* Top Badges & Typography */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      width: fit-content;
+      margin-bottom: 14px;
+    }
+
+    .badge-gold {
+      background: rgba(212, 175, 55, 0.18);
+      color: var(--gold);
+      border: 1px solid rgba(212, 175, 55, 0.4);
+    }
+
+    .badge-green {
+      background: rgba(119, 188, 46, 0.15);
+      color: var(--green);
+      border: 1px solid rgba(119, 188, 46, 0.35);
+    }
+
+    .badge-blue {
+      background: rgba(3, 17, 52, 0.08);
+      color: var(--navy);
+      border: 1px solid rgba(3, 17, 52, 0.15);
+    }
+
+    h1.slide-title {
+      font-size: 2.2rem;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+
+    .slide-subtitle {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .slide-navy .slide-subtitle {
+      color: #94A3B8;
+    }
+
+    /* Grid Layouts */
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      flex: 1;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      flex: 1;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 28px;
+      flex: 1;
+    }
+
+    /* Cards */
+    .card {
+      background: #FFFFFF;
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    }
+
+    .card-navy {
+      background: rgba(10, 27, 69, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 16px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      color: #FFFFFF;
+    }
+
+    .card h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--navy);
+    }
+
+    .card-navy h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--gold);
+    }
+
+    .card p, .card ul, .card-navy p, .card-navy ul {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      color: #475569;
+    }
+
+    .card-navy p, .card-navy ul {
+      color: #CBD5E1;
+    }
+
+    ul {
+      list-style-type: none;
+    }
+
+    li {
+      margin-bottom: 8px;
+      position: relative;
+      padding-left: 18px;
+    }
+
+    li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: var(--green);
+      font-weight: bold;
+      font-size: 1.2rem;
+      line-height: 1;
+    }
+
+    /* Controls Footer */
+    .deck-controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 1100px;
+      margin-top: 16px;
+      color: #94A3B8;
+      font-size: 0.85rem;
+    }
+
+    .btn-nav {
+      background: #1E293B;
+      color: #FFFFFF;
+      border: 1px solid #334155;
+      padding: 10px 18px;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .btn-nav:hover {
+      background: #334155;
+      border-color: #475569;
+    }
+
+    .btn-demo {
+      background: var(--green);
+      color: #031134;
+      border: none;
+      padding: 10px 22px;
+      border-radius: 10px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 14px rgba(119, 188, 46, 0.4);
+      transition: all 0.2s;
+    }
+
+    .btn-demo:hover {
+      background: var(--green-dark);
+      color: #FFFFFF;
+      transform: translateY(-1px);
+    }
+
+    /* Speaker Notes Accordion */
+    .speaker-notes-box {
+      width: 100%;
+      max-width: 1100px;
+      background: #111827;
+      border: 1px solid #1F2937;
+      border-radius: 14px;
+      margin-top: 16px;
+      padding: 18px 24px;
+      color: #E5E7EB;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    .speaker-notes-title {
+      color: var(--gold);
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PRESENTATION CONTAINER -->
+  <div class="deck-container">
+
+    <!-- SLIDE 1: COVER -->
+    <div class="slide slide-navy active" id="slide-1">
+      <div>
+        <span class="badge badge-gold">Executive Presentation & Demo</span>
+        <h1 class="slide-title" style="color: var(--gold); font-size: 2.8rem;">ALRAJJ LEGACY</h1>
+        <h2 style="font-size: 1.6rem; font-weight: 600; color: #FFFFFF; margin-bottom: 12px;">
+          Smart Biometric Attendance & Automated Payroll System
+        </h2>
+        <p class="slide-subtitle" style="max-width: 700px;">
+          Centralizing Workforce Attendance & Semi-Monthly Payroll Operations for <strong>Centrio</strong> (Waxing & Passion Nails), <strong>Limketkai</strong>, and <strong>SM Downtown</strong>.
+        </p>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: flex-end; border-top: 1px solid rgba(255,255,255,0.15); padding-top: 20px;">
+        <div>
+          <p style="font-size: 0.85rem; color: #94A3B8;">Prepared for:</p>
+          <p style="font-weight: 700; color: #FFFFFF;">Ms. Jehan Abedin, General Manager</p>
+          <p style="font-size: 0.85rem; color: #94A3B8;">ALRAJJ LEGACY Fortified Business Corp.</p>
+        </div>
+        <div style="text-align: right;">
+          <p style="font-size: 0.85rem; color: #94A3B8;">Presented by: <strong>Jason Velasquez</strong> (SETHCON)</p>
+          <p style="font-size: 0.85rem; color: var(--green); font-weight: 700;">Live Demo URL: alrajj-legacy.vercel.app</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 2: THE PROBLEM -->
+    <div class="slide slide-light" id="slide-2">
+      <div>
+        <span class="badge badge-blue">The Operational Reality</span>
+        <h1 class="slide-title" style="color: var(--navy);">The "2-Day" Manual Payroll Bottleneck</h1>
+        <p class="slide-subtitle">Current challenges faced every cutoff across your 3 busy salon branches.</p>
+      </div>
+
+      <div class="grid-3">
+        <div class="card" style="border-top: 4px solid #EF4444;">
+          <h3>⏳ 2 Days Spent on Manual Math</h3>
+          <p>
+            Currently takes <strong>16+ hours every cutoff</strong> for management to gather raw attendance logs, calculate daily hours, and tally attendance for every employee across 3 locations.
+          </p>
+        </div>
+
+        <div class="card" style="border-top: 4px solid #F59E0B;">
+          <h3>⚠️ Discrepancies & Calculation Risks</h3>
+          <p>Manual computation of intricate rules:</p>
+          <ul style="margin-top: 8px;">
+            <li>5-minute grace periods</li>
+            <li>10-minute deduction increments</li>
+            <li>Overtime & Night Differential</li>
+            <li>SSS, PhilHealth, Pag-IBIG formulas</li>
+          </ul>
+          <p style="margin-top: 8px; font-size: 0.85rem; color: #64748B;">Errors lead to employee disputes and time-consuming adjustments.</p>
+        </div>
+
+        <div class="card" style="border-top: 4px solid var(--navy);">
+          <h3>📋 Scattered Biometrics & Compliance</h3>
+          <p>
+            Raw NGTeco logs live on USB drives and individual computers. Missing clock-outs require back-and-forth investigation, while habitual tardiness lacks automated Notice to Explain (NTE) tracking.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 3: THE SOLUTION -->
+    <div class="slide slide-navy" id="slide-3">
+      <div>
+        <span class="badge badge-green">The Solution</span>
+        <h1 class="slide-title" style="color: var(--gold);">From 2 Days to 5 Minutes</h1>
+        <p class="slide-subtitle">A purpose-built web platform engineered specifically for ALRAJJ LEGACY salon operations.</p>
+      </div>
+
+      <div class="grid-4">
+        <div class="card-navy">
+          <div style="font-size: 1.8rem; margin-bottom: 8px;">📂</div>
+          <h3>1. Direct NGTeco Ingestion</h3>
+          <p>Simply drag and drop the biometric Excel file exported from your branches. Automatic employee mapping in seconds.</p>
+        </div>
+
+        <div class="card-navy">
+          <div style="font-size: 1.8rem; margin-bottom: 8px;">⚡</div>
+          <h3>2. Smart Anomaly Engine</h3>
+          <p>Instantly highlights missing clock-outs or unpaired punches. HR can review and approve overrides with full audit logs.</p>
+        </div>
+
+        <div class="card-navy">
+          <div style="font-size: 1.8rem; margin-bottom: 8px;">⚖️</div>
+          <h3>3. Automated NTE & Rules</h3>
+          <p>Enforces your exact 5-min grace and 10-min deduction rules. Flags 3+ late staff and generates ready-to-print NTE letters.</p>
+        </div>
+
+        <div class="card-navy">
+          <div style="font-size: 1.8rem; margin-bottom: 8px;">💰</div>
+          <h3>4. 1-Click Payroll & Payslips</h3>
+          <p>Calculates Gross Pay, Statutory Deductions, and Net Pay in 1 second. Generates printable itemized employee payslips.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 4: CENTRALIZED BRANCHES -->
+    <div class="slide slide-light" id="slide-4">
+      <div>
+        <span class="badge badge-blue">Centralized Hub</span>
+        <h1 class="slide-title" style="color: var(--navy);">One Portal for All 3 Locations</h1>
+        <p class="slide-subtitle">Real-time salon pulse accessible 24/7 by leadership from any smartphone, iPad, or laptop.</p>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3>📍 Operational Branch Coverage</h3>
+          <ul>
+            <li><strong>Centrio Mall Branch</strong>: Covers Waxing Salon specialists and Passion Nails technicians under one roof.</li>
+            <li><strong>Limketkai (Ketkai) Branch</strong>: Centralized attendance logs and shift management.</li>
+            <li><strong>SM Downtown Branch</strong>: Full commercial mall salon roster.</li>
+            <li><strong>Future Expansion Ready</strong>: Designed to seamlessly add new branches (like Iligan) whenever ready without downtime.</li>
+          </ul>
+        </div>
+
+        <div class="card" style="background: #F1F5F9; border-color: #CBD5E1;">
+          <h3>🌐 The Web Application Advantage</h3>
+          <ul>
+            <li><strong>Zero Local Installation</strong>: No heavy desktop programs. Open <code>alrajj-legacy.vercel.app</code> in Chrome or Safari.</li>
+            <li><strong>Management Visibility</strong>: General Manager can check attendance status, tardiness flags, and payroll from anywhere.</li>
+            <li><strong>Secure Cloud Backup</strong>: Timesheets and pay records protected and archived.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 5: TUESDAY DEMO FLOW -->
+    <div class="slide slide-navy" id="slide-5">
+      <div>
+        <span class="badge badge-gold">Interactive Demo Guide</span>
+        <h1 class="slide-title" style="color: #FFFFFF;">The 5-Minute Tuesday Live Demo</h1>
+        <p class="slide-subtitle">A simple, confidence-inspiring 4-act walkthrough on <code>alrajj-legacy.vercel.app</code></p>
+      </div>
+
+      <div class="grid-4">
+        <div class="card-navy">
+          <span style="color: var(--gold); font-size: 0.75rem; font-weight: 700;">ACT 1 (1 MIN)</span>
+          <h3 style="color: #FFFFFF;">Executive Dashboard</h3>
+          <p>Show the 4 KPI cards: Active Staff, Total Late Mins, Avg Shift, and Missed OUT Flags. Point out the 88% Attendance Donut.</p>
+        </div>
+
+        <div class="card-navy">
+          <span style="color: var(--gold); font-size: 0.75rem; font-weight: 700;">ACT 2 (1 MIN)</span>
+          <h3 style="color: #FFFFFF;">Biometric Ingest</h3>
+          <p>Click "Biometric Ingestion". Show how the raw NGTeco file is uploaded in 1 click without any manual typing.</p>
+        </div>
+
+        <div class="card-navy">
+          <span style="color: var(--gold); font-size: 0.75rem; font-weight: 700;">ACT 3 (1.5 MINS)</span>
+          <h3 style="color: #FFFFFF;">Exceptions & NTE</h3>
+          <p>Click "Exceptions & Flags" &rarr; resolve a missing punch in 5 seconds. Open "Tardiness & NTE" to show the auto-generated Notice to Explain.</p>
+        </div>
+
+        <div class="card-navy">
+          <span style="color: var(--gold); font-size: 0.75rem; font-weight: 700;">ACT 4 (1.5 MINS)</span>
+          <h3 style="color: #FFFFFF;">Instant Payslips</h3>
+          <p>Click "Accounting & Payroll" &rarr; "Compute Payroll". Open the itemized payslip with ALRAJJ LEGACY branding ready to print.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 6: ROI & BUSINESS VALUE -->
+    <div class="slide slide-light" id="slide-6">
+      <div>
+        <span class="badge badge-green">Business Value</span>
+        <h1 class="slide-title" style="color: var(--navy);">Measurable ROI for ALRAJJ LEGACY</h1>
+        <p class="slide-subtitle">Why this system pays for itself in time savings and labor compliance protection.</p>
+      </div>
+
+      <div class="grid-2">
+        <div class="card" style="border-left: 6px solid var(--green);">
+          <h3>⏱️ 95% Payroll Time Saved</h3>
+          <p>Shrinks payroll calculation from 16 hours (2 working days) down to just 5 minutes per cutoff. Saves over <strong>380 management hours annually</strong>.</p>
+        </div>
+
+        <div class="card" style="border-left: 6px solid var(--navy);">
+          <h3>🎯 100% Mathematical Accuracy</h3>
+          <p>Standardized automated rules ensure zero over/under deductions and eliminate employee compensation disputes.</p>
+        </div>
+
+        <div class="card" style="border-left: 6px solid var(--gold);">
+          <h3>🛡️ Complete DOLE Compliance</h3>
+          <p>Automated 5-day Notice to Explain (NTE) tracking provides management with legally compliant disciplinary documentation.</p>
+        </div>
+
+        <div class="card" style="border-left: 6px solid var(--pink);">
+          <h3>📱 Anywhere Leadership Oversight</h3>
+          <p>General Manager and HR stay connected to all 3 salon branches with real-time biometric and payroll transparency.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 7: ROADMAP & NEXT STEPS -->
+    <div class="slide slide-navy" id="slide-7">
+      <div>
+        <span class="badge badge-gold">Next Steps</span>
+        <h1 class="slide-title" style="color: var(--gold);">Rollout Plan & Tuesday Action Items</h1>
+        <p class="slide-subtitle">Clear path to full live branch implementation.</p>
+      </div>
+
+      <div class="grid-2">
+        <div class="card-navy">
+          <h3 style="color: #FFFFFF;">📅 Milestone Roadmap</h3>
+          <ul style="margin-top: 10px;">
+            <li><strong>Milestone 1: Core System & Live Demo</strong> &mdash; <span style="color: var(--green); font-weight: 700;">COMPLETE (Live at alrajj-legacy.vercel.app)</span></li>
+            <li><strong>Milestone 2: User Acceptance Testing (UAT)</strong> &mdash; Test with actual branch NGTeco exports.</li>
+            <li><strong>Milestone 3: Live Turnover & Staff Onboarding</strong> &mdash; 30-minute HR training and live run.</li>
+            <li><strong>Year 1 Guarantee:</strong> 12 Months of FREE full maintenance & support.</li>
+          </ul>
+        </div>
+
+        <div class="card-navy" style="background: rgba(255, 255, 255, 0.05); border: 1px dashed var(--gold);">
+          <h3 style="color: var(--gold);">🚀 Immediate Tuesday Next Steps</h3>
+          <ol style="margin-top: 10px; padding-left: 20px; font-family: 'Outfit'; font-size: 0.95rem; line-height: 1.8;">
+            <li>Present the 5-minute live demo on <code>alrajj-legacy.vercel.app</code>.</li>
+            <li>Collect 1 sample NGTeco export from Centrio, Ketkai, and SM Downtown.</li>
+            <li>Schedule UAT test cutoff run.</li>
+          </ol>
+          <div style="margin-top: 20px; text-align: center;">
+            <p style="font-weight: 700; color: #FFFFFF; font-size: 1.1rem;">Thank you, Ms. Jehan Abedin & Team!</p>
+            <p style="color: #94A3B8; font-size: 0.85rem;">ALRAJJ LEGACY Fortified Business Corp.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- DECK CONTROLS -->
+  <div class="deck-controls">
+    <div>
+      <button class="btn-nav" id="btn-prev" onclick="prevSlide()">&#8592; Previous</button>
+      <button class="btn-nav" id="btn-next" onclick="nextSlide()" style="margin-left: 8px;">Next &#8594;</button>
+      <span id="slide-indicator" style="margin-left: 16px; font-weight: 700; color: #FFFFFF;">Slide 1 / 7</span>
+    </div>
+
+    <div>
+      <a href="https://alrajj-legacy.vercel.app" target="_blank" class="btn-demo">
+        Launch Live System Demo &#8599;
+      </a>
+    </div>
+  </div>
+
+  <!-- SPEAKER NOTES FOR TUESDAY DEMO -->
+  <div class="speaker-notes-box">
+    <div class="speaker-notes-title">
+      <span>🎙️ SPEAKER NOTES & TALKING POINTS (SLIDE <span id="notes-slide-num">1</span>)</span>
+    </div>
+    <div id="notes-content">
+      "Good morning, Ms. Jehan and ALRAJJ LEGACY leadership. Today, I'm thrilled to present the Custom Smart Biometric Attendance and Automated Payroll System engineered specifically for your salon operations across Centrio, Ketkai, and SM Downtown. Our goal today is to show you how your current 2-day manual payroll process can now be completed in under 5 minutes with 100% mathematical accuracy."
+    </div>
+  </div>
+
+  <script>
+    let currentSlide = 1;
+    const totalSlides = 7;
+
+    const notes = {
+      1: `"Good morning, Ms. Jehan and ALRAJJ LEGACY leadership. Today, I'm thrilled to present the Custom Smart Biometric Attendance and Automated Payroll System engineered specifically for your salon operations across Centrio, Ketkai, and SM Downtown. Our goal today is to show you how your current 2-day manual payroll process can now be completed in under 5 minutes with 100% mathematical accuracy."`,
+      2: `"Let's talk about the current pain point. Right now, every cutoff takes 2 entire days of manual math. HR has to pull biometric logs, check each punch by hand, calculate 5-minute grace periods, 10-minute late deductions, overtime, night differentials, and statutory contributions. It's exhausting, and any manual typo can lead to staff complaints or recalculations."`,
+      3: `"Here is the solution: A centralized smart system built directly around ALRAJJ LEGACY's workflow. It ingests your NGTeco timeclock files directly, catches missing clock-outs automatically, enforces your exact grace period and tardiness policies, and computes the entire cutoff's payroll in a single click."`,
+      4: `"The system centralizes all three of your current locations: Centrio—covering both Waxing Salon and Passion Nails—Limketkai, and SM Downtown. Because it runs securely on the cloud at alrajj-legacy.vercel.app, you as General Manager can check branch attendance and payroll anytime from your phone, tablet, or laptop."`,
+      5: `"Now let's do a quick 5-minute live demonstration! (Switch to your browser tab at alrajj-legacy.vercel.app). Follow our 4 simple acts: First, show the Executive Dashboard with the 88% attendance gauge. Second, show the Biometric Ingestion portal. Third, demonstrate resolving a missing punch in Exceptions and view the automated Notice to Explain letter. Finally, click Compute Payroll to display an itemized, printable payslip with the ALRAJJ LEGACY logo."`,
+      6: `"The ROI is immediate. You save 95% of computation time—saving over 380 management hours a year. You achieve zero math errors, protect the company with automated DOLE-compliant NTE documentation, and gain complete operational visibility across all branches."`,
+      7: `"Milestone 1 is complete and live right now. For our next step, we'd love to gather 1 sample biometric export from Centrio, Ketkai, and SM Downtown to conduct our User Acceptance Testing. You also receive 12 months of full free maintenance and support. Thank you, and I'd love to answer any questions or show any specific feature!"`
+    };
+
+    function showSlide(n) {
+      document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+      const active = document.getElementById('slide-' + n);
+      if (active) active.classList.add('active');
+
+      document.getElementById('slide-indicator').innerText = `Slide ${n} / ${totalSlides}`;
+      document.getElementById('notes-slide-num').innerText = n;
+      document.getElementById('notes-content').innerText = notes[n];
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides) {
+        currentSlide++;
+        showSlide(currentSlide);
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 1) {
+        currentSlide--;
+        showSlide(currentSlide);
+      }
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        nextSlide();
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        prevSlide();
+      }
+    });
+  </script>
+</body>
+</html>
