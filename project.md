@@ -1,14 +1,19 @@
-# LAYBARE HRMS & Biometric Payroll System
+# ALRAJJ LEGACY HRMS & Biometric Payroll System
 
 > **Project Memory & State Context Document**  
-> *Last Updated: August 29, 2026*  
+> *Last Updated: September 4, 2026*  
 > *Repository*: `jasonvelasquez1410/laybare-payroll-system` (Branch: `main`)  
-> *Primary Maintainer / Developer*: Antigravity AI & Jason Velasquez
+> *Live Production Link*: [https://alrajj-legacy.vercel.app](https://alrajj-legacy.vercel.app)  
+> *Company*: ALRAJJ LEGACY Fortified Business Corp.  
+> *Target Branches*: Centrio (Waxing & Passion Nails), Ketkai, SM Downtown  
+> *Primary Maintainer / Developer*: Antigravity AI & Jason Velasquez  
+> *Presentation Deck*: `ALRAJJ_LEGACY_Payroll_Demo_Presentation.pptx` & `presentation_deck.html`  
+> *Demo Guide*: `TUESDAY_DEMO_SCRIPT_AND_GUIDE.md`  
 
 ---
 
 ## 1. Project Overview & Business Logic
-**LAYBARE HRMS** is an automated Biometric Attendance, Compliance Monitoring, and Semi-Monthly Payroll System tailored specifically for Lay Bare waxing salon branches. 
+**ALRAJJ LEGACY HRMS** is an automated Biometric Attendance, Compliance Monitoring, and Semi-Monthly Payroll System tailored specifically for ALRAJJ LEGACY salon operations (Centrio, Ketkai, SM Downtown). 
 
 ### Key Capabilities:
 - **Biometric Punch Ingestion**: Parses offline biometric machine logs (`.xls` / `.xlsx` exported from NGTeco time clocks).
@@ -139,4 +144,40 @@ node server.js
 *(Runs on `http://localhost:5000`)*
 
 ### Step 4: Continue Coding with Antigravity
-When you restart your session with Antigravity, the AI will immediately read `project.md` and continue right where we left off!
+When you restart your session with Antigravity, the AI will immediately read `AGENTS.md` and `project.md` and continue right where we left off!
+
+---
+
+## 8. Tuesday Live Demo Guide & 5-Minute Flow
+
+Use this quick-reference flow during the demo at **`https://alrajj-legacy.vercel.app`**:
+
+### Act 1: Executive Dashboard (1 Min)
+- Show top header (*"Welcome back, Kristene"*), cutoff range (`2026-07-16 ~ 2026-07-31`).
+- Show the 4 summary cards: Active Staff, Total Late Minutes, Avg Shift, and Missed Out Flags.
+- Point out the **88% Attendance Donut Chart**.
+- **Talking Point**: *"Ms. Jehan, leadership gets a live pulse of attendance across Centrio, Ketkai, and SM Downtown instantly without touching a spreadsheet."*
+
+### Act 2: Biometric Ingestion (1 Min)
+- Click **"Biometric Ingestion"** in the sidebar.
+- Show the drag-and-drop zone accepting raw NGTeco `.xls` / `.xlsx` exports.
+- **Talking Point**: *"No manual data entry. HR simply drops the raw machine export file here, and shift matching occurs automatically."*
+
+### Act 3: Exceptions, Overrides & Automated NTE (1.5 Mins)
+- Click **"Exceptions & Flags"** &rarr; click **"Resolve"** on a missing punch &rarr; enter `18:00` with audit notes &rarr; save.
+- Click **"Tardiness & NTE"** &rarr; view late frequencies &rarr; click **"Generate Notice to Explain (NTE)"** to display the formal DOLE-compliant letter.
+- **Talking Point**: *"Missing punches are adjusted in 5 seconds with an audit trail, and habitual tardiness triggers automated Notice to Explain letters with zero manual paperwork."*
+
+### Act 4: 1-Click Payroll & Payslips (1.5 Mins)
+- Click **"Accounting & Payroll"** &rarr; click green **"Compute Payroll"** &rarr; watch gross-to-net appear in 1 second.
+- Click **"View Payslip"** to display the official printable payslip with the ALRAJJ LEGACY logo.
+- **Talking Point**: *"What used to take 2 full days of manual math is now computed in 1 second—accurate, compliant, and ready to print."*
+
+---
+
+## 9. Presentation Files Inventory
+- PowerPoint: `ALRAJJ_LEGACY_Payroll_Demo_Presentation.pptx`
+- Web Slides: `presentation_deck.html`
+- Full Speaking Script: `TUESDAY_DEMO_SCRIPT_AND_GUIDE.md`
+- Persistent Agent Rules: `AGENTS.md`
+
