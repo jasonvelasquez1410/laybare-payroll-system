@@ -126,7 +126,7 @@ LAYBARE-payroll-system/
 
 ### Step 1: Open Terminal in Project Root
 ```bash
-cd "c:\Users\ACER\Documents\Programming Folder Rep\LAYBARE-payroll-system"
+cd "c:\Users\USER\Documents\Programming Folder Rep\LAYBARE-payroll-system"
 ```
 
 ### Step 2: Start Frontend Development Server
@@ -138,13 +138,13 @@ npm run dev
 
 ### Step 3: Start Backend API Server (in a separate terminal)
 ```bash
-cd "c:\Users\ACER\Documents\Programming Folder Rep\LAYBARE-payroll-system\backend"
+cd "c:\Users\USER\Documents\Programming Folder Rep\LAYBARE-payroll-system\backend"
 node server.js
 ```
 *(Runs on `http://localhost:5000`)*
 
 ### Step 4: Continue Coding with Antigravity
-When you restart your session with Antigravity, the AI will immediately read `AGENTS.md` and `project.md` and continue right where we left off!
+When you restart your session or laptop, Antigravity automatically loads `AGENTS.md` and `project.md` from this workspace and will immediately resume right where we left off with full memory of the demo, live links, and features!
 
 ---
 
