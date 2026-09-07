@@ -346,10 +346,10 @@ export default function App() {
 
   const loadMockData = () => {
     const mockEmployees = [
-      { id: 33, name: 'Justine Ann Atay', branch: 'Centrio Mall (Waxing)', rate: 600, tax_status: 'S' },
-      { id: 34, name: 'Cherimar Concigo', branch: 'Centrio Mall (Waxing)', rate: 650, tax_status: 'S' },
-      { id: 35, name: 'Kristene HR', branch: 'Limketkai Mall', rate: 800, tax_status: 'S' },
-      { id: 36, name: 'Cherry Rose Paculanang', branch: 'Passion Nails (Centrio)', rate: 580, tax_status: 'ME' }
+      { id: 33, name: 'Justine Ann Atay', branch: 'Centrio Mall (Waxing)', role: 'Senior Waxing Specialist', rate: 600, tax_status: 'S', bpi_account: '0249821401' },
+      { id: 34, name: 'Cherimar Concigo', branch: 'Centrio Mall (Waxing)', role: 'Master Aesthetician', rate: 650, tax_status: 'S', bpi_account: '0249821402' },
+      { id: 35, name: 'Kristene HR', branch: 'Limketkai Mall', role: 'Operations & HR Lead', rate: 800, tax_status: 'S', bpi_account: '0249821403' },
+      { id: 36, name: 'Cherry Rose Paculanang', branch: 'Passion Nails (Centrio)', role: 'Senior Nail Technician', rate: 580, tax_status: 'ME', bpi_account: '0249821404' }
     ];
     setEmployees(mockEmployees);
 
@@ -664,10 +664,12 @@ export default function App() {
         name: newEmployee.name,
         branch: newEmployee.branch,
         rate: parseFloat(newEmployee.rate),
-        tax_status: newEmployee.taxStatus
+        tax_status: newEmployee.taxStatus,
+        bpi_account: newEmployee.bpiAccount || `024982140${employees.length + 1}`,
+        role: 'Salon Specialist'
       }]);
       setShowAddEmployeeModal(false);
-      setNewEmployee({ id: '', name: '', branch: '', rate: 600, taxStatus: 'S' });
+      setNewEmployee({ id: '', name: '', branch: 'Centrio Mall (Waxing)', rate: 600, taxStatus: 'S', bpiAccount: '' });
     }
   };
 
@@ -998,11 +1000,22 @@ export default function App() {
               <span className="text-[10px] font-bold tracking-wider uppercase text-[#A8A29E] px-3">Employee Management</span>
               
               <button
-                onClick={() => setShowAddEmployeeModal(true)}
-                className="w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl font-semibold text-[#5A534E] hover:bg-[#F7F6F2] hover:text-[#4A2E1B] transition-all"
+                onClick={() => { setActiveTab('employees'); setSidebarOpen(false); }}
+                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl font-semibold transition-all ${
+                  activeTab === 'employees'
+                    ? 'bg-[#77BC2E] text-white shadow-sm shadow-[#77BC2E]/25'
+                    : 'text-[#5A534E] hover:bg-[#F7F6F2] hover:text-[#4A2E1B]'
+                }`}
               >
-                <Users className="h-4 w-4" />
-                <span>Staff Directory</span>
+                <div className="flex items-center space-x-3">
+                  <Users className="h-4 w-4" />
+                  <span>Staff Directory</span>
+                </div>
+                <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${
+                  activeTab === 'employees' ? 'bg-white text-[#4A2E1B]' : 'bg-[#FAF9F5] text-[#8A817C]'
+                }`}>
+                  {employees.length || 4}
+                </span>
               </button>
             </div>
 
@@ -2506,6 +2519,137 @@ export default function App() {
               </div>
             </div>
           )}
+
+          {/* TAB 8: STAFF DIRECTORY & BPI MASTERFILE */}
+          {activeTab === 'employees' && (
+            <div className="space-y-6 animate-fadeIn">
+              
+              {/* Directory Top Header Card */}
+              <div className="bg-white border border-[#EAE8E2] rounded-3xl p-6 shadow-2xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                  <div className="flex items-center space-x-2">
+                    <span className="bg-[#77BC2E]/15 text-[#5A9A1E] text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase">
+                      Staff Masterfile
+                    </span>
+                    <span className="text-[11px] font-bold text-[#8A817C]">BPI BizLink Enrolled</span>
+                  </div>
+                  <h3 className="font-extrabold text-base text-[#4A2E1B] mt-1">Staff Directory & Payroll Configuration</h3>
+                  <p className="text-xs text-[#8A817C]">
+                    Manage biometric device mappings, daily wage rates, branch assignments, and 10-digit BPI BizLink accounts.
+                  </p>
+                </div>
+
+                <button
+                  onClick={() => setShowAddEmployeeModal(true)}
+                  className="bg-[#77BC2E] hover:bg-[#6DB027] text-white font-bold text-xs px-4 py-2.5 rounded-xl transition-all flex items-center space-x-1.5 shadow-sm shadow-[#77BC2E]/20"
+                >
+                  <Plus className="h-4 w-4" />
+                  <span>Add New Employee</span>
+                </button>
+              </div>
+
+              {/* Statutory Formula & Computation Rules Box */}
+              <div className="bg-[#FAF9F5] border border-[#EAE8E2] rounded-3xl p-5 space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#031134] flex items-center space-x-1.5">
+                    <SlidersHorizontal className="h-3.5 w-3.5 text-[#77BC2E]" />
+                    <span>Statutory Computation Basis & Labor Standards</span>
+                  </span>
+                  <span className="text-[10px] text-[#8A817C] font-semibold">Configured for ALRAJJ LEGACY Branches</span>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs">
+                  <div className="bg-white p-3 rounded-2xl border border-[#F2F0E8]">
+                    <span className="text-[10px] font-bold text-[#8A817C] uppercase block">Hourly Wage Formula</span>
+                    <strong className="text-[#4A2E1B] block mt-0.5 font-mono text-[11px]">Daily Rate &divide; 8.0 hrs</strong>
+                    <span className="text-[10px] text-[#5A534E]">Base for regular work hours</span>
+                  </div>
+                  <div className="bg-white p-3 rounded-2xl border border-[#F2F0E8]">
+                    <span className="text-[10px] font-bold text-[#8A817C] uppercase block">Late Penalty Rate</span>
+                    <strong className="text-[#D47098] block mt-0.5 font-mono text-[11px]">Hourly Rate &divide; 60 mins</strong>
+                    <span className="text-[10px] text-[#5A534E]">Grace period: 5 mins</span>
+                  </div>
+                  <div className="bg-white p-3 rounded-2xl border border-[#F2F0E8]">
+                    <span className="text-[10px] font-bold text-[#8A817C] uppercase block">Overtime (OT) Multiplier</span>
+                    <strong className="text-[#77BC2E] block mt-0.5 font-mono text-[11px]">125% &times; Hourly Rate</strong>
+                    <span className="text-[10px] text-[#5A534E]">Regular work-day overtime</span>
+                  </div>
+                  <div className="bg-white p-3 rounded-2xl border border-[#F2F0E8]">
+                    <span className="text-[10px] font-bold text-[#8A817C] uppercase block">Night Diff (10PM - 6AM)</span>
+                    <strong className="text-[#77BC2E] block mt-0.5 font-mono text-[11px]">+10% Premium</strong>
+                    <span className="text-[10px] text-[#5A534E]">Evening mall shift coverage</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Staff Table Card */}
+              <div className="bg-white border border-[#EAE8E2] rounded-3xl overflow-hidden shadow-2xs">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left border-collapse text-xs">
+                    <thead>
+                      <tr className="bg-[#FAF9F5] border-b border-[#F2F0E8] text-[10px] font-extrabold uppercase tracking-wider text-[#8A817C]">
+                        <th className="px-6 py-3.5">Biometric ID</th>
+                        <th className="px-6 py-3.5">Employee Name & Role</th>
+                        <th className="px-6 py-3.5">Branch Assignment</th>
+                        <th className="px-6 py-3.5">Daily Wage (PHP)</th>
+                        <th className="px-6 py-3.5">Hourly Rate</th>
+                        <th className="px-6 py-3.5">BPI BizLink Account</th>
+                        <th className="px-6 py-3.5">Tax / Status</th>
+                        <th className="px-6 py-3.5">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-[#F2F0E8]">
+                      {employees.map((emp, idx) => {
+                        const bpiAcct = emp.bpi_account || `024982140${idx + 1}`;
+                        const role = emp.role || (emp.name.includes('HR') ? 'Operations & HR Lead' : 'Senior Waxing Specialist');
+                        const hourly = (emp.rate / 8).toFixed(2);
+                        return (
+                          <tr key={emp.id} className="hover:bg-[#FAF9F5]/70 transition-colors">
+                            <td className="px-6 py-4 font-mono font-extrabold text-[#031134]">
+                              <span className="bg-[#FAF9F5] border border-[#EAE8E2] px-2.5 py-1 rounded-lg">
+                                #{emp.id}
+                              </span>
+                            </td>
+                            <td className="px-6 py-4">
+                              <p className="font-bold text-[#4A2E1B]">{emp.name}</p>
+                              <p className="text-[11px] text-[#8A817C]">{role}</p>
+                            </td>
+                            <td className="px-6 py-4 font-semibold text-[#5A534E]">
+                              {emp.branch}
+                            </td>
+                            <td className="px-6 py-4 font-mono font-extrabold text-[#4A2E1B]">
+                              ₱{parseFloat(emp.rate).toFixed(2)}/day
+                            </td>
+                            <td className="px-6 py-4 font-mono text-[#5A534E]">
+                              ₱{hourly}/hr
+                            </td>
+                            <td className="px-6 py-4 font-mono">
+                              <span className="bg-[#031134]/10 text-[#031134] font-bold px-2 py-0.5 rounded-md text-[11px]">
+                                {bpiAcct}
+                              </span>
+                            </td>
+                            <td className="px-6 py-4">
+                              <span className="bg-[#77BC2E]/15 text-[#5A9A1E] font-bold text-[10px] px-2 py-0.5 rounded-md">
+                                {emp.tax_status === 'ME' ? 'Married (ME)' : 'Single (S)'}
+                              </span>
+                            </td>
+                            <td className="px-6 py-4">
+                              <button
+                                onClick={() => setShowAddEmployeeModal(true)}
+                                className="bg-[#FAF9F5] hover:bg-[#F2F0E8] border border-[#EAE8E2] text-[#4A2E1B] font-bold text-[10px] px-2.5 py-1.5 rounded-lg transition-all"
+                              >
+                                Edit Profile
+                              </button>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+            </div>
+          )}
         </main>
       </div>
 
@@ -2576,16 +2720,29 @@ export default function App() {
                 </div>
               </div>
 
-              <div>
-                <label className="block font-bold text-[#5A534E] mb-1 uppercase tracking-wider">Daily Wage Rate (PHP)</label>
-                <input
-                  type="number"
-                  required
-                  placeholder="e.g. 600"
-                  value={newEmployee.rate}
-                  onChange={(e) => setNewEmployee({ ...newEmployee, rate: e.target.value })}
-                  className="w-full bg-[#F7F6F2] border border-transparent rounded-xl px-3.5 py-2.5 font-medium outline-none focus:ring-1 focus:ring-[#77BC2E]"
-                />
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block font-bold text-[#5A534E] mb-1 uppercase tracking-wider">Daily Wage Rate (PHP)</label>
+                  <input
+                    type="number"
+                    required
+                    placeholder="e.g. 600"
+                    value={newEmployee.rate}
+                    onChange={(e) => setNewEmployee({ ...newEmployee, rate: e.target.value })}
+                    className="w-full bg-[#F7F6F2] border border-transparent rounded-xl px-3.5 py-2.5 font-medium outline-none focus:ring-1 focus:ring-[#77BC2E]"
+                  />
+                </div>
+                <div>
+                  <label className="block font-bold text-[#5A534E] mb-1 uppercase tracking-wider">10-Digit BPI Account</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. 0249821405"
+                    value={newEmployee.bpiAccount || ''}
+                    onChange={(e) => setNewEmployee({ ...newEmployee, bpiAccount: e.target.value })}
+                    className="w-full bg-[#F7F6F2] border border-transparent rounded-xl px-3.5 py-2.5 font-mono font-medium outline-none focus:ring-1 focus:ring-[#77BC2E]"
+                  />
+                </div>
               </div>
 
               <div className="flex space-x-3 pt-3">
