@@ -5,7 +5,7 @@
 > **Interactive Web Slides**: [`presentation_deck.html`](file:///c:/Users/USER/Documents/Programming%20Folder%20Rep/LAYBARE-payroll-system/presentation_deck.html)  
 > **Prepared For**: Ms. Jehan Abedin, General Manager & Leadership Team (ALRAJJ LEGACY Fortified Business Corp.)  
 > **Target Branches**: Centrio (Waxing Salon & Passion Nails), Ketkai, and SM Downtown  
-> **Presenter**: Jason Velasquez (VP) & SETHCON Technologies Inc.  
+> **Presenter**: SETHCON Technologies Inc.  
 
 ---
 

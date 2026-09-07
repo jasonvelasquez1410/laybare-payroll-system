@@ -2962,7 +2962,7 @@ export default function App() {
                 <div>
                   <h3 className="font-extrabold text-lg text-[#D4AF37]">Custom Systems Engineering for Lay Bare</h3>
                   <p className="text-xs text-slate-300">
-                    Presented by <strong>Jason Velasquez</strong> (VP) & the SETHCON Solutions Engineering Team.
+                    Presented by the <strong>SETHCON Technologies Inc.</strong> Solutions Engineering Team.
                   </p>
                 </div>
                 <div className="flex items-center space-x-2">

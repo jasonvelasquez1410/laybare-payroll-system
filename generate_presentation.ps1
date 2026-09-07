@@ -71,7 +71,7 @@ try {
     $t1c = $s1.Shapes.AddTextbox(1, 100, 270, 790, 130)
     $t1c.TextFrame.WordWrap = 1
     $r1c = $t1c.TextFrame.TextRange
-    $r1c.Text = "Target Deployment: Centrio (Waxing & Nails), Ketkai, SM Downtown`r`nLive Application URL: https://alrajj-legacy.vercel.app`r`nPrepared for: Ms. Jehan Abedin, General Manager`r`nPresented by: Jason Velasquez (VP) & SETHCON Technologies Inc."
+    $r1c.Text = "Target Deployment: Centrio (Waxing & Nails), Ketkai, SM Downtown`r`nLive Application URL: https://alrajj-legacy.vercel.app`r`nPrepared for: Ms. Jehan Abedin, General Manager`r`nPresented by: SETHCON Technologies Inc."
     $r1c.Font.Name = "Arial"
     $r1c.Font.Size = 13
     $r1c.Font.Color.RGB = 13816530
