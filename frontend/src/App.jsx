@@ -169,7 +169,7 @@ export default function App() {
       lastService: 'Brazilian Wax Express',
       lastServiceDate: '2026-08-30',
       nextBooking: '2026-09-14 (04:30 PM)',
-      preferredTechnician: 'John Doe',
+      preferredTechnician: 'Cherry Rose Paculanang',
       activePackage: 'Express 3-Session (1/3 left)',
       skinNotes: 'Aftercare aloe vera mist requested.',
       smsStatus: 'Pending'
@@ -288,10 +288,10 @@ export default function App() {
 
   // Quick punch simulation state
   const [livePunches, setLivePunches] = useState([
-    { id: 1, name: 'Justine Ann Atay', time: '09:21 AM', type: 'IN', branch: 'Manila', status: 'Late (21m)' },
-    { id: 2, name: 'Kristene HR', time: '08:58 AM', type: 'IN', branch: 'HQ', status: 'On Time' },
-    { id: 3, name: 'John Doe', time: '09:12 AM', type: 'IN', branch: 'Cebu', status: 'Late (12m)' },
-    { id: 4, name: 'Cherimar Concigo', time: '09:24 PM', type: 'IN', branch: 'Manila', status: 'Missing OUT' }
+    { id: 1, name: 'Justine Ann Atay', time: '09:21 AM', type: 'IN', branch: 'Centrio Waxing', status: 'Late (21m)' },
+    { id: 2, name: 'Kristene HR', time: '08:58 AM', type: 'IN', branch: 'Limketkai', status: 'On Time' },
+    { id: 3, name: 'Cherry Rose Paculanang', time: '09:12 AM', type: 'IN', branch: 'Passion Nails', status: 'Late (12m)' },
+    { id: 4, name: 'Cherimar Concigo', time: '09:24 PM', type: 'IN', branch: 'Centrio Waxing', status: 'Missing OUT' }
   ]);
 
   // Apply theme class
@@ -346,28 +346,28 @@ export default function App() {
 
   const loadMockData = () => {
     const mockEmployees = [
-      { id: 33, name: 'Justine Ann Atay', branch: 'Manila', rate: 600, tax_status: 'S' },
-      { id: 34, name: 'Cherimar Concigo', branch: 'Manila', rate: 650, tax_status: 'S' },
-      { id: 35, name: 'Kristene HR', branch: 'HQ', rate: 800, tax_status: 'S' },
-      { id: 36, name: 'John Doe', branch: 'Cebu', rate: 550, tax_status: 'ME' }
+      { id: 33, name: 'Justine Ann Atay', branch: 'Centrio Mall (Waxing)', rate: 600, tax_status: 'S' },
+      { id: 34, name: 'Cherimar Concigo', branch: 'Centrio Mall (Waxing)', rate: 650, tax_status: 'S' },
+      { id: 35, name: 'Kristene HR', branch: 'Limketkai Mall', rate: 800, tax_status: 'S' },
+      { id: 36, name: 'Cherry Rose Paculanang', branch: 'Passion Nails (Centrio)', rate: 580, tax_status: 'ME' }
     ];
     setEmployees(mockEmployees);
 
     const mockAttendance = [
-      { id: 1, employee_id: 33, employee_name: 'Justine Ann Atay', date: '2026-07-16', calculated_in: '09:21', calculated_out: '20:07', regular_hours: 8, late_minutes: 21, undertime_minutes: 0, ot_hours: 1.77, nd_hours: 0, status: 'Present', notes: '', branch: 'Manila', rate: 600 },
-      { id: 2, employee_id: 34, employee_name: 'Cherimar Concigo', date: '2026-07-16', calculated_in: '21:24', calculated_out: '', regular_hours: 0, late_minutes: 0, undertime_minutes: 0, ot_hours: 0, nd_hours: 0, status: 'Flagged', notes: 'Missing OUT punch', branch: 'Manila', rate: 650 },
-      { id: 3, employee_id: 35, employee_name: 'Kristene HR', date: '2026-07-16', calculated_in: '08:58', calculated_out: '18:02', regular_hours: 8, late_minutes: 0, undertime_minutes: 0, ot_hours: 0.03, nd_hours: 0, status: 'Present', notes: '', branch: 'HQ', rate: 800 },
-      { id: 4, employee_id: 33, employee_name: 'Justine Ann Atay', date: '2026-07-17', calculated_in: '09:04', calculated_out: '18:00', regular_hours: 8, late_minutes: 0, undertime_minutes: 0, ot_hours: 0, nd_hours: 0, status: 'Present', notes: 'Late <= 5 mins grace', branch: 'Manila', rate: 600 },
-      { id: 5, employee_id: 36, employee_name: 'John Doe', date: '2026-07-17', calculated_in: '09:12', calculated_out: '17:30', regular_hours: 7.3, late_minutes: 12, undertime_minutes: 30, ot_hours: 0, nd_hours: 0, status: 'Present', notes: '', branch: 'Cebu', rate: 550 },
-      { id: 6, employee_id: 33, employee_name: 'Justine Ann Atay', date: '2026-07-18', calculated_in: '', calculated_out: '', regular_hours: 0, late_minutes: 0, undertime_minutes: 0, ot_hours: 0, nd_hours: 0, status: 'Rest Day', notes: '', branch: 'Manila', rate: 600 }
+      { id: 1, employee_id: 33, employee_name: 'Justine Ann Atay', date: '2026-07-16', calculated_in: '09:21', calculated_out: '20:07', regular_hours: 8, late_minutes: 21, undertime_minutes: 0, ot_hours: 1.77, nd_hours: 0, status: 'Present', notes: '', branch: 'Centrio Mall (Waxing)', rate: 600 },
+      { id: 2, employee_id: 34, employee_name: 'Cherimar Concigo', date: '2026-07-16', calculated_in: '21:24', calculated_out: '', regular_hours: 0, late_minutes: 0, undertime_minutes: 0, ot_hours: 0, nd_hours: 0, status: 'Flagged', notes: 'Missing OUT punch', branch: 'Centrio Mall (Waxing)', rate: 650 },
+      { id: 3, employee_id: 35, employee_name: 'Kristene HR', date: '2026-07-16', calculated_in: '08:58', calculated_out: '18:02', regular_hours: 8, late_minutes: 0, undertime_minutes: 0, ot_hours: 0.03, nd_hours: 0, status: 'Present', notes: '', branch: 'Limketkai Mall', rate: 800 },
+      { id: 4, employee_id: 33, employee_name: 'Justine Ann Atay', date: '2026-07-17', calculated_in: '09:04', calculated_out: '18:00', regular_hours: 8, late_minutes: 0, undertime_minutes: 0, ot_hours: 0, nd_hours: 0, status: 'Present', notes: 'Late <= 5 mins grace', branch: 'Centrio Mall (Waxing)', rate: 600 },
+      { id: 5, employee_id: 36, employee_name: 'Cherry Rose Paculanang', date: '2026-07-17', calculated_in: '09:12', calculated_out: '17:30', regular_hours: 7.3, late_minutes: 12, undertime_minutes: 30, ot_hours: 0, nd_hours: 0, status: 'Present', notes: '', branch: 'Passion Nails (Centrio)', rate: 580 },
+      { id: 6, employee_id: 33, employee_name: 'Justine Ann Atay', date: '2026-07-18', calculated_in: '', calculated_out: '', regular_hours: 0, late_minutes: 0, undertime_minutes: 0, ot_hours: 0, nd_hours: 0, status: 'Rest Day', notes: '', branch: 'Centrio Mall (Waxing)', rate: 600 }
     ];
     setAttendance(mockAttendance);
     setExceptions(mockAttendance.filter(r => r.status === 'Flagged'));
 
     const mockTardiness = [
-      { employee_id: 33, employee_name: 'Justine Ann Atay', branch: 'Manila', late_count: 4, total_late_minutes: 68 },
-      { employee_id: 36, employee_name: 'John Doe', branch: 'Cebu', late_count: 2, total_late_minutes: 27 },
-      { employee_id: 34, employee_name: 'Cherimar Concigo', branch: 'Manila', late_count: 0, total_late_minutes: 0 }
+      { employee_id: 33, employee_name: 'Justine Ann Atay', branch: 'Centrio Mall (Waxing)', late_count: 4, total_late_minutes: 68 },
+      { employee_id: 36, employee_name: 'Cherry Rose Paculanang', branch: 'Passion Nails (Centrio)', late_count: 2, total_late_minutes: 27 },
+      { employee_id: 34, employee_name: 'Cherimar Concigo', branch: 'Centrio Mall (Waxing)', late_count: 0, total_late_minutes: 0 }
     ];
     setTardiness(mockTardiness);
 
@@ -511,11 +511,15 @@ export default function App() {
     if (activePayroll.length === 0) return;
 
     // Generate CSV formatted for BPI BizLink Batch Payroll Upload
+    // Note: Escaped with ="..." to ensure Microsoft Excel displays 10-digit account numbers as text without scientific notation (e.g. 1.0365E+11)
     const headers = 'Account Number,Employee Name,Disbursement Amount (PHP),Branch Location,Payment Type,Remarks\n';
     const rows = activePayroll.map((p, idx) => {
-      const mockAcct = `00${p.employeeId ? (1000 + p.employeeId) : (1010 + idx)}498214${(idx + 1) * 3}`;
+      const acctSuffix = (idx + 1) < 10 ? '0' + (idx + 1) : (idx + 1);
+      const rawAcct = `02498214${acctSuffix}`;
+      const excelTextAcct = `="${rawAcct}"`;
       const amount = (p.calculations?.netPay || 0).toFixed(2);
-      return `"${mockAcct}","${p.employeeName}","${amount}","${p.branch || 'Centrio'}","SALARY","Cutoff ${startDate} to ${endDate}"`;
+      const branchLoc = p.branch || 'Centrio Mall (Waxing)';
+      return `${excelTextAcct},"${p.employeeName}","${amount}","${branchLoc}","SALARY","Cutoff ${startDate} to ${endDate}"`;
     }).join('\n');
 
     const csvContent = 'data:text/csv;charset=utf-8,' + encodeURIComponent(headers + rows);
@@ -836,7 +840,7 @@ export default function App() {
       },
       yAxis: {
         type: 'category',
-        data: names.length > 0 ? names : ['Justine Atay', 'John Doe', 'Cherimar C.'],
+        data: names.length > 0 ? names : ['Justine Atay', 'Cherry Rose P.', 'Cherimar C.'],
         axisLine: { show: false },
         axisTick: { show: false },
         axisLabel: {
@@ -2553,7 +2557,7 @@ export default function App() {
                   <input
                     type="text"
                     required
-                    placeholder="e.g. Manila"
+                    placeholder="e.g. Centrio Mall (Waxing)"
                     value={newEmployee.branch}
                     onChange={(e) => setNewEmployee({ ...newEmployee, branch: e.target.value })}
                     className="w-full bg-[#F7F6F2] border border-transparent rounded-xl px-3.5 py-2.5 font-medium outline-none focus:ring-1 focus:ring-[#77BC2E]"
@@ -3022,7 +3026,7 @@ export default function App() {
                   }))).map((p, idx) => (
                     <tr key={idx} className="hover:bg-[#FAF9F5]/70">
                       <td className="px-4 py-3 font-mono text-[#031134] font-bold">
-                        00{p.employeeId ? (1000 + p.employeeId) : (1010 + idx)}498214{(idx + 1) * 3}
+                        02498214{(idx + 1) < 10 ? '0' + (idx + 1) : (idx + 1)}
                       </td>
                       <td className="px-4 py-3 font-bold text-[#4A2E1B]">{p.employeeName}</td>
                       <td className="px-4 py-3 text-[#5A534E]">{p.branch || 'Centrio'}</td>

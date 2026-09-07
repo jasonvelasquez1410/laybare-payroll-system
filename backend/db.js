@@ -16,10 +16,10 @@ let sqliteDb = null;
 // In-Memory Database fallback store
 const inMemoryDb = {
   employees: [
-    { id: 33, name: 'Justine Ann Atay', branch: 'Manila', rate: 600, tax_status: 'S' },
-    { id: 34, name: 'Cherimar Concigo', branch: 'Manila', rate: 650, tax_status: 'S' },
-    { id: 35, name: 'Kristene HR', branch: 'HQ', rate: 800, tax_status: 'S' },
-    { id: 36, name: 'John Doe', branch: 'Cebu', rate: 550, tax_status: 'ME' }
+    { id: 33, name: 'Justine Ann Atay', branch: 'Centrio Mall (Waxing)', rate: 600, tax_status: 'S' },
+    { id: 34, name: 'Cherimar Concigo', branch: 'Centrio Mall (Waxing)', rate: 650, tax_status: 'S' },
+    { id: 35, name: 'Kristene HR', branch: 'Limketkai Mall', rate: 800, tax_status: 'S' },
+    { id: 36, name: 'Cherry Rose Paculanang', branch: 'Passion Nails (Centrio)', rate: 580, tax_status: 'ME' }
   ],
   raw_punches: [],
   daily_attendance: []
@@ -316,10 +316,10 @@ async function initDb() {
   if (count === 0) {
     console.log('Populating initial mock employees...');
     const mockEmployees = [
-      [33, 'Justine Ann Atay', 'Manila', 600, 'S'],
-      [34, 'Cherimar Concigo', 'Manila', 650, 'S'],
-      [35, 'Kristene HR', 'HQ', 800, 'S'],
-      [36, 'John Doe', 'Cebu', 550, 'ME']
+      [33, 'Justine Ann Atay', 'Centrio Mall (Waxing)', 600, 'S'],
+      [34, 'Cherimar Concigo', 'Centrio Mall (Waxing)', 650, 'S'],
+      [35, 'Kristene HR', 'Limketkai Mall', 800, 'S'],
+      [36, 'Cherry Rose Paculanang', 'Passion Nails (Centrio)', 580, 'ME']
     ];
     for (const emp of mockEmployees) {
       await query('INSERT INTO employees (id, name, branch, rate, tax_status) VALUES ($1, $2, $3, $4, $5)', emp);
