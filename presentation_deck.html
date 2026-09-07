@@ -3,22 +3,26 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ALRAJJ LEGACY - Smart Biometric Payroll System Demo Presentation</title>
+  <title>ALRAJJ LEGACY — Executive Biometric Payroll & Enterprise System Demo</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --navy: #031134;
+      --navy-deep: #020B24;
       --navy-card: #0A1B45;
       --gold: #D4AF37;
+      --gold-light: #F3E5AB;
       --green: #77BC2E;
-      --green-dark: #62A021;
+      --green-dark: #5A9A1E;
       --pink: #E89BB9;
+      --pink-dark: #D47098;
       --lilac: #B58EBE;
-      --bg: #F8F9FA;
+      --slate-cream: #F8F9FA;
+      --card-bg: #FFFFFF;
       --card-border: #E2E8F0;
-      --text-dark: #1E293B;
+      --text-main: #0F172A;
       --text-muted: #64748B;
     }
 
@@ -29,75 +33,111 @@
     }
 
     body {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      background: #0B0F19;
-      color: var(--text-dark);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #060B18;
+      color: var(--text-main);
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      min-height: 100vh;
+      padding: 16px;
       overflow-x: hidden;
-      padding: 20px;
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(3, 17, 52, 0.8) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(119, 188, 46, 0.12) 0px, transparent 50%),
+        radial-gradient(at 50% 50%, rgba(212, 175, 55, 0.05) 0px, transparent 50%);
     }
 
-    /* Presentation Wrapper */
-    .deck-container {
+    /* Deck Master Container */
+    .deck-wrapper {
       width: 100%;
-      max-width: 1100px;
+      max-width: 1180px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* Slide Frame - 16:9 widescreen ratio */
+    .deck-viewport {
+      width: 100%;
       aspect-ratio: 16 / 9;
-      background: var(--bg);
-      border-radius: 20px;
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.45);
+      background: var(--slate-cream);
+      border-radius: 24px;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.1);
       position: relative;
       overflow: hidden;
       display: flex;
-      flex-direction: column;
     }
 
+    /* Top Progress Bar */
+    .progress-track {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: rgba(0, 0, 0, 0.1);
+      z-index: 50;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--green), var(--gold));
+      width: 11.11%;
+      transition: width 0.3s ease-out;
+    }
+
+    /* Slide Pages */
     .slide {
       display: none;
       width: 100%;
       height: 100%;
-      padding: 44px 56px;
+      padding: 40px 52px;
       flex-direction: column;
       justify-content: space-between;
-      animation: fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      animation: slideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
     }
 
     .slide.active {
       display: flex;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(10px) scale(0.99); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
     }
 
-    /* Slide Themes */
+    /* Theme Variants */
     .slide-navy {
-      background: radial-gradient(circle at top right, #0F2A66, #031134);
+      background: linear-gradient(145deg, #031134 0%, #081B4B 60%, #031134 100%);
       color: #FFFFFF;
     }
 
     .slide-light {
       background: #F8F9FA;
-      color: var(--text-dark);
+      color: var(--text-main);
     }
 
-    /* Top Badges & Typography */
+    /* Typography */
+    .slide-header {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
     .badge {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 6px 14px;
-      border-radius: 999px;
-      font-size: 0.78rem;
-      font-weight: 700;
-      letter-spacing: 0.05em;
+      padding: 5px 12px;
+      border-radius: 9999px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
       width: fit-content;
-      margin-bottom: 12px;
     }
 
     .badge-gold {
@@ -107,105 +147,112 @@
     }
 
     .badge-green {
-      background: rgba(119, 188, 46, 0.15);
+      background: rgba(119, 188, 46, 0.18);
       color: var(--green);
-      border: 1px solid rgba(119, 188, 46, 0.35);
+      border: 1px solid rgba(119, 188, 46, 0.4);
     }
 
     .badge-blue {
       background: rgba(3, 17, 52, 0.08);
       color: var(--navy);
-      border: 1px solid rgba(3, 17, 52, 0.15);
+      border: 1px solid rgba(3, 17, 52, 0.2);
+    }
+
+    .badge-pink {
+      background: rgba(232, 155, 185, 0.2);
+      color: var(--pink-dark);
+      border: 1px solid rgba(232, 155, 185, 0.4);
     }
 
     h1.slide-title {
       font-size: 2.1rem;
-      font-weight: 800;
-      line-height: 1.2;
-      margin-bottom: 6px;
+      font-weight: 900;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
     }
 
     .slide-subtitle {
-      font-size: 0.98rem;
+      font-size: 0.95rem;
       color: var(--text-muted);
-      margin-bottom: 20px;
       font-family: 'Outfit', sans-serif;
+      line-height: 1.4;
     }
 
     .slide-navy .slide-subtitle {
       color: #94A3B8;
     }
 
-    /* Grid Layouts */
-    .grid-3 {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-      flex: 1;
-    }
-
+    /* Layout Grids */
     .grid-4 {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 15px;
+      gap: 14px;
       flex: 1;
+      margin: 14px 0;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      flex: 1;
+      margin: 14px 0;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 20px;
+      flex: 1;
+      margin: 14px 0;
     }
 
     .grid-5 {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
-      gap: 12px;
+      gap: 10px;
       flex: 1;
-    }
-
-    .grid-2 {
-      display: grid;
-      grid-template-columns: 1.05fr 0.95fr;
-      gap: 24px;
-      flex: 1;
+      margin: 14px 0;
     }
 
     /* Cards */
     .card {
       background: #FFFFFF;
       border: 1px solid var(--card-border);
-      border-radius: 16px;
-      padding: 20px;
+      border-radius: 18px;
+      padding: 18px 20px;
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
+      position: relative;
     }
 
     .card-navy {
-      background: rgba(10, 27, 69, 0.7);
+      background: rgba(10, 27, 69, 0.75);
       border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 16px;
-      padding: 20px;
+      border-radius: 18px;
+      padding: 18px 20px;
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
       color: #FFFFFF;
+      backdrop-blur: 8px;
     }
 
-    .card h3 {
-      font-size: 1.05rem;
-      font-weight: 700;
-      margin-bottom: 10px;
-      color: var(--navy);
+    .card h3, .card-navy h3 {
+      font-size: 1.02rem;
+      font-weight: 800;
+      margin-bottom: 8px;
     }
 
-    .card-navy h3 {
-      font-size: 1.05rem;
-      font-weight: 700;
-      margin-bottom: 10px;
-      color: var(--gold);
-    }
+    .card h3 { color: var(--navy); }
+    .card-navy h3 { color: #FFFFFF; }
 
     .card p, .card ul, .card-navy p, .card-navy ul {
       font-family: 'Outfit', sans-serif;
-      font-size: 0.88rem;
-      line-height: 1.48;
+      font-size: 0.85rem;
+      line-height: 1.45;
       color: #475569;
     }
 
@@ -213,466 +260,669 @@
       color: #CBD5E1;
     }
 
-    ul {
-      list-style-type: none;
-    }
-
+    ul { list-style: none; }
     li {
-      margin-bottom: 7px;
+      margin-bottom: 6px;
       position: relative;
-      padding-left: 16px;
+      padding-left: 15px;
     }
-
     li::before {
       content: "•";
       position: absolute;
       left: 0;
       color: var(--green);
-      font-weight: bold;
-      font-size: 1.1rem;
-      line-height: 1;
+      font-weight: 900;
     }
 
-    /* Controls Footer */
+    /* Bottom Control Strip */
     .deck-controls {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      width: 100%;
-      max-width: 1100px;
-      margin-top: 16px;
-      color: #94A3B8;
-      font-size: 0.85rem;
+      padding: 14px 20px;
+      background: rgba(10, 27, 69, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 18px;
+      backdrop-blur: 12px;
+      color: #FFFFFF;
+    }
+
+    .nav-btn-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
     .btn-nav {
-      background: #1E293B;
+      background: #031134;
       color: #FFFFFF;
-      border: 1px solid #334155;
-      padding: 10px 18px;
-      border-radius: 10px;
-      font-weight: 600;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      transition: all 0.2s;
-    }
-
-    .btn-nav:hover {
-      background: #334155;
-      border-color: #475569;
-    }
-
-    .btn-demo {
-      background: var(--green);
-      color: #031134;
-      border: none;
-      padding: 10px 22px;
-      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 8px 18px;
+      border-radius: 12px;
+      font-size: 0.84rem;
       font-weight: 700;
       cursor: pointer;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      box-shadow: 0 4px 14px rgba(119, 188, 46, 0.4);
-      transition: all 0.2s;
-    }
-
-    .btn-demo:hover {
-      background: var(--green-dark);
-      color: #FFFFFF;
-      transform: translateY(-1px);
-    }
-
-    /* Speaker Notes Accordion */
-    .speaker-notes-box {
-      width: 100%;
-      max-width: 1100px;
-      background: #111827;
-      border: 1px solid #1F2937;
-      border-radius: 14px;
-      margin-top: 16px;
-      padding: 18px 24px;
-      color: #E5E7EB;
-      font-size: 0.9rem;
-      line-height: 1.6;
-    }
-
-    .speaker-notes-title {
-      color: var(--gold);
-      font-weight: 700;
-      font-size: 0.85rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 6px;
       display: flex;
       align-items: center;
       gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-nav:hover:not(:disabled) {
+      background: var(--gold);
+      color: var(--navy);
+      border-color: var(--gold);
+      transform: translateY(-1px);
+    }
+
+    .btn-nav:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .btn-live-demo {
+      background: linear-gradient(135deg, var(--green) 0%, var(--green-dark) 100%);
+      color: #FFFFFF;
+      border: none;
+      padding: 8px 20px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: 800;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 4px 14px rgba(119, 188, 46, 0.35);
+      transition: all 0.2s;
+    }
+
+    .btn-live-demo:hover {
+      transform: scale(1.03);
+      box-shadow: 0 6px 20px rgba(119, 188, 46, 0.5);
+    }
+
+    /* Speaker Notes Box */
+    .speaker-notes-drawer {
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 18px;
+      padding: 16px 20px;
+      color: #E2E8F0;
+      font-size: 0.88rem;
+      font-family: 'Outfit', sans-serif;
+      line-height: 1.5;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .speaker-title {
+      font-size: 0.76rem;
+      font-weight: 800;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Highlight Pills */
+    .pill {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      font-family: 'JetBrains Mono', monospace;
     }
   </style>
 </head>
 <body>
 
-  <!-- PRESENTATION CONTAINER -->
-  <div class="deck-container">
-
-    <!-- SLIDE 1: COVER -->
-    <div class="slide slide-navy active" id="slide-1">
-      <div>
-        <span class="badge badge-gold">Executive Presentation & Demo</span>
-        <h1 class="slide-title" style="color: var(--gold); font-size: 2.7rem;">ALRAJJ LEGACY</h1>
-        <h2 style="font-size: 1.5rem; font-weight: 600; color: #FFFFFF; margin-bottom: 12px;">
-          Smart Biometric Attendance, BPI Payroll & Enterprise Solutions
-        </h2>
-        <p class="slide-subtitle" style="max-width: 720px;">
-          Centralizing Workforce Attendance, BPI BizLink Disbursement & Operations for <strong>Centrio</strong> (Waxing & Passion Nails), <strong>Limketkai</strong>, and <strong>SM Downtown</strong>.
-        </p>
+  <div class="deck-wrapper">
+    
+    <!-- 16:9 VIEWPORT -->
+    <div class="deck-viewport" id="deck-viewport">
+      
+      <!-- Top Progress Indicator -->
+      <div class="progress-track">
+        <div class="progress-bar" id="progress-bar"></div>
       </div>
 
-      <div style="display: flex; justify-content: space-between; align-items: flex-end; border-top: 1px solid rgba(255,255,255,0.15); padding-top: 18px;">
-        <div>
-          <p style="font-size: 0.85rem; color: #94A3B8;">Prepared for:</p>
-          <p style="font-weight: 700; color: #FFFFFF; font-size: 1.05rem;">Ms. Jehan Abedin, General Manager</p>
-          <p style="font-size: 0.85rem; color: #94A3B8;">ALRAJJ LEGACY Fortified Business Corp.</p>
-        </div>
-        <div style="text-align: right;">
-          <p style="font-size: 0.85rem; color: #94A3B8;">Presented by: <strong>Jason Velasquez (VP)</strong></p>
-          <p style="font-size: 0.85rem; color: var(--gold); font-weight: 700;">SETHCON Technologies Inc.</p>
-          <p style="font-size: 0.8rem; color: var(--green); font-weight: 700;">Live: alrajj-legacy.vercel.app</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- SLIDE 2: SETHCON PROFILE & ENTERPRISE ECOSYSTEM -->
-    <div class="slide slide-light" id="slide-2">
-      <div>
-        <span class="badge badge-blue">Technology Partner Profile</span>
-        <h1 class="slide-title" style="color: var(--navy);">SETHCON Technologies Inc.</h1>
-        <p class="slide-subtitle">Proven technology solutions for multi-branch retail, salon chains, and corporate enterprise.</p>
-      </div>
-
-      <div class="grid-4">
-        <div class="card" style="border-top: 4px solid var(--gold);">
-          <h3>🏢 Official Company Profile</h3>
-          <p>
-            <strong>SETHCON Technologies Inc.</strong> is an enterprise systems engineering firm specializing in customized multi-branch workflows.
+      <!-- ==================================================== -->
+      <!-- SLIDE 1: COVER & EXECUTIVE BRIEFING -->
+      <!-- ==================================================== -->
+      <div class="slide slide-navy active" id="slide-1">
+        <div class="slide-header">
+          <span class="badge badge-gold">✨ Executive Presentation & Live Demo</span>
+          <h1 class="slide-title" style="color: var(--gold); font-size: 2.8rem; margin-top: 4px;">ALRAJJ LEGACY</h1>
+          <h2 style="font-size: 1.45rem; font-weight: 700; color: #FFFFFF; margin-top: 2px;">
+            Custom Biometric HRMS & Automated 5-Step BPI Payroll System
+          </h2>
+          <p class="slide-subtitle" style="max-width: 780px; margin-top: 6px;">
+            Centralizing multi-branch attendance, DOLE Notice to Explain compliance, and 1-click BPI BizLink electronic disbursement for <strong>Centrio Mall (Waxing & Passion Nails)</strong>, <strong>Limketkai</strong>, and <strong>SM Downtown</strong>.
           </p>
-          <div style="margin-top: 10px; margin-bottom: 8px;">
-            <a href="https://drive.google.com/file/d/12qG_EbC35yH9k9Bl0uDCGp7shh1mfQ0B/view?usp=sharing" target="_blank" style="display: inline-flex; align-items: center; gap: 6px; background: var(--navy); color: #FFFFFF; text-decoration: none; padding: 6px 12px; border-radius: 8px; font-size: 0.78rem; font-weight: 700;">
-              <span>📄 View Official Profile (PDF)</span>
-              <span>↗</span>
-            </a>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 16px 0;">
+          <div class="card-navy" style="border-left: 4px solid var(--green);">
+            <span style="font-size: 0.72rem; color: var(--green); font-weight: 800; text-transform: uppercase;">Core Objective</span>
+            <strong style="font-size: 0.95rem; color: #FFFFFF; margin-top: 2px;">2 Days &rarr; 5 Minutes</strong>
+            <p style="font-size: 0.78rem; margin-top: 4px;">Replace tedious Excel timesheets with automated biometric ingestion.</p>
           </div>
-          <p style="font-size: 0.8rem; color: #64748B;">
-            <strong>Tailored for Lay Bare:</strong> Custom biometric timekeeping, DOLE NTE compliance & 5-step BPI BizLink payroll pipeline.
-          </p>
+          <div class="card-navy" style="border-left: 4px solid var(--gold);">
+            <span style="font-size: 0.72rem; color: var(--gold); font-weight: 800; text-transform: uppercase;">Bank Integration</span>
+            <strong style="font-size: 0.95rem; color: #FFFFFF; margin-top: 2px;">BPI BizLink Closed Loop</strong>
+            <p style="font-size: 0.78rem; margin-top: 4px;">Direct ATM batch crediting with MD authorization gate.</p>
+          </div>
+          <div class="card-navy" style="border-left: 4px solid var(--pink);">
+            <span style="font-size: 0.72rem; color: var(--pink); font-weight: 800; text-transform: uppercase;">Live Cloud Production</span>
+            <strong style="font-size: 0.95rem; color: #FFFFFF; margin-top: 2px;">alrajj-legacy.vercel.app</strong>
+            <p style="font-size: 0.78rem; margin-top: 4px;">24/7 executive oversight from any laptop, iPad, or mobile phone.</p>
+          </div>
         </div>
 
-        <div class="card" style="border-top: 4px solid var(--pink);">
-          <h3>💖 Salon CRM & Loyalty</h3>
-          <p>Complete customer relationship management:</p>
-          <ul style="margin-top: 6px;">
-            <li>Client service history & notes</li>
-            <li>Online booking & SMS alerts</li>
-            <li>Loyalty tiers & package tracking</li>
-            <li>Technician commission metrics</li>
-          </ul>
-        </div>
-
-        <div class="card" style="border-top: 4px solid var(--green);">
-          <h3>📦 PO to Accounting</h3>
-          <p>Complete 5-step procurement lifecycle:</p>
-          <ul style="margin-top: 6px;">
-            <li>Branch Store Requisition</li>
-            <li>Vendor RFQ & PO Approval</li>
-            <li>Goods Inspection / Receiving</li>
-            <li><strong>3-Way Match & Forward to Accounting AP</strong></li>
-          </ul>
-        </div>
-
-        <div class="card" style="border-top: 4px solid var(--navy);">
-          <h3>⚡ POS & Stock Control</h3>
-          <p>Multi-location retail intelligence:</p>
-          <ul style="margin-top: 6px;">
-            <li>Real-time multi-branch sales</li>
-            <li>Stock depletion & reorder alerts</li>
-            <li>Centralized product catalog</li>
-            <li>Shrinkage & audit tracking</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <!-- SLIDE 3: THE PROBLEM -->
-    <div class="slide slide-light" id="slide-3">
-      <div>
-        <span class="badge badge-blue">The Operational Reality</span>
-        <h1 class="slide-title" style="color: var(--navy);">The "2-Day" Manual Payroll Bottleneck</h1>
-        <p class="slide-subtitle">Current friction points faced every semi-monthly cutoff across your 3 busy salon branches.</p>
-      </div>
-
-      <div class="grid-3">
-        <div class="card" style="border-top: 4px solid #EF4444;">
-          <h3>⏳ 2 Days Lost in Manual Math</h3>
-          <p>
-            Takes <strong>16+ hours every cutoff</strong> for management to gather raw attendance logs, calculate daily hours, and tally attendance for every employee across 3 locations.
-          </p>
-        </div>
-
-        <div class="card" style="border-top: 4px solid #F59E0B;">
-          <h3>⚠️ Calculation Risks & Errors</h3>
-          <p>Manual computation of intricate rules:</p>
-          <ul style="margin-top: 8px;">
-            <li>5-minute grace periods</li>
-            <li>10-minute deduction increments</li>
-            <li>Overtime & Night Differential</li>
-            <li>SSS, PhilHealth, Pag-IBIG statutory formulas</li>
-          </ul>
-          <p style="margin-top: 6px; font-size: 0.82rem; color: #64748B;">Errors cause employee disputes and tedious payroll adjustments.</p>
-        </div>
-
-        <div class="card" style="border-top: 4px solid var(--navy);">
-          <h3>📋 Scattered Biometrics & Compliance</h3>
-          <p>
-            Raw NGTeco logs live on loose USB sticks. Missing clock-outs require investigative back-and-forth, while habitual tardiness lacks automated Notice to Explain (NTE) compliance.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- SLIDE 4: THE SOLUTION -->
-    <div class="slide slide-navy" id="slide-4">
-      <div>
-        <span class="badge badge-green">The Solution</span>
-        <h1 class="slide-title" style="color: var(--gold);">From 2 Days to 5 Minutes</h1>
-        <p class="slide-subtitle">A purpose-built web platform engineered specifically for ALRAJJ LEGACY salon operations.</p>
-      </div>
-
-      <div class="grid-4">
-        <div class="card-navy">
-          <div style="font-size: 1.6rem; margin-bottom: 6px;">📂</div>
-          <h3>1. Direct NGTeco Ingestion</h3>
-          <p>Drag and drop raw Excel biometric exports directly from salon stores. Instant automatic punch log pairing.</p>
-        </div>
-
-        <div class="card-navy">
-          <div style="font-size: 1.6rem; margin-bottom: 6px;">⚡</div>
-          <h3>2. Anomaly Engine</h3>
-          <p>Instantly highlights missing clock-outs or unpaired punches. HR resolves exceptions in seconds with audit trails.</p>
-        </div>
-
-        <div class="card-navy">
-          <div style="font-size: 1.6rem; margin-bottom: 6px;">⚖️</div>
-          <h3>3. Automated NTE & Rules</h3>
-          <p>Enforces 5-min grace and 10-min deduction rules. Flags 3+ late staff and generates ready-to-print DOLE NTE letters.</p>
-        </div>
-
-        <div class="card-navy">
-          <div style="font-size: 1.6rem; margin-bottom: 6px;">💰</div>
-          <h3>4. 1-Click Gross-to-Net</h3>
-          <p>Computes Basic Pay, Overtime, SSS, PhilHealth, Pag-IBIG in 1 second. Printable itemized payslips with your logo.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- SLIDE 5: CENTRALIZED BRANCHES -->
-    <div class="slide slide-light" id="slide-5">
-      <div>
-        <span class="badge badge-blue">Centralized Hub</span>
-        <h1 class="slide-title" style="color: var(--navy);">One Portal for All 3 Salon Locations</h1>
-        <p class="slide-subtitle">Real-time salon pulse accessible 24/7 by leadership from any smartphone, iPad, or laptop.</p>
-      </div>
-
-      <div class="grid-2">
-        <div class="card">
-          <h3>📍 Operational Branch Coverage</h3>
-          <ul>
-            <li><strong>Centrio Mall Branch</strong>: Covers Waxing Salon specialists and Passion Nails technicians under one roof.</li>
-            <li><strong>Limketkai (Ketkai) Branch</strong>: Centralized attendance logs and shift management.</li>
-            <li><strong>SM Downtown Branch</strong>: High-traffic commercial mall salon roster.</li>
-            <li><strong>Future Expansion Ready</strong>: Designed to seamlessly add new branches (like Iligan) whenever ready without restructuring.</li>
-          </ul>
-        </div>
-
-        <div class="card" style="background: #F1F5F9; border-color: #CBD5E1;">
-          <h3>🌐 The Live Cloud Advantage</h3>
-          <ul>
-            <li><strong>Zero Local Installation</strong>: No heavy desktop programs. Open <code>alrajj-legacy.vercel.app</code> in Chrome or Safari.</li>
-            <li><strong>Management Visibility</strong>: General Manager can check attendance status, tardiness flags, and payroll from anywhere.</li>
-            <li><strong>Secure Cloud Backup</strong>: Timesheets and pay records protected and archived.</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <!-- SLIDE 6: END-TO-END PAYROLL & BPI DISBURSEMENT LIFECYCLE -->
-    <div class="slide slide-navy" id="slide-6">
-      <div>
-        <span class="badge badge-gold">Banking & Disbursement Workflow</span>
-        <h1 class="slide-title" style="color: #FFFFFF;">End-to-End Payroll & BPI ATM Pipeline</h1>
-        <p class="slide-subtitle">A seamless 5-stage closed loop: from raw punch calculation to employee ATM crediting.</p>
-      </div>
-
-      <div class="grid-5">
-        <div class="card-navy" style="border-top: 3px solid var(--green);">
-          <span style="color: var(--green); font-size: 0.72rem; font-weight: 700;">STEP 1</span>
-          <h3 style="color: #FFFFFF; font-size: 0.95rem;">HR Computation</h3>
-          <p style="font-size: 0.8rem;">Biometric ingestion & 1-second gross-to-net computation.</p>
-        </div>
-
-        <div class="card-navy" style="border-top: 3px solid var(--gold);">
-          <span style="color: var(--gold); font-size: 0.72rem; font-weight: 700;">STEP 2</span>
-          <h3 style="color: #FFFFFF; font-size: 0.95rem;">Accounting Review</h3>
-          <p style="font-size: 0.8rem;">Forwarded to Accounting Dept to audit deductions and ledgers.</p>
-        </div>
-
-        <div class="card-navy" style="border-top: 3px solid #38BDF8;">
-          <span style="color: #38BDF8; font-size: 0.72rem; font-weight: 700;">STEP 3</span>
-          <h3 style="color: #FFFFFF; font-size: 0.95rem;">BPI BizLink Upload</h3>
-          <p style="font-size: 0.8rem;">Auto-generates standardized BPI corporate batch CSV/TXT file.</p>
-        </div>
-
-        <div class="card-navy" style="border-top: 3px solid var(--pink);">
-          <span style="color: var(--pink); font-size: 0.72rem; font-weight: 700;">STEP 4</span>
-          <h3 style="color: #FFFFFF; font-size: 0.95rem;">MD Authorization</h3>
-          <p style="font-size: 0.8rem;">Managing Director (Ms. Jehan Abedin) final approval sign-off.</p>
-        </div>
-
-        <div class="card-navy" style="border-top: 3px solid var(--green);">
-          <span style="color: var(--green); font-size: 0.72rem; font-weight: 700;">STEP 5</span>
-          <h3 style="color: #FFFFFF; font-size: 0.95rem;">ATM Pay & Payslips</h3>
-          <p style="font-size: 0.8rem;">Salaries credited to staff ATMs; official itemized payslips released.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- SLIDE 7: TUESDAY DEMO FLOW -->
-    <div class="slide slide-light" id="slide-7">
-      <div>
-        <span class="badge badge-gold">Interactive Demo Guide</span>
-        <h1 class="slide-title" style="color: var(--navy);">The 5-Minute Tuesday Live Demo</h1>
-        <p class="slide-subtitle">A simple, confidence-inspiring 4-act walkthrough on <code>alrajj-legacy.vercel.app</code></p>
-      </div>
-
-      <div class="grid-4">
-        <div class="card" style="border-left: 4px solid var(--navy);">
-          <span style="color: var(--navy); font-size: 0.75rem; font-weight: 700;">ACT 1 (1 MIN)</span>
-          <h3>Executive Dashboard</h3>
-          <p>Show the 4 KPI cards: Active Staff, Total Late Mins, Avg Shift, and Missed OUT Flags. Point out the 88% Attendance Donut.</p>
-        </div>
-
-        <div class="card" style="border-left: 4px solid var(--green);">
-          <span style="color: var(--green-dark); font-size: 0.75rem; font-weight: 700;">ACT 2 (1 MIN)</span>
-          <h3>Biometric Ingestion</h3>
-          <p>Click "Biometric Ingestion". Show how the raw NGTeco file is uploaded in 1 click without any manual typing.</p>
-        </div>
-
-        <div class="card" style="border-left: 4px solid var(--pink);">
-          <span style="color: #D47098; font-size: 0.75rem; font-weight: 700;">ACT 3 (1.5 MINS)</span>
-          <h3>Exceptions & NTE</h3>
-          <p>Click "Exceptions & Flags" &rarr; resolve a missing punch in 5 seconds. Open "Tardiness & NTE" to show the auto-generated Notice to Explain.</p>
-        </div>
-
-        <div class="card" style="border-left: 4px solid var(--gold);">
-          <span style="color: #B48A10; font-size: 0.75rem; font-weight: 700;">ACT 4 (1.5 MINS)</span>
-          <h3>BPI Payroll & Payslips</h3>
-          <p>Click "Compute Payroll". Demonstrate forwarding to Accounting, generating BPI BizLink batch file, and printing itemized payslips.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- SLIDE 8: ROI & BUSINESS VALUE -->
-    <div class="slide slide-light" id="slide-8">
-      <div>
-        <span class="badge badge-green">Business Value</span>
-        <h1 class="slide-title" style="color: var(--navy);">Measurable ROI for ALRAJJ LEGACY</h1>
-        <p class="slide-subtitle">Why this system pays for itself in time savings and labor compliance protection.</p>
-      </div>
-
-      <div class="grid-2">
-        <div class="card" style="border-left: 6px solid var(--green);">
-          <h3>⏱️ 95% Payroll Time Saved</h3>
-          <p>Shrinks payroll calculation from 16 hours (2 working days) down to just 5 minutes per cutoff. Saves over <strong>380 management hours annually</strong>.</p>
-        </div>
-
-        <div class="card" style="border-left: 6px solid var(--navy);">
-          <h3>🎯 100% Mathematical Accuracy</h3>
-          <p>Standardized automated rules ensure zero over/under deductions and eliminate employee compensation disputes.</p>
-        </div>
-
-        <div class="card" style="border-left: 6px solid var(--gold);">
-          <h3>🛡️ Complete DOLE Compliance</h3>
-          <p>Automated 5-day Notice to Explain (NTE) tracking provides management with legally compliant disciplinary documentation.</p>
-        </div>
-
-        <div class="card" style="border-left: 6px solid var(--pink);">
-          <h3>📱 Anywhere Leadership Oversight</h3>
-          <p>General Manager and HR stay connected to all 3 salon branches with real-time biometric and payroll transparency.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- SLIDE 9: ROADMAP & NEXT STEPS -->
-    <div class="slide slide-navy" id="slide-9">
-      <div>
-        <span class="badge badge-gold">Next Steps</span>
-        <h1 class="slide-title" style="color: var(--gold);">Rollout Plan & Tuesday Action Items</h1>
-        <p class="slide-subtitle">Clear path to full live branch implementation.</p>
-      </div>
-
-      <div class="grid-2">
-        <div class="card-navy">
-          <h3 style="color: #FFFFFF;">📅 Milestone Roadmap</h3>
-          <ul style="margin-top: 10px;">
-            <li><strong>Milestone 1: Core System & Live Demo</strong> &mdash; <span style="color: var(--green); font-weight: 700;">COMPLETE (Live at alrajj-legacy.vercel.app)</span></li>
-            <li><strong>Milestone 2: User Acceptance Testing (UAT)</strong> &mdash; Test with actual branch NGTeco exports.</li>
-            <li><strong>Milestone 3: Live Turnover & Staff Onboarding</strong> &mdash; 30-minute HR training and live run.</li>
-            <li><strong>Year 1 Guarantee:</strong> 12 Months of FREE full maintenance & support.</li>
-          </ul>
-        </div>
-
-        <div class="card-navy" style="background: rgba(255, 255, 255, 0.05); border: 1px dashed var(--gold);">
-          <h3 style="color: var(--gold);">🚀 Immediate Tuesday Next Steps</h3>
-          <ol style="margin-top: 10px; padding-left: 20px; font-family: 'Outfit'; font-size: 0.92rem; line-height: 1.8;">
-            <li>Present the 5-minute live demo on <code>alrajj-legacy.vercel.app</code>.</li>
-            <li>Collect 1 sample NGTeco export from Centrio, Ketkai, and SM Downtown.</li>
-            <li>Schedule UAT test cutoff run.</li>
-          </ol>
-          <div style="margin-top: 16px; text-align: center;">
-            <p style="font-weight: 700; color: #FFFFFF; font-size: 1.05rem;">Thank you, Ms. Jehan Abedin & Team!</p>
-            <p style="color: #94A3B8; font-size: 0.85rem;">ALRAJJ LEGACY Fortified Business Corp.</p>
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; border-top: 1px solid rgba(255,255,255,0.12); padding-top: 14px;">
+          <div>
+            <p style="font-size: 0.75rem; color: #94A3B8; text-transform: uppercase; font-weight: 700;">Prepared Specifically For:</p>
+            <p style="font-weight: 800; color: #FFFFFF; font-size: 1.05rem;">Ms. Jehan Abedin, General Manager</p>
+            <p style="font-size: 0.8rem; color: var(--gold-light);">ALRAJJ LEGACY Fortified Business Corp.</p>
+          </div>
+          <div style="text-align: right;">
+            <p style="font-size: 0.75rem; color: #94A3B8; text-transform: uppercase; font-weight: 700;">Presented By:</p>
+            <p style="font-size: 0.95rem; color: #FFFFFF; font-weight: 800;">Jason Velasquez (VP)</p>
+            <p style="font-size: 0.8rem; color: var(--gold); font-weight: 700;">SETHCON Technologies Inc.</p>
           </div>
         </div>
       </div>
+
+      <!-- ==================================================== -->
+      <!-- SLIDE 2: SETHCON PROFILE & OFFICIAL TRACK RECORD -->
+      <!-- ==================================================== -->
+      <div class="slide slide-light" id="slide-2">
+        <div class="slide-header">
+          <span class="badge badge-blue">🏢 Engineering Partner</span>
+          <h1 class="slide-title" style="color: var(--navy);">SETHCON Technologies Inc.</h1>
+          <p class="slide-subtitle">Proven systems engineering firm delivering customized multi-branch architectures for the salon & retail industry.</p>
+        </div>
+
+        <div class="grid-4">
+          <!-- Card 1: Official Profile -->
+          <div class="card" style="border-top: 4px solid var(--gold); background: #FAF9F5;">
+            <span style="font-size: 0.7rem; font-weight: 800; color: #B48A10; text-transform: uppercase;">Official Credentials</span>
+            <h3 style="margin-top: 2px;">Company Profile</h3>
+            <p>Dedicated systems engineering firm building tailored ERP, POS, and automated payroll pipelines.</p>
+            <div style="margin-top: 10px; margin-bottom: 6px;">
+              <a href="https://drive.google.com/file/d/12qG_EbC35yH9k9Bl0uDCGp7shh1mfQ0B/view?usp=sharing" target="_blank" style="display: inline-flex; align-items: center; gap: 4px; background: var(--navy); color: #FFFFFF; text-decoration: none; padding: 6px 12px; border-radius: 8px; font-size: 0.75rem; font-weight: 700;">
+                <span>📄 View Profile (PDF)</span>
+                <span>↗</span>
+              </a>
+            </div>
+            <p style="font-size: 0.76rem; color: #64748B; margin-top: 4px;">
+              <strong>Lay Bare Focus:</strong> Built around exact store punch logs & BPI BizLink specs.
+            </p>
+          </div>
+
+          <!-- Card 2: Salon CRM -->
+          <div class="card" style="border-top: 4px solid var(--pink);">
+            <span style="font-size: 0.7rem; font-weight: 800; color: var(--pink-dark); text-transform: uppercase;">Client Retention</span>
+            <h3 style="margin-top: 2px;">Salon CRM & Loyalty</h3>
+            <p>Comprehensive client journey tracking:</p>
+            <ul style="margin-top: 6px; font-size: 0.8rem;">
+              <li>Skin sensitivity & allergy notes</li>
+              <li>Multi-session package balance tracker</li>
+              <li>Automated SMS booking reminders</li>
+              <li>Preferred aesthetician allocation</li>
+            </ul>
+          </div>
+
+          <!-- Card 3: PO to Accounting -->
+          <div class="card" style="border-top: 4px solid var(--green);">
+            <span style="font-size: 0.7rem; font-weight: 800; color: var(--green-dark); text-transform: uppercase;">Closed-Loop Procurement</span>
+            <h3 style="margin-top: 2px;">PO to Accounting</h3>
+            <p>5-stage requisition pipeline:</p>
+            <ul style="margin-top: 6px; font-size: 0.8rem;">
+              <li>Branch store material requisition</li>
+              <li>Vendor RFQ & manager PO approval</li>
+              <li>Store goods receiving & inspection</li>
+              <li><strong>3-Way Matching directly to AP Ledger</strong></li>
+            </ul>
+          </div>
+
+          <!-- Card 4: POS & Inventory -->
+          <div class="card" style="border-top: 4px solid var(--navy);">
+            <span style="font-size: 0.7rem; font-weight: 800; color: var(--navy); text-transform: uppercase;">Commercial POS</span>
+            <h3 style="margin-top: 2px;">POS & Stock Control</h3>
+            <p>Real-time salon operations:</p>
+            <ul style="margin-top: 6px; font-size: 0.8rem;">
+              <li>Live daily revenue by branch</li>
+              <li>Wax & consumable depletion alerts</li>
+              <li>Staff commission breakdown per ticket</li>
+              <li>Shrinkage protection & audit trails</li>
+            </ul>
+          </div>
+        </div>
+
+        <div style="background: #FAF9F5; border: 1px solid #E2E8F0; padding: 10px 18px; border-radius: 14px; display: flex; align-items: center; justify-content: space-between; font-size: 0.82rem;">
+          <span style="color: var(--navy); font-weight: 700;">Partnering with ALRAJJ LEGACY to modernize Lay Bare Waxing & Passion Nails branches.</span>
+          <span style="color: var(--green-dark); font-weight: 800;">✓ Scalable Cloud Architecture</span>
+        </div>
+      </div>
+
+      <!-- ==================================================== -->
+      <!-- SLIDE 3: THE 2-DAY MANUAL PAYROLL BOTTLENECK -->
+      <!-- ==================================================== -->
+      <div class="slide slide-light" id="slide-3">
+        <div class="slide-header">
+          <span class="badge badge-pink">⚠️ The Operational Reality</span>
+          <h1 class="slide-title" style="color: var(--navy);">The "2-Day" Manual Payroll Bottleneck</h1>
+          <p class="slide-subtitle">The hidden costs, risks, and friction points of running semi-monthly payroll on manual spreadsheets.</p>
+        </div>
+
+        <div class="grid-3">
+          <div class="card" style="border-top: 4px solid #EF4444;">
+            <div style="font-size: 1.6rem; margin-bottom: 4px;">⏳</div>
+            <h3>16+ Hours Lost Every Cutoff</h3>
+            <p>Management spends <strong>2 entire working days</strong> manually extracting USB files, encoding timesheets, and hand-calculating hours for every salon technician across Centrio, Ketkai, and SM Downtown.</p>
+            <div style="margin-top: 10px; background: #FEF2F2; padding: 6px 10px; border-radius: 8px; color: #991B1B; font-size: 0.75rem; font-weight: 700;">
+              Over 380 management hours lost annually
+            </div>
+          </div>
+
+          <div class="card" style="border-top: 4px solid #F59E0B;">
+            <div style="font-size: 1.6rem; margin-bottom: 4px;">📉</div>
+            <h3>Complex Math & Calculation Risks</h3>
+            <p>Manual computation of intricate policies frequently leads to calculation errors and compensation disputes:</p>
+            <ul style="margin-top: 6px; font-size: 0.8rem;">
+              <li>5-minute grace period enforcement</li>
+              <li>Per-minute tardiness & undertime deductions</li>
+              <li>Overtime (125%) & Night Differential (110%)</li>
+              <li>SSS, PhilHealth, Pag-IBIG statutory brackets</li>
+            </ul>
+          </div>
+
+          <div class="card" style="border-top: 4px solid var(--navy);">
+            <div style="font-size: 1.6rem; margin-bottom: 4px;">📑</div>
+            <h3>Scattered Biometrics & DOLE Risks</h3>
+            <p>Punch logs remain trapped in loose Excel files. Missing clock-outs require investigative back-and-forth, while habitual tardiness goes untracked without formal, legally binding <strong>Notice to Explain (NTE)</strong> letters.</p>
+          </div>
+        </div>
+
+        <div style="background: #EFF6FF; border: 1px solid #BFDBFE; padding: 10px 18px; border-radius: 14px; font-size: 0.82rem; color: #1E40AF; display: flex; align-items: center; justify-content: space-between;">
+          <span><strong>The Challenge:</strong> How do we transform this high-risk 16-hour process into a 5-minute automated, accurate, and bank-ready pipeline?</span>
+        </div>
+      </div>
+
+      <!-- ==================================================== -->
+      <!-- SLIDE 4: THE 5-MINUTE SOLUTION -->
+      <!-- ==================================================== -->
+      <div class="slide slide-navy" id="slide-4">
+        <div class="slide-header">
+          <span class="badge badge-green">🚀 The Solution</span>
+          <h1 class="slide-title" style="color: var(--gold);">From 2 Days to 5 Minutes</h1>
+          <p class="slide-subtitle">Purpose-built web platform engineered specifically around ALRAJJ LEGACY salon store operations.</p>
+        </div>
+
+        <div class="grid-4">
+          <div class="card-navy" style="border-top: 4px solid var(--green);">
+            <div style="font-size: 1.6rem; margin-bottom: 4px;">📂</div>
+            <h3>1. NGTeco Ingestion</h3>
+            <p>Drag and drop raw offline Excel files (.xls / .xlsx) exported via USB from branch biometric clocks. Instant punch log pairing with zero typing.</p>
+          </div>
+
+          <div class="card-navy" style="border-top: 4px solid var(--gold);">
+            <div style="font-size: 1.6rem; margin-bottom: 4px;">⚡</div>
+            <h3>2. Anomaly Engine</h3>
+            <p>Instantly detects missing clock-outs or unpaired punches. HR resolves exceptions in 5 seconds with an immutable audit log note.</p>
+          </div>
+
+          <div class="card-navy" style="border-top: 4px solid var(--pink);">
+            <div style="font-size: 1.6rem; margin-bottom: 4px;">⚖️</div>
+            <h3>3. Automated DOLE NTE</h3>
+            <p>Automatically flags employees exceeding 3+ late arrivals. Generates ready-to-print formal Notice to Explain letters with 5-day response timelines.</p>
+          </div>
+
+          <div class="card-navy" style="border-top: 4px solid #38BDF8;">
+            <div style="font-size: 1.6rem; margin-bottom: 4px;">💰</div>
+            <h3>4. 1-Click Gross-to-Net</h3>
+            <p>Computes Basic Pay, OT, Night Diff, SSS, PhilHealth, Pag-IBIG, and tax in 1 second. Itemized printable payslips with official ALRAJJ logo.</p>
+          </div>
+        </div>
+
+        <div style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.12); padding: 10px 18px; border-radius: 14px; display: flex; align-items: center; justify-content: space-between; font-size: 0.82rem;">
+          <span style="color: #FFFFFF;">Live Production System active now at: <strong>alrajj-legacy.vercel.app</strong></span>
+          <span style="color: var(--green); font-weight: 800;">100% Mathematical Accuracy Guaranteed</span>
+        </div>
+      </div>
+
+      <!-- ==================================================== -->
+      <!-- SLIDE 5: CENTRALIZED MULTI-BRANCH HUB -->
+      <!-- ==================================================== -->
+      <div class="slide slide-light" id="slide-5">
+        <div class="slide-header">
+          <span class="badge badge-blue">📍 Centralized Hub</span>
+          <h1 class="slide-title" style="color: var(--navy);">One Portal for All Salon Locations</h1>
+          <p class="slide-subtitle">Total operational visibility across Centrio Mall, Limketkai, and SM Downtown on any smartphone, iPad, or laptop.</p>
+        </div>
+
+        <div class="grid-2">
+          <div class="card" style="border-left: 5px solid var(--green);">
+            <h3 style="font-size: 1.1rem; margin-bottom: 10px;">Operational Branch Coverage</h3>
+            <div style="display: flex; flex-direction: column; gap: 10px; font-size: 0.85rem;">
+              <div style="background: #FAF9F5; padding: 10px 14px; border-radius: 12px; border: 1px solid #EAE8E2;">
+                <strong style="color: var(--navy); display: block;">1. Centrio Mall Branch</strong>
+                <span style="color: #64748B;">Covers Waxing Salon specialists and Passion Nails division under one unified roster.</span>
+              </div>
+              <div style="background: #FAF9F5; padding: 10px 14px; border-radius: 12px; border: 1px solid #EAE8E2;">
+                <strong style="color: var(--navy); display: block;">2. Limketkai Mall (Ketkai) Branch</strong>
+                <span style="color: #64748B;">Centralized attendance logs, shift management, and biometric sync.</span>
+              </div>
+              <div style="background: #FAF9F5; padding: 10px 14px; border-radius: 12px; border: 1px solid #EAE8E2;">
+                <strong style="color: var(--navy); display: block;">3. SM Downtown Premier Branch</strong>
+                <span style="color: #64748B;">High-traffic commercial salon roster with flexible shift mapping.</span>
+              </div>
+              <div style="background: #F0FDF4; padding: 8px 14px; border-radius: 12px; border: 1px solid #BBF7D0; color: #166534; font-size: 0.8rem; font-weight: 700;">
+                ★ Future Expansion Ready: Add new branches (e.g. Iligan) instantly without restructuring.
+              </div>
+            </div>
+          </div>
+
+          <div class="card" style="background: #F1F5F9; border-color: #CBD5E1;">
+            <h3 style="font-size: 1.1rem; margin-bottom: 10px; color: var(--navy);">The Live Cloud Advantage</h3>
+            <ul style="display: flex; flex-direction: column; gap: 12px; font-size: 0.86rem; color: #334155;">
+              <li>
+                <strong>Zero Software Installation:</strong> No bulky desktop installations or license keys. Works instantly in Chrome, Safari, Edge, or mobile browsers.
+              </li>
+              <li>
+                <strong>Executive Oversight 24/7:</strong> General Manager (Ms. Jehan Abedin) can inspect live attendance gauges, tardiness flags, and payroll disbursements from anywhere.
+              </li>
+              <li>
+                <strong>Bank-Grade Security:</strong> Timesheets and historical pay records are safely archived in secure cloud databases with timestamped audit logs.
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div style="background: #FAF9F5; border: 1px solid #E2E8F0; padding: 10px 18px; border-radius: 14px; font-size: 0.82rem; display: flex; justify-content: space-between; align-items: center;">
+          <span style="color: var(--navy); font-weight: 700;">Unified Biometric & Payroll Database for ALRAJJ LEGACY Fortified Business Corp.</span>
+          <span style="color: var(--green-dark); font-weight: 800;">Real-Time Multi-Branch Pulse</span>
+        </div>
+      </div>
+
+      <!-- ==================================================== -->
+      <!-- SLIDE 6: END-TO-END PAYROLL & BPI DISBURSEMENT PIPELINE -->
+      <!-- ==================================================== -->
+      <div class="slide slide-navy" id="slide-6">
+        <div class="slide-header">
+          <span class="badge badge-gold">💳 Closed-Loop Banking Workflow</span>
+          <h1 class="slide-title" style="color: #FFFFFF;">End-to-End Payroll & BPI ATM Pipeline</h1>
+          <p class="slide-subtitle">A transparent, anti-fraud 5-stage sequential closed loop: from raw punch ingestion to employee ATM crediting.</p>
+        </div>
+
+        <div class="grid-5">
+          <!-- Step 1 -->
+          <div class="card-navy" style="border-top: 4px solid var(--green);">
+            <span style="font-size: 0.7rem; font-weight: 900; color: var(--green); text-transform: uppercase;">STEP 1 &bull; HR</span>
+            <h3 style="font-size: 0.95rem; margin-top: 2px;">HR Ingestion</h3>
+            <p style="font-size: 0.78rem;">Drop NGTeco file. 1-second gross-to-net computation with tardiness deductions.</p>
+            <div style="margin-top: auto; padding-top: 6px;">
+              <span class="pill" style="background: rgba(119,188,46,0.2); color: var(--green);">✓ 1-Click Math</span>
+            </div>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="card-navy" style="border-top: 4px solid var(--gold);">
+            <span style="font-size: 0.7rem; font-weight: 900; color: var(--gold); text-transform: uppercase;">STEP 2 &bull; ACCTG</span>
+            <h3 style="font-size: 0.95rem; margin-top: 2px;">Accounting Audit</h3>
+            <p style="font-size: 0.78rem;">Accounting audits SSS, PhilHealth, Pag-IBIG, advances, and locks the payroll ledger.</p>
+            <div style="margin-top: auto; padding-top: 6px;">
+              <span class="pill" style="background: rgba(212,175,55,0.2); color: var(--gold);">✓ Ledger Verified</span>
+            </div>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="card-navy" style="border-top: 4px solid #38BDF8;">
+            <span style="font-size: 0.7rem; font-weight: 900; color: #38BDF8; text-transform: uppercase;">STEP 3 &bull; BANK</span>
+            <h3 style="font-size: 0.95rem; margin-top: 2px;">BPI BizLink CSV</h3>
+            <p style="font-size: 0.78rem;">Auto-generates official 10-digit account BPI corporate batch file with zero manual entry.</p>
+            <div style="margin-top: auto; padding-top: 6px;">
+              <span class="pill" style="background: rgba(56,189,248,0.2); color: #38BDF8;">✓ Batch Ready</span>
+            </div>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="card-navy" style="border-top: 4px solid var(--pink);">
+            <span style="font-size: 0.7rem; font-weight: 900; color: var(--pink); text-transform: uppercase;">STEP 4 &bull; MD SIGN</span>
+            <h3 style="font-size: 0.95rem; margin-top: 2px;">MD Authorization</h3>
+            <p style="font-size: 0.78rem;">Managing Director (Ms. Jehan Abedin) final review & digital sign-off gate.</p>
+            <div style="margin-top: auto; padding-top: 6px;">
+              <span class="pill" style="background: rgba(232,155,185,0.2); color: var(--pink);">✓ Anti-Fraud Gate</span>
+            </div>
+          </div>
+
+          <!-- Step 5 -->
+          <div class="card-navy" style="border-top: 4px solid var(--green);">
+            <span style="font-size: 0.7rem; font-weight: 900; color: var(--green); text-transform: uppercase;">STEP 5 &bull; PAYDAY</span>
+            <h3 style="font-size: 0.95rem; margin-top: 2px;">ATM Crediting</h3>
+            <p style="font-size: 0.78rem;">Direct BPI ATM deposit + individual printable itemized payslips unlocked.</p>
+            <div style="margin-top: auto; padding-top: 6px;">
+              <span class="pill" style="background: rgba(119,188,46,0.2); color: var(--green);">🎉 Disbursed</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.12); padding: 10px 18px; border-radius: 14px; display: flex; justify-content: space-between; align-items: center; font-size: 0.82rem;">
+          <span style="color: #FFFFFF;">Demonstrated live in Act 4 of the system walkthrough.</span>
+          <span style="color: var(--gold); font-weight: 800;">Full Audit Trail on Every Transaction</span>
+        </div>
+      </div>
+
+      <!-- ==================================================== -->
+      <!-- SLIDE 7: ENTERPRISE SCALING: CRM & PO PIPELINE -->
+      <!-- ==================================================== -->
+      <div class="slide slide-light" id="slide-7">
+        <div class="slide-header">
+          <span class="badge badge-gold">💎 Enterprise Scaling</span>
+          <h1 class="slide-title" style="color: var(--navy);">Salon CRM & 5-Step PO Pipeline</h1>
+          <p class="slide-subtitle">Demonstrating SETHCON's enterprise capability to scale with Lay Bare operations beyond timekeeping.</p>
+        </div>
+
+        <div class="grid-2">
+          <!-- Left: CRM -->
+          <div class="card" style="border-top: 4px solid var(--pink);">
+            <span style="font-size: 0.72rem; font-weight: 800; color: var(--pink-dark); text-transform: uppercase;">Module 1</span>
+            <h3 style="font-size: 1.1rem; margin-top: 2px;">Salon CRM & Client Loyalty</h3>
+            <p>Real-time customer history & booking management across Centrio, Ketkai, and SM:</p>
+            <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px;">
+              <div style="background: #FAF9F5; padding: 8px 12px; border-radius: 10px; border: 1px solid #EAE8E2; font-size: 0.8rem;">
+                <strong>VIP Profiles & Loyalty Points:</strong> Silver, Gold, Platinum tiers with visit counts.
+              </div>
+              <div style="background: #FAF9F5; padding: 8px 12px; border-radius: 10px; border: 1px solid #EAE8E2; font-size: 0.8rem;">
+                <strong>Package Balances:</strong> Real-time tracking of remaining waxing passes.
+              </div>
+              <div style="background: #FAF9F5; padding: 8px 12px; border-radius: 10px; border: 1px solid #EAE8E2; font-size: 0.8rem;">
+                <strong>Skin Sensitivity Logs:</strong> "Cold Wax only, sensitive skin notes" attached to profile.
+              </div>
+              <div style="background: #FAF9F5; padding: 8px 12px; border-radius: 10px; border: 1px solid #EAE8E2; font-size: 0.8rem;">
+                <strong>1-Click SMS Confirmations:</strong> Automated appointment alerts to clients.
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: PO to Accounting -->
+          <div class="card" style="border-top: 4px solid var(--green);">
+            <span style="font-size: 0.72rem; font-weight: 800; color: var(--green-dark); text-transform: uppercase;">Module 2</span>
+            <h3 style="font-size: 1.1rem; margin-top: 2px;">5-Step PO to Accounting Workflow</h3>
+            <p>From store branch requisition to Accounting AP Ledger vouchers:</p>
+            <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px;">
+              <div style="background: #FAF9F5; padding: 6px 12px; border-radius: 10px; border: 1px solid #EAE8E2; font-size: 0.78rem;">
+                <strong>Step 1 &bull; Store Requisition:</strong> Supervisor requests wax, strips & sanitizers.
+              </div>
+              <div style="background: #FAF9F5; padding: 6px 12px; border-radius: 10px; border: 1px solid #EAE8E2; font-size: 0.78rem;">
+                <strong>Step 2 &bull; Vendor RFQ:</strong> Price comparison & supplier selection.
+              </div>
+              <div style="background: #FAF9F5; padding: 6px 12px; border-radius: 10px; border: 1px solid #EAE8E2; font-size: 0.78rem;">
+                <strong>Step 3 &bull; PO Approval:</strong> Formal management sign-off.
+              </div>
+              <div style="background: #FAF9F5; padding: 6px 12px; border-radius: 10px; border: 1px solid #EAE8E2; font-size: 0.78rem;">
+                <strong>Step 4 &bull; Goods Receiving:</strong> Store inspection & count verification.
+              </div>
+              <div style="background: #F0FDF4; padding: 6px 12px; border-radius: 10px; border: 1px solid #BBF7D0; font-size: 0.78rem; color: #166534; font-weight: 700;">
+                ★ Step 5 &bull; 3-Way Match & AP Voucher: Automatically posted to General Ledger!
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="background: #FAF9F5; border: 1px solid #E2E8F0; padding: 10px 18px; border-radius: 14px; font-size: 0.82rem; display: flex; justify-content: space-between; align-items: center;">
+          <span style="color: var(--navy); font-weight: 700;">Available inside the live system tabs: "Salon CRM" & "PO to Accounting"</span>
+          <span style="color: var(--gold); font-weight: 800;">Enterprise Ready</span>
+        </div>
+      </div>
+
+      <!-- ==================================================== -->
+      <!-- SLIDE 8: MEASURABLE ROI & BUSINESS VALUE -->
+      <!-- ==================================================== -->
+      <div class="slide slide-light" id="slide-8">
+        <div class="slide-header">
+          <span class="badge badge-green">📈 Business Impact</span>
+          <h1 class="slide-title" style="color: var(--navy);">Measurable ROI for ALRAJJ LEGACY</h1>
+          <p class="slide-subtitle">Why this custom platform pays for itself immediately in management time savings and risk reduction.</p>
+        </div>
+
+        <div class="grid-2">
+          <div class="card" style="border-left: 6px solid var(--green);">
+            <div style="font-size: 1.6rem; margin-bottom: 4px;">⏱️</div>
+            <h3>95% Computation Time Saved</h3>
+            <p>Shrinks payroll calculation from 16 hours (2 full working days) down to just 5 minutes per cutoff. Saves over <strong>380+ management hours annually</strong>.</p>
+          </div>
+
+          <div class="card" style="border-left: 6px solid var(--navy);">
+            <div style="font-size: 1.6rem; margin-bottom: 4px;">🎯</div>
+            <h3>100% Mathematical Accuracy</h3>
+            <p>Standardized automated calculation eliminates math typos, over/under deductions, and awkward employee salary disputes.</p>
+          </div>
+
+          <div class="card" style="border-left: 6px solid var(--gold);">
+            <div style="font-size: 1.6rem; margin-bottom: 4px;">🛡️</div>
+            <h3>Full DOLE Legal Compliance</h3>
+            <p>Automated tardiness threshold tracking and instant Notice to Explain (NTE) drafting protects ALRAJJ LEGACY against labor compliance risks.</p>
+          </div>
+
+          <div class="card" style="border-left: 6px solid var(--pink);">
+            <div style="font-size: 1.6rem; margin-bottom: 4px;">📱</div>
+            <h3>Total Executive Transparency</h3>
+            <p>Leadership gains 24/7 visibility into attendance rates, exceptions, and bank disbursement batches without waiting for email reports.</p>
+          </div>
+        </div>
+
+        <div style="background: #F0FDF4; border: 1px solid #BBF7D0; padding: 10px 18px; border-radius: 14px; font-size: 0.82rem; color: #166534; display: flex; justify-content: space-between; align-items: center;">
+          <span><strong>Value Summary:</strong> Saves time, eliminates errors, guarantees DOLE compliance, and automates BPI banking.</span>
+          <span style="font-weight: 800;">High ROI Investment</span>
+        </div>
+      </div>
+
+      <!-- ==================================================== -->
+      <!-- SLIDE 9: ROLLOUT PLAN & TUESDAY ACTION ITEMS -->
+      <!-- ==================================================== -->
+      <div class="slide slide-navy" id="slide-9">
+        <div class="slide-header">
+          <span class="badge badge-gold">🚀 Tuesday Implementation</span>
+          <h1 class="slide-title" style="color: var(--gold);">Rollout Roadmap & Tuesday Next Steps</h1>
+          <p class="slide-subtitle">Clear, structured path to full live branch implementation across Centrio, Ketkai, and SM Downtown.</p>
+        </div>
+
+        <div class="grid-2">
+          <!-- Left: Milestones -->
+          <div class="card-navy" style="border-left: 5px solid var(--green);">
+            <h3 style="color: #FFFFFF; font-size: 1.1rem; margin-bottom: 10px;">Implementation Milestones</h3>
+            <div style="display: flex; flex-direction: column; gap: 10px; font-size: 0.82rem;">
+              <div style="background: rgba(255, 255, 255, 0.06); padding: 10px 14px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.12);">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <strong style="color: var(--gold);">Milestone 1: Core System & Demo</strong>
+                  <span class="pill" style="background: var(--green); color: #FFFFFF;">✓ COMPLETE</span>
+                </div>
+                <p style="color: #CBD5E1; margin-top: 4px;">Live now at <code>alrajj-legacy.vercel.app</code> with full biometric engine and BPI export.</p>
+              </div>
+
+              <div style="background: rgba(255, 255, 255, 0.06); padding: 10px 14px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.12);">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <strong style="color: #FFFFFF;">Milestone 2: Branch UAT Verification</strong>
+                  <span class="pill" style="background: var(--gold); color: var(--navy);">NEXT STEP</span>
+                </div>
+                <p style="color: #CBD5E1; margin-top: 4px;">Run test cutoff with actual NGTeco USB exports from Centrio, Ketkai, and SM.</p>
+              </div>
+
+              <div style="background: rgba(255, 255, 255, 0.06); padding: 10px 14px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.12);">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <strong style="color: #FFFFFF;">Milestone 3: Live Turnover & 1-Year Support</strong>
+                  <span class="pill" style="background: #64748B; color: #FFFFFF;">STANDBY</span>
+                </div>
+                <p style="color: #CBD5E1; margin-top: 4px;">30-minute HR staff onboarding + 12 months free technical maintenance.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Tuesday Actions -->
+          <div class="card-navy" style="border: 2px dashed var(--gold); background: rgba(212, 175, 55, 0.08);">
+            <span style="font-size: 0.72rem; font-weight: 900; color: var(--gold); text-transform: uppercase;">Action Items</span>
+            <h3 style="color: var(--gold); font-size: 1.15rem; margin-top: 2px;">Tuesday Meeting Next Steps</h3>
+            <ol style="margin-top: 10px; display: flex; flex-direction: column; gap: 10px; padding-left: 18px; font-family: 'Outfit'; font-size: 0.88rem; line-height: 1.45;">
+              <li>
+                <strong>Execute 5-Minute Live Demo:</strong> Walk Ms. Jehan Abedin through the live dashboard and 5-step BPI disbursement bar.
+              </li>
+              <li>
+                <strong>Collect 1 Raw Sample Log:</strong> Gather 1 actual NGTeco USB export from Centrio, Ketkai, and SM Downtown.
+              </li>
+              <li>
+                <strong>Sign-off on UAT Schedule:</strong> Align on date for first parallel live payroll run.
+              </li>
+            </ol>
+            
+            <div style="margin-top: 18px; text-align: center; border-top: 1px solid rgba(255, 255, 255, 0.12); padding-top: 12px;">
+              <p style="font-weight: 800; color: #FFFFFF; font-size: 1rem;">Thank you, Ms. Jehan Abedin & Leadership Team!</p>
+              <p style="color: var(--gold-light); font-size: 0.8rem; margin-top: 2px;">ALRAJJ LEGACY Fortified Business Corp. &bull; SETHCON Technologies Inc.</p>
+            </div>
+          </div>
+        </div>
+
+        <div style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.12); padding: 10px 18px; border-radius: 14px; display: flex; justify-content: space-between; align-items: center; font-size: 0.82rem;">
+          <span style="color: #FFFFFF;">Ready to transform operations? Let's begin the live demo walkthrough!</span>
+          <span style="color: var(--green); font-weight: 800;">Press &rarr; or Click Launch Demo Below</span>
+        </div>
+      </div>
+
     </div>
 
-  </div>
+    <!-- BOTTOM CONTROL STRIP -->
+    <div class="deck-controls">
+      <div class="nav-btn-group">
+        <button class="btn-nav" id="btn-prev" onclick="prevSlide()">&#8592; Previous</button>
+        <button class="btn-nav" id="btn-next" onclick="nextSlide()">Next &#8594;</button>
+        <span id="slide-indicator" style="font-weight: 800; font-family: 'JetBrains Mono', monospace; font-size: 0.88rem; margin-left: 10px; color: var(--gold);">Slide 1 / 9</span>
+      </div>
 
-  <!-- DECK CONTROLS -->
-  <div class="deck-controls">
-    <div>
-      <button class="btn-nav" id="btn-prev" onclick="prevSlide()">&#8592; Previous</button>
-      <button class="btn-nav" id="btn-next" onclick="nextSlide()" style="margin-left: 8px;">Next &#8594;</button>
-      <span id="slide-indicator" style="margin-left: 16px; font-weight: 700; color: #FFFFFF;">Slide 1 / 9</span>
+      <div class="nav-btn-group">
+        <button class="btn-nav" onclick="toggleFullScreen()" title="Toggle Fullscreen (F)">⛶ Fullscreen</button>
+        <button class="btn-nav" onclick="toggleNotes()" title="Toggle Speaker Notes (N)">🎙️ Speaker Notes</button>
+        <a href="https://alrajj-legacy.vercel.app" target="_blank" class="btn-live-demo">
+          <span>🚀 Launch Live Demo</span>
+          <span>↗</span>
+        </a>
+      </div>
     </div>
 
-    <div>
-      <a href="https://alrajj-legacy.vercel.app" target="_blank" class="btn-demo">
-        Launch Live System Demo &#8599;
-      </a>
+    <!-- INTERACTIVE SPEAKER NOTES DRAWER -->
+    <div class="speaker-notes-drawer" id="speaker-notes-drawer">
+      <div class="speaker-title">
+        <span>🎙️ PRESENTER TALKING POINTS & GUIDE (SLIDE <span id="notes-slide-num">1</span>)</span>
+      </div>
+      <div id="notes-content">
+        "Good morning, Ms. Jehan and ALRAJJ LEGACY leadership. Today, I'm thrilled to present the Custom Smart Biometric Attendance and Automated Payroll System engineered specifically for your salon operations across Centrio, Ketkai, and SM Downtown. Our goal today is to show you how your current 2-day manual payroll process can now be completed in under 5 minutes with 100% mathematical accuracy."
+      </div>
     </div>
-  </div>
 
-  <!-- SPEAKER NOTES FOR TUESDAY DEMO -->
-  <div class="speaker-notes-box">
-    <div class="speaker-notes-title">
-      <span>🎙️ SPEAKER NOTES & TALKING POINTS (SLIDE <span id="notes-slide-num">1</span>)</span>
-    </div>
-    <div id="notes-content">
-      "Good morning, Ms. Jehan and ALRAJJ LEGACY leadership. Today, I'm thrilled to present the Custom Smart Biometric Attendance and Automated Payroll System engineered specifically for your salon operations across Centrio, Ketkai, and SM Downtown. Our goal today is to show you how your current 2-day manual payroll process can now be completed in under 5 minutes with 100% mathematical accuracy."
-    </div>
   </div>
 
   <script>
@@ -681,14 +931,14 @@
 
     const notes = {
       1: `"Good morning, Ms. Jehan and ALRAJJ LEGACY leadership. Today, I'm thrilled to present the Custom Smart Biometric Attendance and Automated Payroll System engineered specifically for your salon operations across Centrio, Ketkai, and SM Downtown. Our goal today is to show you how your current 2-day manual payroll process can now be completed in under 5 minutes with 100% mathematical accuracy."`,
-      2: `"Before we dive into the live payroll demo, let me introduce SETHCON Technologies Inc. We specialize in building end-to-end enterprise systems for multi-branch retail and salons—including the Lay Bare network. Beyond HR and Payroll, our enterprise ecosystem includes Salon CRM for customer visit history, loyalty packages, and automated bookings, as well as a full Purchase Order workflow that manages store requisitions from step one all the way to 3-way matching in the Accounting Department."`,
+      2: `"Before we dive into the live payroll demo, let me introduce SETHCON Technologies Inc. We specialize in building custom, end-to-end enterprise software for multi-branch retail and salons—including the Lay Bare network. You can view our official company profile PDF directly through the link on this slide. Beyond HR and Payroll, our enterprise ecosystem includes Salon CRM and a 5-step Purchase Order workflow that manages store requisitions from step one all the way to 3-way matching in Accounting."`,
       3: `"Let's talk about the current operational pain point. Right now, every cutoff takes 2 entire working days of manual math. HR has to pull biometric logs, check each punch by hand, calculate 5-minute grace periods, 10-minute late deductions, overtime, night differentials, and statutory contributions. It's exhausting, and any manual typo can lead to staff complaints or recalculations."`,
-      4: `"Here is the solution: A centralized smart system built directly around ALRAJJ LEGACY's workflow. It ingests your NGTeco timeclock files directly, catches missing clock-outs automatically, enforces your exact grace period and tardiness policies, and computes the entire cutoff's payroll in a single click."`,
+      4: `"Here is the solution: A centralized smart system built directly around ALRAJJ LEGACY's workflow. It ingests your offline NGTeco USB files directly, catches missing clock-outs automatically, enforces your exact grace period and tardiness policies, and computes the entire cutoff's payroll in a single click."`,
       5: `"The system centralizes all three of your current locations: Centrio—covering both Waxing Salon and Passion Nails—Limketkai, and SM Downtown. Because it runs securely on the cloud at alrajj-legacy.vercel.app, you as General Manager can check branch attendance and payroll anytime from your phone, tablet, or laptop."`,
       6: `"Now, let me highlight our complete End-to-End Payroll & Disbursement Pipeline: Once HR computes the numbers in Step 1, the batch is forwarded to the Accounting Department in Step 2 for audit. Accounting then generates the BPI BizLink Batch File in Step 3. In Step 4, you, Ms. Jehan, as Managing Director, authorize the disbursement online. In Step 5, the funds are instantly credited to the employees' BPI ATM accounts, and official printable payslips are released."`,
-      7: `"Now let's do a quick 5-minute live demonstration! (Switch to your browser tab at alrajj-legacy.vercel.app). Follow our 4 simple acts: First, show the Executive Dashboard with the 88% attendance gauge. Second, show the Biometric Ingestion portal. Third, demonstrate resolving a missing punch in Exceptions and view the automated Notice to Explain letter. Finally, click Compute Payroll to display the 5-step BPI disbursement pipeline and itemized payslips ready to print."`,
+      7: `"To prove that SETHCON can scale with your business long-term, we also provide Salon CRM to track client skin notes, loyalty points, and package balances, as well as a 5-step Purchase Order pipeline that automatically matches store deliveries and posts AP vouchers into Accounting."`,
       8: `"The ROI is immediate. You save 95% of computation time—saving over 380 management hours a year. You achieve zero math errors, protect the company with automated DOLE-compliant NTE documentation, and gain complete operational visibility across all branches."`,
-      9: `"Milestone 1 is complete and live right now. For our next step, we'd love to gather 1 sample biometric export from Centrio, Ketkai, and SM Downtown to conduct our User Acceptance Testing. You also receive 12 months of full free maintenance and support. Thank you, and I'd love to answer any questions or show any specific feature!"`
+      9: `"Milestone 1 is complete and live right now. For our next step on Tuesday, we'd love to gather 1 sample biometric export from Centrio, Ketkai, and SM Downtown to conduct our User Acceptance Testing. You also receive 12 months of full free maintenance and support. Thank you, and let's switch over to the live demo!"`
     };
 
     function showSlide(n) {
@@ -699,6 +949,14 @@
       document.getElementById('slide-indicator').innerText = `Slide ${n} / ${totalSlides}`;
       document.getElementById('notes-slide-num').innerText = n;
       document.getElementById('notes-content').innerText = notes[n];
+      
+      // Update progress bar
+      const pct = (n / totalSlides) * 100;
+      document.getElementById('progress-bar').style.width = `${pct}%`;
+
+      // Update button states
+      document.getElementById('btn-prev').disabled = (n === 1);
+      document.getElementById('btn-next').disabled = (n === totalSlides);
     }
 
     function nextSlide() {
@@ -715,14 +973,37 @@
       }
     }
 
+    function toggleFullScreen() {
+      const elem = document.getElementById('deck-viewport');
+      if (!document.fullscreenElement) {
+        elem.requestFullscreen().catch(err => {
+          alert(`Error attempting to enable fullscreen: ${err.message}`);
+        });
+      } else {
+        document.exitFullscreen();
+      }
+    }
+
+    function toggleNotes() {
+      const drawer = document.getElementById('speaker-notes-drawer');
+      drawer.style.display = (drawer.style.display === 'none') ? 'flex' : 'none';
+    }
+
     // Keyboard navigation
     document.addEventListener('keydown', (e) => {
       if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
         nextSlide();
       } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
         prevSlide();
+      } else if (e.key.toLowerCase() === 'f') {
+        toggleFullScreen();
+      } else if (e.key.toLowerCase() === 'n') {
+        toggleNotes();
       }
     });
+
+    // Initialize
+    showSlide(1);
   </script>
 </body>
 </html>
