@@ -99,7 +99,7 @@ try {
     Add-Box $s2 50 110 200 370 $COLOR_WHITE $COLOR_BORDER
     $sp1 = $s2.Shapes.AddTextbox(1, 60, 120, 180, 350)
     $sp1.TextFrame.WordWrap = 1
-    $sp1.TextFrame.TextRange.Text = "COMPANY PROFILE`r`n`r`n* Systems Engineering & Enterprise Software`r`n`r`n* Specializes in multi-branch retail, salon chains, and ERP workflows.`r`n`r`n* Proven Partner: Lay Bare Salon network & corporate retail."
+    $sp1.TextFrame.TextRange.Text = "OFFICIAL PROFILE`r`n`r`n* Systems Engineering & Custom Architecture.`r`n`r`n* Custom Biometric HRMS & Payroll for Lay Bare branches.`r`n`r`n* Official Company Profile:`r`n  https://drive.google.com/file/d/12qG_EbC35yH9k9Bl0uDCGp7shh1mfQ0B/view?usp=sharing"
     $sp1.TextFrame.TextRange.Font.Name = "Arial"
     $sp1.TextFrame.TextRange.Font.Size = 12
     $sp1.TextFrame.TextRange.Font.Color.RGB = $COLOR_DARK

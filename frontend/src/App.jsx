@@ -2957,20 +2957,32 @@ export default function App() {
             </div>
 
             {/* Profile Overview Card */}
-            <div className="bg-gradient-to-br from-[#031134] to-[#0A1B45] text-white p-6 rounded-3xl space-y-3 shadow-md">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div className="bg-gradient-to-br from-[#031134] to-[#0A1B45] text-white p-6 rounded-3xl space-y-4 shadow-md">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div>
-                  <h3 className="font-extrabold text-lg text-[#D4AF37]">Engineered for Multi-Branch Growth</h3>
+                  <h3 className="font-extrabold text-lg text-[#D4AF37]">Custom Systems Engineering for Lay Bare</h3>
                   <p className="text-xs text-slate-300">
                     Presented by <strong>Jason Velasquez</strong> (VP) & the SETHCON Solutions Engineering Team.
                   </p>
                 </div>
-                <span className="bg-white/10 text-white border border-white/20 text-[11px] font-semibold px-3 py-1 rounded-xl w-fit">
-                  Existing Partner: Lay Bare Salon Network
-                </span>
+                <div className="flex items-center space-x-2">
+                  <a
+                    href="https://drive.google.com/file/d/12qG_EbC35yH9k9Bl0uDCGp7shh1mfQ0B/view?usp=sharing"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-[#D4AF37] hover:bg-[#B48A10] text-[#031134] font-extrabold text-xs px-3.5 py-2 rounded-xl transition-all flex items-center space-x-1.5 shadow-sm"
+                  >
+                    <FileText className="h-3.5 w-3.5 text-[#031134]" />
+                    <span>View Official Sethcon Profile (PDF)</span>
+                    <ExternalLink className="h-3 w-3 text-[#031134]" />
+                  </a>
+                  <span className="bg-white/10 text-white border border-white/20 text-[11px] font-semibold px-3 py-1.5 rounded-xl hidden sm:inline-block">
+                    Lay Bare Partner
+                  </span>
+                </div>
               </div>
               <p className="text-xs text-slate-200 leading-relaxed">
-                SETHCON Technologies Inc. empowers multi-branch retail, salon, and wellness enterprises across the Philippines with scalable, cloud-native operational ecosystems. From single-click biometric payroll to full customer lifecycle management and closed-loop procurement-to-accounting systems.
+                SETHCON Technologies Inc. designs, builds, and maintains custom cloud-native operational ecosystems. We tailor custom biometric payroll pipelines, DOLE NTE compliance, Salon CRM, and 5-step PO-to-Accounting systems built specifically around the daily operations of Lay Bare Waxing & Passion Nails branches.
               </p>
             </div>
 
