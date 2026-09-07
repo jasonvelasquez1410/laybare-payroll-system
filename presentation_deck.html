@@ -341,19 +341,20 @@
       box-shadow: 0 6px 20px rgba(119, 188, 46, 0.5);
     }
 
-    /* Speaker Notes Box */
+    /* Speaker Notes Box (Hidden by default so clients never see it) */
     .speaker-notes-drawer {
-      background: rgba(15, 23, 42, 0.85);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      display: none;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(212, 175, 55, 0.3);
       border-radius: 18px;
       padding: 16px 20px;
       color: #E2E8F0;
       font-size: 0.88rem;
       font-family: 'Outfit', sans-serif;
       line-height: 1.5;
-      display: flex;
       flex-direction: column;
       gap: 6px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     }
 
     .speaker-title {
@@ -906,8 +907,9 @@
       </div>
 
       <div class="nav-btn-group">
-        <button class="btn-nav" onclick="toggleFullScreen()" title="Toggle Fullscreen (F)">⛶ Fullscreen</button>
-        <button class="btn-nav" onclick="toggleNotes()" title="Toggle Speaker Notes (N)">🎙️ Speaker Notes</button>
+        <button class="btn-nav" onclick="openPresenterWindow()" title="Open Private Presenter Window (P)">📱 Pop-out Notes (P)</button>
+        <button class="btn-nav" onclick="toggleFullScreen()" title="Toggle Fullscreen (F)">⛶ Fullscreen (F)</button>
+        <button class="btn-nav" onclick="toggleNotes()" title="Toggle Inline Drawer (N)">🎙️ Notes (N)</button>
         <a href="https://alrajj-legacy.vercel.app" target="_blank" class="btn-live-demo">
           <span>🚀 Launch Live Demo</span>
           <span>↗</span>
@@ -915,8 +917,8 @@
       </div>
     </div>
 
-    <!-- INTERACTIVE SPEAKER NOTES DRAWER -->
-    <div class="speaker-notes-drawer" id="speaker-notes-drawer">
+    <!-- INTERACTIVE SPEAKER NOTES DRAWER (HIDDEN BY DEFAULT) -->
+    <div class="speaker-notes-drawer" id="speaker-notes-drawer" style="display: none;">
       <div class="speaker-title">
         <span>🎙️ PRESENTER TALKING POINTS & GUIDE (SLIDE <span id="notes-slide-num">1</span>)</span>
       </div>
@@ -930,6 +932,7 @@
   <script>
     let currentSlide = 1;
     const totalSlides = 9;
+    let presenterWindow = null;
 
     const notes = {
       1: `"Good morning, Ms. Jehan and ALRAJJ LEGACY leadership. Today, I'm thrilled to present the Custom Smart Biometric Attendance and Automated Payroll System engineered specifically for your salon operations across Centrio, Ketkai, and SM Downtown. Our goal today is to show you how your current 2-day manual payroll process can now be completed in under 5 minutes with 100% mathematical accuracy."`,
@@ -959,6 +962,9 @@
       // Update button states
       document.getElementById('btn-prev').disabled = (n === 1);
       document.getElementById('btn-next').disabled = (n === totalSlides);
+
+      // Sync with pop-out presenter window if open
+      updatePresenterWindow();
     }
 
     function nextSlide() {
@@ -988,7 +994,55 @@
 
     function toggleNotes() {
       const drawer = document.getElementById('speaker-notes-drawer');
-      drawer.style.display = (drawer.style.display === 'none') ? 'flex' : 'none';
+      drawer.style.display = (drawer.style.display === 'none' || drawer.style.display === '') ? 'flex' : 'none';
+    }
+
+    function openPresenterWindow() {
+      if (presenterWindow && !presenterWindow.closed) {
+        presenterWindow.focus();
+        updatePresenterWindow();
+        return;
+      }
+      presenterWindow = window.open('', 'PresenterNotes', 'width=460,height=620,menubar=no,toolbar=no,location=no,status=no');
+      presenterWindow.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>Presenter Notes (Private) — ALRAJJ LEGACY</title>
+          <style>
+            body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0B0F19; color: #F1F5F9; padding: 20px; line-height: 1.6; margin: 0; }
+            .header { border-bottom: 2px solid #D4AF37; padding-bottom: 10px; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; }
+            .badge { background: #D4AF37; color: #031134; padding: 3px 8px; border-radius: 6px; font-weight: 800; font-size: 11px; }
+            .slide-title { font-size: 17px; font-weight: 800; color: #FFFFFF; }
+            .notes-text { font-size: 14.5px; color: #CBD5E1; background: #1E293B; padding: 16px; border-radius: 12px; border: 1px solid #334155; line-height: 1.7; min-height: 260px; }
+            .tip { margin-top: 18px; font-size: 11.5px; color: #94A3B8; border-top: 1px solid #334155; padding-top: 10px; }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <span class="slide-title" id="p-slide-title">Slide ${currentSlide} / ${totalSlides}</span>
+            <span class="badge">SETHCON PRESENTER VIEW</span>
+          </div>
+          <div class="notes-text" id="p-notes-text">${notes[currentSlide]}</div>
+          <div class="tip">
+            🔒 <strong>Google Meet Setup:</strong> In Google Meet, share <em>"A Tab"</em> (the presentation tab). Place this small window beside your meeting so you have your talking points synced automatically!
+          </div>
+        </body>
+        </html>
+      `);
+      presenterWindow.document.close();
+      updatePresenterWindow();
+    }
+
+    function updatePresenterWindow() {
+      if (presenterWindow && !presenterWindow.closed) {
+        const titleEl = presenterWindow.document.getElementById('p-slide-title');
+        const textEl = presenterWindow.document.getElementById('p-notes-text');
+        if (titleEl && textEl) {
+          titleEl.innerText = `Slide ${currentSlide} / ${totalSlides}`;
+          textEl.innerText = notes[currentSlide];
+        }
+      }
     }
 
     // Keyboard navigation
@@ -1001,6 +1055,8 @@
         toggleFullScreen();
       } else if (e.key.toLowerCase() === 'n') {
         toggleNotes();
+      } else if (e.key.toLowerCase() === 'p') {
+        openPresenterWindow();
       }
     });
 
