@@ -108,6 +108,176 @@ export default function App() {
   const [showSethconModal, setShowSethconModal] = useState(false);
   const [showBpiModal, setShowBpiModal] = useState(false);
 
+  // CRM Module States
+  const [crmClients, setCrmClients] = useState([
+    {
+      id: 'CL-101',
+      name: 'Maria Santos',
+      phone: '+63 917 555 3821',
+      branch: 'Centrio Mall (Waxing)',
+      totalVisits: 14,
+      loyaltyPoints: 420,
+      tier: 'Gold VIP',
+      lastService: 'Underarm & Full Leg Wax',
+      lastServiceDate: '2026-09-02',
+      nextBooking: '2026-09-12 (10:30 AM)',
+      preferredTechnician: 'Justine Ann Atay',
+      activePackage: 'Underarm Waxing 5-Pack (3/5 left)',
+      skinNotes: 'Sensitive skin. Use Tea Tree calming gel post-service.',
+      smsStatus: 'Sent & Confirmed'
+    },
+    {
+      id: 'CL-102',
+      name: 'Bea Alonzo-Reyes',
+      phone: '+63 920 444 8923',
+      branch: 'Passion Nails (Centrio)',
+      totalVisits: 8,
+      loyaltyPoints: 260,
+      tier: 'Silver Member',
+      lastService: 'Gel Manicure + Spa Pedicure',
+      lastServiceDate: '2026-08-28',
+      nextBooking: '2026-09-09 (02:00 PM)',
+      preferredTechnician: 'Cherimar Concigo',
+      activePackage: 'Gel Spa Duo (2/4 left)',
+      skinNotes: 'Allergic to harsh acetone. Use peel-off base coat.',
+      smsStatus: 'Reminder Scheduled'
+    },
+    {
+      id: 'CL-103',
+      name: 'Kristine Hermosa-Sotto',
+      phone: '+63 918 777 1290',
+      branch: 'Limketkai Mall',
+      totalVisits: 21,
+      loyaltyPoints: 680,
+      tier: 'Platinum Elite',
+      lastService: 'Full Body Organic Sugar Wax',
+      lastServiceDate: '2026-09-01',
+      nextBooking: '2026-09-15 (11:00 AM)',
+      preferredTechnician: 'Justine Ann Atay',
+      activePackage: 'Annual VIP Wax Pass (7/12 left)',
+      skinNotes: 'Prefers 100% natural organic sugar paste.',
+      smsStatus: 'Sent & Confirmed'
+    },
+    {
+      id: 'CL-104',
+      name: 'Liza Soberano',
+      phone: '+63 927 888 3341',
+      branch: 'SM Downtown',
+      totalVisits: 5,
+      loyaltyPoints: 150,
+      tier: 'Silver Member',
+      lastService: 'Brazilian Wax Express',
+      lastServiceDate: '2026-08-30',
+      nextBooking: '2026-09-14 (04:30 PM)',
+      preferredTechnician: 'John Doe',
+      activePackage: 'Express 3-Session (1/3 left)',
+      skinNotes: 'Aftercare aloe vera mist requested.',
+      smsStatus: 'Pending'
+    }
+  ]);
+
+  const [selectedClient, setSelectedClient] = useState(null);
+  const [crmSearch, setCrmSearch] = useState('');
+  const [crmBranchFilter, setCrmBranchFilter] = useState('');
+  const [showAddClientModal, setShowAddClientModal] = useState(false);
+  const [newClient, setNewClient] = useState({
+    name: '', phone: '', branch: 'Centrio Mall (Waxing)', preferredTechnician: 'Justine Ann Atay', activePackage: 'Underarm Waxing 5-Pack (5/5 left)', skinNotes: ''
+  });
+  const [crmToast, setCrmToast] = useState('');
+
+  // Purchase Order & Procurement to Accounting States
+  const [purchaseOrders, setPurchaseOrders] = useState([
+    {
+      poNumber: 'PO-2026-0901',
+      date: '2026-09-03',
+      branch: 'Centrio Mall (Waxing)',
+      supplier: 'PureBeauty Salon Supplies Corp.',
+      items: [
+        { name: 'Organic Hot Wax Pellets (20kg Bag)', qty: 2, unitPrice: 4500, total: 9000 },
+        { name: 'Non-Woven Waxing Paper Strips (100m Roll)', qty: 15, unitPrice: 380, total: 5700 },
+        { name: 'Tea Tree Soothing Gel (5L Container)', qty: 3, unitPrice: 1650, total: 4950 },
+        { name: 'Wooden Wax Spatulas Large (Box of 500)', qty: 10, unitPrice: 280, total: 2800 }
+      ],
+      totalAmount: 22450.00,
+      step: 5, // 5 = Forwarded to Accounting Dept
+      statusText: 'Forwarded to Accounting',
+      accountingVoucher: 'AP-VOUCHER-2026-088',
+      glAccount: '5100-20 (Salon Supplies Expense)',
+      paymentTerm: 'Net 30 Days (BPI Corporate Transfer)',
+      matchStatus: '3-Way Matched (PO + DR + Invoice)',
+      receivedBy: 'Kristene HR / Centrio Lead'
+    },
+    {
+      poNumber: 'PO-2026-0902',
+      date: '2026-09-04',
+      branch: 'Passion Nails (Centrio)',
+      supplier: 'Glamour Pro Nail Distributing Co.',
+      items: [
+        { name: 'OPI Professional Gel Lacquer 30-Color Kit', qty: 1, unitPrice: 12500, total: 12500 },
+        { name: 'UV/LED 48W Gel Curing Salon Lamps', qty: 2, unitPrice: 2400, total: 4800 },
+        { name: 'Pure Acetone Nail Remover (1 Gallon)', qty: 4, unitPrice: 650, total: 2600 }
+      ],
+      totalAmount: 19900.00,
+      step: 4, // 4 = Goods Received & Inspected
+      statusText: 'Goods Received & Inspected',
+      accountingVoucher: 'Pending Accounting Forward',
+      glAccount: '5100-30 (Nail Consumables)',
+      paymentTerm: 'Net 15 Days',
+      matchStatus: 'Goods Inspected & Verified',
+      receivedBy: 'Cherimar Concigo (Passion Nails Lead)'
+    },
+    {
+      poNumber: 'PO-2026-0903',
+      date: '2026-09-05',
+      branch: 'SM Downtown Branch',
+      supplier: 'CleanCare Commercial Solutions',
+      items: [
+        { name: 'Hospital-Grade Salon Disinfectant (4 Gallons)', qty: 2, unitPrice: 1850, total: 3700 },
+        { name: 'Disposable Salon Bed Paper Rolls (50m)', qty: 20, unitPrice: 320, total: 6400 },
+        { name: 'Nitrile Gloves Powder-Free (Box of 100)', qty: 15, unitPrice: 290, total: 4350 }
+      ],
+      totalAmount: 14450.00,
+      step: 3, // 3 = Management PO Approval
+      statusText: 'Awaiting Manager Approval',
+      accountingVoucher: 'Queued',
+      glAccount: '5100-40 (Clinic Sanitation)',
+      paymentTerm: 'Cash On Delivery / BPI',
+      matchStatus: 'Pending Delivery',
+      receivedBy: 'Pending Store Arrival'
+    },
+    {
+      poNumber: 'PO-2026-0904',
+      date: '2026-09-06',
+      branch: 'Limketkai Mall Branch',
+      supplier: 'Wellness Natural Trading Inc.',
+      items: [
+        { name: 'Sugar Wax Calming Aloe Balm (500ml)', qty: 12, unitPrice: 420, total: 5040 },
+        { name: 'Pre-Wax Skin Cleanser (1 Gallon)', qty: 2, unitPrice: 1450, total: 2900 }
+      ],
+      totalAmount: 7940.00,
+      step: 1, // 1 = Store Requisition
+      statusText: 'Store Requisition Submitted',
+      accountingVoucher: 'Queued',
+      glAccount: '5100-20 (Salon Supplies)',
+      paymentTerm: 'Vendor Quotation Phase',
+      matchStatus: 'Initial Request',
+      receivedBy: 'Branch Requisition Draft'
+    }
+  ]);
+
+  const [selectedPo, setSelectedPo] = useState(null);
+  const [poFilterBranch, setPoFilterBranch] = useState('');
+  const [poFilterStep, setPoFilterStep] = useState('');
+  const [showCreatePoModal, setShowCreatePoModal] = useState(false);
+  const [newPo, setNewPo] = useState({
+    branch: 'Centrio Mall (Waxing)',
+    supplier: 'PureBeauty Salon Supplies Corp.',
+    itemName: 'Organic Hot Wax Pellets (10kg)',
+    qty: 3,
+    unitPrice: 2400
+  });
+  const [poToast, setPoToast] = useState('');
+
   // File Upload State
   const [uploadFile, setUploadFile] = useState(null);
   const [uploadStatus, setUploadStatus] = useState({ loading: false, success: false, message: '' });
@@ -379,6 +549,101 @@ export default function App() {
       mdApprovedAt: null,
       mdSigner: 'Ms. Jehan Abedin (Managing Director)'
     });
+  };
+
+  // CRM Handlers
+  const handleSendSmsReminder = (client) => {
+    setCrmClients(prev => prev.map(c => c.id === client.id ? { ...c, smsStatus: 'Sent & Confirmed' } : c));
+    setCrmToast(`SMS reminder & booking link successfully sent to ${client.name} (${client.phone})`);
+    setTimeout(() => setCrmToast(''), 4000);
+  };
+
+  const handleAddClient = (e) => {
+    e.preventDefault();
+    const newId = `CL-${100 + crmClients.length + 1}`;
+    const entry = {
+      id: newId,
+      name: newClient.name,
+      phone: newClient.phone,
+      branch: newClient.branch,
+      totalVisits: 1,
+      loyaltyPoints: 50,
+      tier: 'Bronze Member',
+      lastService: 'Initial Consultation & Service',
+      lastServiceDate: new Date().toISOString().split('T')[0],
+      nextBooking: 'Pending Schedule',
+      preferredTechnician: newClient.preferredTechnician,
+      activePackage: newClient.activePackage,
+      skinNotes: newClient.skinNotes || 'None specified',
+      smsStatus: 'Sent & Confirmed'
+    };
+    setCrmClients(prev => [entry, ...prev]);
+    setShowAddClientModal(false);
+    setNewClient({
+      name: '', phone: '', branch: 'Centrio Mall (Waxing)', preferredTechnician: 'Justine Ann Atay', activePackage: 'Underarm Waxing 5-Pack (5/5 left)', skinNotes: ''
+    });
+    setCrmToast(`New client ${entry.name} registered with 50 Welcome Loyalty Points!`);
+    setTimeout(() => setCrmToast(''), 4000);
+  };
+
+  // Procurement & PO Handlers
+  const handleAdvancePo = (poNumber) => {
+    setPurchaseOrders(prev => prev.map(po => {
+      if (po.poNumber === poNumber) {
+        if (po.step === 1) {
+          return { ...po, step: 2, statusText: 'Vendor RFQ in Progress' };
+        } else if (po.step === 2) {
+          return { ...po, step: 3, statusText: 'Awaiting Manager Approval' };
+        } else if (po.step === 3) {
+          return { ...po, step: 4, statusText: 'PO Approved - In Transit / Received' };
+        } else if (po.step === 4) {
+          return {
+            ...po,
+            step: 5,
+            statusText: 'Forwarded to Accounting',
+            accountingVoucher: `AP-VOUCHER-${poNumber.replace('PO-', '')}`,
+            matchStatus: '3-Way Matched (PO + DR + Invoice)'
+          };
+        }
+      }
+      return po;
+    }));
+    setPoToast(`Purchase Order ${poNumber} advanced to next stage!`);
+    setTimeout(() => setPoToast(''), 4000);
+  };
+
+  const handleCreatePo = (e) => {
+    e.preventDefault();
+    const newPoNum = `PO-2026-090${purchaseOrders.length + 1}`;
+    const itemTotal = newPo.qty * newPo.unitPrice;
+    const entry = {
+      poNumber: newPoNum,
+      date: new Date().toISOString().split('T')[0],
+      branch: newPo.branch,
+      supplier: newPo.supplier,
+      items: [
+        { name: newPo.itemName, qty: parseInt(newPo.qty), unitPrice: parseFloat(newPo.unitPrice), total: itemTotal }
+      ],
+      totalAmount: itemTotal,
+      step: 1,
+      statusText: 'Store Requisition Submitted',
+      accountingVoucher: 'Queued',
+      glAccount: '5100-20 (Salon Supplies)',
+      paymentTerm: 'Vendor Quote Phase',
+      matchStatus: 'Initial Store Request',
+      receivedBy: 'Branch Supervisor Draft'
+    };
+    setPurchaseOrders(prev => [entry, ...prev]);
+    setShowCreatePoModal(false);
+    setNewPo({
+      branch: 'Centrio Mall (Waxing)',
+      supplier: 'PureBeauty Salon Supplies Corp.',
+      itemName: 'Organic Hot Wax Pellets (10kg)',
+      qty: 3,
+      unitPrice: 2400
+    });
+    setPoToast(`Store Requisition ${newPoNum} created for ${entry.branch}!`);
+    setTimeout(() => setPoToast(''), 4000);
   };
 
   const handleAddEmployee = async (e) => {
@@ -739,20 +1004,56 @@ export default function App() {
 
             {/* Category 4: SETHCON ENTERPRISE SUITE */}
             <div className="space-y-1 pt-2 border-t border-[#F2F0E8]">
-              <span className="text-[10px] font-bold tracking-wider uppercase text-[#77BC2E] px-3 flex items-center justify-between">
+              <span className="text-[10px] font-bold tracking-wider uppercase text-[#031134] px-3 flex items-center justify-between">
                 <span>SETHCON Suite</span>
-                <Sparkles className="h-3 w-3 text-[#77BC2E]" />
+                <Sparkles className="h-3 w-3 text-[#D4AF37]" />
               </span>
-              
+
               <button
-                onClick={() => { setShowSethconModal(true); setSidebarOpen(false); }}
-                className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl font-semibold text-[#4A2E1B] bg-[#77BC2E]/10 hover:bg-[#77BC2E]/20 transition-all border border-[#77BC2E]/20"
+                onClick={() => { setActiveTab('crm'); setSidebarOpen(false); }}
+                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl font-semibold transition-all ${
+                  activeTab === 'crm'
+                    ? 'bg-[#E89BB9] text-white shadow-sm shadow-[#E89BB9]/25'
+                    : 'text-[#5A534E] hover:bg-[#F7F6F2] hover:text-[#4A2E1B]'
+                }`}
               >
                 <div className="flex items-center space-x-2.5">
-                  <Building className="h-4 w-4 text-[#77BC2E]" />
-                  <span className="text-xs font-bold">CRM & PO Pipeline</span>
+                  <Users className="h-4 w-4" />
+                  <span>Salon CRM & Loyalty</span>
                 </div>
-                <ChevronRight className="h-3.5 w-3.5 text-[#77BC2E]" />
+                <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${
+                  activeTab === 'crm' ? 'bg-white text-[#D47098]' : 'bg-[#E89BB9]/20 text-[#D47098]'
+                }`}>
+                  {crmClients.length}
+                </span>
+              </button>
+
+              <button
+                onClick={() => { setActiveTab('procurement'); setSidebarOpen(false); }}
+                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl font-semibold transition-all ${
+                  activeTab === 'procurement'
+                    ? 'bg-[#031134] text-white shadow-sm shadow-[#031134]/25'
+                    : 'text-[#5A534E] hover:bg-[#F7F6F2] hover:text-[#4A2E1B]'
+                }`}
+              >
+                <div className="flex items-center space-x-2.5">
+                  <ShoppingCart className="h-4 w-4" />
+                  <span>PO to Accounting</span>
+                </div>
+                <span className="text-[10px] font-bold bg-[#77BC2E]/20 text-[#5A9A1E] px-1.5 py-0.5 rounded-full">
+                  5-Step
+                </span>
+              </button>
+
+              <button
+                onClick={() => { setShowSethconModal(true); setSidebarOpen(false); }}
+                className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-[11px] font-bold text-[#8A817C] hover:bg-[#F7F6F2] hover:text-[#031134] transition-all"
+              >
+                <div className="flex items-center space-x-2">
+                  <Building className="h-3.5 w-3.5 text-[#8A817C]" />
+                  <span>About Sethcon Suite</span>
+                </div>
+                <ChevronRight className="h-3 w-3" />
               </button>
             </div>
           </nav>
@@ -808,14 +1109,48 @@ export default function App() {
           {/* Top Actions */}
           <div className="flex items-center space-x-2.5 sm:space-x-3">
             
+            {/* Quick Enterprise Suite Switcher */}
+            <div className="hidden lg:flex items-center bg-white border border-[#EAE8E2] p-1 rounded-2xl shadow-2xs space-x-1 text-xs font-semibold">
+              <button
+                onClick={() => setActiveTab('dashboard')}
+                className={`px-3 py-1.5 rounded-xl transition-all ${
+                  ['dashboard', 'payroll', 'exceptions', 'tardiness', 'upload'].includes(activeTab)
+                    ? 'bg-[#77BC2E] text-white font-bold shadow-2xs'
+                    : 'text-[#5A534E] hover:text-[#4A2E1B]'
+                }`}
+              >
+                HR & Payroll
+              </button>
+              <button
+                onClick={() => setActiveTab('crm')}
+                className={`px-3 py-1.5 rounded-xl transition-all flex items-center space-x-1.5 ${
+                  activeTab === 'crm'
+                    ? 'bg-[#E89BB9] text-white font-bold shadow-2xs'
+                    : 'text-[#5A534E] hover:text-[#4A2E1B]'
+                }`}
+              >
+                <span>Salon CRM</span>
+              </button>
+              <button
+                onClick={() => setActiveTab('procurement')}
+                className={`px-3 py-1.5 rounded-xl transition-all flex items-center space-x-1.5 ${
+                  activeTab === 'procurement'
+                    ? 'bg-[#031134] text-white font-bold shadow-2xs'
+                    : 'text-[#5A534E] hover:text-[#4A2E1B]'
+                }`}
+              >
+                <span>PO &rarr; Accounting</span>
+              </button>
+            </div>
+
             {/* Sethcon Enterprise Suite Pill Button */}
             <button
               onClick={() => setShowSethconModal(true)}
-              className="hidden sm:flex items-center space-x-2 bg-gradient-to-r from-[#031134] to-[#0A1B45] text-white hover:opacity-90 text-xs font-bold rounded-xl px-3.5 py-2 shadow-sm shadow-[#031134]/20 transition-all border border-white/10"
+              className="flex items-center space-x-1.5 bg-gradient-to-r from-[#031134] to-[#0A1B45] text-white hover:opacity-90 text-xs font-bold rounded-xl px-3 py-2 shadow-sm shadow-[#031134]/20 transition-all border border-white/10"
               title="Explore Sethcon CRM, PO to Accounting, and Enterprise Modules"
             >
               <Sparkles className="h-3.5 w-3.5 text-[#D4AF37]" />
-              <span>Sethcon Suite</span>
+              <span className="hidden sm:inline">Sethcon Suite</span>
             </button>
 
             {/* Cutoff Range Pill */}
@@ -1753,6 +2088,420 @@ export default function App() {
               )}
             </div>
           )}
+
+          {/* TAB 6: SALON CRM & CLIENT LOYALTY */}
+          {activeTab === 'crm' && (
+            <div className="space-y-6 animate-fadeIn">
+              
+              {/* Toast Notification */}
+              {crmToast && (
+                <div className="bg-[#77BC2E]/15 border border-[#77BC2E]/40 text-[#5A9A1E] p-4 rounded-2xl flex items-center justify-between text-xs font-bold shadow-2xs">
+                  <div className="flex items-center space-x-2.5">
+                    <CheckCircle className="h-4 w-4 text-[#77BC2E]" />
+                    <span>{crmToast}</span>
+                  </div>
+                  <button onClick={() => setCrmToast('')} className="text-[#5A9A1E] hover:opacity-75">
+                    <XCircle className="h-4 w-4" />
+                  </button>
+                </div>
+              )}
+
+              {/* Top CRM Stats */}
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="bg-white border border-[#EAE8E2] rounded-3xl p-5 shadow-2xs space-y-1">
+                  <span className="text-[10px] font-extrabold uppercase text-[#8A817C] tracking-wider">Total VIP Clients</span>
+                  <div className="flex items-baseline space-x-2">
+                    <span className="text-2xl font-extrabold text-[#4A2E1B]">{crmClients.length}</span>
+                    <span className="text-[11px] text-[#77BC2E] font-bold">Profiles Active</span>
+                  </div>
+                  <p className="text-[11px] text-[#8A817C]">Across Centrio, Ketkai & SM</p>
+                </div>
+
+                <div className="bg-white border border-[#EAE8E2] rounded-3xl p-5 shadow-2xs space-y-1">
+                  <span className="text-[10px] font-extrabold uppercase text-[#8A817C] tracking-wider">Active Packages</span>
+                  <div className="flex items-baseline space-x-2">
+                    <span className="text-2xl font-extrabold text-[#E89BB9]">52</span>
+                    <span className="text-[11px] text-[#D47098] font-bold">Package Holders</span>
+                  </div>
+                  <p className="text-[11px] text-[#8A817C]">Waxing & Nail Spa Passes</p>
+                </div>
+
+                <div className="bg-white border border-[#EAE8E2] rounded-3xl p-5 shadow-2xs space-y-1">
+                  <span className="text-[10px] font-extrabold uppercase text-[#8A817C] tracking-wider">SMS Booking Rate</span>
+                  <div className="flex items-baseline space-x-2">
+                    <span className="text-2xl font-extrabold text-[#77BC2E]">98.4%</span>
+                    <span className="text-[11px] text-[#5A9A1E] font-bold">Confirmed</span>
+                  </div>
+                  <p className="text-[11px] text-[#8A817C]">Automated 24h Alerts</p>
+                </div>
+
+                <div className="bg-white border border-[#EAE8E2] rounded-3xl p-5 shadow-2xs space-y-1">
+                  <span className="text-[10px] font-extrabold uppercase text-[#8A817C] tracking-wider">Loyalty Points</span>
+                  <div className="flex items-baseline space-x-2">
+                    <span className="text-2xl font-extrabold text-[#D4AF37]">
+                      {crmClients.reduce((sum, c) => sum + c.loyaltyPoints, 0).toLocaleString()}
+                    </span>
+                    <span className="text-[11px] text-[#B48A10] font-bold">Pts Earned</span>
+                  </div>
+                  <p className="text-[11px] text-[#8A817C]">Redeemable for Services</p>
+                </div>
+              </div>
+
+              {/* CRM Data Table Card */}
+              <div className="bg-white border border-[#EAE8E2] rounded-3xl overflow-hidden shadow-2xs">
+                <div className="p-6 border-b border-[#F2F0E8] flex flex-col md:flex-row md:items-center justify-between gap-4">
+                  <div>
+                    <div className="flex items-center space-x-2">
+                      <span className="bg-[#E89BB9]/20 text-[#D47098] text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase">
+                        Salon CRM
+                      </span>
+                      <h3 className="font-extrabold text-base text-[#4A2E1B]">Client Retention & Loyalty Registry</h3>
+                    </div>
+                    <p className="text-xs text-[#8A817C] mt-0.5">Visit histories, package balances, technician assignments & skin preferences</p>
+                  </div>
+
+                  {/* Filter & Actions */}
+                  <div className="flex flex-wrap items-center gap-2.5">
+                    <div className="relative">
+                      <Search className="h-3.5 w-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-[#A8A29E]" />
+                      <input
+                        type="text"
+                        placeholder="Search client / phone..."
+                        value={crmSearch}
+                        onChange={(e) => setCrmSearch(e.target.value)}
+                        className="bg-[#F7F6F2] border border-transparent rounded-xl pl-8 pr-3 py-1.5 text-xs font-medium focus:ring-1 focus:ring-[#E89BB9] outline-none text-[#2D2520] w-48"
+                      />
+                    </div>
+
+                    <select
+                      value={crmBranchFilter}
+                      onChange={(e) => setCrmBranchFilter(e.target.value)}
+                      className="bg-[#F7F6F2] border border-transparent rounded-xl px-3 py-1.5 text-xs font-semibold text-[#5A534E] outline-none"
+                    >
+                      <option value="">All Branches</option>
+                      <option value="Centrio">Centrio Waxing</option>
+                      <option value="Passion Nails">Passion Nails</option>
+                      <option value="Limketkai">Limketkai</option>
+                      <option value="SM Downtown">SM Downtown</option>
+                    </select>
+
+                    <button
+                      onClick={() => setShowAddClientModal(true)}
+                      className="bg-[#E89BB9] hover:bg-[#D47098] text-white font-bold text-xs px-3.5 py-1.5 rounded-xl transition-all flex items-center space-x-1.5 shadow-2xs"
+                    >
+                      <Plus className="h-3.5 w-3.5" />
+                      <span>Add VIP Client</span>
+                    </button>
+                  </div>
+                </div>
+
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left border-collapse">
+                    <thead>
+                      <tr className="bg-[#FAF9F5] border-b border-[#F2F0E8] text-[10px] font-extrabold uppercase tracking-wider text-[#8A817C]">
+                        <th className="px-6 py-3.5">Client Profile</th>
+                        <th className="px-6 py-3.5">Contact & Branch</th>
+                        <th className="px-6 py-3.5">Active Package Balance</th>
+                        <th className="px-6 py-3.5">Preferred Specialist</th>
+                        <th className="px-6 py-3.5">Skin Sensitivity Notes</th>
+                        <th className="px-6 py-3.5">Next Slot / SMS</th>
+                        <th className="px-6 py-3.5">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-[#F2F0E8] text-xs">
+                      {crmClients
+                        .filter(c => !crmBranchFilter || c.branch.includes(crmBranchFilter))
+                        .filter(c => !crmSearch || c.name.toLowerCase().includes(crmSearch.toLowerCase()) || c.phone.includes(crmSearch))
+                        .map(client => (
+                          <tr key={client.id} className="hover:bg-[#FAF9F5]/70 transition-colors">
+                            <td className="px-6 py-4 font-bold text-[#4A2E1B]">
+                              <div className="flex items-center space-x-2.5">
+                                <div className="w-8 h-8 rounded-xl bg-[#E89BB9]/20 text-[#D47098] flex items-center justify-center font-extrabold text-xs">
+                                  {client.name.charAt(0)}
+                                </div>
+                                <div>
+                                  <p className="font-extrabold text-[#4A2E1B]">{client.name}</p>
+                                  <div className="flex items-center space-x-1 mt-0.5">
+                                    <span className="text-[10px] font-bold text-[#D4AF37] bg-[#D4AF37]/10 px-1.5 py-0.2 rounded">
+                                      {client.tier}
+                                    </span>
+                                    <span className="text-[10px] text-[#8A817C]">&bull; {client.loyaltyPoints} pts</span>
+                                  </div>
+                                </div>
+                              </div>
+                            </td>
+                            <td className="px-6 py-4">
+                              <p className="font-mono text-[#5A534E] text-[11px]">{client.phone}</p>
+                              <p className="text-[#8A817C] text-[11px]">{client.branch}</p>
+                            </td>
+                            <td className="px-6 py-4">
+                              <div className="space-y-1">
+                                <p className="font-bold text-[#4A2E1B] text-[11px]">{client.activePackage}</p>
+                                <div className="w-32 bg-[#EAE8E2] h-1.5 rounded-full overflow-hidden">
+                                  <div className="bg-[#77BC2E] h-full rounded-full w-3/5"></div>
+                                </div>
+                              </div>
+                            </td>
+                            <td className="px-6 py-4">
+                              <span className="bg-[#77BC2E]/10 text-[#5A9A1E] font-bold px-2 py-0.5 rounded-md text-[11px] flex items-center space-x-1 w-fit">
+                                <Sparkles className="h-3 w-3" />
+                                <span>{client.preferredTechnician}</span>
+                              </span>
+                            </td>
+                            <td className="px-6 py-4">
+                              <span className="text-[#4A2E1B] bg-[#FAF9F5] border border-[#EAE8E2] px-2.5 py-1 rounded-xl text-[11px] block max-w-xs truncate" title={client.skinNotes}>
+                                {client.skinNotes}
+                              </span>
+                            </td>
+                            <td className="px-6 py-4">
+                              <div className="space-y-0.5">
+                                <p className="font-mono text-[11px] text-[#031134] font-bold">{client.nextBooking}</p>
+                                <span className="inline-flex items-center space-x-1 text-[10px] text-[#5A9A1E] font-semibold">
+                                  <CheckCheck className="h-3 w-3" />
+                                  <span>{client.smsStatus}</span>
+                                </span>
+                              </div>
+                            </td>
+                            <td className="px-6 py-4">
+                              <div className="flex items-center space-x-2">
+                                <button
+                                  onClick={() => handleSendSmsReminder(client)}
+                                  className="bg-[#031134] hover:bg-[#082260] text-white font-bold text-[10px] px-2.5 py-1.5 rounded-lg transition-all flex items-center space-x-1 shadow-2xs"
+                                  title="Trigger SMS Booking Reminder"
+                                >
+                                  <Send className="h-3 w-3" />
+                                  <span>SMS</span>
+                                </button>
+                                <button
+                                  onClick={() => setSelectedClient(client)}
+                                  className="bg-[#FAF9F5] hover:bg-[#F2F0E8] border border-[#EAE8E2] text-[#4A2E1B] font-bold text-[10px] px-2.5 py-1.5 rounded-lg transition-all"
+                                >
+                                  Details
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* TAB 7: 5-STEP PURCHASE ORDERS TO ACCOUNTING PIPELINE */}
+          {activeTab === 'procurement' && (
+            <div className="space-y-6 animate-fadeIn">
+              
+              {/* Toast Notification */}
+              {poToast && (
+                <div className="bg-[#77BC2E]/15 border border-[#77BC2E]/40 text-[#5A9A1E] p-4 rounded-2xl flex items-center justify-between text-xs font-bold shadow-2xs">
+                  <div className="flex items-center space-x-2.5">
+                    <CheckCircle className="h-4 w-4 text-[#77BC2E]" />
+                    <span>{poToast}</span>
+                  </div>
+                  <button onClick={() => setPoToast('')} className="text-[#5A9A1E] hover:opacity-75">
+                    <XCircle className="h-4 w-4" />
+                  </button>
+                </div>
+              )}
+
+              {/* 5-Step Procurement Progress Banner */}
+              <div className="bg-white border border-[#EAE8E2] rounded-3xl p-6 shadow-2xs space-y-4">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#F2F0E8] pb-4">
+                  <div>
+                    <div className="flex items-center space-x-2">
+                      <span className="bg-[#031134] text-[#D4AF37] text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase">
+                        Full Enterprise Pipeline
+                      </span>
+                      <span className="text-[11px] font-bold text-[#77BC2E]">Store Requisition to AP Ledger</span>
+                    </div>
+                    <h3 className="font-extrabold text-base text-[#4A2E1B] mt-1">
+                      5-Step Purchase Order & Accounting Integration
+                    </h3>
+                    <p className="text-xs text-[#8A817C]">
+                      From branch supply requests to 3-way matching and automatic General Ledger posting in Accounting.
+                    </p>
+                  </div>
+
+                  <button
+                    onClick={() => setShowCreatePoModal(true)}
+                    className="bg-[#77BC2E] hover:bg-[#6DB027] text-white font-bold text-xs px-4 py-2.5 rounded-xl transition-all flex items-center space-x-1.5 shadow-sm shadow-[#77BC2E]/20"
+                  >
+                    <Plus className="h-4 w-4" />
+                    <span>New Store Requisition</span>
+                  </button>
+                </div>
+
+                {/* 5 Process Step Cards */}
+                <div className="grid grid-cols-1 sm:grid-cols-5 gap-3 text-xs">
+                  <div className="bg-[#FAF9F5] border border-[#EAE8E2] rounded-2xl p-3.5 space-y-1">
+                    <span className="text-[10px] font-extrabold uppercase text-[#8A817C]">Step 1</span>
+                    <strong className="text-[#4A2E1B] block">Store Requisition</strong>
+                    <p className="text-[11px] text-[#8A817C]">Branch material request</p>
+                  </div>
+
+                  <div className="bg-[#FAF9F5] border border-[#EAE8E2] rounded-2xl p-3.5 space-y-1">
+                    <span className="text-[10px] font-extrabold uppercase text-[#8A817C]">Step 2</span>
+                    <strong className="text-[#4A2E1B] block">Vendor RFQ</strong>
+                    <p className="text-[11px] text-[#8A817C]">Quote comparison</p>
+                  </div>
+
+                  <div className="bg-[#FAF9F5] border border-[#EAE8E2] rounded-2xl p-3.5 space-y-1">
+                    <span className="text-[10px] font-extrabold uppercase text-[#8A817C]">Step 3</span>
+                    <strong className="text-[#4A2E1B] block">PO Approval</strong>
+                    <p className="text-[11px] text-[#8A817C]">Management sign-off</p>
+                  </div>
+
+                  <div className="bg-[#FAF9F5] border border-[#EAE8E2] rounded-2xl p-3.5 space-y-1">
+                    <span className="text-[10px] font-extrabold uppercase text-[#8A817C]">Step 4</span>
+                    <strong className="text-[#4A2E1B] block">Goods Receiving</strong>
+                    <p className="text-[11px] text-[#8A817C]">Store check & inspect</p>
+                  </div>
+
+                  <div className="bg-[#77BC2E]/15 border border-[#77BC2E]/40 rounded-2xl p-3.5 space-y-1 shadow-2xs">
+                    <span className="text-[10px] font-extrabold uppercase text-[#5A9A1E]">Final Step 5</span>
+                    <strong className="text-[#4A2E1B] block">Accounting Dept</strong>
+                    <p className="text-[11px] text-[#5A9A1E] font-bold">3-Way Match & AP Voucher</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Purchase Orders Table Card */}
+              <div className="bg-white border border-[#EAE8E2] rounded-3xl overflow-hidden shadow-2xs">
+                <div className="p-6 border-b border-[#F2F0E8] flex flex-col md:flex-row md:items-center justify-between gap-4">
+                  <div>
+                    <h3 className="font-extrabold text-base text-[#4A2E1B]">Procurement & Accounting Tracking</h3>
+                    <p className="text-xs text-[#8A817C]">Live tracking of branch orders through receiving and Accounting AP vouchers</p>
+                  </div>
+
+                  <div className="flex flex-wrap items-center gap-2.5">
+                    <select
+                      value={poFilterBranch}
+                      onChange={(e) => setPoFilterBranch(e.target.value)}
+                      className="bg-[#F7F6F2] border border-transparent rounded-xl px-3 py-1.5 text-xs font-semibold text-[#5A534E] outline-none"
+                    >
+                      <option value="">All Branches</option>
+                      <option value="Centrio">Centrio Waxing</option>
+                      <option value="Passion Nails">Passion Nails</option>
+                      <option value="Limketkai">Limketkai</option>
+                      <option value="SM Downtown">SM Downtown</option>
+                    </select>
+
+                    <select
+                      value={poFilterStep}
+                      onChange={(e) => setPoFilterStep(e.target.value)}
+                      className="bg-[#F7F6F2] border border-transparent rounded-xl px-3 py-1.5 text-xs font-semibold text-[#5A534E] outline-none"
+                    >
+                      <option value="">All Stages</option>
+                      <option value="1">Step 1: Requisition</option>
+                      <option value="3">Step 3: Pending Approval</option>
+                      <option value="4">Step 4: Goods Inspected</option>
+                      <option value="5">Step 5: Accounting AP Posted</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left border-collapse text-xs">
+                    <thead>
+                      <tr className="bg-[#FAF9F5] border-b border-[#F2F0E8] text-[10px] font-extrabold uppercase tracking-wider text-[#8A817C]">
+                        <th className="px-6 py-3.5">PO Number & Date</th>
+                        <th className="px-6 py-3.5">Branch & Requestor</th>
+                        <th className="px-6 py-3.5">Items & Supplier</th>
+                        <th className="px-6 py-3.5">Total Amount</th>
+                        <th className="px-6 py-3.5">Current Stage</th>
+                        <th className="px-6 py-3.5">Accounting AP Voucher</th>
+                        <th className="px-6 py-3.5">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-[#F2F0E8]">
+                      {purchaseOrders
+                        .filter(po => !poFilterBranch || po.branch.includes(poFilterBranch))
+                        .filter(po => !poFilterStep || po.step === parseInt(poFilterStep))
+                        .map(po => (
+                          <tr key={po.poNumber} className="hover:bg-[#FAF9F5]/70 transition-colors">
+                            <td className="px-6 py-4 font-bold text-[#031134]">
+                              <p className="font-mono font-extrabold">{po.poNumber}</p>
+                              <p className="text-[11px] text-[#8A817C]">{po.date}</p>
+                            </td>
+                            <td className="px-6 py-4">
+                              <p className="font-bold text-[#4A2E1B]">{po.branch}</p>
+                              <p className="text-[11px] text-[#8A817C]">{po.receivedBy}</p>
+                            </td>
+                            <td className="px-6 py-4 max-w-xs">
+                              <p className="font-bold text-[#4A2E1B] truncate">{po.items[0]?.name} {po.items.length > 1 ? `(+${po.items.length - 1} more)` : ''}</p>
+                              <p className="text-[11px] text-[#5A534E]">{po.supplier}</p>
+                            </td>
+                            <td className="px-6 py-4 font-mono font-extrabold text-[#4A2E1B]">
+                              ₱{po.totalAmount.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                            </td>
+                            <td className="px-6 py-4">
+                              <span className={`px-2.5 py-1 rounded-full text-[10px] font-extrabold inline-flex items-center space-x-1 ${
+                                po.step === 5
+                                  ? 'bg-[#77BC2E]/15 text-[#5A9A1E]'
+                                  : po.step === 4
+                                  ? 'bg-[#38BDF8]/15 text-[#0284C7]'
+                                  : po.step === 3
+                                  ? 'bg-[#D4AF37]/20 text-[#B48A10]'
+                                  : 'bg-[#EAE8E2] text-[#5A534E]'
+                              }`}>
+                                <span>Step {po.step}: {po.statusText}</span>
+                              </span>
+                            </td>
+                            <td className="px-6 py-4 font-mono">
+                              {po.step === 5 ? (
+                                <span className="bg-[#77BC2E]/10 text-[#5A9A1E] font-bold px-2 py-0.5 rounded-md text-[11px] block w-fit">
+                                  {po.accountingVoucher}
+                                </span>
+                              ) : (
+                                <span className="text-[#8A817C] text-[11px]">{po.accountingVoucher}</span>
+                              )}
+                            </td>
+                            <td className="px-6 py-4">
+                              <div className="flex items-center space-x-2">
+                                {po.step === 4 && (
+                                  <button
+                                    onClick={() => handleAdvancePo(po.poNumber)}
+                                    className="bg-[#77BC2E] hover:bg-[#6DB027] text-white font-bold text-[10px] px-3 py-1.5 rounded-lg shadow-2xs transition-all flex items-center space-x-1"
+                                    title="Perform 3-way match and push to Accounting AP"
+                                  >
+                                    <Send className="h-3 w-3" />
+                                    <span>Push to Acctg.</span>
+                                  </button>
+                                )}
+                                {po.step === 3 && (
+                                  <button
+                                    onClick={() => handleAdvancePo(po.poNumber)}
+                                    className="bg-[#031134] hover:bg-[#082260] text-white font-bold text-[10px] px-3 py-1.5 rounded-lg shadow-2xs transition-all"
+                                  >
+                                    Approve PO
+                                  </button>
+                                )}
+                                {po.step === 1 && (
+                                  <button
+                                    onClick={() => handleAdvancePo(po.poNumber)}
+                                    className="bg-[#FAF9F5] hover:bg-[#F2F0E8] border border-[#EAE8E2] text-[#4A2E1B] font-bold text-[10px] px-2.5 py-1.5 rounded-lg transition-all"
+                                  >
+                                    Send RFQ
+                                  </button>
+                                )}
+                                <button
+                                  onClick={() => setSelectedPo(po)}
+                                  className="bg-[#FAF9F5] hover:bg-[#F2F0E8] border border-[#EAE8E2] text-[#4A2E1B] font-bold text-[10px] px-2.5 py-1.5 rounded-lg transition-all"
+                                >
+                                  View 3-Way Match
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          )}
         </main>
       </div>
 
@@ -2313,6 +3062,399 @@ export default function App() {
               </div>
             </div>
 
+          </div>
+        </div>
+      )}
+
+      {/* 6. CLIENT PROFILE & VISIT HISTORY MODAL */}
+      {selectedClient && (
+        <div className="fixed inset-0 bg-stone-900/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fadeIn">
+          <div className="bg-white rounded-3xl border border-[#EAE8E2] shadow-2xl w-full max-w-xl p-7 space-y-5">
+            <div className="flex items-start justify-between border-b border-[#F2F0E8] pb-4">
+              <div className="flex items-center space-x-3">
+                <div className="w-12 h-12 rounded-2xl bg-[#E89BB9]/20 text-[#D47098] flex items-center justify-center font-extrabold text-lg">
+                  {selectedClient.name.charAt(0)}
+                </div>
+                <div>
+                  <div className="flex items-center space-x-2">
+                    <h3 className="font-extrabold text-lg text-[#4A2E1B]">{selectedClient.name}</h3>
+                    <span className="bg-[#D4AF37]/15 text-[#B48A10] text-[10px] font-extrabold px-2 py-0.5 rounded-md">
+                      {selectedClient.tier}
+                    </span>
+                  </div>
+                  <p className="text-xs text-[#8A817C] font-mono">{selectedClient.id} &bull; {selectedClient.phone}</p>
+                </div>
+              </div>
+              <button onClick={() => setSelectedClient(null)} className="text-[#8A817C] hover:text-[#4A2E1B]">
+                <XCircle className="h-5 w-5" />
+              </button>
+            </div>
+
+            <div className="space-y-4 text-xs">
+              <div className="grid grid-cols-2 gap-3 bg-[#FAF9F5] p-4 rounded-2xl border border-[#EAE8E2]">
+                <div>
+                  <span className="text-[10px] font-bold text-[#8A817C] uppercase block">Primary Branch</span>
+                  <strong className="text-[#4A2E1B]">{selectedClient.branch}</strong>
+                </div>
+                <div>
+                  <span className="text-[10px] font-bold text-[#8A817C] uppercase block">Assigned Specialist</span>
+                  <span className="text-[#5A9A1E] font-bold flex items-center space-x-1 mt-0.5">
+                    <Sparkles className="h-3 w-3" />
+                    <span>{selectedClient.preferredTechnician}</span>
+                  </span>
+                </div>
+                <div>
+                  <span className="text-[10px] font-bold text-[#8A817C] uppercase block">Total Salon Visits</span>
+                  <strong className="text-[#4A2E1B]">{selectedClient.totalVisits} Completed Sessions</strong>
+                </div>
+                <div>
+                  <span className="text-[10px] font-bold text-[#8A817C] uppercase block">Loyalty Points Balance</span>
+                  <strong className="text-[#D4AF37] font-mono">{selectedClient.loyaltyPoints} Points</strong>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <h4 className="font-bold text-[#4A2E1B]">Active Membership & Package Balance</h4>
+                <div className="p-3 rounded-xl border border-[#EAE8E2] bg-white space-y-1.5">
+                  <div className="flex justify-between font-semibold">
+                    <span>{selectedClient.activePackage}</span>
+                    <span className="text-[#5A9A1E] font-bold">Active</span>
+                  </div>
+                  <div className="w-full bg-[#EAE8E2] h-2 rounded-full overflow-hidden">
+                    <div className="bg-[#77BC2E] h-full rounded-full w-3/5"></div>
+                  </div>
+                  <p className="text-[11px] text-[#8A817C]">Next service redemption: {selectedClient.nextBooking}</p>
+                </div>
+              </div>
+
+              <div className="space-y-1">
+                <h4 className="font-bold text-[#4A2E1B]">Skin Sensitivity & Service Notes</h4>
+                <p className="p-3 rounded-xl bg-[#FAF9F5] border border-[#EAE8E2] text-[#4A2E1B] text-[11px] leading-relaxed">
+                  {selectedClient.skinNotes}
+                </p>
+              </div>
+
+              <div className="flex items-center space-x-2 pt-2">
+                <button
+                  onClick={() => { handleSendSmsReminder(selectedClient); setSelectedClient(null); }}
+                  className="flex-1 bg-[#031134] hover:bg-[#082260] text-white font-bold py-2.5 rounded-xl transition-all flex items-center justify-center space-x-2 shadow-sm"
+                >
+                  <Send className="h-3.5 w-3.5" />
+                  <span>Send SMS Confirmation</span>
+                </button>
+                <button
+                  onClick={() => setSelectedClient(null)}
+                  className="bg-[#F2F0E8] text-[#5A534E] font-semibold px-4 py-2.5 rounded-xl transition-all"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 7. ADD VIP CLIENT MODAL */}
+      {showAddClientModal && (
+        <div className="fixed inset-0 bg-stone-900/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fadeIn">
+          <div className="bg-white rounded-3xl border border-[#EAE8E2] shadow-2xl w-full max-w-md p-7 space-y-5">
+            <div className="flex items-center justify-between border-b border-[#F2F0E8] pb-3">
+              <div>
+                <span className="text-[10px] font-extrabold uppercase text-[#E89BB9] tracking-wider">CRM Registry</span>
+                <h3 className="font-extrabold text-lg text-[#4A2E1B]">Register New Client</h3>
+              </div>
+              <button onClick={() => setShowAddClientModal(false)} className="text-[#8A817C] hover:text-[#4A2E1B]">
+                <XCircle className="h-5 w-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleAddClient} className="space-y-4 text-xs">
+              <div>
+                <label className="block font-bold text-[#5A534E] mb-1 uppercase tracking-wider">Client Full Name</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. Heart Evangelista"
+                  value={newClient.name}
+                  onChange={(e) => setNewClient({ ...newClient, name: e.target.value })}
+                  className="w-full bg-[#F7F6F2] border border-transparent rounded-xl px-3.5 py-2.5 font-medium outline-none focus:ring-1 focus:ring-[#E89BB9]"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-bold text-[#5A534E] mb-1 uppercase tracking-wider">Mobile Number</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="+63 917..."
+                    value={newClient.phone}
+                    onChange={(e) => setNewClient({ ...newClient, phone: e.target.value })}
+                    className="w-full bg-[#F7F6F2] border border-transparent rounded-xl px-3.5 py-2.5 font-medium outline-none focus:ring-1 focus:ring-[#E89BB9]"
+                  />
+                </div>
+                <div>
+                  <label className="block font-bold text-[#5A534E] mb-1 uppercase tracking-wider">Salon Branch</label>
+                  <select
+                    value={newClient.branch}
+                    onChange={(e) => setNewClient({ ...newClient, branch: e.target.value })}
+                    className="w-full bg-[#F7F6F2] border border-transparent rounded-xl px-3 py-2.5 font-medium outline-none"
+                  >
+                    <option value="Centrio Mall (Waxing)">Centrio Waxing</option>
+                    <option value="Passion Nails (Centrio)">Passion Nails</option>
+                    <option value="Limketkai Mall">Limketkai</option>
+                    <option value="SM Downtown">SM Downtown</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label className="block font-bold text-[#5A534E] mb-1 uppercase tracking-wider">Preferred Specialist</label>
+                <input
+                  type="text"
+                  placeholder="e.g. Justine Ann Atay"
+                  value={newClient.preferredTechnician}
+                  onChange={(e) => setNewClient({ ...newClient, preferredTechnician: e.target.value })}
+                  className="w-full bg-[#F7F6F2] border border-transparent rounded-xl px-3.5 py-2.5 font-medium outline-none focus:ring-1 focus:ring-[#E89BB9]"
+                />
+              </div>
+
+              <div>
+                <label className="block font-bold text-[#5A534E] mb-1 uppercase tracking-wider">Skin Sensitivity & Notes</label>
+                <textarea
+                  rows={2}
+                  placeholder="e.g. Sensitive to hot wax, gentle peel only..."
+                  value={newClient.skinNotes}
+                  onChange={(e) => setNewClient({ ...newClient, skinNotes: e.target.value })}
+                  className="w-full bg-[#F7F6F2] border border-transparent rounded-xl px-3.5 py-2 font-medium outline-none focus:ring-1 focus:ring-[#E89BB9]"
+                />
+              </div>
+
+              <div className="flex space-x-3 pt-2">
+                <button
+                  type="submit"
+                  className="flex-1 bg-[#E89BB9] hover:bg-[#D47098] text-white font-bold py-3 rounded-xl transition-all shadow-sm"
+                >
+                  Create Client Profile
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowAddClientModal(false)}
+                  className="bg-[#F2F0E8] text-[#5A534E] font-semibold px-4 py-3 rounded-xl"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* 8. CREATE STORE REQUISITION / PO MODAL */}
+      {showCreatePoModal && (
+        <div className="fixed inset-0 bg-stone-900/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fadeIn">
+          <div className="bg-white rounded-3xl border border-[#EAE8E2] shadow-2xl w-full max-w-md p-7 space-y-5">
+            <div className="flex items-center justify-between border-b border-[#F2F0E8] pb-3">
+              <div>
+                <span className="text-[10px] font-extrabold uppercase text-[#031134] tracking-wider">Step 1 &bull; Procurement</span>
+                <h3 className="font-extrabold text-lg text-[#4A2E1B]">Create Store Requisition</h3>
+              </div>
+              <button onClick={() => setShowCreatePoModal(false)} className="text-[#8A817C] hover:text-[#4A2E1B]">
+                <XCircle className="h-5 w-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleCreatePo} className="space-y-4 text-xs">
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-bold text-[#5A534E] mb-1 uppercase tracking-wider">Branch</label>
+                  <select
+                    value={newPo.branch}
+                    onChange={(e) => setNewPo({ ...newPo, branch: e.target.value })}
+                    className="w-full bg-[#F7F6F2] border border-transparent rounded-xl px-3 py-2.5 font-medium outline-none"
+                  >
+                    <option value="Centrio Mall (Waxing)">Centrio Waxing</option>
+                    <option value="Passion Nails (Centrio)">Passion Nails</option>
+                    <option value="Limketkai Mall Branch">Limketkai</option>
+                    <option value="SM Downtown Branch">SM Downtown</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block font-bold text-[#5A534E] mb-1 uppercase tracking-wider">Supplier</label>
+                  <select
+                    value={newPo.supplier}
+                    onChange={(e) => setNewPo({ ...newPo, supplier: e.target.value })}
+                    className="w-full bg-[#F7F6F2] border border-transparent rounded-xl px-3 py-2.5 font-medium outline-none"
+                  >
+                    <option value="PureBeauty Salon Supplies Corp.">PureBeauty Supplies</option>
+                    <option value="Glamour Pro Nail Distributing Co.">Glamour Pro Nails</option>
+                    <option value="CleanCare Commercial Solutions">CleanCare Commercial</option>
+                    <option value="Wellness Natural Trading Inc.">Wellness Natural</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label className="block font-bold text-[#5A534E] mb-1 uppercase tracking-wider">Supply Item Description</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. Organic Hot Wax Pellets (10kg)"
+                  value={newPo.itemName}
+                  onChange={(e) => setNewPo({ ...newPo, itemName: e.target.value })}
+                  className="w-full bg-[#F7F6F2] border border-transparent rounded-xl px-3.5 py-2.5 font-medium outline-none focus:ring-1 focus:ring-[#031134]"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-bold text-[#5A534E] mb-1 uppercase tracking-wider">Quantity</label>
+                  <input
+                    type="number"
+                    required
+                    min={1}
+                    value={newPo.qty}
+                    onChange={(e) => setNewPo({ ...newPo, qty: e.target.value })}
+                    className="w-full bg-[#F7F6F2] border border-transparent rounded-xl px-3.5 py-2.5 font-medium outline-none focus:ring-1 focus:ring-[#031134]"
+                  />
+                </div>
+                <div>
+                  <label className="block font-bold text-[#5A534E] mb-1 uppercase tracking-wider">Est. Unit Price (PHP)</label>
+                  <input
+                    type="number"
+                    required
+                    min={1}
+                    value={newPo.unitPrice}
+                    onChange={(e) => setNewPo({ ...newPo, unitPrice: e.target.value })}
+                    className="w-full bg-[#F7F6F2] border border-transparent rounded-xl px-3.5 py-2.5 font-medium outline-none focus:ring-1 focus:ring-[#031134]"
+                  />
+                </div>
+              </div>
+
+              <div className="p-3 bg-[#FAF9F5] rounded-xl border border-[#EAE8E2] flex justify-between font-bold">
+                <span className="text-[#8A817C]">Estimated Total Amount:</span>
+                <span className="font-mono text-[#031134]">₱{(newPo.qty * newPo.unitPrice).toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
+              </div>
+
+              <div className="flex space-x-3 pt-2">
+                <button
+                  type="submit"
+                  className="flex-1 bg-[#031134] hover:bg-[#082260] text-white font-bold py-3 rounded-xl transition-all shadow-sm"
+                >
+                  Submit Store Requisition
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowCreatePoModal(false)}
+                  className="bg-[#F2F0E8] text-[#5A534E] font-semibold px-4 py-3 rounded-xl"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* 9. 3-WAY MATCH & ACCOUNTING AP VOUCHER MODAL */}
+      {selectedPo && (
+        <div className="fixed inset-0 bg-stone-900/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fadeIn">
+          <div className="bg-white rounded-3xl border border-[#EAE8E2] shadow-2xl w-full max-w-2xl p-7 space-y-5">
+            <div className="flex items-start justify-between border-b border-[#F2F0E8] pb-4">
+              <div>
+                <div className="flex items-center space-x-2">
+                  <span className="bg-[#77BC2E] text-white text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase">
+                    Step 5 &bull; Accounting AP Match
+                  </span>
+                  <span className="font-mono text-xs font-bold text-[#031134]">{selectedPo.poNumber}</span>
+                </div>
+                <h3 className="font-extrabold text-lg text-[#4A2E1B] mt-1">3-Way Procurement Matching & General Ledger</h3>
+                <p className="text-xs text-[#8A817C]">Purchase Order &bull; Goods Delivery Receipt (DR) &bull; Supplier Commercial Invoice</p>
+              </div>
+              <button onClick={() => setSelectedPo(null)} className="text-[#8A817C] hover:text-[#4A2E1B]">
+                <XCircle className="h-5 w-5" />
+              </button>
+            </div>
+
+            <div className="space-y-4 text-xs">
+              
+              {/* 3-Way Verification Cards */}
+              <div className="grid grid-cols-3 gap-3 text-center">
+                <div className="bg-[#77BC2E]/10 border border-[#77BC2E]/30 p-3 rounded-2xl">
+                  <span className="text-[10px] font-bold text-[#5A9A1E] block">1. Purchase Order</span>
+                  <strong className="text-[#4A2E1B] text-xs mt-0.5 block">{selectedPo.poNumber}</strong>
+                  <span className="text-[10px] text-[#5A9A1E] font-bold">✓ Approved</span>
+                </div>
+                <div className="bg-[#77BC2E]/10 border border-[#77BC2E]/30 p-3 rounded-2xl">
+                  <span className="text-[10px] font-bold text-[#5A9A1E] block">2. Goods Receipt</span>
+                  <strong className="text-[#4A2E1B] text-xs mt-0.5 block">Store Inspected</strong>
+                  <span className="text-[10px] text-[#5A9A1E] font-bold">✓ 100% Quantity</span>
+                </div>
+                <div className="bg-[#77BC2E]/10 border border-[#77BC2E]/30 p-3 rounded-2xl">
+                  <span className="text-[10px] font-bold text-[#5A9A1E] block">3. Vendor Invoice</span>
+                  <strong className="text-[#4A2E1B] text-xs mt-0.5 block">INV-{selectedPo.poNumber.replace('PO-', '')}</strong>
+                  <span className="text-[10px] text-[#5A9A1E] font-bold">✓ Math Verified</span>
+                </div>
+              </div>
+
+              {/* Items Breakdown */}
+              <div className="border border-[#EAE8E2] rounded-2xl p-4 space-y-2 bg-[#FAF9F5]">
+                <h4 className="font-bold text-[#4A2E1B]">Order Line Items</h4>
+                <div className="divide-y divide-[#EAE8E2]">
+                  {selectedPo.items.map((item, i) => (
+                    <div key={i} className="py-2 flex justify-between">
+                      <div>
+                        <p className="font-bold text-[#4A2E1B]">{item.name}</p>
+                        <p className="text-[11px] text-[#8A817C]">{item.qty} units &times; ₱{item.unitPrice.toLocaleString()}</p>
+                      </div>
+                      <span className="font-mono font-bold text-[#4A2E1B]">₱{item.total.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
+                    </div>
+                  ))}
+                </div>
+                <div className="border-t border-[#EAE8E2] pt-2 flex justify-between text-sm font-extrabold text-[#031134]">
+                  <span>Total Payable:</span>
+                  <span className="font-mono text-[#77BC2E]">₱{selectedPo.totalAmount.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
+                </div>
+              </div>
+
+              {/* Accounting AP Allocation */}
+              <div className="grid grid-cols-2 gap-3 bg-white p-4 rounded-2xl border border-[#EAE8E2]">
+                <div>
+                  <span className="text-[10px] font-bold text-[#8A817C] uppercase block">AP Voucher Number</span>
+                  <strong className="text-[#031134] font-mono">{selectedPo.accountingVoucher}</strong>
+                </div>
+                <div>
+                  <span className="text-[10px] font-bold text-[#8A817C] uppercase block">General Ledger Account</span>
+                  <span className="text-[#4A2E1B] font-mono font-semibold">{selectedPo.glAccount}</span>
+                </div>
+                <div>
+                  <span className="text-[10px] font-bold text-[#8A817C] uppercase block">Payment Method</span>
+                  <span className="text-[#5A534E] font-medium">{selectedPo.paymentTerm}</span>
+                </div>
+                <div>
+                  <span className="text-[10px] font-bold text-[#8A817C] uppercase block">3-Way Match Verification</span>
+                  <span className="text-[#5A9A1E] font-bold">{selectedPo.matchStatus}</span>
+                </div>
+              </div>
+
+              <div className="flex items-center space-x-2 pt-2">
+                {selectedPo.step === 4 && (
+                  <button
+                    onClick={() => { handleAdvancePo(selectedPo.poNumber); setSelectedPo(null); }}
+                    className="flex-1 bg-[#77BC2E] hover:bg-[#6DB027] text-white font-bold py-2.5 rounded-xl transition-all flex items-center justify-center space-x-2 shadow-sm"
+                  >
+                    <Send className="h-3.5 w-3.5" />
+                    <span>Post Voucher Directly to Accounting Ledger</span>
+                  </button>
+                )}
+                <button
+                  onClick={() => setSelectedPo(null)}
+                  className="bg-[#031134] hover:bg-[#082260] text-white font-semibold px-5 py-2.5 rounded-xl transition-all"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       )}
