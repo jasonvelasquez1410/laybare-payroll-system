@@ -39,7 +39,16 @@ import {
   HelpCircle,
   Menu,
   Check,
-  Settings
+  Settings,
+  Send,
+  CreditCard,
+  CheckCheck,
+  Building,
+  ShoppingCart,
+  ShieldCheck,
+  FileCheck,
+  ArrowRight,
+  ExternalLink
 } from 'lucide-react';
 
 const API_BASE = import.meta.env.VITE_API_URL || (window.location.origin.includes('localhost') ? 'http://localhost:5000/api' : '/api');
@@ -82,6 +91,22 @@ export default function App() {
 
   // Notice to Explain (NTE) Modal
   const [selectedNteEmployee, setSelectedNteEmployee] = useState(null);
+
+  // 5-Stage Payroll Disbursement Lifecycle
+  // Stage 1: 'computed' (HR Computed)
+  // Stage 2: 'forwarded' (Forwarded to Accounting Dept)
+  // Stage 3: 'bpi_ready' (BPI BizLink Batch File Generated)
+  // Stage 4: 'md_approved' (Managing Director Approved & Authorized)
+  // Stage 5: 'disbursed' (Credited to ATM & Payslips Released)
+  const [disbursementStage, setDisbursementStage] = useState('computed');
+  const [disbursementAudit, setDisbursementAudit] = useState({
+    forwardedAt: null,
+    bpiGeneratedAt: null,
+    mdApprovedAt: null,
+    mdSigner: 'Ms. Jehan Abedin (Managing Director)'
+  });
+  const [showSethconModal, setShowSethconModal] = useState(false);
+  const [showBpiModal, setShowBpiModal] = useState(false);
 
   // File Upload State
   const [uploadFile, setUploadFile] = useState(null);
@@ -299,7 +324,61 @@ export default function App() {
         };
       });
       setPayroll(mockPayroll);
+      setDisbursementStage('computed');
     }
+  };
+
+  const handleForwardToAccounting = () => {
+    setDisbursementStage('forwarded');
+    setDisbursementAudit(prev => ({
+      ...prev,
+      forwardedAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + ' by Kristene (HR)'
+    }));
+  };
+
+  const handleGenerateBpiBatch = () => {
+    const activePayroll = payroll.length > 0 ? payroll : [];
+    if (activePayroll.length === 0) return;
+
+    // Generate CSV formatted for BPI BizLink Batch Payroll Upload
+    const headers = 'Account Number,Employee Name,Disbursement Amount (PHP),Branch Location,Payment Type,Remarks\n';
+    const rows = activePayroll.map((p, idx) => {
+      const mockAcct = `00${p.employeeId ? (1000 + p.employeeId) : (1010 + idx)}498214${(idx + 1) * 3}`;
+      const amount = (p.calculations?.netPay || 0).toFixed(2);
+      return `"${mockAcct}","${p.employeeName}","${amount}","${p.branch || 'Centrio'}","SALARY","Cutoff ${startDate} to ${endDate}"`;
+    }).join('\n');
+
+    const csvContent = 'data:text/csv;charset=utf-8,' + encodeURIComponent(headers + rows);
+    const downloadAnchor = document.createElement('a');
+    downloadAnchor.setAttribute('href', csvContent);
+    downloadAnchor.setAttribute('download', `BPI_BizLink_Payroll_${startDate}_to_${endDate}.csv`);
+    document.body.appendChild(downloadAnchor);
+    downloadAnchor.click();
+    downloadAnchor.remove();
+
+    setDisbursementStage('bpi_ready');
+    setDisbursementAudit(prev => ({
+      ...prev,
+      bpiGeneratedAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + ' (BPI BizLink CSV File)'
+    }));
+  };
+
+  const handleMdApproval = () => {
+    setDisbursementStage('disbursed');
+    setDisbursementAudit(prev => ({
+      ...prev,
+      mdApprovedAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + ' by Ms. Jehan Abedin (Managing Director)'
+    }));
+  };
+
+  const resetDisbursement = () => {
+    setDisbursementStage('computed');
+    setDisbursementAudit({
+      forwardedAt: null,
+      bpiGeneratedAt: null,
+      mdApprovedAt: null,
+      mdSigner: 'Ms. Jehan Abedin (Managing Director)'
+    });
   };
 
   const handleAddEmployee = async (e) => {
@@ -657,6 +736,25 @@ export default function App() {
                 <span>Staff Directory</span>
               </button>
             </div>
+
+            {/* Category 4: SETHCON ENTERPRISE SUITE */}
+            <div className="space-y-1 pt-2 border-t border-[#F2F0E8]">
+              <span className="text-[10px] font-bold tracking-wider uppercase text-[#77BC2E] px-3 flex items-center justify-between">
+                <span>SETHCON Suite</span>
+                <Sparkles className="h-3 w-3 text-[#77BC2E]" />
+              </span>
+              
+              <button
+                onClick={() => { setShowSethconModal(true); setSidebarOpen(false); }}
+                className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl font-semibold text-[#4A2E1B] bg-[#77BC2E]/10 hover:bg-[#77BC2E]/20 transition-all border border-[#77BC2E]/20"
+              >
+                <div className="flex items-center space-x-2.5">
+                  <Building className="h-4 w-4 text-[#77BC2E]" />
+                  <span className="text-xs font-bold">CRM & PO Pipeline</span>
+                </div>
+                <ChevronRight className="h-3.5 w-3.5 text-[#77BC2E]" />
+              </button>
+            </div>
           </nav>
         </div>
 
@@ -710,6 +808,16 @@ export default function App() {
           {/* Top Actions */}
           <div className="flex items-center space-x-2.5 sm:space-x-3">
             
+            {/* Sethcon Enterprise Suite Pill Button */}
+            <button
+              onClick={() => setShowSethconModal(true)}
+              className="hidden sm:flex items-center space-x-2 bg-gradient-to-r from-[#031134] to-[#0A1B45] text-white hover:opacity-90 text-xs font-bold rounded-xl px-3.5 py-2 shadow-sm shadow-[#031134]/20 transition-all border border-white/10"
+              title="Explore Sethcon CRM, PO to Accounting, and Enterprise Modules"
+            >
+              <Sparkles className="h-3.5 w-3.5 text-[#D4AF37]" />
+              <span>Sethcon Suite</span>
+            </button>
+
             {/* Cutoff Range Pill */}
             <div className="hidden md:flex items-center space-x-2 bg-white border border-[#EAE8E2] rounded-xl px-3 py-1.5 text-xs font-semibold text-[#5A534E] shadow-2xs">
               <Calendar className="h-3.5 w-3.5 text-[#77BC2E]" />
@@ -1376,6 +1484,215 @@ export default function App() {
                 </button>
               </div>
 
+              {/* 5-Step End-to-End Payroll & Disbursement Lifecycle Banner */}
+              {payroll.length > 0 && (
+                <div className="bg-white border border-[#EAE8E2] rounded-3xl p-6 shadow-2xs space-y-5">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#F2F0E8] pb-4">
+                    <div>
+                      <div className="flex items-center space-x-2">
+                        <span className="text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-[#031134] text-[#D4AF37]">
+                          Enterprise Banking & Disbursement
+                        </span>
+                        <span className="text-[10px] font-bold text-[#8A817C]">BPI BizLink Integrated</span>
+                      </div>
+                      <h3 className="font-extrabold text-base text-[#4A2E1B] mt-1">End-to-End Payroll & ATM Disbursement Lifecycle</h3>
+                      <p className="text-xs text-[#8A817C]">
+                        Transparent 5-stage pipeline: HR calculation &rarr; Accounting review &rarr; BPI bank batch &rarr; Managing Director sign-off &rarr; ATM crediting.
+                      </p>
+                    </div>
+
+                    <div className="flex items-center space-x-2">
+                      <button
+                        onClick={() => setShowBpiModal(true)}
+                        className="bg-[#FAF9F5] hover:bg-[#F2F0E8] border border-[#EAE8E2] text-[#4A2E1B] text-xs font-bold px-3.5 py-2 rounded-xl transition-all flex items-center space-x-1.5 shadow-2xs"
+                      >
+                        <CreditCard className="h-3.5 w-3.5 text-[#031134]" />
+                        <span>Preview BPI Batch</span>
+                      </button>
+                      <button
+                        onClick={resetDisbursement}
+                        className="bg-[#F2F0E8] hover:bg-[#EAE8E2] text-[#5A534E] text-xs font-semibold px-3 py-2 rounded-xl transition-all"
+                        title="Reset Workflow Demo"
+                      >
+                        Reset Flow
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* 5 Stages Interactive Visual Tracker */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 text-xs">
+                    
+                    {/* Stage 1: HR Computation */}
+                    <div className="bg-[#77BC2E]/10 border border-[#77BC2E]/30 rounded-2xl p-3.5 space-y-1 relative">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#5A9A1E]">Step 1 &bull; HR Engine</span>
+                        <CheckCircle className="h-4 w-4 text-[#77BC2E]" />
+                      </div>
+                      <p className="font-extrabold text-[#4A2E1B]">Automated Math</p>
+                      <p className="text-[11px] text-[#5A534E]">Gross-to-Net computed in 1 sec.</p>
+                      <span className="inline-block mt-1 text-[10px] font-bold text-[#5A9A1E] bg-white px-2 py-0.5 rounded-md">
+                        ✓ Ready
+                      </span>
+                    </div>
+
+                    {/* Stage 2: Forward to Accounting */}
+                    <div className={`border rounded-2xl p-3.5 space-y-1 transition-all ${
+                      disbursementStage !== 'computed'
+                        ? 'bg-[#77BC2E]/10 border-[#77BC2E]/30'
+                        : 'bg-[#FAF9F5] border-[#EAE8E2]'
+                    }`}>
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#8A817C]">Step 2 &bull; Accounting</span>
+                        {disbursementStage !== 'computed' ? <CheckCircle className="h-4 w-4 text-[#77BC2E]" /> : <Send className="h-4 w-4 text-[#8A817C]" />}
+                      </div>
+                      <p className="font-extrabold text-[#4A2E1B]">Dept. Audit & Review</p>
+                      <p className="text-[11px] text-[#5A534E]">
+                        {disbursementAudit.forwardedAt ? disbursementAudit.forwardedAt : 'Audits SSS/PhilHealth deductions'}
+                      </p>
+                      {disbursementStage === 'computed' ? (
+                        <button
+                          onClick={handleForwardToAccounting}
+                          className="mt-1 w-full bg-[#4A2E1B] hover:bg-[#382315] text-white font-bold text-[10px] py-1.5 rounded-lg transition-all flex items-center justify-center space-x-1"
+                        >
+                          <Send className="h-3 w-3" />
+                          <span>Forward to Acctg.</span>
+                        </button>
+                      ) : (
+                        <span className="inline-block mt-1 text-[10px] font-bold text-[#5A9A1E] bg-white px-2 py-0.5 rounded-md">
+                          ✓ Verified
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Stage 3: BPI BizLink Batch Upload */}
+                    <div className={`border rounded-2xl p-3.5 space-y-1 transition-all ${
+                      ['bpi_ready', 'md_approved', 'disbursed'].includes(disbursementStage)
+                        ? 'bg-[#77BC2E]/10 border-[#77BC2E]/30'
+                        : disbursementStage === 'forwarded'
+                        ? 'bg-[#031134]/5 border-[#031134]/20'
+                        : 'bg-[#FAF9F5] border-[#EAE8E2] opacity-75'
+                    }`}>
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#8A817C]">Step 3 &bull; BPI BizLink</span>
+                        {['bpi_ready', 'md_approved', 'disbursed'].includes(disbursementStage) ? (
+                          <CheckCircle className="h-4 w-4 text-[#77BC2E]" />
+                        ) : (
+                          <CreditCard className="h-4 w-4 text-[#8A817C]" />
+                        )}
+                      </div>
+                      <p className="font-extrabold text-[#4A2E1B]">Bank Batch File</p>
+                      <p className="text-[11px] text-[#5A534E]">
+                        {disbursementAudit.bpiGeneratedAt ? 'BPI CSV batch created' : 'Formats direct ATM file'}
+                      </p>
+                      {disbursementStage === 'forwarded' ? (
+                        <button
+                          onClick={handleGenerateBpiBatch}
+                          className="mt-1 w-full bg-[#031134] hover:bg-[#082260] text-white font-bold text-[10px] py-1.5 rounded-lg transition-all flex items-center justify-center space-x-1"
+                        >
+                          <Download className="h-3 w-3" />
+                          <span>Generate BPI CSV</span>
+                        </button>
+                      ) : ['bpi_ready', 'md_approved', 'disbursed'].includes(disbursementStage) ? (
+                        <button
+                          onClick={handleGenerateBpiBatch}
+                          className="mt-1 text-[10px] font-bold text-[#031134] hover:underline flex items-center space-x-1"
+                        >
+                          <Download className="h-3 w-3" />
+                          <span>Re-download CSV</span>
+                        </button>
+                      ) : (
+                        <span className="inline-block mt-1 text-[10px] font-semibold text-[#8A817C]">Queued</span>
+                      )}
+                    </div>
+
+                    {/* Stage 4: Managing Director Approval */}
+                    <div className={`border rounded-2xl p-3.5 space-y-1 transition-all ${
+                      ['md_approved', 'disbursed'].includes(disbursementStage)
+                        ? 'bg-[#77BC2E]/10 border-[#77BC2E]/30'
+                        : disbursementStage === 'bpi_ready'
+                        ? 'bg-[#D4AF37]/15 border-[#D4AF37]/40 ring-2 ring-[#D4AF37]/30'
+                        : 'bg-[#FAF9F5] border-[#EAE8E2] opacity-75'
+                    }`}>
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#8A817C]">Step 4 &bull; MD Sign-off</span>
+                        {['md_approved', 'disbursed'].includes(disbursementStage) ? (
+                          <ShieldCheck className="h-4 w-4 text-[#77BC2E]" />
+                        ) : (
+                          <ShieldAlert className="h-4 w-4 text-[#8A817C]" />
+                        )}
+                      </div>
+                      <p className="font-extrabold text-[#4A2E1B]">MD Authorization</p>
+                      <p className="text-[11px] text-[#5A534E]">
+                        {disbursementAudit.mdApprovedAt ? disbursementAudit.mdApprovedAt : 'Ms. Jehan Abedin authorization'}
+                      </p>
+                      {disbursementStage === 'bpi_ready' ? (
+                        <button
+                          onClick={handleMdApproval}
+                          className="mt-1 w-full bg-[#77BC2E] hover:bg-[#6DB027] text-white font-bold text-[10px] py-1.5 rounded-lg shadow-sm transition-all flex items-center justify-center space-x-1"
+                        >
+                          <CheckCheck className="h-3 w-3" />
+                          <span>Approve & Authorize</span>
+                        </button>
+                      ) : ['md_approved', 'disbursed'].includes(disbursementStage) ? (
+                        <span className="inline-block mt-1 text-[10px] font-bold text-[#5A9A1E] bg-white px-2 py-0.5 rounded-md">
+                          ✓ Authorized
+                        </span>
+                      ) : (
+                        <span className="inline-block mt-1 text-[10px] font-semibold text-[#8A817C]">Standby</span>
+                      )}
+                    </div>
+
+                    {/* Stage 5: ATM Direct Crediting & Payslips */}
+                    <div className={`border rounded-2xl p-3.5 space-y-1 transition-all ${
+                      disbursementStage === 'disbursed'
+                        ? 'bg-gradient-to-br from-[#77BC2E]/15 to-[#5A9A1E]/20 border-[#77BC2E]/40'
+                        : 'bg-[#FAF9F5] border-[#EAE8E2] opacity-75'
+                    }`}>
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#8A817C]">Step 5 &bull; ATM Pay</span>
+                        {disbursementStage === 'disbursed' ? (
+                          <CheckCheck className="h-4 w-4 text-[#5A9A1E]" />
+                        ) : (
+                          <DollarSign className="h-4 w-4 text-[#8A817C]" />
+                        )}
+                      </div>
+                      <p className="font-extrabold text-[#4A2E1B]">Credited to Staff</p>
+                      <p className="text-[11px] text-[#5A534E]">
+                        {disbursementStage === 'disbursed' ? 'Available in ATMs • Slips active' : 'Live upon MD approval'}
+                      </p>
+                      <span className={`inline-block mt-1 text-[10px] font-bold px-2 py-0.5 rounded-md ${
+                        disbursementStage === 'disbursed'
+                          ? 'bg-[#77BC2E] text-white shadow-xs'
+                          : 'bg-[#EAE8E2] text-[#8A817C]'
+                      }`}>
+                        {disbursementStage === 'disbursed' ? '🎉 Disbursed' : 'Awaiting Stage 4'}
+                      </span>
+                    </div>
+
+                  </div>
+
+                  {/* Status Banner */}
+                  {disbursementStage === 'disbursed' && (
+                    <div className="bg-[#77BC2E]/15 border border-[#77BC2E]/40 rounded-2xl p-4 flex items-center justify-between text-xs text-[#4A2E1B]">
+                      <div className="flex items-center space-x-3">
+                        <div className="w-8 h-8 rounded-xl bg-[#77BC2E] text-white flex items-center justify-center font-bold">
+                          <CheckCheck className="h-4 w-4" />
+                        </div>
+                        <div>
+                          <p className="font-extrabold text-[#2D2520]">Disbursement Completed & Credited to BPI ATM Accounts</p>
+                          <p className="text-[11px] text-[#5A534E]">
+                            Authorized by Ms. Jehan Abedin. Printable itemized payslips are unlocked below for all salon employees.
+                          </p>
+                        </div>
+                      </div>
+                      <span className="hidden md:inline-flex bg-white px-3 py-1.5 rounded-xl font-mono font-bold text-[#5A9A1E] border border-[#77BC2E]/30">
+                        STATUS: ATM CREDITED
+                      </span>
+                    </div>
+                  )}
+                </div>
+              )}
+
               {/* Payroll Results Table */}
               {payroll.length > 0 && (
                 <div className="bg-white border border-[#EAE8E2] rounded-3xl overflow-hidden shadow-2xs">
@@ -1698,6 +2015,308 @@ export default function App() {
           </div>
         </div>
       )}
+
+      {/* 4. SETHCON ENTERPRISE SUITE MODAL */}
+      {showSethconModal && (
+        <div className="fixed inset-0 bg-stone-900/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fadeIn">
+          <div className="bg-white rounded-3xl border border-[#EAE8E2] shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto p-6 sm:p-8 space-y-6">
+            
+            {/* Modal Header */}
+            <div className="flex items-start justify-between border-b border-[#F2F0E8] pb-5">
+              <div className="space-y-1">
+                <div className="flex items-center space-x-2">
+                  <span className="bg-[#031134] text-[#D4AF37] text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">
+                    Company Profile & Ecosystem
+                  </span>
+                  <span className="text-[11px] font-bold text-[#77BC2E] flex items-center space-x-1">
+                    <Sparkles className="h-3 w-3" />
+                    <span>Enterprise Grade</span>
+                  </span>
+                </div>
+                <h2 className="text-2xl font-extrabold text-[#031134] tracking-tight">SETHCON Technologies Inc.</h2>
+                <p className="text-xs sm:text-sm text-[#8A817C]">
+                  Custom Enterprise Software, CRM, Procurement to Accounting Pipelines, and Biometric Operations
+                </p>
+              </div>
+              <button 
+                onClick={() => setShowSethconModal(false)}
+                className="p-2 rounded-xl border border-[#EAE8E2] hover:bg-[#FAF9F5] text-[#8A817C] hover:text-[#4A2E1B] transition-colors"
+              >
+                <XCircle className="h-5 w-5" />
+              </button>
+            </div>
+
+            {/* Profile Overview Card */}
+            <div className="bg-gradient-to-br from-[#031134] to-[#0A1B45] text-white p-6 rounded-3xl space-y-3 shadow-md">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div>
+                  <h3 className="font-extrabold text-lg text-[#D4AF37]">Engineered for Multi-Branch Growth</h3>
+                  <p className="text-xs text-slate-300">
+                    Presented by <strong>Jason Velasquez</strong> (VP) & the SETHCON Solutions Engineering Team.
+                  </p>
+                </div>
+                <span className="bg-white/10 text-white border border-white/20 text-[11px] font-semibold px-3 py-1 rounded-xl w-fit">
+                  Existing Partner: Lay Bare Salon Network
+                </span>
+              </div>
+              <p className="text-xs text-slate-200 leading-relaxed">
+                SETHCON Technologies Inc. empowers multi-branch retail, salon, and wellness enterprises across the Philippines with scalable, cloud-native operational ecosystems. From single-click biometric payroll to full customer lifecycle management and closed-loop procurement-to-accounting systems.
+              </p>
+            </div>
+
+            {/* Core Offerings Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              
+              {/* Feature 1: CRM & Loyalty */}
+              <div className="bg-[#FAF9F5] border border-[#EAE8E2] rounded-2xl p-5 space-y-3">
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 rounded-xl bg-[#E89BB9]/20 text-[#D47098] flex items-center justify-center">
+                    <Users className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-sm text-[#4A2E1B]">Customer Relationship Management (CRM)</h4>
+                    <p className="text-[11px] text-[#8A817C]">Client retention, booking & loyalty</p>
+                  </div>
+                </div>
+                <ul className="text-xs text-[#5A534E] space-y-2">
+                  <li className="flex items-start space-x-2">
+                    <span className="text-[#77BC2E] font-bold">&bull;</span>
+                    <span><strong>Client Service Profiles:</strong> Complete salon visit histories, technician preferences, and skin sensitivity notes.</span>
+                  </li>
+                  <li className="flex items-start space-x-2">
+                    <span className="text-[#77BC2E] font-bold">&bull;</span>
+                    <span><strong>Automated Booking & SMS:</strong> Online booking portal with SMS appointment confirmation and reminders.</span>
+                  </li>
+                  <li className="flex items-start space-x-2">
+                    <span className="text-[#77BC2E] font-bold">&bull;</span>
+                    <span><strong>Loyalty Points & Packages:</strong> Track package balances, membership tiers, and cross-branch redemption.</span>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Feature 2: Complete PO to Accounting Workflow */}
+              <div className="bg-[#FAF9F5] border border-[#EAE8E2] rounded-2xl p-5 space-y-3">
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 rounded-xl bg-[#77BC2E]/20 text-[#5A9A1E] flex items-center justify-center">
+                    <ShoppingCart className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-sm text-[#4A2E1B]">Purchase Orders to Accounting Pipeline</h4>
+                    <p className="text-[11px] text-[#8A817C]">End-to-end procurement with 3-way matching</p>
+                  </div>
+                </div>
+                <ul className="text-xs text-[#5A534E] space-y-2">
+                  <li className="flex items-start space-x-2">
+                    <span className="text-[#77BC2E] font-bold">&bull;</span>
+                    <span><strong>Step 1 to Store Level:</strong> Branch supply requisitions (waxing supplies, nail polishes, consumables).</span>
+                  </li>
+                  <li className="flex items-start space-x-2">
+                    <span className="text-[#77BC2E] font-bold">&bull;</span>
+                    <span><strong>Vendor RFQ & Approvals:</strong> Multi-vendor price comparison and management authorization.</span>
+                  </li>
+                  <li className="flex items-start space-x-2">
+                    <span className="text-[#77BC2E] font-bold">&bull;</span>
+                    <span><strong>Direct to Accounting:</strong> Goods receipt matches PO and invoice, pushing AP vouchers directly into Accounting ledgers.</span>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Feature 3: Biometric HRMS & BPI Payroll */}
+              <div className="bg-[#FAF9F5] border border-[#EAE8E2] rounded-2xl p-5 space-y-3">
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 rounded-xl bg-[#031134]/15 text-[#031134] flex items-center justify-center">
+                    <Calculator className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-sm text-[#4A2E1B]">Biometric HRMS & Bank Integration</h4>
+                    <p className="text-[11px] text-[#8A817C]">NGTeco timeclocks & BPI BizLink batching</p>
+                  </div>
+                </div>
+                <ul className="text-xs text-[#5A534E] space-y-2">
+                  <li className="flex items-start space-x-2">
+                    <span className="text-[#77BC2E] font-bold">&bull;</span>
+                    <span><strong>Automated Anomaly Detection:</strong> Instantly catches missing punches and overtime calculations.</span>
+                  </li>
+                  <li className="flex items-start space-x-2">
+                    <span className="text-[#77BC2E] font-bold">&bull;</span>
+                    <span><strong>Automated DOLE Notice to Explain (NTE):</strong> Formally manages tardiness thresholds.</span>
+                  </li>
+                  <li className="flex items-start space-x-2">
+                    <span className="text-[#77BC2E] font-bold">&bull;</span>
+                    <span><strong>Direct BPI ATM Crediting:</strong> Generates BPI BizLink batch disbursement files with 1 click.</span>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Feature 4: POS & Multi-Branch Inventory */}
+              <div className="bg-[#FAF9F5] border border-[#EAE8E2] rounded-2xl p-5 space-y-3">
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 rounded-xl bg-[#B58EBE]/20 text-[#865B8F] flex items-center justify-center">
+                    <Building2 className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-sm text-[#4A2E1B]">Cloud POS & Stock Control</h4>
+                    <p className="text-[11px] text-[#8A817C]">Real-time sales & inventory tracking</p>
+                  </div>
+                </div>
+                <ul className="text-xs text-[#5A534E] space-y-2">
+                  <li className="flex items-start space-x-2">
+                    <span className="text-[#77BC2E] font-bold">&bull;</span>
+                    <span><strong>Live Multi-Branch Sales:</strong> Monitor daily sales revenue for Centrio, Ketkai, and SM Downtown in real time.</span>
+                  </li>
+                  <li className="flex items-start space-x-2">
+                    <span className="text-[#77BC2E] font-bold">&bull;</span>
+                    <span><strong>Stock Depletion Alerts:</strong> Automated alerts when waxes, strips, or nail care products reach reorder points.</span>
+                  </li>
+                  <li className="flex items-start space-x-2">
+                    <span className="text-[#77BC2E] font-bold">&bull;</span>
+                    <span><strong>Commissions Tracking:</strong> Automated technician commission breakdown on every service ticket.</span>
+                  </li>
+                </ul>
+              </div>
+
+            </div>
+
+            {/* 5-Step PO to Accounting Flow Visual */}
+            <div className="bg-[#F8FAFC] border border-[#CBD5E1] rounded-2xl p-5 space-y-3">
+              <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#031134]">
+                Enterprise Procurement Diagram: 1st Step to Accounting Dept.
+              </span>
+              <div className="grid grid-cols-1 sm:grid-cols-5 gap-2 text-center text-xs">
+                <div className="bg-white p-2.5 rounded-xl border border-[#E2E8F0] shadow-2xs">
+                  <span className="text-[9px] font-bold text-[#8A817C] block uppercase">Step 1</span>
+                  <strong className="text-[#4A2E1B] text-[11px] block mt-0.5">Store Requisition</strong>
+                  <span className="text-[10px] text-[#8A817C]">Branch material request</span>
+                </div>
+                <div className="bg-white p-2.5 rounded-xl border border-[#E2E8F0] shadow-2xs">
+                  <span className="text-[9px] font-bold text-[#8A817C] block uppercase">Step 2</span>
+                  <strong className="text-[#4A2E1B] text-[11px] block mt-0.5">Vendor RFQ</strong>
+                  <span className="text-[10px] text-[#8A817C]">Quote comparison</span>
+                </div>
+                <div className="bg-white p-2.5 rounded-xl border border-[#E2E8F0] shadow-2xs">
+                  <span className="text-[9px] font-bold text-[#8A817C] block uppercase">Step 3</span>
+                  <strong className="text-[#4A2E1B] text-[11px] block mt-0.5">PO Approval</strong>
+                  <span className="text-[10px] text-[#8A817C]">Manager sign-off</span>
+                </div>
+                <div className="bg-white p-2.5 rounded-xl border border-[#E2E8F0] shadow-2xs">
+                  <span className="text-[9px] font-bold text-[#8A817C] block uppercase">Step 4</span>
+                  <strong className="text-[#4A2E1B] text-[11px] block mt-0.5">Goods Receiving</strong>
+                  <span className="text-[10px] text-[#8A817C]">Store check & inspect</span>
+                </div>
+                <div className="bg-[#77BC2E]/15 p-2.5 rounded-xl border border-[#77BC2E]/40 shadow-2xs">
+                  <span className="text-[9px] font-extrabold text-[#5A9A1E] block uppercase">Final Step 5</span>
+                  <strong className="text-[#4A2E1B] text-[11px] block mt-0.5">Accounting Dept</strong>
+                  <span className="text-[10px] text-[#5A9A1E] font-bold">AP Voucher & Ledger</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Modal Footer */}
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-[#F2F0E8] pt-4">
+              <p className="text-xs text-[#8A817C]">
+                Ready to extend your operations? Contact <strong>SETHCON Technologies Inc.</strong>
+              </p>
+              <div className="flex items-center space-x-2">
+                <button
+                  onClick={() => setShowSethconModal(false)}
+                  className="bg-[#031134] hover:bg-[#082260] text-white font-bold text-xs px-6 py-2.5 rounded-xl transition-all shadow-sm"
+                >
+                  Return to HRMS
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      )}
+
+      {/* 5. BPI BIZLINK BATCH PREVIEW MODAL */}
+      {showBpiModal && (
+        <div className="fixed inset-0 bg-stone-900/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fadeIn">
+          <div className="bg-white rounded-3xl border border-[#EAE8E2] shadow-2xl w-full max-w-2xl p-7 space-y-6">
+            
+            <div className="flex items-start justify-between border-b border-[#F2F0E8] pb-4">
+              <div>
+                <div className="flex items-center space-x-2">
+                  <span className="bg-[#031134] text-white text-[10px] font-bold px-2.5 py-0.5 rounded-md">BPI BizLink</span>
+                  <span className="text-[11px] font-bold text-[#77BC2E]">Corporate Payroll File</span>
+                </div>
+                <h3 className="font-extrabold text-lg text-[#4A2E1B] mt-1">Batch Electronic Disbursement</h3>
+                <p className="text-xs text-[#8A817C]">Format compliant for Bank of the Philippine Islands (BPI) batch payroll upload</p>
+              </div>
+              <button 
+                onClick={() => setShowBpiModal(false)}
+                className="text-[#8A817C] hover:text-[#4A2E1B]"
+              >
+                <XCircle className="h-5 w-5" />
+              </button>
+            </div>
+
+            {/* Batch Table */}
+            <div className="overflow-x-auto border border-[#EAE8E2] rounded-2xl">
+              <table className="w-full text-left border-collapse text-xs">
+                <thead>
+                  <tr className="bg-[#FAF9F5] border-b border-[#F2F0E8] text-[10px] font-extrabold uppercase text-[#8A817C]">
+                    <th className="px-4 py-2.5">Account No.</th>
+                    <th className="px-4 py-2.5">Employee Name</th>
+                    <th className="px-4 py-2.5">Branch</th>
+                    <th className="px-4 py-2.5">Net Pay (PHP)</th>
+                    <th className="px-4 py-2.5">Type</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-[#F2F0E8]">
+                  {(payroll.length > 0 ? payroll : employees.map((e, i) => ({
+                    employeeId: e.id,
+                    employeeName: e.name,
+                    branch: e.branch,
+                    calculations: { netPay: 7500 + i * 450 }
+                  }))).map((p, idx) => (
+                    <tr key={idx} className="hover:bg-[#FAF9F5]/70">
+                      <td className="px-4 py-3 font-mono text-[#031134] font-bold">
+                        00{p.employeeId ? (1000 + p.employeeId) : (1010 + idx)}498214{(idx + 1) * 3}
+                      </td>
+                      <td className="px-4 py-3 font-bold text-[#4A2E1B]">{p.employeeName}</td>
+                      <td className="px-4 py-3 text-[#5A534E]">{p.branch || 'Centrio'}</td>
+                      <td className="px-4 py-3 font-mono font-extrabold text-[#77BC2E]">
+                        ₱{(p.calculations?.netPay || 0).toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                      </td>
+                      <td className="px-4 py-3">
+                        <span className="bg-[#77BC2E]/15 text-[#5A9A1E] text-[10px] font-bold px-2 py-0.5 rounded-md">
+                          SALARY
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Modal Actions */}
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
+              <span className="text-xs text-[#8A817C]">
+                Ready to upload to BPI BizLink Corporate portal
+              </span>
+              <div className="flex items-center space-x-2">
+                <button
+                  onClick={handleGenerateBpiBatch}
+                  className="bg-[#031134] hover:bg-[#082260] text-white font-bold text-xs px-4 py-2.5 rounded-xl transition-all flex items-center space-x-1.5 shadow-sm"
+                >
+                  <Download className="h-3.5 w-3.5" />
+                  <span>Download .CSV Batch File</span>
+                </button>
+                <button
+                  onClick={() => setShowBpiModal(false)}
+                  className="bg-[#F2F0E8] text-[#5A534E] font-semibold text-xs px-4 py-2.5 rounded-xl transition-all"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
