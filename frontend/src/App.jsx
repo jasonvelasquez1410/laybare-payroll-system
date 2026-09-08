@@ -284,7 +284,7 @@ export default function App() {
 
   // Add Employee Form State
   const [showAddEmployeeModal, setShowAddEmployeeModal] = useState(false);
-  const [newEmployee, setNewEmployee] = useState({ id: '', name: '', branch: '', rate: 600, taxStatus: 'S' });
+  const [newEmployee, setNewEmployee] = useState({ id: '', name: '', branch: 'Centrio Mall (Waxing)', rate: 600, taxStatus: 'S', bpiAccount: '' });
 
   // Quick punch simulation state
   const [livePunches, setLivePunches] = useState([
@@ -655,19 +655,33 @@ export default function App() {
     try {
       await axios.post(`${API_BASE}/employees`, newEmployee);
       setShowAddEmployeeModal(false);
-      setNewEmployee({ id: '', name: '', branch: '', rate: 600, taxStatus: 'S' });
+      setNewEmployee({ id: '', name: '', branch: 'Centrio Mall (Waxing)', rate: 600, taxStatus: 'S', bpiAccount: '' });
       fetchData();
     } catch (err) {
       console.warn('Backend add employee failed. Modifying local array.');
-      setEmployees(prev => [...prev, {
-        id: parseInt(newEmployee.id),
-        name: newEmployee.name,
-        branch: newEmployee.branch,
-        rate: parseFloat(newEmployee.rate),
-        tax_status: newEmployee.taxStatus,
-        bpi_account: newEmployee.bpiAccount || `024982140${employees.length + 1}`,
-        role: 'Salon Specialist'
-      }]);
+      setEmployees(prev => {
+        const empId = parseInt(newEmployee.id);
+        const exists = prev.some(emp => emp.id === empId);
+        if (exists) {
+          return prev.map(emp => emp.id === empId ? {
+            ...emp,
+            name: newEmployee.name,
+            branch: newEmployee.branch || 'Centrio Mall (Waxing)',
+            rate: parseFloat(newEmployee.rate),
+            tax_status: newEmployee.taxStatus,
+            bpi_account: newEmployee.bpiAccount || emp.bpi_account || '0249821401'
+          } : emp);
+        }
+        return [...prev, {
+          id: empId || (prev.length > 0 ? Math.max(...prev.map(p => p.id)) + 1 : 37),
+          name: newEmployee.name,
+          branch: newEmployee.branch || 'Centrio Mall (Waxing)',
+          rate: parseFloat(newEmployee.rate),
+          tax_status: newEmployee.taxStatus,
+          bpi_account: newEmployee.bpiAccount || `024982140${prev.length + 1}`,
+          role: 'Salon Specialist'
+        }];
+      });
       setShowAddEmployeeModal(false);
       setNewEmployee({ id: '', name: '', branch: 'Centrio Mall (Waxing)', rate: 600, taxStatus: 'S', bpiAccount: '' });
     }
@@ -2540,7 +2554,18 @@ export default function App() {
                 </div>
 
                 <button
-                  onClick={() => setShowAddEmployeeModal(true)}
+                  onClick={() => {
+                    const nextId = employees.length > 0 ? Math.max(...employees.map(e => e.id)) + 1 : 37;
+                    setNewEmployee({
+                      id: nextId,
+                      name: '',
+                      branch: 'Centrio Mall (Waxing)',
+                      rate: 600,
+                      taxStatus: 'S',
+                      bpiAccount: `02498214${nextId < 10 ? '0' + nextId : nextId}`
+                    });
+                    setShowAddEmployeeModal(true);
+                  }}
                   className="bg-[#77BC2E] hover:bg-[#6DB027] text-white font-bold text-xs px-4 py-2.5 rounded-xl transition-all flex items-center space-x-1.5 shadow-sm shadow-[#77BC2E]/20"
                 >
                   <Plus className="h-4 w-4" />
@@ -2634,7 +2659,17 @@ export default function App() {
                             </td>
                             <td className="px-6 py-4">
                               <button
-                                onClick={() => setShowAddEmployeeModal(true)}
+                                onClick={() => {
+                                  setNewEmployee({
+                                    id: emp.id,
+                                    name: emp.name,
+                                    branch: emp.branch || 'Centrio Mall (Waxing)',
+                                    rate: emp.rate || 600,
+                                    taxStatus: emp.tax_status || 'S',
+                                    bpiAccount: bpiAcct
+                                  });
+                                  setShowAddEmployeeModal(true);
+                                }}
                                 className="bg-[#FAF9F5] hover:bg-[#F2F0E8] border border-[#EAE8E2] text-[#4A2E1B] font-bold text-[10px] px-2.5 py-1.5 rounded-lg transition-all"
                               >
                                 Edit Profile
@@ -2655,14 +2690,16 @@ export default function App() {
 
       {/* 3. MODALS & POPUPS */}
 
-      {/* ADD EMPLOYEE MODAL */}
+      {/* ADD / EDIT EMPLOYEE MODAL */}
       {showAddEmployeeModal && (
         <div className="fixed inset-0 bg-stone-900/40 backdrop-blur-xs flex items-center justify-center p-4 z-50 animate-fadeIn">
           <div className="bg-white rounded-3xl border border-[#EAE8E2] shadow-2xl w-full max-w-md p-7 space-y-6">
             <div className="flex items-center justify-between border-b border-[#F2F0E8] pb-4">
               <div>
                 <span className="text-[10px] font-bold tracking-widest text-[#77BC2E] uppercase">Staff Registry</span>
-                <h3 className="font-extrabold text-lg text-[#4A2E1B]">Create Employee Profile</h3>
+                <h3 className="font-extrabold text-lg text-[#4A2E1B]">
+                  {newEmployee.id && employees.some(e => e.id === parseInt(newEmployee.id)) ? 'Edit Employee Profile' : 'Create Employee Profile'}
+                </h3>
               </div>
               <button onClick={() => setShowAddEmployeeModal(false)} className="text-[#8A817C] hover:text-[#4A2E1B]">
                 <XCircle className="h-5 w-5" />
@@ -2698,14 +2735,16 @@ export default function App() {
               <div className="grid grid-cols-3 gap-4">
                 <div className="col-span-2">
                   <label className="block font-bold text-[#5A534E] mb-1 uppercase tracking-wider">Branch Location</label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="e.g. Centrio Mall (Waxing)"
-                    value={newEmployee.branch}
+                  <select
+                    value={newEmployee.branch || 'Centrio Mall (Waxing)'}
                     onChange={(e) => setNewEmployee({ ...newEmployee, branch: e.target.value })}
                     className="w-full bg-[#F7F6F2] border border-transparent rounded-xl px-3.5 py-2.5 font-medium outline-none focus:ring-1 focus:ring-[#77BC2E]"
-                  />
+                  >
+                    <option value="Centrio Mall (Waxing)">Centrio Mall (Waxing)</option>
+                    <option value="Passion Nails (Centrio)">Passion Nails (Centrio)</option>
+                    <option value="Limketkai Mall">Limketkai Mall</option>
+                    <option value="SM Downtown Premier">SM Downtown Premier</option>
+                  </select>
                 </div>
                 <div>
                   <label className="block font-bold text-[#5A534E] mb-1 uppercase tracking-wider">Tax Status</label>
@@ -2750,7 +2789,7 @@ export default function App() {
                   type="submit"
                   className="flex-1 bg-[#77BC2E] hover:bg-[#6DB027] text-white font-bold py-3 rounded-xl text-xs shadow-sm transition-all"
                 >
-                  Create Profile
+                  {newEmployee.id && employees.some(e => e.id === parseInt(newEmployee.id)) ? 'Save Profile Changes' : 'Create Profile'}
                 </button>
                 <button
                   type="button"
