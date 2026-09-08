@@ -48,7 +48,21 @@ import {
   ShieldCheck,
   FileCheck,
   ArrowRight,
-  ExternalLink
+  ExternalLink,
+  Wallet,
+  Receipt,
+  Landmark,
+  PieChart,
+  ArrowDownLeft,
+  Scale,
+  Coins,
+  FileBarChart,
+  Banknote,
+  RefreshCw,
+  BarChart3,
+  ArrowDownRight,
+  Tag,
+  BadgePercent
 } from 'lucide-react';
 
 const API_BASE = import.meta.env.VITE_API_URL || (window.location.origin.includes('localhost') ? 'http://localhost:5000/api' : '/api');
@@ -278,6 +292,494 @@ export default function App() {
     unitPrice: 2400
   });
   const [poToast, setPoToast] = useState('');
+
+  // --- ACCOUNTING & FINANCIAL MANAGEMENT MODULE STATES ---
+  const [accountingSubTab, setAccountingSubTab] = useState('overview'); // 'overview' | 'pl' | 'balance_sheet' | 'invoices' | 'pos_recon' | 'journal' | 'taxes'
+  const [accountingBranch, setAccountingBranch] = useState('consolidated'); // 'consolidated' | 'centrio-waxing' | 'centrio-nails' | 'limketkai' | 'sm-downtown'
+  const [accountingToast, setAccountingToast] = useState('');
+  const [journalSearch, setJournalSearch] = useState('');
+  const [apFilterStatus, setApFilterStatus] = useState('');
+  const [showNewJournalModal, setShowNewJournalModal] = useState(false);
+  const [showNewInvoiceModal, setShowNewInvoiceModal] = useState(false);
+  const [showPosReconModal, setShowPosReconModal] = useState(false);
+  const [showFinancialReportModal, setShowFinancialReportModal] = useState(false);
+  const [financialReportType, setFinancialReportType] = useState('pl'); // 'pl' | 'balance_sheet'
+
+  // Bank & Liquidity Balances
+  const [bankBalances, setBankBalances] = useState({
+    bpiBizLink: 1428500.00,
+    pettyCashCentrioWaxing: 25000.00,
+    pettyCashPassionNails: 20000.00,
+    pettyCashLimketkai: 25000.00,
+    pettyCashSmDowntown: 20000.00,
+  });
+
+  // Multi-Branch P&L Data
+  const [plData, setPlData] = useState({
+    period: 'Month of August 2026 (MTD)',
+    currency: 'PHP (₱)',
+    branches: [
+      {
+        id: 'consolidated',
+        name: 'ALRAJJ LEGACY Consolidated',
+        revenue: {
+          waxingServices: 792400.00,
+          nailServices: 348250.00,
+          retailProducts: 144000.00,
+          totalRevenue: 1284650.00
+        },
+        cogs: {
+          waxConsumables: 124500.00,
+          nailGelsAndLacquers: 68400.00,
+          ppeAndSanitizers: 32400.00,
+          packagingAndBags: 23000.00,
+          totalCogs: 248300.00
+        },
+        grossProfit: 1036350.00,
+        grossMarginPct: 80.67,
+        operatingExpenses: {
+          salariesAndWages: 184500.00,
+          storeRentsAndCusa: 295000.00,
+          electricityAndWater: 48200.00,
+          marketingAndLoyalty: 18500.00,
+          maintenanceAndSanitation: 14200.00,
+          depreciationEquipment: 22000.00,
+          totalOpex: 582400.00
+        },
+        netOperatingIncome: 453950.00,
+        netMarginPct: 35.33
+      },
+      {
+        id: 'centrio-waxing',
+        name: 'Centrio Mall (Waxing Salon)',
+        revenue: {
+          waxingServices: 462100.00,
+          nailServices: 0.00,
+          retailProducts: 80000.00,
+          totalRevenue: 542100.00
+        },
+        cogs: {
+          waxConsumables: 72500.00,
+          nailGelsAndLacquers: 0.00,
+          ppeAndSanitizers: 15400.00,
+          packagingAndBags: 12000.00,
+          totalCogs: 99900.00
+        },
+        grossProfit: 442200.00,
+        grossMarginPct: 81.57,
+        operatingExpenses: {
+          salariesAndWages: 74200.00,
+          storeRentsAndCusa: 110000.00,
+          electricityAndWater: 19500.00,
+          marketingAndLoyalty: 7500.00,
+          maintenanceAndSanitation: 5800.00,
+          depreciationEquipment: 8000.00,
+          totalOpex: 225000.00
+        },
+        netOperatingIncome: 217200.00,
+        netMarginPct: 40.07
+      },
+      {
+        id: 'centrio-nails',
+        name: 'Passion Nails (Centrio Mall)',
+        revenue: {
+          waxingServices: 0.00,
+          nailServices: 284400.00,
+          retailProducts: 34000.00,
+          totalRevenue: 318400.00
+        },
+        cogs: {
+          waxConsumables: 0.00,
+          nailGelsAndLacquers: 52400.00,
+          ppeAndSanitizers: 7500.00,
+          packagingAndBags: 4500.00,
+          totalCogs: 64400.00
+        },
+        grossProfit: 254000.00,
+        grossMarginPct: 79.77,
+        operatingExpenses: {
+          salariesAndWages: 48500.00,
+          storeRentsAndCusa: 75000.00,
+          electricityAndWater: 12200.00,
+          marketingAndLoyalty: 4500.00,
+          maintenanceAndSanitation: 3800.00,
+          depreciationEquipment: 6000.00,
+          totalOpex: 150000.00
+        },
+        netOperatingIncome: 104000.00,
+        netMarginPct: 32.66
+      },
+      {
+        id: 'limketkai',
+        name: 'Limketkai Mall Branch',
+        revenue: {
+          waxingServices: 210300.00,
+          nailServices: 38850.00,
+          retailProducts: 15000.00,
+          totalRevenue: 264150.00
+        },
+        cogs: {
+          waxConsumables: 34000.00,
+          nailGelsAndLacquers: 9500.00,
+          ppeAndSanitizers: 5500.00,
+          packagingAndBags: 3800.00,
+          totalCogs: 52800.00
+        },
+        grossProfit: 211350.00,
+        grossMarginPct: 80.01,
+        operatingExpenses: {
+          salariesAndWages: 36800.00,
+          storeRentsAndCusa: 65000.00,
+          electricityAndWater: 9500.00,
+          marketingAndLoyalty: 3800.00,
+          maintenanceAndSanitation: 2800.00,
+          depreciationEquipment: 4500.00,
+          totalOpex: 122400.00
+        },
+        netOperatingIncome: 88950.00,
+        netMarginPct: 33.67
+      },
+      {
+        id: 'sm-downtown',
+        name: 'SM Downtown Premier Branch',
+        revenue: {
+          waxingServices: 120000.00,
+          nailServices: 25000.00,
+          retailProducts: 15000.00,
+          totalRevenue: 160000.00
+        },
+        cogs: {
+          waxConsumables: 18000.00,
+          nailGelsAndLacquers: 6500.00,
+          ppeAndSanitizers: 4000.00,
+          packagingAndBags: 2700.00,
+          totalCogs: 31200.00
+        },
+        grossProfit: 128800.00,
+        grossMarginPct: 80.50,
+        operatingExpenses: {
+          salariesAndWages: 25000.00,
+          storeRentsAndCusa: 45000.00,
+          electricityAndWater: 7000.00,
+          marketingAndLoyalty: 2700.00,
+          maintenanceAndSanitation: 1800.00,
+          depreciationEquipment: 3500.00,
+          totalOpex: 85000.00
+        },
+        netOperatingIncome: 43800.00,
+        netMarginPct: 27.38
+      }
+    ]
+  });
+
+  // Balance Sheet Data
+  const [balanceSheetData, setBalanceSheetData] = useState({
+    asOfDate: 'As of August 31, 2026',
+    currency: 'PHP (₱)',
+    assets: {
+      currentAssets: {
+        cashAndCashEquivalents: 1518500.00,
+        accountsReceivable: 48200.00,
+        consumableInventory: 185400.00,
+        retailProductsInventory: 94600.00,
+        prepaidMallLeaseDeposits: 380000.00,
+        totalCurrentAssets: 2226700.00
+      },
+      nonCurrentAssets: {
+        salonFixturesAndEquipment: 1450000.00,
+        nailStationsAndSpaChairs: 680000.00,
+        itAndBiometricHardware: 185000.00,
+        accumulatedDepreciation: -420000.00,
+        totalNonCurrentAssets: 1895000.00
+      },
+      totalAssets: 4121700.00
+    },
+    liabilities: {
+      currentLiabilities: {
+        accountsPayableVendors: 188300.00,
+        accruedPayrollPayable: 59350.00,
+        sssPhilhealthPagibigPayables: 24200.00,
+        birWithholdingAndVatPayable: 40650.00,
+        totalCurrentLiabilities: 312500.00
+      },
+      longTermLiabilities: {
+        equipmentFinancingLoan: 250000.00,
+        totalLongTermLiabilities: 250000.00
+      },
+      totalLiabilities: 562500.00
+    },
+    equity: {
+      ownerContributedCapital: 2500000.00,
+      retainedEarningsPrior: 605250.00,
+      currentPeriodNetIncome: 453950.00,
+      totalEquity: 3559200.00
+    },
+    totalLiabilitiesAndEquity: 4121700.00,
+    isBalanced: true
+  });
+
+  // General Ledger Journal Entries
+  const [journalEntries, setJournalEntries] = useState([
+    {
+      id: 'JE-2026-0801',
+      date: '2026-07-31',
+      reference: 'PAYROLL-2026-07-B',
+      type: 'Payroll Auto-Posting',
+      description: 'Semi-Monthly Payroll Disbursement & Statutory Accruals (July 16-31, 2026)',
+      branch: 'Consolidated',
+      postedBy: 'Kristene (HR/Accounting)',
+      status: 'Posted',
+      lines: [
+        { accountCode: '6010', accountName: 'Salaries & Wages Expense', debit: 68400.00, credit: 0 },
+        { accountCode: '2020', accountName: 'Accrued Payroll Payable (BPI BizLink)', debit: 0, credit: 59350.00 },
+        { accountCode: '2030', accountName: 'SSS Premiums Payable', debit: 0, credit: 3850.00 },
+        { accountCode: '2031', accountName: 'PhilHealth Premiums Payable', debit: 0, credit: 1800.00 },
+        { accountCode: '2032', accountName: 'Pag-IBIG Premiums Payable', debit: 0, credit: 800.00 },
+        { accountCode: '2040', accountName: 'BIR Withholding Tax Payable (1601-C)', debit: 0, credit: 2600.00 }
+      ]
+    },
+    {
+      id: 'JE-2026-0802',
+      date: '2026-08-01',
+      reference: 'PO-2026-042',
+      type: 'AP Supplier Invoice',
+      description: 'Organic Cold Wax & Spatula Batch Delivery from Organic Honey Wax Imports',
+      branch: 'Centrio Mall (Waxing)',
+      postedBy: '3-Way PO Match Engine',
+      status: 'Posted',
+      lines: [
+        { accountCode: '1040', accountName: 'Consumable Inventory - Wax Supplies', debit: 38500.00, credit: 0 },
+        { accountCode: '2010', accountName: 'Accounts Payable - Trade Suppliers', debit: 0, credit: 38500.00 }
+      ]
+    },
+    {
+      id: 'JE-2026-0803',
+      date: '2026-08-02',
+      reference: 'POS-2026-0802-CEN',
+      type: 'Daily POS Sales Closing',
+      description: 'Daily Salon Point of Sale Collections (Cash, Maya QR, GCash, Card)',
+      branch: 'Centrio Mall (Waxing)',
+      postedBy: 'POS Auto-Reconcile',
+      status: 'Posted',
+      lines: [
+        { accountCode: '1010', accountName: 'Cash in Register Drawer', debit: 24500.00, credit: 0 },
+        { accountCode: '1015', accountName: 'Digital Wallets Clearing (Maya/GCash)', debit: 18200.00, credit: 0 },
+        { accountCode: '4010', accountName: 'Waxing Service Revenue', debit: 0, credit: 36200.00 },
+        { accountCode: '4030', accountName: 'Retail Product Sales (Balms & Scrubs)', debit: 0, credit: 6500.00 }
+      ]
+    },
+    {
+      id: 'JE-2026-0803-EXP',
+      date: '2026-08-03',
+      reference: 'EXP-RENT-2026-08',
+      type: 'Commercial Lease',
+      description: 'Ayala Centrio Mall Branch Space Lease & CUSA Dues for August 2026',
+      branch: 'Centrio Mall (Waxing)',
+      postedBy: 'Kristene (Accounting)',
+      status: 'Posted',
+      lines: [
+        { accountCode: '6020', accountName: 'Store Rental & CUSA Expense', debit: 85000.00, credit: 0 },
+        { accountCode: '1020', accountName: 'Cash in Bank - BPI BizLink Master', debit: 0, credit: 80750.00 },
+        { accountCode: '2042', accountName: 'BIR Expanded Withholding Tax Payable (0619-E 5%)', debit: 0, credit: 4250.00 }
+      ]
+    }
+  ]);
+
+  // Accounts Payable Invoices (PO Integrated)
+  const [apInvoices, setApInvoices] = useState([
+    {
+      id: 'INV-2026-0101',
+      poNumber: 'PO-2026-042',
+      vendor: 'Organic Honey Wax Imports Inc.',
+      branch: 'Centrio Mall (Waxing)',
+      invoiceDate: '2026-08-01',
+      dueDate: '2026-08-31',
+      amount: 38500.00,
+      status: 'Pending Approval',
+      category: 'Wax Consumables',
+      paymentTerms: 'Net 30',
+      description: '500kg Organic Honey Wax + 2,000 Wooden Applicator Strips'
+    },
+    {
+      id: 'INV-2026-0102',
+      poNumber: 'PO-2026-043',
+      vendor: 'OPI & Premium Gel Lacquers Ph',
+      branch: 'Passion Nails (Centrio)',
+      invoiceDate: '2026-08-03',
+      dueDate: '2026-09-02',
+      amount: 24800.00,
+      status: 'Approved for Payment',
+      category: 'Nail Supplies',
+      paymentTerms: 'Net 30',
+      description: 'Seasonal Gel Polish Sets, UV Top Coats & Acrylic Powders'
+    },
+    {
+      id: 'INV-2026-0103',
+      poNumber: 'LEASE-AYALA-08',
+      vendor: 'Ayala Land Inc. (Centrio Mall Administration)',
+      branch: 'Centrio Mall (Waxing & Nails)',
+      invoiceDate: '2026-08-01',
+      dueDate: '2026-08-15',
+      amount: 125000.00,
+      status: 'Scheduled BPI BizLink',
+      category: 'Store Lease & CUSA',
+      paymentTerms: 'Due upon Receipt',
+      description: 'Space Rental 2nd Level Centrio Mall + Common Area Charges'
+    },
+    {
+      id: 'INV-2026-0104',
+      poNumber: 'PO-2026-039',
+      vendor: 'Medisupply Hygienic Products Corp.',
+      branch: 'SM Downtown Premier',
+      invoiceDate: '2026-07-20',
+      dueDate: '2026-08-19',
+      amount: 16400.00,
+      status: 'Paid',
+      category: 'PPE & Sanitizers',
+      paymentTerms: 'Net 30',
+      description: 'Nitrile Gloves, Bed Liner Rolls, Antiseptic Cleaners'
+    }
+  ]);
+
+  // Daily POS Cash Drawer Reconciliations
+  const [posReconciliations, setPosReconciliations] = useState([
+    {
+      id: 'POS-REC-2026-0807-CEN',
+      date: '2026-08-07',
+      branch: 'Centrio Mall (Waxing)',
+      shiftSupervisor: 'Cherimar Concigo',
+      openingFloat: 5000.00,
+      cashSales: 18450.00,
+      mayaQrSales: 7800.00,
+      gcashQrSales: 9200.00,
+      cardTerminalSales: 11400.00,
+      pettyCashExpenses: 450.00,
+      expectedCashInDrawer: 23000.00,
+      actualCashCounted: 23000.00,
+      variance: 0.00,
+      status: 'Reconciled & Balanced',
+      auditNotes: 'Perfect match. Petty cash was ₱450 for branch water refill.'
+    },
+    {
+      id: 'POS-REC-2026-0807-PAS',
+      date: '2026-08-07',
+      branch: 'Passion Nails (Centrio)',
+      shiftSupervisor: 'Cherry Rose Paculanang',
+      openingFloat: 3000.00,
+      cashSales: 14200.00,
+      mayaQrSales: 5400.00,
+      gcashQrSales: 6800.00,
+      cardTerminalSales: 8900.00,
+      pettyCashExpenses: 200.00,
+      expectedCashInDrawer: 17000.00,
+      actualCashCounted: 17000.00,
+      variance: 0.00,
+      status: 'Reconciled & Balanced',
+      auditNotes: 'Evening count verified by Manager.'
+    },
+    {
+      id: 'POS-REC-2026-0807-KET',
+      date: '2026-08-07',
+      branch: 'Limketkai Mall',
+      shiftSupervisor: 'Kristene HR',
+      openingFloat: 5000.00,
+      cashSales: 12800.00,
+      mayaQrSales: 4100.00,
+      gcashQrSales: 5300.00,
+      cardTerminalSales: 6700.00,
+      pettyCashExpenses: 150.00,
+      expectedCashInDrawer: 17650.00,
+      actualCashCounted: 17650.00,
+      variance: 0.00,
+      status: 'Reconciled & Balanced',
+      auditNotes: 'All client receipts and digital transaction slips intact.'
+    }
+  ]);
+
+  // BIR Tax Compliance Hub
+  const [taxSummary, setTaxSummary] = useState({
+    reportingMonth: 'August 2026',
+    tin: '009-847-192-000',
+    registeredEntity: 'ALRAJJ LEGACY Fortified Business Corp.',
+    forms: [
+      {
+        formCode: 'BIR Form 1601-C',
+        title: 'Monthly Remittance Return of Income Taxes Withheld on Compensation',
+        dueDate: 'September 10, 2026',
+        taxableBase: 184500.00,
+        taxDue: 9225.00,
+        status: 'Ready for Filing',
+        source: 'Biometric Payroll Module'
+      },
+      {
+        formCode: 'BIR Form 2550Q',
+        title: 'Quarterly Value-Added Tax Return (Q3 2026)',
+        dueDate: 'October 25, 2026',
+        taxableBase: 1284650.00,
+        taxDue: 35820.00,
+        status: 'In Computation',
+        source: 'Point of Sale & General Ledger'
+      },
+      {
+        formCode: 'BIR Form 0619-E',
+        title: 'Monthly Remittance Form for Expanded Withholding Tax (Rent & Services)',
+        dueDate: 'September 10, 2026',
+        taxableBase: 295000.00,
+        taxDue: 14750.00,
+        status: 'Ready for Filing',
+        source: 'Commercial Mall Leases & AP Module'
+      },
+      {
+        formCode: 'SSS / PhilHealth / HDMF',
+        title: 'Monthly Statutory Contribution Remittances (MCR & Electronic RF-1)',
+        dueDate: 'September 15, 2026',
+        taxableBase: 184500.00,
+        taxDue: 24200.00,
+        status: 'BPI BizLink Scheduled',
+        source: 'HR Payroll Master'
+      }
+    ]
+  });
+
+  // New Journal Entry Form State
+  const [newJournalEntry, setNewJournalEntry] = useState({
+    date: new Date().toISOString().split('T')[0],
+    reference: 'MANUAL-JE-01',
+    description: 'Petty cash replenishment for branch supplies',
+    branch: 'Centrio Mall (Waxing)',
+    postedBy: 'Kristene (Accounting)',
+    lines: [
+      { accountCode: '6050', accountName: 'Branch Supplies Expense', debit: 2500, credit: 0 },
+      { accountCode: '1020', accountName: 'Cash in Bank - BPI BizLink Master', debit: 0, credit: 2500 }
+    ]
+  });
+
+  // New Vendor Invoice Form State
+  const [newInvoice, setNewInvoice] = useState({
+    poNumber: 'PO-2026-0905',
+    vendor: 'CleanCare Sanitation Solutions Inc.',
+    branch: 'Centrio Mall (Waxing)',
+    dueDate: '2026-09-30',
+    amount: 14200,
+    category: 'PPE & Sanitizers',
+    paymentTerms: 'Net 30',
+    description: 'Monthly supply of hospital-grade surface disinfectants and UV sterilizer lamps'
+  });
+
+  // New POS Reconciliation Form State
+  const [newPosRecon, setNewPosRecon] = useState({
+    date: new Date().toISOString().split('T')[0],
+    branch: 'Centrio Mall (Waxing)',
+    shiftSupervisor: 'Justine Ann Atay',
+    openingFloat: 5000,
+    cashSales: 16800,
+    mayaQrSales: 6400,
+    gcashQrSales: 8200,
+    cardTerminalSales: 9500,
+    pettyCashExpenses: 300,
+    actualCashCounted: 21500,
+    auditNotes: 'End-of-day register closure. All transaction receipts verified against cash drawer.'
+  });
 
   // File Upload State
   const [uploadFile, setUploadFile] = useState(null);
@@ -927,6 +1429,270 @@ export default function App() {
     return matchEmp && matchStatus && matchSearch;
   });
 
+  // --- ACCOUNTING ERP HANDLERS & CHARTS ---
+  const getFinancialTrendOption = () => {
+    return {
+      backgroundColor: 'transparent',
+      tooltip: {
+        trigger: 'axis',
+        backgroundColor: '#FFFFFF',
+        borderColor: '#EAE8E2',
+        textStyle: { color: '#4A2E1B', fontFamily: 'Plus Jakarta Sans', fontSize: 12 },
+        borderRadius: 12,
+        formatter: (params) => {
+          let str = `<div class="font-bold border-b border-[#F2F0E8] pb-1 mb-1">${params[0].name}</div>`;
+          params.forEach(p => {
+            str += `<div class="flex items-center justify-between space-x-4"><span style="color:${p.color}">● ${p.seriesName}:</span> <strong class="font-mono">₱${Number(p.value).toLocaleString()}</strong></div>`;
+          });
+          return str;
+        }
+      },
+      legend: {
+        data: ['Gross Revenue', 'Operating Expenses', 'Net Income'],
+        bottom: 0,
+        textStyle: { color: '#8A817C', fontSize: 11 }
+      },
+      grid: { top: 20, right: 20, bottom: 35, left: 20, containLabel: true },
+      xAxis: {
+        type: 'category',
+        data: ['May 2026', 'Jun 2026', 'Jul 2026', 'Aug 2026 (MTD)'],
+        axisLine: { lineStyle: { color: '#EAE8E2' } },
+        axisLabel: { color: '#8A817C', fontSize: 11 }
+      },
+      yAxis: {
+        type: 'value',
+        splitLine: { lineStyle: { color: '#F4F2EB', type: 'dashed' } },
+        axisLabel: {
+          color: '#8A817C',
+          fontSize: 10,
+          formatter: (val) => `₱${(val / 1000).toFixed(0)}k`
+        }
+      },
+      series: [
+        {
+          name: 'Gross Revenue',
+          type: 'bar',
+          barWidth: 16,
+          itemStyle: { borderRadius: [6, 6, 0, 0], color: '#77BC2E' },
+          data: [1050000, 1180000, 1220000, 1284650]
+        },
+        {
+          name: 'Operating Expenses',
+          type: 'bar',
+          barWidth: 16,
+          itemStyle: { borderRadius: [6, 6, 0, 0], color: '#E89BB9' },
+          data: [510000, 545000, 560000, 582400]
+        },
+        {
+          name: 'Net Income',
+          type: 'line',
+          smooth: true,
+          lineStyle: { width: 3, color: '#031134' },
+          itemStyle: { color: '#031134', borderWidth: 2 },
+          data: [365000, 420000, 442000, 453950]
+        }
+      ]
+    };
+  };
+
+  const getBranchProfitabilityOption = () => {
+    return {
+      backgroundColor: 'transparent',
+      tooltip: {
+        trigger: 'item',
+        formatter: '{b}: ₱{c} ({d}%)',
+        backgroundColor: '#FFFFFF',
+        borderColor: '#EAE8E2',
+        borderRadius: 12
+      },
+      series: [{
+        name: 'Branch Revenue Share',
+        type: 'pie',
+        radius: ['45%', '70%'],
+        center: ['50%', '50%'],
+        avoidLabelOverlap: false,
+        itemStyle: {
+          borderRadius: 8,
+          borderColor: '#fff',
+          borderWidth: 2
+        },
+        label: { show: false },
+        data: [
+          { value: 542100, name: 'Centrio Waxing (42.2%)', itemStyle: { color: '#77BC2E' } },
+          { value: 318400, name: 'Passion Nails (24.8%)', itemStyle: { color: '#E89BB9' } },
+          { value: 264150, name: 'Limketkai Mall (20.6%)', itemStyle: { color: '#B58EBE' } },
+          { value: 160000, name: 'SM Downtown (12.4%)', itemStyle: { color: '#031134' } }
+        ]
+      }]
+    };
+  };
+
+  const handlePayInvoice = (invoiceId) => {
+    const inv = apInvoices.find(i => i.id === invoiceId);
+    if (!inv) return;
+
+    // Deduct from BPI Bank
+    setBankBalances(prev => ({
+      ...prev,
+      bpiBizLink: prev.bpiBizLink - inv.amount
+    }));
+
+    // Update invoice status
+    setApInvoices(prev => prev.map(item => item.id === invoiceId ? {
+      ...item,
+      status: 'Paid',
+      paidAt: new Date().toISOString().split('T')[0],
+      paymentRef: `BPI-BIZLINK-${Date.now().toString().slice(-6)}`
+    } : item));
+
+    // Auto-post to General Ledger
+    const newJe = {
+      id: `JE-2026-${String(journalEntries.length + 805).padStart(4, '0')}`,
+      date: new Date().toISOString().split('T')[0],
+      reference: `BPI-PMT-${inv.poNumber}`,
+      type: 'AP BPI Disbursement',
+      description: `Settlement of ${inv.vendor} (${inv.category})`,
+      branch: inv.branch,
+      postedBy: 'BPI BizLink Auto-Sync',
+      status: 'Posted',
+      lines: [
+        { accountCode: '2010', accountName: 'Accounts Payable - Trade Suppliers', debit: inv.amount, credit: 0 },
+        { accountCode: '1020', accountName: 'Cash in Bank - BPI BizLink Master', debit: 0, credit: inv.amount }
+      ]
+    };
+
+    setJournalEntries(prev => [newJe, ...prev]);
+    setAccountingToast(`Invoice ${inv.id} for ₱${inv.amount.toLocaleString()} disbursed via BPI BizLink & auto-posted to General Ledger.`);
+    setTimeout(() => setAccountingToast(''), 6000);
+  };
+
+  const handleCreateJournalEntry = (e) => {
+    e.preventDefault();
+    const totalDebit = newJournalEntry.lines.reduce((sum, l) => sum + (Number(l.debit) || 0), 0);
+    const totalCredit = newJournalEntry.lines.reduce((sum, l) => sum + (Number(l.credit) || 0), 0);
+
+    if (Math.abs(totalDebit - totalCredit) > 0.01) {
+      alert(`Journal entry is unbalanced! Total Debits: ₱${totalDebit.toFixed(2)} vs Total Credits: ₱${totalCredit.toFixed(2)}. Debits must equal Credits.`);
+      return;
+    }
+
+    const createdJe = {
+      id: `JE-2026-${String(journalEntries.length + 805).padStart(4, '0')}`,
+      date: newJournalEntry.date,
+      reference: newJournalEntry.reference,
+      type: 'Manual Journal Entry',
+      description: newJournalEntry.description,
+      branch: newJournalEntry.branch,
+      postedBy: newJournalEntry.postedBy,
+      status: 'Posted',
+      lines: newJournalEntry.lines.map(l => ({
+        accountCode: l.accountCode,
+        accountName: l.accountName,
+        debit: Number(l.debit) || 0,
+        credit: Number(l.credit) || 0
+      }))
+    };
+
+    setJournalEntries(prev => [createdJe, ...prev]);
+    setShowNewJournalModal(false);
+    setAccountingToast(`Journal Entry ${createdJe.id} posted successfully with ₱${totalDebit.toLocaleString()} balanced lines.`);
+    setTimeout(() => setAccountingToast(''), 5000);
+  };
+
+  const handleCreateInvoice = (e) => {
+    e.preventDefault();
+    const createdInv = {
+      id: `INV-2026-${String(apInvoices.length + 105).padStart(4, '0')}`,
+      poNumber: newInvoice.poNumber,
+      vendor: newInvoice.vendor,
+      branch: newInvoice.branch,
+      invoiceDate: new Date().toISOString().split('T')[0],
+      dueDate: newInvoice.dueDate || '2026-09-30',
+      amount: Number(newInvoice.amount) || 0,
+      status: 'Approved for Payment',
+      category: newInvoice.category,
+      paymentTerms: newInvoice.paymentTerms,
+      description: newInvoice.description
+    };
+
+    setApInvoices(prev => [createdInv, ...prev]);
+    setShowNewInvoiceModal(false);
+    setAccountingToast(`Supplier Invoice ${createdInv.id} created & matched to ${createdInv.poNumber}.`);
+    setTimeout(() => setAccountingToast(''), 5000);
+  };
+
+  const handleCreatePosRecon = (e) => {
+    e.preventDefault();
+    const openFloat = Number(newPosRecon.openingFloat) || 0;
+    const cash = Number(newPosRecon.cashSales) || 0;
+    const petty = Number(newPosRecon.pettyCashExpenses) || 0;
+    const expected = openFloat + cash - petty;
+    const actual = Number(newPosRecon.actualCashCounted) || 0;
+    const variance = actual - expected;
+
+    const createdRec = {
+      id: `POS-REC-2026-${Date.now().toString().slice(-6)}`,
+      date: newPosRecon.date,
+      branch: newPosRecon.branch,
+      shiftSupervisor: newPosRecon.shiftSupervisor,
+      openingFloat: openFloat,
+      cashSales: cash,
+      mayaQrSales: Number(newPosRecon.mayaQrSales) || 0,
+      gcashQrSales: Number(newPosRecon.gcashQrSales) || 0,
+      cardTerminalSales: Number(newPosRecon.cardTerminalSales) || 0,
+      pettyCashExpenses: petty,
+      expectedCashInDrawer: expected,
+      actualCashCounted: actual,
+      variance: variance,
+      status: variance === 0 ? 'Reconciled & Balanced' : 'Variance Flagged',
+      auditNotes: newPosRecon.auditNotes
+    };
+
+    setPosReconciliations(prev => [createdRec, ...prev]);
+    setShowPosReconModal(false);
+    setAccountingToast(`Daily POS Cash Audit saved for ${createdRec.branch}: Expected ₱${expected.toLocaleString()}, Counted ₱${actual.toLocaleString()} (${createdRec.status}).`);
+    setTimeout(() => setAccountingToast(''), 6000);
+  };
+
+  const handleExportPlCsv = () => {
+    const selectedBranchData = plData.branches.find(b => b.id === accountingBranch) || plData.branches[0];
+    let csv = `ALRAJJ LEGACY Fortified Business Corp. - Profit & Loss Statement\n`;
+    csv += `Branch,${selectedBranchData.name}\n`;
+    csv += `Period,${plData.period}\n\n`;
+    csv += `Category,Amount (PHP)\n`;
+    csv += `REVENUE\n`;
+    csv += `Waxing Services,${selectedBranchData.revenue.waxingServices}\n`;
+    csv += `Nail Services,${selectedBranchData.revenue.nailServices}\n`;
+    csv += `Retail Products,${selectedBranchData.revenue.retailProducts}\n`;
+    csv += `Total Gross Revenue,${selectedBranchData.revenue.totalRevenue}\n\n`;
+    csv += `COST OF GOODS SOLD (COGS)\n`;
+    csv += `Wax Consumables,${selectedBranchData.cogs.waxConsumables}\n`;
+    csv += `Nail Gels & Lacquers,${selectedBranchData.cogs.nailGelsAndLacquers}\n`;
+    csv += `PPE & Sanitation Kits,${selectedBranchData.cogs.ppeAndSanitizers}\n`;
+    csv += `Packaging & Bags,${selectedBranchData.cogs.packagingAndBags}\n`;
+    csv += `Total COGS,${selectedBranchData.cogs.totalCogs}\n\n`;
+    csv += `GROSS PROFIT,${selectedBranchData.grossProfit}\n`;
+    csv += `Gross Margin (%),${selectedBranchData.grossMarginPct}%\n\n`;
+    csv += `OPERATING EXPENSES (OPEX)\n`;
+    csv += `Salaries & Wages (Payroll),${selectedBranchData.operatingExpenses.salariesAndWages}\n`;
+    csv += `Store Rents & CUSA,${selectedBranchData.operatingExpenses.storeRentsAndCusa}\n`;
+    csv += `Electricity & Water,${selectedBranchData.operatingExpenses.electricityAndWater}\n`;
+    csv += `Marketing & Promos,${selectedBranchData.operatingExpenses.marketingAndLoyalty}\n`;
+    csv += `Maintenance & Sanitation,${selectedBranchData.operatingExpenses.maintenanceAndSanitation}\n`;
+    csv += `Depreciation Equipment,${selectedBranchData.operatingExpenses.depreciationEquipment}\n`;
+    csv += `Total Operating Expenses,${selectedBranchData.operatingExpenses.totalOpex}\n\n`;
+    csv += `NET OPERATING INCOME (EBITDA),${selectedBranchData.netOperatingIncome}\n`;
+    csv += `Net Profit Margin (%),${selectedBranchData.netMarginPct}%\n`;
+
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.setAttribute('download', `ALRAJJ_LEGACY_PL_${accountingBranch}_${new Date().toISOString().split('T')[0]}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <div className="min-h-screen font-sans antialiased text-[#2D2520] bg-[#F7F8FA] flex">
       
@@ -965,9 +1731,9 @@ export default function App() {
           {/* Navigation Categories */}
           <nav className="space-y-5 text-xs">
             
-            {/* Category 1: OVERVIEW */}
+            {/* Category 1: FINANCIAL & EXECUTIVE ERP */}
             <div className="space-y-1">
-              <span className="text-[10px] font-bold tracking-wider uppercase text-[#A8A29E] px-3">Overview</span>
+              <span className="text-[10px] font-bold tracking-wider uppercase text-[#A8A29E] px-3">Financial & Executive ERP</span>
               
               <button
                 onClick={() => { setActiveTab('dashboard'); setSidebarOpen(false); }}
@@ -982,6 +1748,25 @@ export default function App() {
               </button>
 
               <button
+                onClick={() => { setActiveTab('accounting'); setSidebarOpen(false); }}
+                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl font-semibold transition-all ${
+                  activeTab === 'accounting'
+                    ? 'bg-[#031134] text-white shadow-sm shadow-[#031134]/25'
+                    : 'text-[#5A534E] hover:bg-[#F7F6F2] hover:text-[#031134]'
+                }`}
+              >
+                <div className="flex items-center space-x-3">
+                  <Landmark className="h-4 w-4 text-[#D4AF37]" />
+                  <span>Accounting & Financials</span>
+                </div>
+                <span className={`text-[9px] font-extrabold px-1.5 py-0.5 rounded-md uppercase tracking-wider ${
+                  activeTab === 'accounting' ? 'bg-[#D4AF37] text-[#031134]' : 'bg-[#031134]/10 text-[#031134]'
+                }`}>
+                  ERP
+                </span>
+              </button>
+
+              <button
                 onClick={() => { setActiveTab('payroll'); setSidebarOpen(false); }}
                 className={`w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl font-semibold transition-all ${
                   activeTab === 'payroll'
@@ -990,7 +1775,7 @@ export default function App() {
                 }`}
               >
                 <Calculator className="h-4 w-4" />
-                <span>Accounting & Payroll</span>
+                <span>Biometric Payroll</span>
               </button>
             </div>
 
@@ -1180,12 +1965,33 @@ export default function App() {
               <button
                 onClick={() => setActiveTab('dashboard')}
                 className={`px-3 py-1.5 rounded-xl transition-all ${
-                  ['dashboard', 'payroll', 'exceptions', 'tardiness', 'upload'].includes(activeTab)
+                  ['dashboard', 'exceptions', 'tardiness', 'upload'].includes(activeTab)
                     ? 'bg-[#77BC2E] text-white font-bold shadow-2xs'
                     : 'text-[#5A534E] hover:text-[#4A2E1B]'
                 }`}
               >
-                HR & Payroll
+                HR & Workforce
+              </button>
+              <button
+                onClick={() => setActiveTab('accounting')}
+                className={`px-3 py-1.5 rounded-xl transition-all flex items-center space-x-1.5 ${
+                  activeTab === 'accounting'
+                    ? 'bg-[#031134] text-white font-bold shadow-2xs'
+                    : 'text-[#5A534E] hover:text-[#031134]'
+                }`}
+              >
+                <Landmark className="h-3.5 w-3.5 text-[#D4AF37]" />
+                <span>Accounting & ERP</span>
+              </button>
+              <button
+                onClick={() => setActiveTab('payroll')}
+                className={`px-3 py-1.5 rounded-xl transition-all ${
+                  activeTab === 'payroll'
+                    ? 'bg-[#77BC2E] text-white font-bold shadow-2xs'
+                    : 'text-[#5A534E] hover:text-[#4A2E1B]'
+                }`}
+              >
+                Payroll
               </button>
               <button
                 onClick={() => setActiveTab('crm')}
@@ -1205,7 +2011,7 @@ export default function App() {
                     : 'text-[#5A534E] hover:text-[#4A2E1B]'
                 }`}
               >
-                <span>PO &rarr; Accounting</span>
+                <span>PO Pipeline</span>
               </button>
             </div>
 
@@ -1846,6 +2652,1214 @@ export default function App() {
                   </tbody>
                 </table>
               </div>
+            </div>
+          )}
+
+          {/* TAB: ACCOUNTING & FINANCIAL MANAGEMENT ERP SUITE */}
+          {activeTab === 'accounting' && (
+            <div className="space-y-6 animate-fadeIn">
+              
+              {/* Toast Notification */}
+              {accountingToast && (
+                <div className="bg-[#031134] text-white p-4 rounded-2xl flex items-center justify-between text-xs font-bold shadow-md border border-[#D4AF37]/30 animate-fadeIn">
+                  <div className="flex items-center space-x-2.5">
+                    <CheckCircle className="h-4 w-4 text-[#77BC2E]" />
+                    <span>{accountingToast}</span>
+                  </div>
+                  <button onClick={() => setAccountingToast('')} className="text-[#8A817C] hover:text-white">
+                    <XCircle className="h-4 w-4" />
+                  </button>
+                </div>
+              )}
+
+              {/* ERP Module Header & Actions */}
+              <div className="bg-white border border-[#EAE8E2] rounded-3xl p-6 shadow-2xs space-y-4">
+                <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-[#F2F0E8] pb-5">
+                  <div>
+                    <div className="flex items-center space-x-2">
+                      <span className="bg-[#031134] text-[#D4AF37] text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+                        Enterprise ERP Core
+                      </span>
+                      <span className="text-[11px] font-bold text-[#77BC2E]">Multi-Branch Financial Suite</span>
+                    </div>
+                    <h2 className="font-extrabold text-xl text-[#4A2E1B] mt-1 tracking-tight">
+                      Accounting & Financial Operations
+                    </h2>
+                    <p className="text-xs text-[#8A817C] max-w-2xl mt-0.5">
+                      Integrated General Ledger, Branch-by-Branch P&L, Balance Sheet, AP Vendor Bills (PO Linked), Daily POS Cash Reconciliation, and Philippine BIR Tax Hub.
+                    </p>
+                  </div>
+
+                  {/* Top Action Buttons */}
+                  <div className="flex flex-wrap items-center gap-2">
+                    <button
+                      onClick={() => setShowNewJournalModal(true)}
+                      className="bg-[#031134] hover:bg-[#082260] text-white font-bold text-xs px-3.5 py-2.5 rounded-xl transition-all flex items-center space-x-1.5 shadow-sm"
+                    >
+                      <Plus className="h-3.5 w-3.5 text-[#D4AF37]" />
+                      <span>+ Journal Entry</span>
+                    </button>
+                    <button
+                      onClick={() => setShowNewInvoiceModal(true)}
+                      className="bg-[#77BC2E] hover:bg-[#6DB027] text-white font-bold text-xs px-3.5 py-2.5 rounded-xl transition-all flex items-center space-x-1.5 shadow-sm shadow-[#77BC2E]/20"
+                    >
+                      <Receipt className="h-3.5 w-3.5" />
+                      <span>+ Vendor Bill</span>
+                    </button>
+                    <button
+                      onClick={() => setShowPosReconModal(true)}
+                      className="bg-[#FAF9F5] hover:bg-[#F2F0E8] border border-[#EAE8E2] text-[#4A2E1B] font-bold text-xs px-3.5 py-2.5 rounded-xl transition-all flex items-center space-x-1.5"
+                    >
+                      <Wallet className="h-3.5 w-3.5 text-[#E89BB9]" />
+                      <span>+ POS Cash Audit</span>
+                    </button>
+                    <button
+                      onClick={() => { setFinancialReportType('pl'); setShowFinancialReportModal(true); }}
+                      className="bg-white border border-[#EAE8E2] hover:bg-[#FAF9F5] text-[#5A534E] font-bold text-xs px-3.5 py-2.5 rounded-xl transition-all flex items-center space-x-1.5 shadow-2xs"
+                    >
+                      <Printer className="h-3.5 w-3.5 text-[#8A817C]" />
+                      <span>Print Statement</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Sub-Nav Pills */}
+                <div className="flex items-center space-x-1.5 overflow-x-auto pb-1 text-xs font-bold scrollbar-none">
+                  <button
+                    onClick={() => setAccountingSubTab('overview')}
+                    className={`px-3.5 py-2 rounded-xl transition-all flex items-center space-x-2 flex-shrink-0 ${
+                      accountingSubTab === 'overview'
+                        ? 'bg-[#031134] text-white shadow-2xs'
+                        : 'bg-[#FAF9F5] text-[#5A534E] hover:bg-[#F2F0E8] hover:text-[#4A2E1B]'
+                    }`}
+                  >
+                    <BarChart3 className="h-3.5 w-3.5 text-[#D4AF37]" />
+                    <span>Overview & Liquidity</span>
+                  </button>
+
+                  <button
+                    onClick={() => setAccountingSubTab('pl')}
+                    className={`px-3.5 py-2 rounded-xl transition-all flex items-center space-x-2 flex-shrink-0 ${
+                      accountingSubTab === 'pl'
+                        ? 'bg-[#77BC2E] text-white shadow-2xs'
+                        : 'bg-[#FAF9F5] text-[#5A534E] hover:bg-[#F2F0E8] hover:text-[#4A2E1B]'
+                    }`}
+                  >
+                    <TrendingUp className="h-3.5 w-3.5" />
+                    <span>Profit & Loss (P&L)</span>
+                  </button>
+
+                  <button
+                    onClick={() => setAccountingSubTab('balance_sheet')}
+                    className={`px-3.5 py-2 rounded-xl transition-all flex items-center space-x-2 flex-shrink-0 ${
+                      accountingSubTab === 'balance_sheet'
+                        ? 'bg-[#031134] text-white shadow-2xs'
+                        : 'bg-[#FAF9F5] text-[#5A534E] hover:bg-[#F2F0E8] hover:text-[#4A2E1B]'
+                    }`}
+                  >
+                    <Scale className="h-3.5 w-3.5" />
+                    <span>Balance Sheet</span>
+                  </button>
+
+                  <button
+                    onClick={() => setAccountingSubTab('invoices')}
+                    className={`px-3.5 py-2 rounded-xl transition-all flex items-center space-x-2 flex-shrink-0 ${
+                      accountingSubTab === 'invoices'
+                        ? 'bg-[#031134] text-white shadow-2xs'
+                        : 'bg-[#FAF9F5] text-[#5A534E] hover:bg-[#F2F0E8] hover:text-[#4A2E1B]'
+                    }`}
+                  >
+                    <Receipt className="h-3.5 w-3.5 text-[#E89BB9]" />
+                    <span>Accounts Payable (PO Linked)</span>
+                    <span className="bg-[#E89BB9] text-white text-[10px] px-1.5 py-0.2 rounded-full">
+                      {apInvoices.filter(i => i.status !== 'Paid').length}
+                    </span>
+                  </button>
+
+                  <button
+                    onClick={() => setAccountingSubTab('pos_recon')}
+                    className={`px-3.5 py-2 rounded-xl transition-all flex items-center space-x-2 flex-shrink-0 ${
+                      accountingSubTab === 'pos_recon'
+                        ? 'bg-[#031134] text-white shadow-2xs'
+                        : 'bg-[#FAF9F5] text-[#5A534E] hover:bg-[#F2F0E8] hover:text-[#4A2E1B]'
+                    }`}
+                  >
+                    <Wallet className="h-3.5 w-3.5" />
+                    <span>Daily POS Cash Audit</span>
+                  </button>
+
+                  <button
+                    onClick={() => setAccountingSubTab('journal')}
+                    className={`px-3.5 py-2 rounded-xl transition-all flex items-center space-x-2 flex-shrink-0 ${
+                      accountingSubTab === 'journal'
+                        ? 'bg-[#031134] text-white shadow-2xs'
+                        : 'bg-[#FAF9F5] text-[#5A534E] hover:bg-[#F2F0E8] hover:text-[#4A2E1B]'
+                    }`}
+                  >
+                    <Layers className="h-3.5 w-3.5" />
+                    <span>General Ledger & Journals</span>
+                  </button>
+
+                  <button
+                    onClick={() => setAccountingSubTab('taxes')}
+                    className={`px-3.5 py-2 rounded-xl transition-all flex items-center space-x-2 flex-shrink-0 ${
+                      accountingSubTab === 'taxes'
+                        ? 'bg-[#031134] text-white shadow-2xs'
+                        : 'bg-[#FAF9F5] text-[#5A534E] hover:bg-[#F2F0E8] hover:text-[#4A2E1B]'
+                    }`}
+                  >
+                    <ShieldCheck className="h-3.5 w-3.5 text-[#77BC2E]" />
+                    <span>BIR & Statutory Tax Hub</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* SUB-TAB 1: FINANCIAL OVERVIEW & LIQUIDITY */}
+              {accountingSubTab === 'overview' && (
+                <div className="space-y-6 animate-fadeIn">
+                  
+                  {/* Top Executive Financial Metric Cards */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div className="bg-white border border-[#EAE8E2] rounded-3xl p-5 shadow-2xs space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#8A817C]">Total Liquidity</span>
+                        <div className="w-8 h-8 rounded-xl bg-[#77BC2E]/15 text-[#5A9A1E] flex items-center justify-center">
+                          <Landmark className="h-4 w-4" />
+                        </div>
+                      </div>
+                      <div className="text-2xl font-black text-[#4A2E1B] font-mono">
+                        ₱{(bankBalances.bpiBizLink + 90000).toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                      </div>
+                      <div className="flex items-center space-x-1.5 text-[11px] text-[#5A9A1E] font-semibold">
+                        <CheckCircle className="h-3.5 w-3.5" />
+                        <span>BPI BizLink + 4 Branch Cash Floats</span>
+                      </div>
+                    </div>
+
+                    <div className="bg-white border border-[#EAE8E2] rounded-3xl p-5 shadow-2xs space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#8A817C]">Gross Revenue (MTD)</span>
+                        <div className="w-8 h-8 rounded-xl bg-[#E89BB9]/20 text-[#D47098] flex items-center justify-center">
+                          <TrendingUp className="h-4 w-4" />
+                        </div>
+                      </div>
+                      <div className="text-2xl font-black text-[#4A2E1B] font-mono">
+                        ₱1,284,650.00
+                      </div>
+                      <div className="flex items-center space-x-1.5 text-[11px] text-[#5A9A1E] font-semibold">
+                        <ArrowUpRight className="h-3.5 w-3.5" />
+                        <span>80.67% Gross Margin (₱1.036M)</span>
+                      </div>
+                    </div>
+
+                    <div className="bg-white border border-[#EAE8E2] rounded-3xl p-5 shadow-2xs space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#8A817C]">Operating OPEX (MTD)</span>
+                        <div className="w-8 h-8 rounded-xl bg-[#FAF9F5] border border-[#EAE8E2] text-[#4A2E1B] flex items-center justify-center">
+                          <Calculator className="h-4 w-4" />
+                        </div>
+                      </div>
+                      <div className="text-2xl font-black text-[#4A2E1B] font-mono">
+                        ₱582,400.00
+                      </div>
+                      <div className="text-[11px] text-[#8A817C] font-semibold">
+                        Salaries: ₱184.5k &bull; Mall Leases: ₱295k
+                      </div>
+                    </div>
+
+                    <div className="bg-gradient-to-br from-[#031134] to-[#0A1B45] text-white rounded-3xl p-5 shadow-sm space-y-2 border border-[#D4AF37]/30">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#D4AF37]">Net Operating EBITDA</span>
+                        <div className="w-8 h-8 rounded-xl bg-white/10 text-[#D4AF37] flex items-center justify-center">
+                          <Coins className="h-4 w-4" />
+                        </div>
+                      </div>
+                      <div className="text-2xl font-black text-white font-mono">
+                        ₱453,950.00
+                      </div>
+                      <div className="flex items-center space-x-1.5 text-[11px] text-[#77BC2E] font-semibold">
+                        <Sparkles className="h-3.5 w-3.5 text-[#D4AF37]" />
+                        <span>35.33% Net Profit Margin</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Charts Row: Revenue Trend vs Expenses + Branch Revenue Donut */}
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
+                    
+                    {/* Left: Financial Trend Chart */}
+                    <div className="lg:col-span-8 bg-white border border-[#EAE8E2] rounded-3xl p-6 shadow-2xs space-y-4">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <h3 className="font-extrabold text-sm text-[#4A2E1B]">Revenue vs. OPEX & Net Profit Trend</h3>
+                          <p className="text-[11px] text-[#8A817C]">4-Month Financial Trajectory (May - Aug 2026)</p>
+                        </div>
+                        <span className="text-[10px] font-extrabold bg-[#77BC2E]/15 text-[#5A9A1E] px-2.5 py-1 rounded-full uppercase">
+                          +12.4% MoM Growth
+                        </span>
+                      </div>
+                      <div className="h-64">
+                        <ReactECharts option={getFinancialTrendOption()} style={{ height: '100%', width: '100%' }} />
+                      </div>
+                    </div>
+
+                    {/* Right: Branch Revenue Share */}
+                    <div className="lg:col-span-4 bg-white border border-[#EAE8E2] rounded-3xl p-6 shadow-2xs space-y-4 flex flex-col justify-between">
+                      <div>
+                        <div className="flex items-center justify-between">
+                          <h3 className="font-extrabold text-sm text-[#4A2E1B]">Branch Revenue Share</h3>
+                          <span className="text-[10px] font-bold text-[#8A817C]">August MTD</span>
+                        </div>
+                        <p className="text-[11px] text-[#8A817C]">Contribution across 4 retail locations</p>
+                      </div>
+
+                      <div className="h-44 flex items-center justify-center">
+                        <ReactECharts option={getBranchProfitabilityOption()} style={{ height: '100%', width: '100%' }} />
+                      </div>
+
+                      <div className="space-y-1.5 text-xs pt-2 border-t border-[#F2F0E8]">
+                        <div className="flex items-center justify-between">
+                          <span className="text-[#5A534E] flex items-center space-x-1.5">
+                            <span className="w-2 h-2 rounded-full bg-[#77BC2E]"></span>
+                            <span>Centrio Waxing Salon</span>
+                          </span>
+                          <strong className="font-mono text-[#4A2E1B]">₱542.1k (42%)</strong>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span className="text-[#5A534E] flex items-center space-x-1.5">
+                            <span className="w-2 h-2 rounded-full bg-[#E89BB9]"></span>
+                            <span>Passion Nails (Centrio)</span>
+                          </span>
+                          <strong className="font-mono text-[#4A2E1B]">₱318.4k (25%)</strong>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span className="text-[#5A534E] flex items-center space-x-1.5">
+                            <span className="w-2 h-2 rounded-full bg-[#B58EBE]"></span>
+                            <span>Limketkai Mall</span>
+                          </span>
+                          <strong className="font-mono text-[#4A2E1B]">₱264.1k (21%)</strong>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span className="text-[#5A534E] flex items-center space-x-1.5">
+                            <span className="w-2 h-2 rounded-full bg-[#031134]"></span>
+                            <span>SM Downtown Premier</span>
+                          </span>
+                          <strong className="font-mono text-[#4A2E1B]">₱160.0k (12%)</strong>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Liquidity Accounts & Branch Petty Cash Floats */}
+                  <div className="bg-white border border-[#EAE8E2] rounded-3xl p-6 shadow-2xs space-y-4">
+                    <div className="flex items-center justify-between border-b border-[#F2F0E8] pb-4">
+                      <div>
+                        <h3 className="font-extrabold text-base text-[#4A2E1B]">
+                          Corporate Bank Accounts & Branch Cash Floats
+                        </h3>
+                        <p className="text-xs text-[#8A817C]">
+                          Real-time cash availability for daily payroll disbursements, supplier payments, and branch floats.
+                        </p>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <span className="bg-[#77BC2E]/15 text-[#5A9A1E] text-xs font-bold px-3 py-1 rounded-full flex items-center space-x-1.5">
+                          <CheckCircle className="h-3.5 w-3.5" />
+                          <span>BPI BizLink API Online</span>
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-5 gap-3 text-xs">
+                      <div className="bg-[#FAF9F5] border border-[#EAE8E2] rounded-2xl p-4 space-y-1 md:col-span-2">
+                        <div className="flex items-center justify-between">
+                          <span className="text-[10px] font-extrabold uppercase text-[#8A817C]">Master Corporate Account</span>
+                          <span className="bg-[#031134] text-[#D4AF37] text-[9px] font-bold px-1.5 py-0.5 rounded">BPI BizLink</span>
+                        </div>
+                        <strong className="text-[#4A2E1B] text-lg block font-mono">
+                          ₱{bankBalances.bpiBizLink.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                        </strong>
+                        <p className="text-[11px] text-[#8A817C]">Acc: 0249-8819-22 (ALRAJJ LEGACY Fortified)</p>
+                      </div>
+
+                      <div className="bg-white border border-[#EAE8E2] rounded-2xl p-4 space-y-1">
+                        <span className="text-[10px] font-extrabold uppercase text-[#8A817C] block">Centrio Waxing Float</span>
+                        <strong className="text-[#4A2E1B] text-base block font-mono">
+                          ₱{bankBalances.pettyCashCentrioWaxing.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                        </strong>
+                        <span className="text-[10px] font-bold text-[#5A9A1E]">Audited & Balanced</span>
+                      </div>
+
+                      <div className="bg-white border border-[#EAE8E2] rounded-2xl p-4 space-y-1">
+                        <span className="text-[10px] font-extrabold uppercase text-[#8A817C] block">Passion Nails Float</span>
+                        <strong className="text-[#4A2E1B] text-base block font-mono">
+                          ₱{bankBalances.pettyCashPassionNails.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                        </strong>
+                        <span className="text-[10px] font-bold text-[#5A9A1E]">Audited & Balanced</span>
+                      </div>
+
+                      <div className="bg-white border border-[#EAE8E2] rounded-2xl p-4 space-y-1">
+                        <span className="text-[10px] font-extrabold uppercase text-[#8A817C] block">Ketkai & SM Floats</span>
+                        <strong className="text-[#4A2E1B] text-base block font-mono">
+                          ₱{(bankBalances.pettyCashLimketkai + bankBalances.pettyCashSmDowntown).toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                        </strong>
+                        <span className="text-[10px] font-bold text-[#5A9A1E]">Combined Total</span>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              )}
+
+              {/* SUB-TAB 2: MULTI-BRANCH PROFIT & LOSS (P&L) STATEMENT */}
+              {accountingSubTab === 'pl' && (
+                <div className="space-y-6 animate-fadeIn">
+                  
+                  {/* Branch Filter Pills + Export Actions */}
+                  <div className="bg-white border border-[#EAE8E2] rounded-3xl p-5 shadow-2xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div className="flex items-center space-x-2 overflow-x-auto pb-1 scrollbar-none">
+                      <span className="text-xs font-bold text-[#8A817C] mr-1 uppercase">Filter Branch:</span>
+                      {[
+                        { id: 'consolidated', label: 'Consolidated (All Branches)' },
+                        { id: 'centrio-waxing', label: 'Centrio Waxing' },
+                        { id: 'centrio-nails', label: 'Passion Nails (Centrio)' },
+                        { id: 'limketkai', label: 'Limketkai Mall' },
+                        { id: 'sm-downtown', label: 'SM Downtown Premier' }
+                      ].map((b) => (
+                        <button
+                          key={b.id}
+                          onClick={() => setAccountingBranch(b.id)}
+                          className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex-shrink-0 ${
+                            accountingBranch === b.id
+                              ? 'bg-[#77BC2E] text-white shadow-2xs'
+                              : 'bg-[#FAF9F5] text-[#5A534E] hover:bg-[#F2F0E8] hover:text-[#4A2E1B]'
+                          }`}
+                        >
+                          {b.label}
+                        </button>
+                      ))}
+                    </div>
+
+                    <div className="flex items-center space-x-2">
+                      <button
+                        onClick={handleExportPlCsv}
+                        className="bg-[#FAF9F5] hover:bg-[#F2F0E8] border border-[#EAE8E2] text-[#4A2E1B] font-bold text-xs px-3.5 py-2 rounded-xl transition-all flex items-center space-x-1.5"
+                      >
+                        <Download className="h-3.5 w-3.5" />
+                        <span>Export CSV</span>
+                      </button>
+                      <button
+                        onClick={() => { setFinancialReportType('pl'); setShowFinancialReportModal(true); }}
+                        className="bg-[#031134] hover:bg-[#082260] text-white font-bold text-xs px-3.5 py-2 rounded-xl transition-all flex items-center space-x-1.5 shadow-2xs"
+                      >
+                        <Printer className="h-3.5 w-3.5 text-[#D4AF37]" />
+                        <span>Print Official P&L</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* P&L Statement Card */}
+                  {(() => {
+                    const currentBranch = plData.branches.find(b => b.id === accountingBranch) || plData.branches[0];
+                    return (
+                      <div className="bg-white border border-[#EAE8E2] rounded-3xl p-6 sm:p-8 shadow-2xs space-y-6">
+                        
+                        {/* Statement Title Block */}
+                        <div className="border-b border-[#EAE8E2] pb-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                          <div>
+                            <div className="flex items-center space-x-2">
+                              <span className="font-extrabold text-xs text-[#031134] uppercase tracking-wider">Philippine GAAP / BIR Standard</span>
+                              <span className="bg-[#77BC2E]/15 text-[#5A9A1E] text-[10px] font-extrabold px-2 py-0.5 rounded-full">Audited Feed</span>
+                            </div>
+                            <h3 className="font-black text-2xl text-[#4A2E1B] mt-1">
+                              Statement of Profit & Loss (Income Statement)
+                            </h3>
+                            <p className="text-xs text-[#8A817C]">
+                              Entity: <strong>{currentBranch.name}</strong> &bull; Period: {plData.period} &bull; Currency: {plData.currency}
+                            </p>
+                          </div>
+
+                          <div className="bg-[#FAF9F5] border border-[#EAE8E2] rounded-2xl p-4 text-right">
+                            <span className="text-[10px] font-bold uppercase text-[#8A817C] block">Net Operating Profit</span>
+                            <span className="text-2xl font-black text-[#5A9A1E] font-mono">
+                              ₱{currentBranch.netOperatingIncome.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                            </span>
+                            <span className="text-[11px] font-extrabold text-[#77BC2E] block">
+                              {currentBranch.netMarginPct}% Net Margin
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Statement Table */}
+                        <div className="overflow-x-auto">
+                          <table className="w-full text-xs text-left">
+                            <thead>
+                              <tr className="border-b border-[#EAE8E2] text-[10px] font-extrabold uppercase text-[#8A817C] tracking-wider">
+                                <th className="py-3 px-4">Line Item / Account Description</th>
+                                <th className="py-3 px-4 text-right">Amount (PHP)</th>
+                                <th className="py-3 px-4 text-right">% of Revenue</th>
+                              </tr>
+                            </thead>
+                            <tbody className="divide-y divide-[#F2F0E8] font-medium text-[#4A2E1B]">
+                              
+                              {/* Section 1: REVENUE */}
+                              <tr className="bg-[#FAF9F5] font-extrabold text-[#031134]">
+                                <td className="py-2.5 px-4 uppercase tracking-wider" colSpan={3}>
+                                  I. OPERATING REVENUE (GROSS SERVICE & RETAIL SALES)
+                                </td>
+                              </tr>
+                              <tr>
+                                <td className="py-2 px-8 text-[#5A534E]">Waxing Salon Services Revenue</td>
+                                <td className="py-2 px-4 text-right font-mono">₱{currentBranch.revenue.waxingServices.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+                                <td className="py-2 px-4 text-right text-[#8A817C] font-mono">{((currentBranch.revenue.waxingServices / currentBranch.revenue.totalRevenue) * 100).toFixed(1)}%</td>
+                              </tr>
+                              <tr>
+                                <td className="py-2 px-8 text-[#5A534E]">Nail Art & Spa Services Revenue</td>
+                                <td className="py-2 px-4 text-right font-mono">₱{currentBranch.revenue.nailServices.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+                                <td className="py-2 px-4 text-right text-[#8A817C] font-mono">{((currentBranch.revenue.nailServices / currentBranch.revenue.totalRevenue) * 100).toFixed(1)}%</td>
+                              </tr>
+                              <tr>
+                                <td className="py-2 px-8 text-[#5A534E]">Retail Aftercare Products (Balms, Lotions, Scrubs)</td>
+                                <td className="py-2 px-4 text-right font-mono">₱{currentBranch.revenue.retailProducts.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+                                <td className="py-2 px-4 text-right text-[#8A817C] font-mono">{((currentBranch.revenue.retailProducts / currentBranch.revenue.totalRevenue) * 100).toFixed(1)}%</td>
+                              </tr>
+                              <tr className="bg-[#77BC2E]/10 font-bold text-[#4A2E1B]">
+                                <td className="py-2.5 px-4 font-bold">TOTAL GROSS REVENUE</td>
+                                <td className="py-2.5 px-4 text-right font-mono font-black text-[#5A9A1E]">
+                                  ₱{currentBranch.revenue.totalRevenue.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                                </td>
+                                <td className="py-2.5 px-4 text-right font-mono font-bold text-[#5A9A1E]">100.0%</td>
+                              </tr>
+
+                              {/* Section 2: COGS */}
+                              <tr className="bg-[#FAF9F5] font-extrabold text-[#031134]">
+                                <td className="py-2.5 px-4 uppercase tracking-wider" colSpan={3}>
+                                  II. COST OF GOODS SOLD (SALON CONSUMABLES & SUPPLIES)
+                                </td>
+                              </tr>
+                              <tr>
+                                <td className="py-2 px-8 text-[#5A534E]">Organic Honey/Sugar Wax Consumables</td>
+                                <td className="py-2 px-4 text-right font-mono text-[#D47098]">₱{currentBranch.cogs.waxConsumables.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+                                <td className="py-2 px-4 text-right text-[#8A817C] font-mono">{((currentBranch.cogs.waxConsumables / currentBranch.revenue.totalRevenue) * 100).toFixed(1)}%</td>
+                              </tr>
+                              <tr>
+                                <td className="py-2 px-8 text-[#5A534E]">Nail Gels, Lacquers & Acrylic Powders</td>
+                                <td className="py-2 px-4 text-right font-mono text-[#D47098]">₱{currentBranch.cogs.nailGelsAndLacquers.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+                                <td className="py-2 px-4 text-right text-[#8A817C] font-mono">{((currentBranch.cogs.nailGelsAndLacquers / currentBranch.revenue.totalRevenue) * 100).toFixed(1)}%</td>
+                              </tr>
+                              <tr>
+                                <td className="py-2 px-8 text-[#5A534E]">PPE, Disposable Strips & Sanitizer Kits</td>
+                                <td className="py-2 px-4 text-right font-mono text-[#D47098]">₱{currentBranch.cogs.ppeAndSanitizers.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+                                <td className="py-2 px-4 text-right text-[#8A817C] font-mono">{((currentBranch.cogs.ppeAndSanitizers / currentBranch.revenue.totalRevenue) * 100).toFixed(1)}%</td>
+                              </tr>
+                              <tr>
+                                <td className="py-2 px-8 text-[#5A534E]">Branded Product Packaging & Carry Bags</td>
+                                <td className="py-2 px-4 text-right font-mono text-[#D47098]">₱{currentBranch.cogs.packagingAndBags.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+                                <td className="py-2 px-4 text-right text-[#8A817C] font-mono">{((currentBranch.cogs.packagingAndBags / currentBranch.revenue.totalRevenue) * 100).toFixed(1)}%</td>
+                              </tr>
+                              <tr className="bg-[#FAF9F5] font-bold text-[#4A2E1B]">
+                                <td className="py-2.5 px-4 font-bold">TOTAL COST OF GOODS SOLD</td>
+                                <td className="py-2.5 px-4 text-right font-mono font-bold text-[#D47098]">
+                                  (₱{currentBranch.cogs.totalCogs.toLocaleString('en-US', { minimumFractionDigits: 2 })})
+                                </td>
+                                <td className="py-2.5 px-4 text-right font-mono text-[#8A817C]">{((currentBranch.cogs.totalCogs / currentBranch.revenue.totalRevenue) * 100).toFixed(1)}%</td>
+                              </tr>
+
+                              {/* GROSS PROFIT */}
+                              <tr className="bg-[#77BC2E]/20 font-black text-[#4A2E1B] text-sm">
+                                <td className="py-3 px-4 uppercase">GROSS PROFIT</td>
+                                <td className="py-3 px-4 text-right font-mono font-black text-[#5A9A1E]">
+                                  ₱{currentBranch.grossProfit.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                                </td>
+                                <td className="py-3 px-4 text-right font-mono font-black text-[#5A9A1E]">{currentBranch.grossMarginPct}%</td>
+                              </tr>
+
+                              {/* Section 3: OPEX */}
+                              <tr className="bg-[#FAF9F5] font-extrabold text-[#031134]">
+                                <td className="py-2.5 px-4 uppercase tracking-wider" colSpan={3}>
+                                  III. OPERATING EXPENSES (OPEX)
+                                </td>
+                              </tr>
+                              <tr>
+                                <td className="py-2 px-8 text-[#5A534E] flex items-center space-x-2">
+                                  <span>Salaries, Overtime & Staff Allowances</span>
+                                  <span className="bg-[#77BC2E]/15 text-[#5A9A1E] text-[9px] px-1.5 py-0.2 rounded font-bold">Payroll Synced</span>
+                                </td>
+                                <td className="py-2 px-4 text-right font-mono text-[#4A2E1B]">₱{currentBranch.operatingExpenses.salariesAndWages.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+                                <td className="py-2 px-4 text-right text-[#8A817C] font-mono">{((currentBranch.operatingExpenses.salariesAndWages / currentBranch.revenue.totalRevenue) * 100).toFixed(1)}%</td>
+                              </tr>
+                              <tr>
+                                <td className="py-2 px-8 text-[#5A534E]">Mall Space Lease & CUSA Common Charges (Ayala/SM)</td>
+                                <td className="py-2 px-4 text-right font-mono text-[#4A2E1B]">₱{currentBranch.operatingExpenses.storeRentsAndCusa.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+                                <td className="py-2 px-4 text-right text-[#8A817C] font-mono">{((currentBranch.operatingExpenses.storeRentsAndCusa / currentBranch.revenue.totalRevenue) * 100).toFixed(1)}%</td>
+                              </tr>
+                              <tr>
+                                <td className="py-2 px-8 text-[#5A534E]">Electricity, Air Conditioning & Water Utilities</td>
+                                <td className="py-2 px-4 text-right font-mono text-[#4A2E1B]">₱{currentBranch.operatingExpenses.electricityAndWater.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+                                <td className="py-2 px-4 text-right text-[#8A817C] font-mono">{((currentBranch.operatingExpenses.electricityAndWater / currentBranch.revenue.totalRevenue) * 100).toFixed(1)}%</td>
+                              </tr>
+                              <tr>
+                                <td className="py-2 px-8 text-[#5A534E]">Digital Marketing, SMS Bookings & Loyalty Rewards</td>
+                                <td className="py-2 px-4 text-right font-mono text-[#4A2E1B]">₱{currentBranch.operatingExpenses.marketingAndLoyalty.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+                                <td className="py-2 px-4 text-right text-[#8A817C] font-mono">{((currentBranch.operatingExpenses.marketingAndLoyalty / currentBranch.revenue.totalRevenue) * 100).toFixed(1)}%</td>
+                              </tr>
+                              <tr>
+                                <td className="py-2 px-8 text-[#5A534E]">Salon Sanitation & Equipment Maintenance</td>
+                                <td className="py-2 px-4 text-right font-mono text-[#4A2E1B]">₱{currentBranch.operatingExpenses.maintenanceAndSanitation.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+                                <td className="py-2 px-4 text-right text-[#8A817C] font-mono">{((currentBranch.operatingExpenses.maintenanceAndSanitation / currentBranch.revenue.totalRevenue) * 100).toFixed(1)}%</td>
+                              </tr>
+                              <tr>
+                                <td className="py-2 px-8 text-[#5A534E]">Depreciation - Wax Warmers & Spa Chairs</td>
+                                <td className="py-2 px-4 text-right font-mono text-[#4A2E1B]">₱{currentBranch.operatingExpenses.depreciationEquipment.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+                                <td className="py-2 px-4 text-right text-[#8A817C] font-mono">{((currentBranch.operatingExpenses.depreciationEquipment / currentBranch.revenue.totalRevenue) * 100).toFixed(1)}%</td>
+                              </tr>
+                              <tr className="bg-[#FAF9F5] font-bold text-[#4A2E1B]">
+                                <td className="py-2.5 px-4 font-bold">TOTAL OPERATING EXPENSES</td>
+                                <td className="py-2.5 px-4 text-right font-mono font-bold text-[#4A2E1B]">
+                                  (₱{currentBranch.operatingExpenses.totalOpex.toLocaleString('en-US', { minimumFractionDigits: 2 })})
+                                </td>
+                                <td className="py-2.5 px-4 text-right font-mono text-[#8A817C]">{((currentBranch.operatingExpenses.totalOpex / currentBranch.revenue.totalRevenue) * 100).toFixed(1)}%</td>
+                              </tr>
+
+                              {/* NET OPERATING INCOME (EBITDA) */}
+                              <tr className="bg-[#031134] text-white font-black text-sm">
+                                <td className="py-3 px-4 uppercase text-[#D4AF37] flex items-center space-x-2">
+                                  <Sparkles className="h-4 w-4" />
+                                  <span>NET OPERATING INCOME (EBITDA)</span>
+                                </td>
+                                <td className="py-3 px-4 text-right font-mono font-black text-white text-base">
+                                  ₱{currentBranch.netOperatingIncome.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                                </td>
+                                <td className="py-3 px-4 text-right font-mono font-black text-[#D4AF37]">{currentBranch.netMarginPct}%</td>
+                              </tr>
+
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    );
+                  })()}
+
+                </div>
+              )}
+
+              {/* SUB-TAB 3: BALANCE SHEET (STATEMENT OF FINANCIAL POSITION) */}
+              {accountingSubTab === 'balance_sheet' && (
+                <div className="space-y-6 animate-fadeIn">
+                  
+                  {/* Balance Sheet Header & Balanced Badge */}
+                  <div className="bg-white border border-[#EAE8E2] rounded-3xl p-6 shadow-2xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div>
+                      <div className="flex items-center space-x-2">
+                        <span className="bg-[#031134] text-[#D4AF37] text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase">
+                          Financial Position
+                        </span>
+                        <span className="text-xs text-[#8A817C]">As of August 31, 2026</span>
+                      </div>
+                      <h3 className="font-black text-xl text-[#4A2E1B] mt-1">
+                        Consolidated Statement of Financial Position (Balance Sheet)
+                      </h3>
+                    </div>
+
+                    <div className="flex items-center space-x-3">
+                      <div className="bg-[#77BC2E]/15 border border-[#77BC2E]/40 text-[#5A9A1E] px-4 py-2 rounded-2xl flex items-center space-x-2 text-xs font-extrabold shadow-2xs">
+                        <CheckCircle className="h-4 w-4 text-[#77BC2E]" />
+                        <span>Balanced: Assets = Liabilities + Equity (₱4,121,700.00)</span>
+                      </div>
+                      <button
+                        onClick={() => { setFinancialReportType('balance_sheet'); setShowFinancialReportModal(true); }}
+                        className="bg-[#031134] hover:bg-[#082260] text-white font-bold text-xs px-3.5 py-2 rounded-xl transition-all flex items-center space-x-1.5 shadow-2xs"
+                      >
+                        <Printer className="h-3.5 w-3.5 text-[#D4AF37]" />
+                        <span>Print</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* 2-Column Balance Sheet (Assets vs Liabilities & Equity) */}
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    
+                    {/* LEFT COLUMN: ASSETS */}
+                    <div className="bg-white border border-[#EAE8E2] rounded-3xl p-6 shadow-2xs space-y-5">
+                      <div className="flex items-center justify-between border-b border-[#F2F0E8] pb-3">
+                        <h4 className="font-extrabold text-base text-[#031134] uppercase tracking-wider flex items-center space-x-2">
+                          <Landmark className="h-4 w-4 text-[#77BC2E]" />
+                          <span>Total Assets</span>
+                        </h4>
+                        <span className="font-mono font-black text-lg text-[#5A9A1E]">
+                          ₱{balanceSheetData.assets.totalAssets.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                        </span>
+                      </div>
+
+                      {/* Current Assets */}
+                      <div className="space-y-3">
+                        <span className="text-[10px] font-extrabold uppercase text-[#8A817C] tracking-wider block">
+                          Current Assets
+                        </span>
+                        <div className="space-y-2 text-xs">
+                          <div className="flex justify-between py-1.5 border-b border-[#FAF9F5]">
+                            <span className="text-[#5A534E]">Cash & Cash Equivalents (BPI BizLink + Floats)</span>
+                            <strong className="font-mono text-[#4A2E1B]">₱{balanceSheetData.assets.currentAssets.cashAndCashEquivalents.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
+                          </div>
+                          <div className="flex justify-between py-1.5 border-b border-[#FAF9F5]">
+                            <span className="text-[#5A534E]">Trade & Digital Accounts Receivable</span>
+                            <strong className="font-mono text-[#4A2E1B]">₱{balanceSheetData.assets.currentAssets.accountsReceivable.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
+                          </div>
+                          <div className="flex justify-between py-1.5 border-b border-[#FAF9F5]">
+                            <span className="text-[#5A534E]">Consumable Stock Inventory (Wax & Gels)</span>
+                            <strong className="font-mono text-[#4A2E1B]">₱{balanceSheetData.assets.currentAssets.consumableInventory.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
+                          </div>
+                          <div className="flex justify-between py-1.5 border-b border-[#FAF9F5]">
+                            <span className="text-[#5A534E]">Retail Aftercare Product Inventory</span>
+                            <strong className="font-mono text-[#4A2E1B]">₱{balanceSheetData.assets.currentAssets.retailProductsInventory.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
+                          </div>
+                          <div className="flex justify-between py-1.5 border-b border-[#FAF9F5]">
+                            <span className="text-[#5A534E]">Prepaid Mall Space Lease Deposits (Ayala & SM)</span>
+                            <strong className="font-mono text-[#4A2E1B]">₱{balanceSheetData.assets.currentAssets.prepaidMallLeaseDeposits.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
+                          </div>
+                          <div className="flex justify-between py-2 bg-[#FAF9F5] px-3 rounded-xl font-bold text-[#4A2E1B]">
+                            <span>Total Current Assets</span>
+                            <span className="font-mono font-black text-[#5A9A1E]">₱{balanceSheetData.assets.currentAssets.totalCurrentAssets.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Non-Current Assets */}
+                      <div className="space-y-3 pt-2">
+                        <span className="text-[10px] font-extrabold uppercase text-[#8A817C] tracking-wider block">
+                          Property, Plant & Salon Equipment
+                        </span>
+                        <div className="space-y-2 text-xs">
+                          <div className="flex justify-between py-1.5 border-b border-[#FAF9F5]">
+                            <span className="text-[#5A534E]">Salon Fixtures, Warmers & Sterilizers</span>
+                            <strong className="font-mono text-[#4A2E1B]">₱{balanceSheetData.assets.nonCurrentAssets.salonFixturesAndEquipment.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
+                          </div>
+                          <div className="flex justify-between py-1.5 border-b border-[#FAF9F5]">
+                            <span className="text-[#5A534E]">Nail Stations, UV Lamps & Spa Chairs</span>
+                            <strong className="font-mono text-[#4A2E1B]">₱{balanceSheetData.assets.nonCurrentAssets.nailStationsAndSpaChairs.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
+                          </div>
+                          <div className="flex justify-between py-1.5 border-b border-[#FAF9F5]">
+                            <span className="text-[#5A534E]">IT, Biometric Clocks & POS Terminals</span>
+                            <strong className="font-mono text-[#4A2E1B]">₱{balanceSheetData.assets.nonCurrentAssets.itAndBiometricHardware.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
+                          </div>
+                          <div className="flex justify-between py-1.5 border-b border-[#FAF9F5]">
+                            <span className="text-[#D47098]">Less: Accumulated Depreciation</span>
+                            <strong className="font-mono text-[#D47098]">(₱420,000.00)</strong>
+                          </div>
+                          <div className="flex justify-between py-2 bg-[#FAF9F5] px-3 rounded-xl font-bold text-[#4A2E1B]">
+                            <span>Total Non-Current Assets</span>
+                            <span className="font-mono font-black text-[#5A9A1E]">₱{balanceSheetData.assets.nonCurrentAssets.totalNonCurrentAssets.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* RIGHT COLUMN: LIABILITIES & EQUITY */}
+                    <div className="bg-white border border-[#EAE8E2] rounded-3xl p-6 shadow-2xs space-y-5">
+                      <div className="flex items-center justify-between border-b border-[#F2F0E8] pb-3">
+                        <h4 className="font-extrabold text-base text-[#031134] uppercase tracking-wider flex items-center space-x-2">
+                          <Scale className="h-4 w-4 text-[#D4AF37]" />
+                          <span>Liabilities & Shareholder Equity</span>
+                        </h4>
+                        <span className="font-mono font-black text-lg text-[#031134]">
+                          ₱{balanceSheetData.totalLiabilitiesAndEquity.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                        </span>
+                      </div>
+
+                      {/* Current Liabilities */}
+                      <div className="space-y-3">
+                        <span className="text-[10px] font-extrabold uppercase text-[#8A817C] tracking-wider block">
+                          Current Liabilities
+                        </span>
+                        <div className="space-y-2 text-xs">
+                          <div className="flex justify-between py-1.5 border-b border-[#FAF9F5]">
+                            <span className="text-[#5A534E]">Accounts Payable - Trade Suppliers (PO Invoices)</span>
+                            <strong className="font-mono text-[#4A2E1B]">₱{balanceSheetData.liabilities.currentLiabilities.accountsPayableVendors.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
+                          </div>
+                          <div className="flex justify-between py-1.5 border-b border-[#FAF9F5]">
+                            <span className="text-[#5A534E]">Accrued Salaries & Payroll Payable</span>
+                            <strong className="font-mono text-[#4A2E1B]">₱{balanceSheetData.liabilities.currentLiabilities.accruedPayrollPayable.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
+                          </div>
+                          <div className="flex justify-between py-1.5 border-b border-[#FAF9F5]">
+                            <span className="text-[#5A534E]">SSS, PhilHealth & Pag-IBIG Premium Payables</span>
+                            <strong className="font-mono text-[#4A2E1B]">₱{balanceSheetData.liabilities.currentLiabilities.sssPhilhealthPagibigPayables.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
+                          </div>
+                          <div className="flex justify-between py-1.5 border-b border-[#FAF9F5]">
+                            <span className="text-[#5A534E]">BIR Taxes Withheld & VAT Payable</span>
+                            <strong className="font-mono text-[#4A2E1B]">₱{balanceSheetData.liabilities.currentLiabilities.birWithholdingAndVatPayable.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
+                          </div>
+                          <div className="flex justify-between py-2 bg-[#FAF9F5] px-3 rounded-xl font-bold text-[#4A2E1B]">
+                            <span>Total Current Liabilities</span>
+                            <span className="font-mono font-black text-[#D47098]">₱{balanceSheetData.liabilities.currentLiabilities.totalCurrentLiabilities.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Long-Term Liabilities */}
+                      <div className="space-y-3 pt-1">
+                        <span className="text-[10px] font-extrabold uppercase text-[#8A817C] tracking-wider block">
+                          Long-Term Liabilities
+                        </span>
+                        <div className="space-y-2 text-xs">
+                          <div className="flex justify-between py-1.5 border-b border-[#FAF9F5]">
+                            <span className="text-[#5A534E]">Equipment Financing & Lease Obligations</span>
+                            <strong className="font-mono text-[#4A2E1B]">₱250,000.00</strong>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Shareholder Equity */}
+                      <div className="space-y-3 pt-2">
+                        <span className="text-[10px] font-extrabold uppercase text-[#8A817C] tracking-wider block">
+                          Shareholder & Owner Equity
+                        </span>
+                        <div className="space-y-2 text-xs">
+                          <div className="flex justify-between py-1.5 border-b border-[#FAF9F5]">
+                            <span className="text-[#5A534E]">Contributed Capital (ALRAJJ Partners)</span>
+                            <strong className="font-mono text-[#4A2E1B]">₱{balanceSheetData.equity.ownerContributedCapital.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
+                          </div>
+                          <div className="flex justify-between py-1.5 border-b border-[#FAF9F5]">
+                            <span className="text-[#5A534E]">Retained Earnings (Prior Periods)</span>
+                            <strong className="font-mono text-[#4A2E1B]">₱{balanceSheetData.equity.retainedEarningsPrior.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
+                          </div>
+                          <div className="flex justify-between py-1.5 border-b border-[#FAF9F5]">
+                            <span className="text-[#5A534E]">Current Period Net Income (MTD)</span>
+                            <strong className="font-mono text-[#5A9A1E]">₱{balanceSheetData.equity.currentPeriodNetIncome.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
+                          </div>
+                          <div className="flex justify-between py-2 bg-[#031134]/5 px-3 rounded-xl font-bold text-[#031134]">
+                            <span>Total Owner's Equity</span>
+                            <span className="font-mono font-black text-[#031134]">₱{balanceSheetData.equity.totalEquity.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+
+                </div>
+              )}
+
+              {/* SUB-TAB 4: ACCOUNTS PAYABLE & PO SUPPLIER BILLS */}
+              {accountingSubTab === 'invoices' && (
+                <div className="space-y-6 animate-fadeIn">
+                  
+                  {/* AP Overview Cards */}
+                  <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
+                    <div className="bg-white border border-[#EAE8E2] rounded-3xl p-5 shadow-2xs space-y-1">
+                      <span className="text-[10px] font-extrabold uppercase text-[#8A817C]">Unpaid Supplier Bills</span>
+                      <div className="text-xl font-black text-[#4A2E1B] font-mono">
+                        ₱{apInvoices.filter(i => i.status !== 'Paid').reduce((sum, i) => sum + i.amount, 0).toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                      </div>
+                      <span className="text-[10px] font-bold text-[#D47098]">
+                        {apInvoices.filter(i => i.status !== 'Paid').length} Pending Settlement
+                      </span>
+                    </div>
+
+                    <div className="bg-white border border-[#EAE8E2] rounded-3xl p-5 shadow-2xs space-y-1">
+                      <span className="text-[10px] font-extrabold uppercase text-[#8A817C]">3-Way PO Matched</span>
+                      <div className="text-xl font-black text-[#5A9A1E] font-mono">
+                        100% Verified
+                      </div>
+                      <span className="text-[10px] text-[#8A817C]">Matched with Receiving Log</span>
+                    </div>
+
+                    <div className="bg-white border border-[#EAE8E2] rounded-3xl p-5 shadow-2xs space-y-1">
+                      <span className="text-[10px] font-extrabold uppercase text-[#8A817C]">Due in 15 Days</span>
+                      <div className="text-xl font-black text-[#D4AF37] font-mono">
+                        ₱125,000.00
+                      </div>
+                      <span className="text-[10px] text-[#8A817C]">Ayala Mall Lease Scheduled</span>
+                    </div>
+
+                    <div className="bg-white border border-[#EAE8E2] rounded-3xl p-5 shadow-2xs space-y-1">
+                      <span className="text-[10px] font-extrabold uppercase text-[#8A817C]">BPI BizLink Auto-Debit</span>
+                      <div className="text-xl font-black text-[#031134] font-mono">
+                        Ready
+                      </div>
+                      <span className="text-[10px] font-bold text-[#5A9A1E]">1-Click Settlement Active</span>
+                    </div>
+                  </div>
+
+                  {/* AP Invoices Table */}
+                  <div className="bg-white border border-[#EAE8E2] rounded-3xl shadow-2xs overflow-hidden">
+                    <div className="p-6 border-b border-[#F2F0E8] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                      <div>
+                        <h3 className="font-extrabold text-base text-[#4A2E1B]">
+                          Accounts Payable & Supplier Invoices (PO Linked)
+                        </h3>
+                        <p className="text-xs text-[#8A817C]">
+                          Verified vendor claims from the 5-step procurement system ready for disbursement.
+                        </p>
+                      </div>
+
+                      <button
+                        onClick={() => setShowNewInvoiceModal(true)}
+                        className="bg-[#77BC2E] hover:bg-[#6DB027] text-white font-bold text-xs px-4 py-2.5 rounded-xl transition-all flex items-center space-x-1.5 shadow-sm shadow-[#77BC2E]/20"
+                      >
+                        <Plus className="h-4 w-4" />
+                        <span>Record Supplier Bill</span>
+                      </button>
+                    </div>
+
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-xs text-left">
+                        <thead>
+                          <tr className="bg-[#FAF9F5] border-b border-[#EAE8E2] text-[10px] font-extrabold uppercase text-[#8A817C] tracking-wider">
+                            <th className="py-3 px-6">Invoice # & PO</th>
+                            <th className="py-3 px-6">Vendor / Supplier</th>
+                            <th className="py-3 px-6">Branch & Category</th>
+                            <th className="py-3 px-6">Terms / Due Date</th>
+                            <th className="py-3 px-6 text-right">Amount (PHP)</th>
+                            <th className="py-3 px-6">Status</th>
+                            <th className="py-3 px-6 text-center">Action</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-[#F2F0E8] font-medium text-[#4A2E1B]">
+                          {apInvoices.map((inv) => (
+                            <tr key={inv.id} className="hover:bg-[#FAF9F5] transition-colors">
+                              <td className="py-4 px-6">
+                                <strong className="text-[#031134] block font-mono">{inv.id}</strong>
+                                <span className="text-[11px] text-[#77BC2E] font-bold">{inv.poNumber}</span>
+                              </td>
+                              <td className="py-4 px-6">
+                                <strong className="text-[#4A2E1B] block">{inv.vendor}</strong>
+                                <span className="text-[11px] text-[#8A817C] line-clamp-1">{inv.description}</span>
+                              </td>
+                              <td className="py-4 px-6">
+                                <span className="text-[#4A2E1B] block font-semibold">{inv.branch}</span>
+                                <span className="bg-[#FAF9F5] border border-[#EAE8E2] text-[#8A817C] text-[10px] px-2 py-0.5 rounded-md font-bold">
+                                  {inv.category}
+                                </span>
+                              </td>
+                              <td className="py-4 px-6">
+                                <span className="text-[#4A2E1B] block">{inv.dueDate}</span>
+                                <span className="text-[11px] text-[#8A817C]">{inv.paymentTerms}</span>
+                              </td>
+                              <td className="py-4 px-6 text-right font-mono font-black text-sm text-[#4A2E1B]">
+                                ₱{inv.amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                              </td>
+                              <td className="py-4 px-6">
+                                <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full ${
+                                  inv.status === 'Paid'
+                                    ? 'bg-[#77BC2E]/15 text-[#5A9A1E]'
+                                    : inv.status === 'Approved for Payment'
+                                    ? 'bg-[#031134] text-[#D4AF37]'
+                                    : inv.status === 'Scheduled BPI BizLink'
+                                    ? 'bg-[#E89BB9]/20 text-[#D47098]'
+                                    : 'bg-[#FAF9F5] text-[#8A817C] border border-[#EAE8E2]'
+                                }`}>
+                                  {inv.status}
+                                </span>
+                              </td>
+                              <td className="py-4 px-6 text-center">
+                                {inv.status !== 'Paid' ? (
+                                  <button
+                                    onClick={() => handlePayInvoice(inv.id)}
+                                    className="bg-[#031134] hover:bg-[#082260] text-white text-[11px] font-bold px-3 py-1.5 rounded-xl transition-all shadow-2xs flex items-center space-x-1.5 mx-auto"
+                                    title="Disburse via BPI BizLink and Auto-Post to General Ledger"
+                                  >
+                                    <CreditCard className="h-3 w-3 text-[#D4AF37]" />
+                                    <span>Pay BPI</span>
+                                  </button>
+                                ) : (
+                                  <span className="text-[11px] text-[#5A9A1E] font-mono font-bold flex items-center justify-center space-x-1">
+                                    <Check className="h-3.5 w-3.5" />
+                                    <span>Settled</span>
+                                  </span>
+                                )}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                </div>
+              )}
+
+              {/* SUB-TAB 5: DAILY POS CASH AUDIT & REGISTER RECONCILIATION */}
+              {accountingSubTab === 'pos_recon' && (
+                <div className="space-y-6 animate-fadeIn">
+                  
+                  {/* Daily Register Summary Header */}
+                  <div className="bg-white border border-[#EAE8E2] rounded-3xl p-6 shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div>
+                      <div className="flex items-center space-x-2">
+                        <span className="bg-[#E89BB9] text-white text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase">
+                          POS Audit
+                        </span>
+                        <span className="text-xs text-[#77BC2E] font-bold">Anti-Shrinkage Cash Control</span>
+                      </div>
+                      <h3 className="font-black text-xl text-[#4A2E1B] mt-1">
+                        Daily Branch POS Register & Cash Audit
+                      </h3>
+                      <p className="text-xs text-[#8A817C]">
+                        Compare opening floats, physical cash counts, GCash/Maya QR payments, and card terminals against recorded service tickets.
+                      </p>
+                    </div>
+
+                    <button
+                      onClick={() => setShowPosReconModal(true)}
+                      className="bg-[#77BC2E] hover:bg-[#6DB027] text-white font-bold text-xs px-4 py-2.5 rounded-xl transition-all flex items-center space-x-1.5 shadow-sm shadow-[#77BC2E]/20"
+                    >
+                      <Plus className="h-4 w-4" />
+                      <span>Reconcile Shift Register</span>
+                    </button>
+                  </div>
+
+                  {/* Reconciliation Logs Table */}
+                  <div className="bg-white border border-[#EAE8E2] rounded-3xl shadow-2xs overflow-hidden">
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-xs text-left">
+                        <thead>
+                          <tr className="bg-[#FAF9F5] border-b border-[#EAE8E2] text-[10px] font-extrabold uppercase text-[#8A817C] tracking-wider">
+                            <th className="py-3 px-6">Audit ID & Date</th>
+                            <th className="py-3 px-6">Branch & Supervisor</th>
+                            <th className="py-3 px-6 text-right">Morning Float</th>
+                            <th className="py-3 px-6 text-right">Cash Collected</th>
+                            <th className="py-3 px-6 text-right">Maya / GCash / Card</th>
+                            <th className="py-3 px-6 text-right">Petty Cash Out</th>
+                            <th className="py-3 px-6 text-right">Counted Drawer</th>
+                            <th className="py-3 px-6 text-center">Variance</th>
+                            <th className="py-3 px-6">Status & Notes</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-[#F2F0E8] font-medium text-[#4A2E1B]">
+                          {posReconciliations.map((rec) => (
+                            <tr key={rec.id} className="hover:bg-[#FAF9F5] transition-colors">
+                              <td className="py-4 px-6">
+                                <strong className="text-[#031134] font-mono block">{rec.id}</strong>
+                                <span className="text-[11px] text-[#8A817C]">{rec.date}</span>
+                              </td>
+                              <td className="py-4 px-6">
+                                <strong className="text-[#4A2E1B] block">{rec.branch}</strong>
+                                <span className="text-[11px] text-[#5A534E] flex items-center space-x-1">
+                                  <UserCheck className="h-3 w-3 text-[#77BC2E]" />
+                                  <span>{rec.shiftSupervisor}</span>
+                                </span>
+                              </td>
+                              <td className="py-4 px-6 text-right font-mono">
+                                ₱{rec.openingFloat.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                              </td>
+                              <td className="py-4 px-6 text-right font-mono font-bold text-[#5A9A1E]">
+                                ₱{rec.cashSales.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                              </td>
+                              <td className="py-4 px-6 text-right font-mono text-[#031134]">
+                                ₱{(rec.mayaQrSales + rec.gcashQrSales + rec.cardTerminalSales).toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                              </td>
+                              <td className="py-4 px-6 text-right font-mono text-[#D47098]">
+                                (₱{rec.pettyCashExpenses.toLocaleString('en-US', { minimumFractionDigits: 2 })})
+                              </td>
+                              <td className="py-4 px-6 text-right font-mono font-black text-sm text-[#4A2E1B]">
+                                ₱{rec.actualCashCounted.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                              </td>
+                              <td className="py-4 px-6 text-center">
+                                <span className={`text-[10px] font-extrabold px-2.5 py-1 rounded-full ${
+                                  rec.variance === 0
+                                    ? 'bg-[#77BC2E]/15 text-[#5A9A1E]'
+                                    : 'bg-[#D47098]/20 text-[#D47098]'
+                                }`}>
+                                  {rec.variance === 0 ? '₱0.00 Exact' : `₱${rec.variance.toFixed(2)}`}
+                                </span>
+                              </td>
+                              <td className="py-4 px-6">
+                                <span className="text-[#5A9A1E] font-bold block text-[11px]">{rec.status}</span>
+                                <span className="text-[10px] text-[#8A817C] line-clamp-1">{rec.auditNotes}</span>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                </div>
+              )}
+
+              {/* SUB-TAB 6: GENERAL LEDGER & DOUBLE-ENTRY JOURNALS */}
+              {accountingSubTab === 'journal' && (
+                <div className="space-y-6 animate-fadeIn">
+                  
+                  {/* Journal Search & New Entry Trigger */}
+                  <div className="bg-white border border-[#EAE8E2] rounded-3xl p-5 shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div className="relative flex-1 max-w-md">
+                      <Search className="h-4 w-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[#A8A29E]" />
+                      <input
+                        type="text"
+                        placeholder="Search Account Code, JE Reference, or Description..."
+                        value={journalSearch}
+                        onChange={(e) => setJournalSearch(e.target.value)}
+                        className="w-full bg-[#F7F6F2] text-[#2D2520] placeholder-[#A8A29E] text-xs rounded-xl pl-9 pr-3.5 py-2.5 outline-none focus:ring-1 focus:ring-[#77BC2E] border border-transparent font-medium"
+                      />
+                    </div>
+
+                    <button
+                      onClick={() => setShowNewJournalModal(true)}
+                      className="bg-[#031134] hover:bg-[#082260] text-white font-bold text-xs px-4 py-2.5 rounded-xl transition-all flex items-center space-x-1.5 shadow-sm"
+                    >
+                      <Plus className="h-4 w-4 text-[#D4AF37]" />
+                      <span>Create Manual Journal Entry</span>
+                    </button>
+                  </div>
+
+                  {/* Journal Entries List */}
+                  <div className="space-y-4">
+                    {journalEntries
+                      .filter(je => !journalSearch || 
+                        je.id.toLowerCase().includes(journalSearch.toLowerCase()) || 
+                        je.reference.toLowerCase().includes(journalSearch.toLowerCase()) ||
+                        je.description.toLowerCase().includes(journalSearch.toLowerCase()) ||
+                        je.lines.some(l => l.accountName.toLowerCase().includes(journalSearch.toLowerCase()) || l.accountCode.includes(journalSearch))
+                      )
+                      .map((je) => {
+                        const totalDebit = je.lines.reduce((s, l) => s + l.debit, 0);
+                        const totalCredit = je.lines.reduce((s, l) => s + l.credit, 0);
+
+                        return (
+                          <div key={je.id} className="bg-white border border-[#EAE8E2] rounded-3xl p-6 shadow-2xs space-y-4">
+                            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#F2F0E8] pb-3 text-xs">
+                              <div className="flex items-center space-x-3">
+                                <div className="w-10 h-10 rounded-2xl bg-[#031134]/5 border border-[#031134]/10 text-[#031134] flex items-center justify-center font-bold font-mono">
+                                  GL
+                                </div>
+                                <div>
+                                  <div className="flex items-center space-x-2">
+                                    <strong className="text-[#031134] font-mono text-sm">{je.id}</strong>
+                                    <span className="bg-[#031134] text-[#D4AF37] text-[10px] font-bold px-2 py-0.5 rounded-md">
+                                      {je.type}
+                                    </span>
+                                    <span className="text-[#77BC2E] font-bold font-mono">{je.reference}</span>
+                                  </div>
+                                  <p className="text-[11px] text-[#8A817C]">{je.date} &bull; {je.branch} &bull; Posted by: {je.postedBy}</p>
+                                </div>
+                              </div>
+
+                              <div className="text-right">
+                                <span className="text-[10px] font-bold uppercase text-[#8A817C] block">Total Amount</span>
+                                <span className="font-mono font-black text-sm text-[#4A2E1B]">
+                                  ₱{totalDebit.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                                </span>
+                              </div>
+                            </div>
+
+                            <p className="text-xs text-[#5A534E] font-medium bg-[#FAF9F5] p-2.5 rounded-xl border border-[#EAE8E2]">
+                              {je.description}
+                            </p>
+
+                            {/* Lines Table */}
+                            <div className="overflow-x-auto">
+                              <table className="w-full text-xs text-left">
+                                <thead>
+                                  <tr className="text-[10px] font-bold uppercase text-[#8A817C] border-b border-[#F2F0E8]">
+                                    <th className="py-2 px-3">Account Code</th>
+                                    <th className="py-2 px-3">Account Title</th>
+                                    <th className="py-2 px-3 text-right">Debit (PHP)</th>
+                                    <th className="py-2 px-3 text-right">Credit (PHP)</th>
+                                  </tr>
+                                </thead>
+                                <tbody className="divide-y divide-[#F9F8F5] text-xs">
+                                  {je.lines.map((l, idx) => (
+                                    <tr key={idx}>
+                                      <td className="py-2 px-3 font-mono font-bold text-[#031134]">{l.accountCode}</td>
+                                      <td className="py-2 px-3 text-[#4A2E1B]">{l.accountName}</td>
+                                      <td className="py-2 px-3 text-right font-mono font-bold text-[#5A9A1E]">
+                                        {l.debit > 0 ? `₱${l.debit.toLocaleString('en-US', { minimumFractionDigits: 2 })}` : '-'}
+                                      </td>
+                                      <td className="py-2 px-3 text-right font-mono font-bold text-[#D47098]">
+                                        {l.credit > 0 ? `₱${l.credit.toLocaleString('en-US', { minimumFractionDigits: 2 })}` : '-'}
+                                      </td>
+                                    </tr>
+                                  ))}
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        );
+                      })}
+                  </div>
+
+                </div>
+              )}
+
+              {/* SUB-TAB 7: PHILIPPINE BIR & STATUTORY TAX HUB */}
+              {accountingSubTab === 'taxes' && (
+                <div className="space-y-6 animate-fadeIn">
+                  
+                  {/* Entity Header */}
+                  <div className="bg-white border border-[#EAE8E2] rounded-3xl p-6 shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div>
+                      <div className="flex items-center space-x-2">
+                        <span className="bg-[#031134] text-[#D4AF37] text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase">
+                          BIR Tax Compliance
+                        </span>
+                        <span className="text-xs text-[#77BC2E] font-bold">Bureau of Internal Revenue PH</span>
+                      </div>
+                      <h3 className="font-black text-xl text-[#4A2E1B] mt-1">
+                        Philippine Statutory & Tax Compliance Hub
+                      </h3>
+                      <p className="text-xs text-[#8A817C]">
+                        TIN: <strong>{taxSummary.tin}</strong> &bull; Entity: <strong>{taxSummary.registeredEntity}</strong> &bull; Month: {taxSummary.reportingMonth}
+                      </p>
+                    </div>
+
+                    <div className="bg-[#77BC2E]/15 border border-[#77BC2E]/40 text-[#5A9A1E] px-4 py-2 rounded-2xl flex items-center space-x-2 text-xs font-extrabold">
+                      <CheckCircle className="h-4 w-4 text-[#77BC2E]" />
+                      <span>All Statutory Computations Up-to-Date</span>
+                    </div>
+                  </div>
+
+                  {/* 4 Tax Forms Cards */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    {taxSummary.forms.map((form, idx) => (
+                      <div key={idx} className="bg-white border border-[#EAE8E2] rounded-3xl p-6 shadow-2xs space-y-4 flex flex-col justify-between">
+                        <div className="space-y-2">
+                          <div className="flex items-center justify-between">
+                            <span className="bg-[#031134] text-[#D4AF37] text-xs font-black px-2.5 py-1 rounded-xl font-mono">
+                              {form.formCode}
+                            </span>
+                            <span className="bg-[#77BC2E]/15 text-[#5A9A1E] text-[10px] font-extrabold px-2.5 py-0.5 rounded-full">
+                              {form.status}
+                            </span>
+                          </div>
+                          <h4 className="font-extrabold text-sm text-[#4A2E1B]">
+                            {form.title}
+                          </h4>
+                          <p className="text-[11px] text-[#8A817C]">
+                            Source: <strong>{form.source}</strong> &bull; Due Date: <span className="text-[#D47098] font-bold">{form.dueDate}</span>
+                          </p>
+                        </div>
+
+                        <div className="bg-[#FAF9F5] border border-[#EAE8E2] p-4 rounded-2xl space-y-2 text-xs">
+                          <div className="flex justify-between text-[#5A534E]">
+                            <span>Taxable Base (Compensation / Sales / Rent):</span>
+                            <strong className="font-mono text-[#4A2E1B]">₱{form.taxableBase.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
+                          </div>
+                          <div className="flex justify-between text-[#4A2E1B] font-bold pt-1 border-t border-[#EAE8E2]">
+                            <span>Remittance Amount Due:</span>
+                            <span className="font-mono font-black text-sm text-[#5A9A1E]">₱{form.taxDue.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center justify-between pt-1">
+                          <span className="text-[11px] text-[#8A817C]">BPI BizLink Tax Payment Portal Ready</span>
+                          <button
+                            onClick={() => {
+                              setAccountingToast(`${form.formCode} remittance scheduled via BPI BizLink tax module.`);
+                              setTimeout(() => setAccountingToast(''), 5000);
+                            }}
+                            className="bg-[#031134] hover:bg-[#082260] text-white font-bold text-xs px-3.5 py-2 rounded-xl transition-all flex items-center space-x-1.5 shadow-2xs"
+                          >
+                            <Send className="h-3 w-3 text-[#D4AF37]" />
+                            <span>Schedule Remittance</span>
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                </div>
+              )}
+
             </div>
           )}
 
@@ -3927,6 +5941,636 @@ export default function App() {
                 </button>
               </div>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* 10. NEW GENERAL LEDGER JOURNAL ENTRY MODAL */}
+      {showNewJournalModal && (
+        <div className="fixed inset-0 bg-stone-900/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fadeIn">
+          <div className="bg-white rounded-3xl border border-[#EAE8E2] shadow-2xl w-full max-w-2xl p-7 space-y-5 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-start justify-between border-b border-[#F2F0E8] pb-3">
+              <div>
+                <span className="text-[10px] font-extrabold uppercase text-[#031134] tracking-wider">General Ledger</span>
+                <h3 className="font-extrabold text-lg text-[#4A2E1B]">Create Double-Entry Journal Record</h3>
+                <p className="text-xs text-[#8A817C]">Enter balancing debit and credit entries according to standard Philippine Chart of Accounts.</p>
+              </div>
+              <button onClick={() => setShowNewJournalModal(false)} className="text-[#8A817C] hover:text-[#4A2E1B]">
+                <XCircle className="h-5 w-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleCreateJournalEntry} className="space-y-4 text-xs">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div>
+                  <label className="block font-bold text-[#5A534E] mb-1 uppercase tracking-wider">Transaction Date</label>
+                  <input
+                    type="date"
+                    required
+                    value={newJournalEntry.date}
+                    onChange={(e) => setNewJournalEntry({ ...newJournalEntry, date: e.target.value })}
+                    className="w-full bg-[#F7F6F2] border border-transparent rounded-xl px-3 py-2 font-medium outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block font-bold text-[#5A534E] mb-1 uppercase tracking-wider">Reference / Voucher #</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. JE-MANUAL-01"
+                    value={newJournalEntry.reference}
+                    onChange={(e) => setNewJournalEntry({ ...newJournalEntry, reference: e.target.value })}
+                    className="w-full bg-[#F7F6F2] border border-transparent rounded-xl px-3 py-2 font-medium outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block font-bold text-[#5A534E] mb-1 uppercase tracking-wider">Branch</label>
+                  <select
+                    value={newJournalEntry.branch}
+                    onChange={(e) => setNewJournalEntry({ ...newJournalEntry, branch: e.target.value })}
+                    className="w-full bg-[#F7F6F2] border border-transparent rounded-xl px-3 py-2 font-medium outline-none"
+                  >
+                    <option value="Consolidated">Consolidated (All Branches)</option>
+                    <option value="Centrio Mall (Waxing)">Centrio Mall (Waxing)</option>
+                    <option value="Passion Nails (Centrio)">Passion Nails (Centrio)</option>
+                    <option value="Limketkai Mall Branch">Limketkai Mall Branch</option>
+                    <option value="SM Downtown Premier">SM Downtown Premier</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label className="block font-bold text-[#5A534E] mb-1 uppercase tracking-wider">Transaction Memo / Description</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. Replenishment of branch petty cash float for utility dues"
+                  value={newJournalEntry.description}
+                  onChange={(e) => setNewJournalEntry({ ...newJournalEntry, description: e.target.value })}
+                  className="w-full bg-[#F7F6F2] border border-transparent rounded-xl px-3.5 py-2.5 font-medium outline-none"
+                />
+              </div>
+
+              {/* Dynamic Line Items */}
+              <div className="space-y-2 border border-[#EAE8E2] rounded-2xl p-4 bg-[#FAF9F5]">
+                <div className="flex items-center justify-between">
+                  <h4 className="font-extrabold text-[#031134]">Journal Lines (Debit & Credit)</h4>
+                  <button
+                    type="button"
+                    onClick={() => setNewJournalEntry({
+                      ...newJournalEntry,
+                      lines: [...newJournalEntry.lines, { accountCode: '6010', accountName: 'General Expense', debit: 0, credit: 0 }]
+                    })}
+                    className="text-[#77BC2E] font-bold text-[11px] hover:underline flex items-center space-x-1"
+                  >
+                    <Plus className="h-3 w-3" />
+                    <span>Add Line</span>
+                  </button>
+                </div>
+
+                <div className="space-y-2">
+                  {newJournalEntry.lines.map((line, idx) => (
+                    <div key={idx} className="grid grid-cols-12 gap-2 items-center bg-white p-2.5 rounded-xl border border-[#EAE8E2]">
+                      <div className="col-span-3">
+                        <select
+                          value={line.accountCode}
+                          onChange={(e) => {
+                            const map = {
+                              '1010': 'Cash in Register Drawer',
+                              '1020': 'Cash in Bank - BPI BizLink Master',
+                              '1040': 'Consumable Inventory - Wax Supplies',
+                              '2010': 'Accounts Payable - Trade Suppliers',
+                              '2020': 'Accrued Payroll Payable',
+                              '2040': 'BIR Withholding Tax Payable',
+                              '4010': 'Waxing Service Revenue',
+                              '4020': 'Nail Service Revenue',
+                              '4030': 'Retail Product Sales',
+                              '5010': 'Cost of Goods Sold (Consumables)',
+                              '6010': 'Salaries & Wages Expense',
+                              '6020': 'Store Rental & CUSA Expense',
+                              '6030': 'Power & Water Utilities Expense',
+                              '6050': 'Branch Supplies & Maintenance'
+                            };
+                            const code = e.target.value;
+                            const newLines = [...newJournalEntry.lines];
+                            newLines[idx].accountCode = code;
+                            newLines[idx].accountName = map[code] || 'General Account';
+                            setNewJournalEntry({ ...newJournalEntry, lines: newLines });
+                          }}
+                          className="w-full bg-[#F7F6F2] border border-transparent rounded-lg px-2 py-1.5 font-mono text-[11px] font-bold"
+                        >
+                          <option value="1010">1010 Cash Drawer</option>
+                          <option value="1020">1020 BPI BizLink</option>
+                          <option value="1040">1040 Inventory</option>
+                          <option value="2010">2010 AP Suppliers</option>
+                          <option value="2020">2020 Accrued Payroll</option>
+                          <option value="2040">2040 Tax Payable</option>
+                          <option value="4010">4010 Wax Revenue</option>
+                          <option value="4020">4020 Nail Revenue</option>
+                          <option value="4030">4030 Retail Sales</option>
+                          <option value="5010">5010 COGS Wax</option>
+                          <option value="6010">6010 Salaries Expense</option>
+                          <option value="6020">6020 Store Rent</option>
+                          <option value="6030">6030 Utilities</option>
+                          <option value="6050">6050 Supplies</option>
+                        </select>
+                      </div>
+                      <div className="col-span-3">
+                        <input
+                          type="text"
+                          value={line.accountName}
+                          onChange={(e) => {
+                            const newLines = [...newJournalEntry.lines];
+                            newLines[idx].accountName = e.target.value;
+                            setNewJournalEntry({ ...newJournalEntry, lines: newLines });
+                          }}
+                          className="w-full bg-[#F7F6F2] border border-transparent rounded-lg px-2 py-1.5 text-[11px]"
+                        />
+                      </div>
+                      <div className="col-span-3">
+                        <input
+                          type="number"
+                          placeholder="Debit ₱"
+                          min={0}
+                          value={line.debit || ''}
+                          onChange={(e) => {
+                            const newLines = [...newJournalEntry.lines];
+                            newLines[idx].debit = Number(e.target.value);
+                            setNewJournalEntry({ ...newJournalEntry, lines: newLines });
+                          }}
+                          className="w-full bg-[#F7F6F2] border border-transparent rounded-lg px-2 py-1.5 font-mono text-right text-[11px] font-bold text-[#5A9A1E]"
+                        />
+                      </div>
+                      <div className="col-span-2">
+                        <input
+                          type="number"
+                          placeholder="Credit ₱"
+                          min={0}
+                          value={line.credit || ''}
+                          onChange={(e) => {
+                            const newLines = [...newJournalEntry.lines];
+                            newLines[idx].credit = Number(e.target.value);
+                            setNewJournalEntry({ ...newJournalEntry, lines: newLines });
+                          }}
+                          className="w-full bg-[#F7F6F2] border border-transparent rounded-lg px-2 py-1.5 font-mono text-right text-[11px] font-bold text-[#D47098]"
+                        />
+                      </div>
+                      <div className="col-span-1 text-center">
+                        {newJournalEntry.lines.length > 2 && (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const newLines = newJournalEntry.lines.filter((_, i) => i !== idx);
+                              setNewJournalEntry({ ...newJournalEntry, lines: newLines });
+                            }}
+                            className="text-[#8A817C] hover:text-[#D47098]"
+                          >
+                            <XCircle className="h-4 w-4" />
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Debit vs Credit Balance Check */}
+                {(() => {
+                  const debits = newJournalEntry.lines.reduce((s, l) => s + (Number(l.debit) || 0), 0);
+                  const credits = newJournalEntry.lines.reduce((s, l) => s + (Number(l.credit) || 0), 0);
+                  const isBalanced = Math.abs(debits - credits) <= 0.01 && debits > 0;
+
+                  return (
+                    <div className="flex items-center justify-between pt-3 border-t border-[#EAE8E2] text-xs">
+                      <div className="flex items-center space-x-2">
+                        <span className={`w-2.5 h-2.5 rounded-full ${isBalanced ? 'bg-[#77BC2E]' : 'bg-[#D47098]'}`}></span>
+                        <span className={isBalanced ? 'text-[#5A9A1E] font-bold' : 'text-[#D47098] font-bold'}>
+                          {isBalanced ? '✓ Balanced Entry' : `Unbalanced Difference: ₱${Math.abs(debits - credits).toFixed(2)}`}
+                        </span>
+                      </div>
+                      <div className="space-x-4 font-mono font-bold">
+                        <span>Debits: <strong className="text-[#5A9A1E]">₱{debits.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong></span>
+                        <span>Credits: <strong className="text-[#D47098]">₱{credits.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong></span>
+                      </div>
+                    </div>
+                  );
+                })()}
+              </div>
+
+              <div className="flex space-x-3 pt-2">
+                <button
+                  type="submit"
+                  className="flex-1 bg-[#031134] hover:bg-[#082260] text-white font-bold py-3 rounded-xl transition-all shadow-sm"
+                >
+                  Post to General Ledger
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowNewJournalModal(false)}
+                  className="bg-[#F2F0E8] text-[#5A534E] font-semibold px-5 py-3 rounded-xl"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* 11. NEW VENDOR BILL / AP INVOICE MODAL */}
+      {showNewInvoiceModal && (
+        <div className="fixed inset-0 bg-stone-900/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fadeIn">
+          <div className="bg-white rounded-3xl border border-[#EAE8E2] shadow-2xl w-full max-w-md p-7 space-y-5">
+            <div className="flex items-center justify-between border-b border-[#F2F0E8] pb-3">
+              <div>
+                <span className="text-[10px] font-extrabold uppercase text-[#77BC2E] tracking-wider">Accounts Payable</span>
+                <h3 className="font-extrabold text-lg text-[#4A2E1B]">Record Supplier Bill</h3>
+              </div>
+              <button onClick={() => setShowNewInvoiceModal(false)} className="text-[#8A817C] hover:text-[#4A2E1B]">
+                <XCircle className="h-5 w-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleCreateInvoice} className="space-y-4 text-xs">
+              <div>
+                <label className="block font-bold text-[#5A534E] mb-1 uppercase tracking-wider">Supplier / Vendor Name</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. Organic Honey Wax Imports Inc."
+                  value={newInvoice.vendor}
+                  onChange={(e) => setNewInvoice({ ...newInvoice, vendor: e.target.value })}
+                  className="w-full bg-[#F7F6F2] border border-transparent rounded-xl px-3.5 py-2.5 font-medium outline-none"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-bold text-[#5A534E] mb-1 uppercase tracking-wider">PO Reference #</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. PO-2026-0905"
+                    value={newInvoice.poNumber}
+                    onChange={(e) => setNewInvoice({ ...newInvoice, poNumber: e.target.value })}
+                    className="w-full bg-[#F7F6F2] border border-transparent rounded-xl px-3.5 py-2.5 font-medium font-mono outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block font-bold text-[#5A534E] mb-1 uppercase tracking-wider">Branch</label>
+                  <select
+                    value={newInvoice.branch}
+                    onChange={(e) => setNewInvoice({ ...newInvoice, branch: e.target.value })}
+                    className="w-full bg-[#F7F6F2] border border-transparent rounded-xl px-3 py-2.5 font-medium outline-none"
+                  >
+                    <option value="Centrio Mall (Waxing)">Centrio Waxing</option>
+                    <option value="Passion Nails (Centrio)">Passion Nails</option>
+                    <option value="Limketkai Mall Branch">Limketkai</option>
+                    <option value="SM Downtown Branch">SM Downtown</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-bold text-[#5A534E] mb-1 uppercase tracking-wider">Invoice Amount (PHP)</label>
+                  <input
+                    type="number"
+                    required
+                    min={1}
+                    value={newInvoice.amount}
+                    onChange={(e) => setNewInvoice({ ...newInvoice, amount: e.target.value })}
+                    className="w-full bg-[#F7F6F2] border border-transparent rounded-xl px-3.5 py-2.5 font-mono font-bold text-[#5A9A1E] outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block font-bold text-[#5A534E] mb-1 uppercase tracking-wider">Payment Due Date</label>
+                  <input
+                    type="date"
+                    required
+                    value={newInvoice.dueDate}
+                    onChange={(e) => setNewInvoice({ ...newInvoice, dueDate: e.target.value })}
+                    className="w-full bg-[#F7F6F2] border border-transparent rounded-xl px-3 py-2.5 font-medium outline-none"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block font-bold text-[#5A534E] mb-1 uppercase tracking-wider">Expense / Stock Category</label>
+                <select
+                  value={newInvoice.category}
+                  onChange={(e) => setNewInvoice({ ...newInvoice, category: e.target.value })}
+                  className="w-full bg-[#F7F6F2] border border-transparent rounded-xl px-3 py-2.5 font-medium outline-none"
+                >
+                  <option value="Wax Consumables">Wax Consumables</option>
+                  <option value="Nail Supplies">Nail Supplies</option>
+                  <option value="PPE & Sanitizers">PPE & Sanitizers</option>
+                  <option value="Store Lease & CUSA">Store Lease & CUSA</option>
+                  <option value="Utilities">Utilities</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block font-bold text-[#5A534E] mb-1 uppercase tracking-wider">Item Description</label>
+                <textarea
+                  rows={2}
+                  value={newInvoice.description}
+                  onChange={(e) => setNewInvoice({ ...newInvoice, description: e.target.value })}
+                  className="w-full bg-[#F7F6F2] border border-transparent rounded-xl px-3.5 py-2.5 font-medium outline-none"
+                />
+              </div>
+
+              <div className="flex space-x-3 pt-2">
+                <button
+                  type="submit"
+                  className="flex-1 bg-[#77BC2E] hover:bg-[#6DB027] text-white font-bold py-3 rounded-xl transition-all shadow-sm shadow-[#77BC2E]/20"
+                >
+                  Save to Accounts Payable
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowNewInvoiceModal(false)}
+                  className="bg-[#F2F0E8] text-[#5A534E] font-semibold px-4 py-3 rounded-xl"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* 12. POS CASH AUDIT & RECONCILIATION MODAL */}
+      {showPosReconModal && (
+        <div className="fixed inset-0 bg-stone-900/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fadeIn">
+          <div className="bg-white rounded-3xl border border-[#EAE8E2] shadow-2xl w-full max-w-lg p-7 space-y-5">
+            <div className="flex items-center justify-between border-b border-[#F2F0E8] pb-3">
+              <div>
+                <span className="text-[10px] font-extrabold uppercase text-[#E89BB9] tracking-wider">Daily Register Audit</span>
+                <h3 className="font-extrabold text-lg text-[#4A2E1B]">Reconcile Shift Cash Drawer</h3>
+              </div>
+              <button onClick={() => setShowPosReconModal(false)} className="text-[#8A817C] hover:text-[#4A2E1B]">
+                <XCircle className="h-5 w-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleCreatePosRecon} className="space-y-4 text-xs">
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-bold text-[#5A534E] mb-1 uppercase tracking-wider">Branch Location</label>
+                  <select
+                    value={newPosRecon.branch}
+                    onChange={(e) => setNewPosRecon({ ...newPosRecon, branch: e.target.value })}
+                    className="w-full bg-[#F7F6F2] border border-transparent rounded-xl px-3 py-2.5 font-medium outline-none"
+                  >
+                    <option value="Centrio Mall (Waxing)">Centrio Mall (Waxing)</option>
+                    <option value="Passion Nails (Centrio)">Passion Nails (Centrio)</option>
+                    <option value="Limketkai Mall">Limketkai Mall</option>
+                    <option value="SM Downtown Premier">SM Downtown Premier</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block font-bold text-[#5A534E] mb-1 uppercase tracking-wider">Shift Supervisor</label>
+                  <input
+                    type="text"
+                    required
+                    value={newPosRecon.shiftSupervisor}
+                    onChange={(e) => setNewPosRecon({ ...newPosRecon, shiftSupervisor: e.target.value })}
+                    className="w-full bg-[#F7F6F2] border border-transparent rounded-xl px-3 py-2.5 font-medium outline-none"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-bold text-[#5A534E] mb-1 uppercase tracking-wider">Morning Float (₱)</label>
+                  <input
+                    type="number"
+                    required
+                    value={newPosRecon.openingFloat}
+                    onChange={(e) => setNewPosRecon({ ...newPosRecon, openingFloat: Number(e.target.value) })}
+                    className="w-full bg-[#F7F6F2] border border-transparent rounded-xl px-3 py-2 font-mono font-bold outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block font-bold text-[#5A534E] mb-1 uppercase tracking-wider">Physical Cash Sales (₱)</label>
+                  <input
+                    type="number"
+                    required
+                    value={newPosRecon.cashSales}
+                    onChange={(e) => setNewPosRecon({ ...newPosRecon, cashSales: Number(e.target.value) })}
+                    className="w-full bg-[#F7F6F2] border border-transparent rounded-xl px-3 py-2 font-mono font-bold text-[#5A9A1E] outline-none"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-3 gap-2 bg-[#FAF9F5] p-3 rounded-2xl border border-[#EAE8E2]">
+                <div>
+                  <label className="block font-bold text-[#8A817C] text-[10px] mb-1 uppercase">Maya QR (₱)</label>
+                  <input
+                    type="number"
+                    value={newPosRecon.mayaQrSales}
+                    onChange={(e) => setNewPosRecon({ ...newPosRecon, mayaQrSales: Number(e.target.value) })}
+                    className="w-full bg-white border border-[#EAE8E2] rounded-lg px-2 py-1 font-mono text-[11px]"
+                  />
+                </div>
+                <div>
+                  <label className="block font-bold text-[#8A817C] text-[10px] mb-1 uppercase">GCash QR (₱)</label>
+                  <input
+                    type="number"
+                    value={newPosRecon.gcashQrSales}
+                    onChange={(e) => setNewPosRecon({ ...newPosRecon, gcashQrSales: Number(e.target.value) })}
+                    className="w-full bg-white border border-[#EAE8E2] rounded-lg px-2 py-1 font-mono text-[11px]"
+                  />
+                </div>
+                <div>
+                  <label className="block font-bold text-[#8A817C] text-[10px] mb-1 uppercase">Card POS (₱)</label>
+                  <input
+                    type="number"
+                    value={newPosRecon.cardTerminalSales}
+                    onChange={(e) => setNewPosRecon({ ...newPosRecon, cardTerminalSales: Number(e.target.value) })}
+                    className="w-full bg-white border border-[#EAE8E2] rounded-lg px-2 py-1 font-mono text-[11px]"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-bold text-[#5A534E] mb-1 uppercase tracking-wider">Petty Cash Out (₱)</label>
+                  <input
+                    type="number"
+                    value={newPosRecon.pettyCashExpenses}
+                    onChange={(e) => setNewPosRecon({ ...newPosRecon, pettyCashExpenses: Number(e.target.value) })}
+                    className="w-full bg-[#F7F6F2] border border-transparent rounded-xl px-3 py-2 font-mono text-[#D47098] outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block font-bold text-[#5A534E] mb-1 uppercase tracking-wider">Counted Physical Cash (₱)</label>
+                  <input
+                    type="number"
+                    required
+                    value={newPosRecon.actualCashCounted}
+                    onChange={(e) => setNewPosRecon({ ...newPosRecon, actualCashCounted: Number(e.target.value) })}
+                    className="w-full bg-[#F7F6F2] border border-transparent rounded-xl px-3 py-2 font-mono font-black text-sm text-[#031134] outline-none"
+                  />
+                </div>
+              </div>
+
+              {/* Real-time Math Summary */}
+              {(() => {
+                const expected = (Number(newPosRecon.openingFloat) || 0) + (Number(newPosRecon.cashSales) || 0) - (Number(newPosRecon.pettyCashExpenses) || 0);
+                const actual = Number(newPosRecon.actualCashCounted) || 0;
+                const diff = actual - expected;
+
+                return (
+                  <div className="bg-[#FAF9F5] p-3.5 rounded-2xl border border-[#EAE8E2] flex items-center justify-between text-xs font-bold">
+                    <div>
+                      <span className="text-[#8A817C] block text-[10px]">Expected Cash in Drawer:</span>
+                      <span className="font-mono text-[#4A2E1B]">₱{expected.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
+                    </div>
+                    <div className="text-right">
+                      <span className="text-[#8A817C] block text-[10px]">Variance:</span>
+                      <span className={`font-mono text-sm ${diff === 0 ? 'text-[#5A9A1E]' : 'text-[#D47098]'}`}>
+                        {diff === 0 ? '₱0.00 Exact Match' : `₱${diff.toFixed(2)} (${diff > 0 ? 'Over' : 'Short'})`}
+                      </span>
+                    </div>
+                  </div>
+                );
+              })()}
+
+              <div className="flex space-x-3 pt-2">
+                <button
+                  type="submit"
+                  className="flex-1 bg-[#031134] hover:bg-[#082260] text-white font-bold py-3 rounded-xl transition-all shadow-sm"
+                >
+                  Save Shift Cash Audit
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowPosReconModal(false)}
+                  className="bg-[#F2F0E8] text-[#5A534E] font-semibold px-4 py-3 rounded-xl"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* 13. PRINTABLE OFFICIAL FINANCIAL STATEMENT MODAL */}
+      {showFinancialReportModal && (
+        <div className="fixed inset-0 bg-stone-900/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fadeIn">
+          <div className="bg-white rounded-3xl border border-[#EAE8E2] shadow-2xl w-full max-w-2xl p-8 space-y-6 max-h-[90vh] overflow-y-auto printable-report">
+            
+            {/* Report Letterhead */}
+            <div className="flex items-center justify-between border-b-2 border-[#031134] pb-4">
+              <div className="flex items-center space-x-3">
+                <img src="/alrajj-icon.png" alt="ALRAJJ LEGACY" className="h-12 w-12 object-contain rounded-xl p-1 bg-[#031134]" />
+                <div>
+                  <h2 className="font-black text-lg tracking-tight text-[#031134]">ALRAJJ LEGACY FORTIFIED BUSINESS CORP.</h2>
+                  <p className="text-[11px] text-[#5A534E]">TIN: 009-847-192-000 &bull; Cagayan de Oro City, Philippines</p>
+                  <p className="text-[10px] text-[#8A817C]">Branches: Centrio Mall Waxing &bull; Passion Nails &bull; Limketkai &bull; SM Downtown</p>
+                </div>
+              </div>
+              <div className="text-right">
+                <span className="bg-[#031134] text-[#D4AF37] text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase">
+                  Official Statement
+                </span>
+                <p className="text-[10px] text-[#8A817C] mt-1 font-mono">{new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</p>
+              </div>
+            </div>
+
+            {/* Statement Content */}
+            <div className="space-y-4 text-xs">
+              <div className="text-center space-y-0.5">
+                <h3 className="font-extrabold text-base text-[#4A2E1B] uppercase tracking-wider">
+                  {financialReportType === 'pl' ? 'Statement of Comprehensive Income (Profit & Loss)' : 'Statement of Financial Position (Balance Sheet)'}
+                </h3>
+                <p className="text-[#8A817C]">For the Period Ended August 31, 2026 (All amounts in Philippine Peso ₱)</p>
+              </div>
+
+              {financialReportType === 'pl' ? (
+                <div className="border border-[#EAE8E2] rounded-2xl p-4 bg-[#FAF9F5] space-y-3 font-medium">
+                  <div className="flex justify-between font-bold text-[#031134] border-b border-[#EAE8E2] pb-1">
+                    <span>Gross Service & Retail Revenue:</span>
+                    <span className="font-mono">₱1,284,650.00</span>
+                  </div>
+                  <div className="flex justify-between text-[#D47098]">
+                    <span>Less: Cost of Goods Sold (Consumables & Supplies):</span>
+                    <span className="font-mono">(₱248,300.00)</span>
+                  </div>
+                  <div className="flex justify-between font-extrabold text-[#5A9A1E] bg-[#77BC2E]/15 p-2 rounded-xl">
+                    <span>GROSS OPERATING PROFIT (80.67%):</span>
+                    <span className="font-mono">₱1,036,350.00</span>
+                  </div>
+                  <div className="flex justify-between text-[#4A2E1B] pt-1">
+                    <span>Less: Operating Expenses (Salaries, Mall Rents, Utilities):</span>
+                    <span className="font-mono">(₱582,400.00)</span>
+                  </div>
+                  <div className="flex justify-between font-black text-sm text-white bg-[#031134] p-3 rounded-xl border border-[#D4AF37]">
+                    <span className="text-[#D4AF37]">NET OPERATING INCOME (EBITDA - 35.33%):</span>
+                    <span className="font-mono text-white">₱453,950.00</span>
+                  </div>
+                </div>
+              ) : (
+                <div className="border border-[#EAE8E2] rounded-2xl p-4 bg-[#FAF9F5] space-y-3 font-medium">
+                  <div className="flex justify-between font-bold text-[#5A9A1E] border-b border-[#EAE8E2] pb-1">
+                    <span>TOTAL ASSETS (Current + Non-Current Property/Equipment):</span>
+                    <span className="font-mono">₱4,121,700.00</span>
+                  </div>
+                  <div className="flex justify-between text-[#D47098]">
+                    <span>TOTAL LIABILITIES (Trade AP, Accrued Payroll, Tax Payables):</span>
+                    <span className="font-mono">₱562,500.00</span>
+                  </div>
+                  <div className="flex justify-between font-extrabold text-[#031134] bg-[#031134]/10 p-2 rounded-xl">
+                    <span>TOTAL SHAREHOLDER EQUITY (Capital + Retained + MTD Profit):</span>
+                    <span className="font-mono">₱3,559,200.00</span>
+                  </div>
+                  <div className="flex justify-between font-black text-xs text-[#5A9A1E] pt-1 text-center">
+                    <span>✓ Equation Verified: Total Assets = Total Liabilities + Equity</span>
+                  </div>
+                </div>
+              )}
+
+              {/* Signatures */}
+              <div className="grid grid-cols-2 gap-8 pt-6 border-t border-[#EAE8E2] text-center">
+                <div className="space-y-1">
+                  <div className="border-b border-stone-400 w-40 mx-auto h-8 flex items-end justify-center font-bold text-[11px] text-[#031134]">
+                    Kristene HR / Acc
+                  </div>
+                  <span className="text-[10px] text-[#8A817C] uppercase font-bold block">Prepared & Certified By</span>
+                  <span className="text-[10px] text-[#5A534E]">Head of Accounting & HR</span>
+                </div>
+                <div className="space-y-1">
+                  <div className="border-b border-stone-400 w-40 mx-auto h-8 flex items-end justify-center font-bold text-[11px] text-[#031134]">
+                    Ms. Jehan Abedin
+                  </div>
+                  <span className="text-[10px] text-[#8A817C] uppercase font-bold block">Authorized & Approved By</span>
+                  <span className="text-[10px] text-[#5A534E]">Managing Director</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Modal Actions */}
+            <div className="flex items-center justify-between pt-4 border-t border-[#F2F0E8]">
+              <span className="text-xs text-[#8A817C]">SETHCON ERP Suite Engine</span>
+              <div className="flex space-x-2">
+                <button
+                  onClick={() => window.print()}
+                  className="bg-[#031134] hover:bg-[#082260] text-white font-bold text-xs px-5 py-2.5 rounded-xl transition-all flex items-center space-x-1.5 shadow-sm"
+                >
+                  <Printer className="h-4 w-4 text-[#D4AF37]" />
+                  <span>Print Document</span>
+                </button>
+                <button
+                  onClick={() => setShowFinancialReportModal(false)}
+                  className="bg-[#F2F0E8] text-[#5A534E] font-semibold text-xs px-4 py-2.5 rounded-xl"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+
           </div>
         </div>
       )}

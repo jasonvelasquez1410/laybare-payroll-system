@@ -55,10 +55,20 @@ For any Tuesday demonstration with Ms. Jehan Abedin and leadership, use this flo
 
 ### Act 4: 1-Click Payroll & 5-Step BPI Disbursement (1.5 Minutes)
 - **What to show**:
-  1. Click **"Accounting & Payroll"** &rarr; click green **"Compute Semi-Monthly Payroll"**.
+  1. Click **"Biometric Payroll"** &rarr; click green **"Compute Semi-Monthly Payroll"**.
   2. Walk through the **5-Step Disbursement Lifecycle Bar**: Step 1 HR Computed &rarr; Step 2 Forward to Accounting &rarr; Step 3 Generate BPI BizLink Batch CSV &rarr; Step 4 MD Approval Sign-off &rarr; Step 5 ATM Credited & Released.
   3. Click **"View Slip"** to display the official printable payslip complete with the ALRAJJ LEGACY logo.
 - **Talking Point**: *"What used to take 2 full days of manual math is now computed in 1 second—complete with Accounting verification, BPI BizLink corporate bank file export, Managing Director authorization, and official printable payslips."*
+
+### Act 5: Enterprise Accounting & Financial Management (2 Minutes)
+- **What to show**:
+  1. Click **"Accounting & Financials"** &rarr; walk through the **Overview & Liquidity Cockpit** (BPI BizLink balance ₱1.428M + branch cash floats, revenue vs. OPEX trend, branch revenue share).
+  2. Click **"Profit & Loss (P&L)"** &rarr; filter by branch (*Centrio Waxing*, *Passion Nails*, *Limketkai*, *SM Downtown*, or *Consolidated*) &rarr; show full Philippine GAAP format with Gross Margin (80.67%) and EBITDA Net Profit (₱453,950.00).
+  3. Click **"Balance Sheet"** &rarr; show verified balanced equation: Assets (₱4.121M) = Liabilities (₱562.5k) + Equity (₱3.559M).
+  4. Click **"Accounts Payable"** &rarr; show PO-linked vendor bills &rarr; click **"Pay BPI"** to demonstrate instant bank debit and automated General Ledger double-entry posting.
+  5. Click **"Daily POS Cash Audit"** &rarr; show shift cash drawer balancing and anti-shrinkage variance detection.
+  6. Click **"BIR & Statutory Tax Hub"** &rarr; show automated **BIR Form 1601-C**, **BIR 2550Q**, and **BIR 0619-E** calculations.
+- **Talking Point**: *"With the new Accounting module, ALRAJJ LEGACY is no longer just tracking timecards—you now have a full Enterprise ERP that connects salon POS revenue, inventory purchasing, payroll disbursements, and BIR tax compliance in one unified system."*
 
 ---
 
