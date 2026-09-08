@@ -1,128 +1,132 @@
-# ALRAJJ LEGACY HRMS & Biometric Payroll System
+# ALRAJJ LEGACY Multi-Branch ERP Management System
 
-> **Project Memory & State Context Document**  
-> *Last Updated: September 4, 2026*  
-> *Repository*: `jasonvelasquez1410/laybare-payroll-system` (Branch: `main`)  
-> *Live Production Link*: [https://alrajj-legacy.vercel.app](https://alrajj-legacy.vercel.app)  
-> *Company*: ALRAJJ LEGACY Fortified Business Corp.  
-> *Target Branches*: Centrio (Waxing & Passion Nails), Ketkai, SM Downtown  
-> *Primary Maintainer / Developer*: Antigravity AI & Jason Velasquez  
-> *Presentation Deck*: `ALRAJJ_LEGACY_Payroll_Demo_Presentation.pptx` & `presentation_deck.html`  
-> *Demo Guide*: `TUESDAY_DEMO_SCRIPT_AND_GUIDE.md`  
-
----
-
-## 1. Project Overview & Business Logic
-**ALRAJJ LEGACY HRMS** is an automated Biometric Attendance, Compliance Monitoring, and Semi-Monthly Payroll System tailored specifically for ALRAJJ LEGACY salon operations (Centrio, Ketkai, SM Downtown). 
-
-### Key Capabilities:
-- **Biometric Punch Ingestion**: Parses offline biometric machine logs (`.xls` / `.xlsx` exported from NGTeco time clocks).
-- **Anomaly & Exception Engine**: Flags unpaired clock-ins/clock-outs, missing punches, paired shifts across midnight, and manual HR time adjustments.
-- **Tardiness & Compliance Monitoring**: Detects recurring lateness; automatically flags employees reaching or exceeding 3 late instances in a cutoff and generates a compliant **Notice to Explain (NTE)** letter with 5-day response timeline.
-- **Philippine Statutory Payroll Calculation**: Computes Semi-Monthly gross-to-net pay including:
-  - Basic Salary, Overtime Pay, Night Differential, Holiday Pay
-  - Tardiness / Absenteeism deductions
-  - Statutory Deductions: SSS Contribution, PhilHealth, Pag-IBIG HDMF, and BIR Withholding Tax
-  - Automated printable itemized employee payslip modal.
+> **Persistent Project Memory & Context Document**  
+> **Last Updated**: September 8, 2026  
+> **Repository**: `jasonvelasquez1410/laybare-payroll-system` (Branch: `main`)  
+> **Primary Live Production URL**: [https://alrajj-legacy.vercel.app](https://alrajj-legacy.vercel.app)  
+> **Client / Entity**: ALRAJJ LEGACY Fortified Business Corp.  
+> **Target Branches**: Centrio Mall (Waxing Salon & Passion Nails), Limketkai Mall, SM Downtown Premier  
+> **Client Lead**: Ms. Jehan Abedin, General Manager  
+> **Presenter & Technology Partner**: Jason Velasquez & SETHCON Technologies Inc.  
+> **Presentation Assets**: `ALRAJJ_LEGACY_Payroll_Demo_Presentation.pptx`, `presentation_deck.html`, `PRESENTER_CHEAT_SHEET.html`  
+> **Demo Guide**: `TUESDAY_DEMO_SCRIPT_AND_GUIDE.md`  
 
 ---
 
-## 2. Standing User Directives & Rules
-1. **Auto-Push to Git**: Automatically stage, commit, and push all code changes and project updates directly to GitHub `origin/main` whenever modifications are made.
-2. **Design Theme**: Strictly adhere to the **Behance HRMS Modern Dashboard Layout** (Left-anchored vertical sidebar, top greeting & date header, 4 quick KPI summary cards, circular donut analytics gauge, biometric clock-in feed, and rounded card tables) combined with the official **Lay Bare Logo Color Palette**.
-3. **Default Light Mode**: The application defaults to an ultra-clean, warm ivory/slate-cream modern light theme with high contrast, legible typography, and soft borders.
+## 🏢 1. Executive System Overview
+Following the successful executive demonstration with Ms. Jehan Abedin, **ALRAJJ LEGACY** has evolved from an HRMS & timecard tracking tool into a unified **Multi-Branch Enterprise ERP Management Suite**.
+
+```mermaid
+graph TD
+    A[ALRAJJ LEGACY Enterprise ERP Core] --> B[Executive & Financial Operations]
+    A --> C[Biometric HRMS & 5-Stage Payroll]
+    A --> D[Workforce & Exception Management]
+    A --> E[SETHCON Enterprise Suite]
+    
+    B --> B1[Multi-Branch P&L - Philippine GAAP]
+    B --> B2[Consolidated Balance Sheet]
+    B --> B3[Accounts Payable - PO Linked]
+    B --> B4[Daily POS Cash Audit & Reconciliation]
+    B --> B5[General Ledger & Double-Entry Journal]
+    B --> B6[BIR Tax Hub 1601-C / 2550Q / 0619-E]
+
+    C --> C1[NGTeco Punch Ingestion]
+    C --> C2[5-Step BPI BizLink Disbursement]
+    C --> C3[Official Printable Payslips]
+
+    D --> D1[Exceptions & Overrides]
+    D --> D2[Tardiness & Auto DOLE NTE]
+    D --> D3[Staff Directory]
+
+    E --> E1[Salon CRM & VIP Loyalty]
+    E --> E2[5-Step Purchase Order Pipeline]
+    E --> E3[SETHCON Enterprise Profile]
+```
 
 ---
 
-## 3. Brand Identity & Color Theme
-The UI uses the exact palette derived from the official **Lay Bare logo** and brand assets:
+## 🏛️ 2. Core ERP Modules & Capabilities
 
-| Color Role | Hex Code | Purpose / Usage |
+### Module 1: Enterprise Accounting & Financial Operations (`activeTab === 'accounting'`)
+- **Executive Liquidity Cockpit**: Real-time monitoring of BPI BizLink Corporate Bank Account (`₱1,428,500.00`) and physical petty cash floats across Centrio Waxing (`₱25k`), Passion Nails (`₱20k`), Limketkai (`₱25k`), and SM Downtown (`₱20k`).
+- **Multi-Branch Profit & Loss (P&L)**:
+  - Branch filter: `Consolidated (All Branches)`, `Centrio Waxing`, `Passion Nails (Centrio)`, `Limketkai Mall`, and `SM Downtown Premier`.
+  - Full GAAP structured breakdown: Operating Revenue (Waxing, Nails, Retail Products), Cost of Goods Sold (Wax Consumables, Gels, Sanitation, Packaging), Gross Margin (80.67% / ₱1.036M), Operating Expenses (Salaries, Store Rents, Utilities, Marketing, Maintenance, Depreciation), and EBITDA Net Income (₱453,950.00 / 35.33% Net Margin).
+  - 1-click **Export to CSV** and **Printable Official Statement**.
+- **Consolidated Balance Sheet**: Verified balanced equation: `Total Assets (₱4,121,700.00) = Total Liabilities (₱562,500.00) + Shareholder Equity (₱3,559,200.00)`.
+- **Accounts Payable (PO Linked)**: Unpaid supplier bills with aging status and **1-Click "Pay via BPI BizLink"** (deducts bank balance and auto-posts double-entry General Ledger record).
+- **Daily POS Cash Audit & Register Reconciliation**: Shift drawer balancing (`Opening Float + Cash Sales - Petty Out = Expected Count`) with anti-shrinkage variance detection (`₱0.00 Exact Match` vs `Over/Short` flags).
+- **General Ledger & Double-Entry Journal**: Real-time Chart of Accounts with live search, audit source tagging (`[PAYROLL_RUN]`, `[PO_RECEIVING]`, `[AP_DISBURSEMENT]`, `[POS_REVENUE]`), and manual journal entry modal with real-time **Debit === Credit** validation rule.
+- **Philippine BIR & Statutory Tax Compliance Hub**:
+  - **BIR Form 1601-C** (Withholding on Compensation): Auto-computed from Biometric Payroll (`₱9,225.00` on `₱184.5k`).
+  - **BIR Form 2550Q** (Quarterly VAT): Sourced from POS sales (`₱35,820.00` on `₱1.284M`).
+  - **BIR Form 0619-E** (Expanded Withholding Tax on Mall Leases): 5% EWT on Ayala & SM lease dues (`₱14,750.00` on `₱295k`).
+  - **SSS / PhilHealth / HDMF Monthly Contribution**: `₱24,200.00` scheduled via BPI BizLink.
+- **Official Printable Financial Statements**: Executive letterhead modal with ALRAJJ LEGACY TIN `009-847-192-000` and signing blocks for Kristene (Accounting/HR Lead) and Ms. Jehan Abedin (Managing Director).
+
+### Module 2: Biometric Payroll & 5-Step BPI BizLink Disbursement (`activeTab === 'payroll'`)
+- Computes Gross-to-Net pay for salon staff across cutoffs (`2026-07-16 ~ 2026-07-31`).
+- Basic Pay, Overtime (1.25x), Night Differential (10%), Late/Undertime Deductions, Statutory Deductions (SSS, PhilHealth, Pag-IBIG, Withholding Tax).
+- **5-Stage Disbursement Lifecycle**:
+  1. `HR Computed` (Calculations locked)
+  2. `Forward to Accounting` (Audit review timestamped)
+  3. `Generate BPI BizLink CSV` (Corporate bank batch file download)
+  4. `MD Approval Sign-off` (Authorized by Ms. Jehan Abedin)
+  5. `ATM Credited & Released` (Disbursed directly to BPI employee cards)
+- **Official Printable Payslips**: Printable slip modal with ALRAJJ LEGACY corporate logo and complete earning/deduction breakdown.
+
+### Module 3: Workforce Management & Compliance
+- **Exceptions & Overrides (`exceptions`)**: Resolves unpaired clock-ins/outs and missing punches with an immutable audit log.
+- **Tardiness & Notice to Explain (`tardiness`)**: Late frequency counter with built-in formal **DOLE-compliant Notice to Explain (NTE)** letter generator.
+- **Biometric Ingestion (`upload`)**: Drag-and-drop parser for raw `.xls` / `.xlsx` files from **NGTeco** biometric time clocks.
+- **Staff Directory (`employees`)**: Master employee list with BPI account numbers, daily rates, and statutory IDs.
+
+### Module 4: SETHCON Enterprise Suite
+- **Salon CRM & VIP Loyalty (`crm`)**: Client visit history, skin sensitivity notes, preferred specialists, package balances, and SMS booking alerts.
+- **5-Step Purchase Order Pipeline (`procurement`)**: Store Requisition &rarr; Vendor RFQ &rarr; PO Approval &rarr; Goods Receiving & Inspection &rarr; **3-Way Matching & Direct Posting to Accounting AP**.
+
+---
+
+## 🎨 3. Design Tokens & Palette
+
+| Token / Role | Hex Code | Purpose / Usage |
 | :--- | :--- | :--- |
-| **Lay Bare Green** | `#77BC2E` / `#6DB027` | Primary buttons (`+ Add Employee`, `Compute Payroll`), active sidebar highlights, on-time badges, accent icons |
-| **Warm Chocolate Brown** | `#4A2E1B` | Primary headings, brand title, user avatar backgrounds, card title accents |
-| **Floral Soft Pink** | `#E89BB9` / `#D47098` | Disciplinary flags, late alerts, exception badges, donut chart slices |
-| **Floral Lilac / Lavender**| `#B58EBE` / `#9C72A8` | Tardiness bars, rest day tags, secondary analytics |
-| **Light Canvas** | `#F7F8FA` | Crisp, modern HRMS page background |
-| **Card Surface** | `#FFFFFF` | Pure white rounded cards (`rounded-3xl` / `rounded-2xl`) with `#EAE8E2` borders |
-| **Body Text** | `#2D2520` / `#5A534E` | High readability dark chocolate-charcoal typography |
+| **Deep Corporate Navy** | `#031134` / `#082260` | ERP headers, enterprise badges, primary branding, navigation active states |
+| **Gold / Prestige Accent** | `#D4AF37` / `#B48A10` | Executive badges, financial statement accents, SETHCON Suite pills |
+| **Lay Bare Green** | `#77BC2E` / `#6DB027` | Primary action buttons, positive margins, balanced equation badges, on-time tags |
+| **Warm Chocolate** | `#4A2E1B` | Main typography, section titles, employee avatars |
+| **Soft Floral Pink** | `#E89BB9` / `#D47098` | Disciplinary flags, exceptions, deduction figures, CRM accents |
+| **Soft Lilac** | `#B58EBE` | Rest days, secondary branch indicators |
+| **Canvas Background** | `#F7F8FA` / `#FAF9F5` | Modern Behance HRMS light background |
+| **Card Surface** | `#FFFFFF` | Rounded cards (`rounded-3xl` / `rounded-2xl`) with `#EAE8E2` borders |
 
 ---
 
-## 4. Architecture & Key Modules
-
-### A. Left Navigation Sidebar
-- **Branding Header**: Official ALRAJJ LEGACY Logo (`/alrajj-icon.png` & `/alrajj-logo.png`) + `ALRAJJ LEGACY HRMS` tag.
-- **Search Menu**: Real-time interactive menu search filter.
-- **Categorized Sections**:
-  - **Overview**: `General Dashboard`, `Accounting & Payroll`
-  - **Workforce Management**: `Exceptions & Flags` (with dynamic counter), `Tardiness & NTE`, `Biometric Ingestion`
-  - **Employee Management**: `Staff Directory` (+ Add Employee modal)
-- **User Footer**: Profile card (`Kristene HR Manager`) with live active status.
-
-### B. Top App Bar & KPI Highlights
-- **Greeting & Cutoff**: *"Welcome back, Kristene"* with dynamic date badge and payroll cutoff range selector (`2026-07-16` to `2026-07-31`).
-- **4 Top Highlight Cards**:
-  1. `Missed Out / Flags` (Floral Pink icon)
-  2. `Active Salon Staff` (Lay Bare Green icon)
-  3. `Total Late Minutes` (Floral Lilac icon)
-  4. `Avg. Work Shift` (Chocolate Brown icon)
-
-### C. Core Functional Views
-1. **General Dashboard (`dashboard`)**:
-   - **Attendance Donut Widget**: 88% Present circular gauge with color-coded breakdown (Present in Green, Exceptions in Pink, Rest Day in Lilac).
-   - **Recent Clock-In Feed**: Real-time biometric punch ledger with branch tags and status tags (`On Time`, `Late (21m)`, `Missing OUT`).
-   - **Attendance Volume Line Chart**: Daily headcount trends over the cutoff.
-   - **Tardiness Bar Chart**: Top late minutes accumulated per employee.
-   - **Master Timesheets Table**: Filterable by employee and status (`Present`, `Flagged`, `Rest Day`, `Approved`) with search support.
-2. **Biometric Ingestion Portal (`upload`)**:
-   - Drag-and-drop zone accepting `.xls` / `.xlsx` exports from NGTeco biometric machines.
-   - Automatic punch log validation and synchronization.
-3. **Exceptions & Overrides Dashboard (`exceptions`)**:
-   - Unpaired clock-ins/outs with warning details.
-   - HR Adjustment side-drawer to input corrected Clock-In / Clock-Out and save override notes.
-4. **Tardiness & NTE Generator (`tardiness`)**:
-   - Monitors employees exceeding the 3-late threshold.
-   - Built-in **Notice to Explain (NTE)** letter generator with official printable template.
-5. **Accounting & Semi-Monthly Payroll (`payroll`)**:
-   - Calculates Basic Pay, Overtime, Night Differential, Tardiness Deductions, Gross Pay, Statutory Deductions (SSS, PhilHealth, Pag-IBIG, Tax), and Net Take-Home Salary.
-   - **Printable Itemized Payslip Modal** for each worker.
-
----
-
-## 5. Technology Stack
+## 💻 4. Technology Stack & Deployment
 - **Frontend**: React 19, Vite, Tailwind CSS v4, ECharts (`echarts-for-react`), Lucide React icons, Axios, Plus Jakarta Sans & Outfit fonts.
 - **Backend**: Node.js / Express (`backend/server.js`), SQLite / Memory storage, XLSX parser (`xlsx`), CORS.
-- **Deployment**: Vercel frontend / Local Vite dev server.
+- **Production Hosting**: Vercel (`https://alrajj-legacy.vercel.app`).
+- **Version Control**: GitHub `jasonvelasquez1410/laybare-payroll-system` (`main` branch).
 
 ---
 
-## 6. Directory Structure
-```
-LAYBARE-payroll-system/
-├── frontend/
-│   ├── public/
-│   │   ├── alrajj-logo.png       <-- Official ALRAJJ LEGACY Logo
-│   │   ├── alrajj-icon.png       <-- Star Emblem Icon / Favicon
-│   │   └── logo.png.jpg          <-- Logo compatibility asset
-│   ├── src/
-│   │   ├── App.jsx               <-- Main Dashboard (HRMS Sidebar + Lay Bare Palette)
-│   │   ├── index.css             <-- Tailwind v4 & Design Tokens
-│   │   └── main.jsx              <-- Entry Point
-│   ├── index.html                <-- HTML with Plus Jakarta Sans & Outfit fonts
-│   ├── package.json
-│   └── vite.config.js
-├── backend/
-│   ├── server.js                 <-- Express API & Calculation logic
-│   └── package.json
-├── project.md                    <-- This state & context file
-├── package.json                  <-- Root workspaces configuration
-└── README.md
-```
+## 🎬 5. Tuesday Live Demo Speaking Flow (Quick Reference)
+
+1. **SETHCON Suite Profile (1 min)**: Click *Sethcon Suite* pill &rarr; highlight multi-branch retail software expertise and salon CRM.
+2. **Executive Attendance Cockpit (1 min)**: Show top greeting (*"Welcome back, Kristene"*), 88% attendance donut chart, and live punch feed.
+3. **Biometric Ingestion (1 min)**: Show NGTeco `.xls` upload portal & 1-click import.
+4. **Exceptions & NTE (1.5 min)**: Resolve Cherimar's missing punch & show auto-drafted DOLE NTE letter.
+5. **Biometric Payroll & BPI BizLink (1.5 min)**: Compute payroll & step through 5-stage BPI disbursement pipeline with printable payslips.
+6. **Enterprise Accounting & Financials (2 min)**:
+   - Walk through **Overview & Liquidity Cockpit** (`₱1.428M` BPI + branch floats).
+   - Show **Profit & Loss (P&L)** with branch filter (*Centrio*, *Passion Nails*, *Ketkai*, *SM*, *Consolidated*) and 80.67% Gross Margin.
+   - Show **Balance Sheet** (`₱4.121M` Assets = Liabilities + Equity).
+   - Show **Accounts Payable** & click *"Pay BPI"* for instant General Ledger posting.
+   - Show **Daily POS Cash Audit** & **BIR Tax Hub** (1601-C, 2550Q, 0619-E).
 
 ---
 
-## 7. How to Resume Work After Laptop Restart
+## 🔄 6. How to Resume After Laptop Restart
 
 ### Step 1: Open Terminal in Project Root
 ```bash
@@ -134,23 +138,15 @@ cd "c:\Users\USER\Documents\Programming Folder Rep\LAYBARE-payroll-system"
 cd frontend
 npm run dev
 ```
-*(Runs on `http://localhost:5173` or specified Vite port)*
+*(Available locally at `http://localhost:5173`)*
 
-### Step 3: Start Backend API Server (in a separate terminal)
+### Step 3: Start Backend Server (Optional for local API testing)
 ```bash
 cd "c:\Users\USER\Documents\Programming Folder Rep\LAYBARE-payroll-system\backend"
 node server.js
 ```
 *(Runs on `http://localhost:5000`)*
 
-### Step 4: Continue Coding with Antigravity
-When you restart your session or laptop, Antigravity automatically loads `AGENTS.md` and `project.md` from this workspace and will immediately resume right where we left off with full memory of the demo, live links, and features!
-
----
-
-## 8. Tuesday Live Demo Guide & 5-Minute Flow
-
-Use this quick-reference flow during the demo at **`https://alrajj-legacy.vercel.app`**:
 
 ### Act 1: Executive Dashboard (1 Min)
 - Show top header (*"Welcome back, Kristene"*), cutoff range (`2026-07-16 ~ 2026-07-31`).
