@@ -294,7 +294,9 @@ export default function App() {
     sssNo: '',
     philhealthNo: '',
     pagibigNo: '',
-    tinNo: ''
+    tinNo: '',
+    otherDeductions: 0,
+    otherDeductionRemarks: 'Cash Advance (Vale)'
   });
 
   // Quick punch simulation state
@@ -357,10 +359,10 @@ export default function App() {
 
   const loadMockData = () => {
     const mockEmployees = [
-      { id: 33, name: 'Justine Ann Atay', branch: 'Centrio Mall (Waxing)', role: 'Senior Waxing Specialist', rate: 600, tax_status: 'S', bpi_account: '0249821401', sss_no: '34-8192019-3', philhealth_no: '12-054918230-1', pagibig_no: '1210-9482-1104', tin_no: '291-840-192-000' },
-      { id: 34, name: 'Cherimar Concigo', branch: 'Centrio Mall (Waxing)', role: 'Master Aesthetician', rate: 650, tax_status: 'S', bpi_account: '0249821402', sss_no: '34-7291048-1', philhealth_no: '12-094817263-4', pagibig_no: '1210-8839-2049', tin_no: '304-918-283-000' },
-      { id: 35, name: 'Kristene HR', branch: 'Limketkai Mall', role: 'Operations & HR Lead', rate: 800, tax_status: 'S', bpi_account: '0249821403', sss_no: '34-9918273-0', philhealth_no: '12-019283746-5', pagibig_no: '1210-7719-3920', tin_no: '412-839-102-000' },
-      { id: 36, name: 'Cherry Rose Paculanang', branch: 'Passion Nails (Centrio)', role: 'Senior Nail Technician', rate: 580, tax_status: 'ME', bpi_account: '0249821404', sss_no: '34-6201948-7', philhealth_no: '12-083920184-9', pagibig_no: '1210-6629-4019', tin_no: '529-104-829-000' }
+      { id: 33, name: 'Justine Ann Atay', branch: 'Centrio Mall (Waxing)', role: 'Senior Waxing Specialist', rate: 600, tax_status: 'S', bpi_account: '0249821401', sss_no: '34-8192019-3', philhealth_no: '12-054918230-1', pagibig_no: '1210-9482-1104', tin_no: '291-840-192-000', other_deductions: 150.00, other_deduction_remarks: 'Cash Advance (Vale)' },
+      { id: 34, name: 'Cherimar Concigo', branch: 'Centrio Mall (Waxing)', role: 'Master Aesthetician', rate: 650, tax_status: 'S', bpi_account: '0249821402', sss_no: '34-7291048-1', philhealth_no: '12-094817263-4', pagibig_no: '1210-8839-2049', tin_no: '304-918-283-000', other_deductions: 0.00, other_deduction_remarks: '' },
+      { id: 35, name: 'Kristene HR', branch: 'Limketkai Mall', role: 'Operations & HR Lead', rate: 800, tax_status: 'S', bpi_account: '0249821403', sss_no: '34-9918273-0', philhealth_no: '12-019283746-5', pagibig_no: '1210-7719-3920', tin_no: '412-839-102-000', other_deductions: 0.00, other_deduction_remarks: '' },
+      { id: 36, name: 'Cherry Rose Paculanang', branch: 'Passion Nails (Centrio)', role: 'Senior Nail Technician', rate: 580, tax_status: 'ME', bpi_account: '0249821404', sss_no: '34-6201948-7', philhealth_no: '12-083920184-9', pagibig_no: '1210-6629-4019', tin_no: '529-104-829-000', other_deductions: 80.00, other_deduction_remarks: 'Salon Uniform / Apron' }
     ];
     setEmployees(mockEmployees);
 
@@ -476,7 +478,9 @@ export default function App() {
         const sss = Number((grossPay * 0.045).toFixed(2));
         const philhealth = Number((grossPay * 0.02).toFixed(2));
         const pagibig = 100.00;
-        const totalDeductions = Number((sss + philhealth + pagibig).toFixed(2));
+        const otherDeductions = parseFloat(emp.other_deductions || 0);
+        const otherDeductionRemarks = emp.other_deduction_remarks || 'Cash Advance (Vale)';
+        const totalDeductions = Number((sss + philhealth + pagibig + otherDeductions).toFixed(2));
         const netPay = Number((grossPay - totalDeductions).toFixed(2));
 
         return {
@@ -490,6 +494,8 @@ export default function App() {
           philhealthNo: emp.philhealth_no || '12-054918230-1',
           pagibigNo: emp.pagibig_no || '1210-9482-1104',
           tinNo: emp.tin_no || '291-840-192-000',
+          otherDeductions,
+          otherDeductionRemarks,
           daysPresent,
           daysAbsent: 0,
           totalLateMins: totalLate,
@@ -504,7 +510,7 @@ export default function App() {
             undertimeDeduction: 0,
             totalTardinessDeduction: lateDeduction,
             grossPay,
-            deductions: { sss, philhealth, pagibig, tax: 0, totalDeductions },
+            deductions: { sss, philhealth, pagibig, otherDeductions, otherDeductionRemarks, tax: 0, totalDeductions },
             netPay
           }
         };
@@ -689,7 +695,9 @@ export default function App() {
             sss_no: newEmployee.sssNo || emp.sss_no || '34-8192019-3',
             philhealth_no: newEmployee.philhealthNo || emp.philhealth_no || '12-054918230-1',
             pagibig_no: newEmployee.pagibigNo || emp.pagibig_no || '1210-9482-1104',
-            tin_no: newEmployee.tinNo || emp.tin_no || '291-840-192-000'
+            tin_no: newEmployee.tinNo || emp.tin_no || '291-840-192-000',
+            other_deductions: parseFloat(newEmployee.otherDeductions || 0),
+            other_deduction_remarks: newEmployee.otherDeductionRemarks || 'Cash Advance (Vale)'
           } : emp);
         }
         return [...prev, {
@@ -703,11 +711,13 @@ export default function App() {
           philhealth_no: newEmployee.philhealthNo || '12-054918230-1',
           pagibig_no: newEmployee.pagibigNo || '1210-9482-1104',
           tin_no: newEmployee.tinNo || '291-840-192-000',
+          other_deductions: parseFloat(newEmployee.otherDeductions || 0),
+          other_deduction_remarks: newEmployee.otherDeductionRemarks || 'Cash Advance (Vale)',
           role: 'Salon Specialist'
         }];
       });
       setShowAddEmployeeModal(false);
-      setNewEmployee({ id: '', name: '', branch: 'Centrio Mall (Waxing)', rate: 600, taxStatus: 'S', bpiAccount: '', sssNo: '', philhealthNo: '', pagibigNo: '', tinNo: '' });
+      setNewEmployee({ id: '', name: '', branch: 'Centrio Mall (Waxing)', rate: 600, taxStatus: 'S', bpiAccount: '', sssNo: '', philhealthNo: '', pagibigNo: '', tinNo: '', otherDeductions: 0, otherDeductionRemarks: 'Cash Advance (Vale)' });
     }
   };
 
@@ -2711,7 +2721,9 @@ export default function App() {
                                     sssNo: sssNo,
                                     philhealthNo: phNo,
                                     pagibigNo: pagibigNo,
-                                    tinNo: tinNo
+                                    tinNo: tinNo,
+                                    otherDeductions: emp.other_deductions || 0,
+                                    otherDeductionRemarks: emp.other_deduction_remarks || 'Cash Advance (Vale)'
                                   });
                                   setShowAddEmployeeModal(true);
                                 }}
@@ -2879,6 +2891,40 @@ export default function App() {
                 </div>
               </div>
 
+              {/* Optional Custom Other Deductions & Cash Advances */}
+              <div className="bg-[#FAF9F5] border border-[#EAE8E2] rounded-2xl p-4 space-y-3">
+                <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#D47098] block">
+                  💳 Custom Payroll Deductions & Cash Advance (Vale)
+                </span>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block font-semibold text-[#5A534E] mb-1 text-[11px]">Deduction Amount (PHP)</label>
+                    <input
+                      type="number"
+                      placeholder="0.00"
+                      value={newEmployee.otherDeductions || ''}
+                      onChange={(e) => setNewEmployee({ ...newEmployee, otherDeductions: e.target.value })}
+                      className="w-full bg-white border border-[#EAE8E2] rounded-xl px-3 py-1.5 font-mono text-xs outline-none focus:ring-1 focus:ring-[#77BC2E]"
+                    />
+                  </div>
+                  <div>
+                    <label className="block font-semibold text-[#5A534E] mb-1 text-[11px]">Deduction Category / Note</label>
+                    <select
+                      value={newEmployee.otherDeductionRemarks || 'Cash Advance (Vale)'}
+                      onChange={(e) => setNewEmployee({ ...newEmployee, otherDeductionRemarks: e.target.value })}
+                      className="w-full bg-white border border-[#EAE8E2] rounded-xl px-3 py-1.5 text-xs outline-none focus:ring-1 focus:ring-[#77BC2E]"
+                    >
+                      <option value="Cash Advance (Vale)">Cash Advance (Vale)</option>
+                      <option value="Staff Uniform / Apron">Staff Uniform / Apron</option>
+                      <option value="Salon Product / Tool Shortage">Salon Product / Tool Shortage</option>
+                      <option value="SSS / Pag-IBIG Salary Loan">SSS / Pag-IBIG Salary Loan</option>
+                      <option value="Voluntary HMO / Savings">Voluntary HMO / Savings</option>
+                      <option value="Other Store Adjustment">Other Store Adjustment</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
               <div className="flex space-x-3 pt-2">
                 <button
                   type="submit"
@@ -2986,13 +3032,19 @@ export default function App() {
                     <span className="font-mono text-[#D47098]">-₱{selectedPayslip.calculations.deductions.sss.toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span>PhilHealth</span>
+                    <span>PhilHealth (UHC 2.0%)</span>
                     <span className="font-mono text-[#D47098]">-₱{selectedPayslip.calculations.deductions.philhealth.toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span>Pag-IBIG</span>
+                    <span>Pag-IBIG (HDMF)</span>
                     <span className="font-mono text-[#D47098]">-₱{selectedPayslip.calculations.deductions.pagibig.toFixed(2)}</span>
                   </div>
+                  {selectedPayslip.calculations.deductions.otherDeductions > 0 && (
+                    <div className="flex justify-between bg-pink-50/70 p-1.5 rounded-lg border border-pink-100 text-[11px]">
+                      <span className="text-[#D47098] font-bold">{selectedPayslip.calculations.deductions.otherDeductionRemarks || 'Cash Advance (Vale)'}</span>
+                      <span className="font-mono text-[#D47098] font-bold">-₱{selectedPayslip.calculations.deductions.otherDeductions.toFixed(2)}</span>
+                    </div>
+                  )}
                 </div>
               </div>
 
