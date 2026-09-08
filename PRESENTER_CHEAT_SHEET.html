@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SETHCON Presenter Cockpit & Private Demo Guide</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0B0F19;
+      --card-bg: #131B2E;
+      --card-border: #1E293B;
+      --gold: #D4AF37;
+      --green: #77BC2E;
+      --pink: #E89BB9;
+      --blue: #38BDF8;
+      --text: #F1F5F9;
+      --muted: #94A3B8;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #131B2E 0%, #031134 100%);
+      border: 1px solid #334155;
+      padding: 20px 24px;
+      border-radius: 18px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .badge {
+      background: var(--gold);
+      color: #031134;
+      font-weight: 800;
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .timer-box {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid #334155;
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      color: var(--green);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .quick-links {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 10px 18px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 13px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-green { background: var(--green); color: #031134; }
+    .btn-green:hover { background: #88D635; transform: translateY(-1px); }
+    .btn-blue { background: #1E293B; color: #38BDF8; border: 1px solid #334155; }
+    .btn-blue:hover { background: #334155; }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 22px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      border-bottom: 1px solid var(--card-border);
+      padding-bottom: 10px;
+    }
+
+    .act-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .duration {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--gold);
+      background: rgba(212, 175, 55, 0.1);
+      padding: 3px 8px;
+      border-radius: 6px;
+      border: 1px solid rgba(212, 175, 55, 0.3);
+    }
+
+    .step-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 768px) {
+      .step-grid { grid-template-columns: 1fr; }
+    }
+
+    .action-box {
+      background: #0B0F19;
+      border: 1px solid #1E293B;
+      border-radius: 12px;
+      padding: 14px;
+    }
+
+    .action-title {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--blue);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+
+    .action-box ol {
+      padding-left: 18px;
+      font-size: 13px;
+      color: #CBD5E1;
+    }
+
+    .action-box ol li { margin-bottom: 6px; }
+
+    .script-box {
+      background: linear-gradient(135deg, rgba(119, 188, 46, 0.06) 0%, rgba(3, 17, 52, 0.2) 100%);
+      border: 1px solid rgba(119, 188, 46, 0.3);
+      border-radius: 12px;
+      padding: 14px;
+    }
+
+    .script-title {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--green);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+
+    .script-text {
+      font-size: 13.5px;
+      color: #F8FAFC;
+      line-height: 1.6;
+      font-style: italic;
+    }
+
+    .objection-card {
+      background: #1E1B2E;
+      border: 1px solid #4C1D95;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .objection-item {
+      margin-bottom: 14px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .objection-item:last-child { margin-bottom: 0; padding-bottom: 0; border: none; }
+
+    .q { font-weight: 800; color: #E9D5FF; font-size: 13px; margin-bottom: 4px; }
+    .a { font-size: 12.5px; color: #CBD5E1; }
+
+    .checkbox-wrap {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .checkbox-wrap input { cursor: pointer; accent-color: var(--green); }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Top Header -->
+    <div class="header">
+      <div>
+        <span class="badge">Private Presenter Cockpit</span>
+        <h1 style="font-size: 18px; font-weight: 800; color: #FFFFFF; margin-top: 4px;">ALRAJJ LEGACY — Live Demo Guide</h1>
+        <p style="font-size: 12px; color: var(--muted);">Audience: Ms. Jehan Abedin (Managing Director) & Leadership</p>
+      </div>
+      <div class="timer-box">
+        ⏱️ Target Duration: <strong>5 to 7 Mins</strong>
+      </div>
+    </div>
+
+    <!-- Quick Navigation Links -->
+    <div class="quick-links">
+      <a href="https://alrajj-legacy.vercel.app" target="_blank" class="btn btn-green">
+        🚀 Open Live System (Vercel)
+      </a>
+      <a href="presentation_deck.html" target="_blank" class="btn btn-blue">
+        🖥️ Open Presentation Slides
+      </a>
+      <a href="https://drive.google.com/file/d/12qG_EbC35yH9k9Bl0uDCGp7shh1mfQ0B/view?usp=sharing" target="_blank" class="btn btn-blue">
+        📄 SETHCON Company Profile (PDF)
+      </a>
+    </div>
+
+    <!-- ACT 0 -->
+    <div class="card" style="border-left: 4px solid var(--gold);">
+      <div class="card-header">
+        <span class="act-title">🏢 Step 0: SETHCON Experience & Ecosystem</span>
+        <span class="duration">1 Minute</span>
+      </div>
+      <div class="step-grid">
+        <div class="action-box">
+          <div class="action-title">What to Show:</div>
+          <ol>
+            <li>Show <strong>Slide 2</strong> of the presentation.</li>
+            <li>Point out previous work with salon networks (Lay Bare, commercial POS).</li>
+            <li>Highlight the <strong>Salon CRM</strong> and the <strong>5-step PO-to-Accounting pipeline</strong>.</li>
+          </ol>
+        </div>
+        <div class="script-box">
+          <div class="script-title">What to Say:</div>
+          <p class="script-text">
+            "Good morning, Ms. Jehan and leadership team. At SETHCON Technologies, we engineer specialized retail, salon, and ERP systems. Today, we're demonstrating the Custom Biometric Payroll system built specifically for your salon network across Centrio, Ketkai, and SM Downtown."
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACT 1 -->
+    <div class="card" style="border-left: 4px solid var(--blue);">
+      <div class="card-header">
+        <span class="act-title">📊 Act 1: Executive Multi-Branch Dashboard</span>
+        <span class="duration">1 Minute</span>
+      </div>
+      <div class="step-grid">
+        <div class="action-box">
+          <div class="action-title">What to Click & Show:</div>
+          <ol>
+            <li>Switch to <strong>alrajj-legacy.vercel.app</strong>.</li>
+            <li>Top greeting: <em>"Welcome back, Kristene"</em> & Cutoff badge (<code>2026-07-16 ~ 2026-07-31</code>).</li>
+            <li>Point out <strong>4 KPI Cards</strong>: Active Staff, Missed Out (1 flag), Total Lates (33m), Avg Shift (7.8h).</li>
+            <li>Show the circular <strong>88% Attendance Donut Chart</strong>.</li>
+          </ol>
+        </div>
+        <div class="script-box">
+          <div class="script-title">What to Say:</div>
+          <p class="script-text">
+            "Ms. Jehan, the moment you log in, you immediately get a real-time pulse of attendance health across Centrio Mall, Limketkai, and SM Downtown without opening a single spreadsheet or making phone calls."
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACT 2 -->
+    <div class="card" style="border-left: 4px solid var(--green);">
+      <div class="card-header">
+        <span class="act-title">📂 Act 2: NGTeco Biometric Log Ingestion</span>
+        <span class="duration">1 Minute</span>
+      </div>
+      <div class="step-grid">
+        <div class="action-box">
+          <div class="action-title">What to Click & Show:</div>
+          <ol>
+            <li>Click <strong>"Biometric Ingestion"</strong> in the left navigation menu.</li>
+            <li>Show the drag-and-drop zone that accepts raw <code>.xls</code> / <code>.xlsx</code> exports from branch NGTeco clocks.</li>
+            <li>Mention zero manual re-typing.</li>
+          </ol>
+        </div>
+        <div class="script-box">
+          <div class="script-title">What to Say:</div>
+          <p class="script-text">
+            "No more manual copy-pasting into Excel. HR simply exports the raw log file from the NGTeco clock via USB at the end of the cutoff, drops it here, and the system matches staff, shifts, and timestamps in seconds."
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACT 3 -->
+    <div class="card" style="border-left: 4px solid var(--pink);">
+      <div class="card-header">
+        <span class="act-title">⚖️ Act 3: Anomaly Resolution & Automated DOLE NTE</span>
+        <span class="duration">1.5 Minutes</span>
+      </div>
+      <div class="step-grid">
+        <div class="action-box">
+          <div class="action-title">What to Click & Show:</div>
+          <ol>
+            <li>Click <strong>"Exceptions & Flags"</strong> &rarr; find Cherimar Concigo's missing OUT punch &rarr; click <strong>"Resolve"</strong> &rarr; enter <code>18:00</code> with note <em>"Manager approved"</em> &rarr; Save.</li>
+            <li>Click <strong>"Tardiness & NTE"</strong> &rarr; show late frequency tracker &rarr; click <strong>"Draft NTE"</strong> to display the formal 5-day disciplinary letter.</li>
+          </ol>
+        </div>
+        <div class="script-box">
+          <div class="script-title">What to Say:</div>
+          <p class="script-text">
+            "When staff forget to clock out, HR resolves it in 5 seconds with an immutable audit note. Repeat tardiness is tracked automatically, generating formal DOLE-compliant Notice to Explain letters with zero manual paperwork."
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACT 4 -->
+    <div class="card" style="border-left: 4px solid #F59E0B;">
+      <div class="card-header">
+        <span class="act-title">💰 Act 4: 1-Click Payroll & 5-Step BPI Disbursement</span>
+        <span class="duration">1.5 Minutes</span>
+      </div>
+      <div class="step-grid">
+        <div class="action-box">
+          <div class="action-title">What to Click & Show:</div>
+          <ol>
+            <li>Click <strong>"Accounting & Payroll"</strong> &rarr; click green <strong>"Compute Semi-Monthly Payroll"</strong> button.</li>
+            <li>Walk through the <strong>5-Stage Disbursement Lifecycle Bar</strong> (Step 1 HR &rarr; Step 2 Forward to Accounting &rarr; Step 3 Generate BPI CSV &rarr; Step 4 MD Approval &rarr; Step 5 ATM Credited).</li>
+            <li>Click <strong>"View Slip"</strong> on Justine Ann Atay to display the official payslip with logo, SSS, PhilHealth, Pag-IBIG, TIN, and Vale.</li>
+            <li>Click <strong>"Print / PDF"</strong> or <strong>"Email Slip"</strong>.</li>
+          </ol>
+        </div>
+        <div class="script-box">
+          <div class="script-title">What to Say:</div>
+          <p class="script-text">
+            "What used to take 2 full days of manual math is now computed in 1 second—complete with Accounting verification, BPI BizLink corporate bank file export, Managing Director authorization, and official printable/emailable payslips."
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- OBJECTION HANDLING -->
+    <div class="objection-card">
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+        <span style="font-size: 18px;">💡</span>
+        <h3 style="color: #E9D5FF; font-size: 15px; font-weight: 800;">Top Client Questions & Winning Answers</h3>
+      </div>
+
+      <div class="objection-item">
+        <p class="q">Q1: "Can the system handle employee cash advances (vale) or uniform deductions?"</p>
+        <p class="a"><strong>Answer:</strong> "Yes! In the Staff Directory, clicking 'Edit Profile' allows HR to set custom deductions like Cash Advance (Vale), uniforms, or tool shortages with custom remarks that appear cleanly itemized on their payslip."</p>
+      </div>
+
+      <div class="objection-item">
+        <p class="q">Q2: "What if Philippine statutory rates change (like SSS or PhilHealth)?"</p>
+        <p class="a"><strong>Answer:</strong> "The statutory rules engine is modular. When government rates adjust, updates are deployed automatically without affecting historical payroll data, and our 12-Month SLA covers all statutory bracket updates free of charge."</p>
+      </div>
+
+      <div class="objection-item">
+        <p class="q">Q3: "How does the BPI BizLink export work?"</p>
+        <p class="a"><strong>Answer:</strong> "The system exports a pre-formatted CSV with exact 10-digit BPI account numbers and net take-home pay that uploads directly into the BPI BizLink portal for 1-click batch ATM crediting."</p>
+      </div>
+    </div>
+
+    <!-- NEXT STEPS -->
+    <div class="card" style="border: 1px solid var(--green); background: rgba(119, 188, 46, 0.05);">
+      <h3 style="color: var(--green); font-size: 14px; font-weight: 800; margin-bottom: 8px;">🎯 Tuesday Closing Action Items:</h3>
+      <ul style="padding-left: 18px; font-size: 13px; color: #CBD5E1; line-height: 1.8;">
+        <li>Request 1 raw sample export file from Centrio, Ketkai, and SM Downtown to run the live test run for the upcoming cutoff.</li>
+        <li>Schedule a 30-minute HR staff onboarding session.</li>
+        <li>Remind them of the <strong>FREE 12-Month full warranty and maintenance support by SETHCON Technologies Inc.</strong></li>
+      </ul>
+    </div>
+  </div>
+
+</body>
+</html>
