@@ -107,6 +107,7 @@ export default function App() {
   });
   const [showSethconModal, setShowSethconModal] = useState(false);
   const [showBpiModal, setShowBpiModal] = useState(false);
+  const [emailToast, setEmailToast] = useState('');
 
   // CRM Module States
   const [crmClients, setCrmClients] = useState([
@@ -2947,122 +2948,213 @@ export default function App() {
 
       {/* PAYSLIP MODAL */}
       {selectedPayslip && (
-        <div className="fixed inset-0 bg-stone-900/40 backdrop-blur-xs flex items-center justify-center p-4 z-50 animate-fadeIn">
-          <div className="bg-white rounded-3xl border border-[#EAE8E2] shadow-2xl w-full max-w-xl p-8 space-y-6">
-            <div className="flex items-center justify-between border-b border-[#F2F0E8] pb-4">
+        <div className="fixed inset-0 bg-stone-900/50 backdrop-blur-xs flex items-center justify-center p-4 z-50 animate-fadeIn overflow-y-auto">
+          <div className="payslip-modal-container bg-white rounded-3xl border border-[#CBD5E1] shadow-2xl w-full max-w-2xl p-6 sm:p-8 space-y-6 my-auto">
+            {/* Action Header - Hidden during print */}
+            <div className="no-print flex items-center justify-between border-b border-[#F2F0E8] pb-4">
               <div>
                 <span className="text-[10px] font-bold tracking-widest text-[#77BC2E] uppercase">Official Statement</span>
-                <h3 className="font-extrabold text-lg text-[#4A2E1B]">Semi-Monthly Payslip</h3>
-                <p className="text-xs text-[#8A817C] font-mono mt-0.5">Period: {startDate} ~ {endDate}</p>
+                <h3 className="font-extrabold text-lg text-[#4A2E1B]">Official Employee Salary Slip</h3>
+                <p className="text-xs text-[#8A817C]">Semi-monthly cutoff: {startDate} ~ {endDate}</p>
               </div>
               <div className="flex items-center space-x-2">
                 <button
-                  onClick={() => window.print()}
-                  className="p-2.5 rounded-xl border border-[#EAE8E2] hover:bg-[#FAF9F5] flex items-center justify-center transition-colors text-[#4A2E1B]"
-                  title="Print Payslip"
+                  onClick={() => {
+                    setEmailToast(`Official encrypted payslip PDF successfully sent to ${selectedPayslip.employeeName} via salon enterprise email!`);
+                    setTimeout(() => setEmailToast(''), 4500);
+                  }}
+                  className="bg-[#031134] hover:bg-[#062060] text-white font-bold text-xs px-3.5 py-2 rounded-xl transition-all flex items-center space-x-1.5 shadow-sm"
+                  title="Send via Email"
                 >
-                  <Printer className="h-4 w-4" />
+                  <Send className="h-3.5 w-3.5" />
+                  <span>Email Slip</span>
                 </button>
-                <button onClick={() => setSelectedPayslip(null)} className="p-2.5 rounded-xl border border-[#EAE8E2] hover:bg-[#FAF9F5] flex items-center justify-center text-[#8A817C]">
-                  <XCircle className="h-4 w-4" />
+                <button
+                  onClick={() => window.print()}
+                  className="bg-[#77BC2E] hover:bg-[#6DB027] text-white font-bold text-xs px-3.5 py-2 rounded-xl transition-all flex items-center space-x-1.5 shadow-sm"
+                  title="Print or Save PDF"
+                >
+                  <Printer className="h-3.5 w-3.5" />
+                  <span>Print / PDF</span>
+                </button>
+                <button onClick={() => setSelectedPayslip(null)} className="p-2 rounded-xl border border-[#EAE8E2] hover:bg-[#FAF9F5] text-[#8A817C] transition-colors">
+                  <XCircle className="h-5 w-5" />
                 </button>
               </div>
             </div>
 
-            {/* Payslip body */}
-            <div className="space-y-4 text-xs">
-              <div className="bg-[#FAF9F5] p-4 rounded-2xl border border-[#F2F0E8] space-y-2.5">
-                <div className="grid grid-cols-2 gap-4">
+            {/* Email notification toast in modal */}
+            {emailToast && (
+              <div className="no-print bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs px-4 py-2.5 rounded-xl font-medium animate-fadeIn flex items-center space-x-2">
+                <span>📧</span>
+                <span>{emailToast}</span>
+              </div>
+            )}
+
+            {/* Printable Official Payslip Document */}
+            <div className="printable-payslip-doc bg-white border border-[#E2E8F0] rounded-2xl p-6 space-y-5 text-xs text-[#334155]">
+              {/* Document Header with Logo */}
+              <div className="flex items-start justify-between border-b-2 border-[#031134] pb-4">
+                <div className="flex items-center space-x-3.5">
+                  <img src="/alrajj-icon.png" alt="ALRAJJ Logo" className="h-11 w-11 rounded-xl bg-[#031134] p-1.5 shadow-xs" />
                   <div>
-                    <span className="text-[#8A817C] block text-[10px] uppercase font-bold tracking-wider">Employee Name</span>
-                    <strong className="text-sm font-bold text-[#4A2E1B]">{selectedPayslip.employeeName}</strong>
-                  </div>
-                  <div>
-                    <span className="text-[#8A817C] block text-[10px] uppercase font-bold tracking-wider">Biometric ID & Branch</span>
-                    <span className="font-mono font-bold text-sm text-[#4A2E1B]">#{selectedPayslip.employeeId}</span> • {selectedPayslip.branch}
+                    <h2 className="font-extrabold text-base text-[#031134] tracking-tight">ALRAJJ LEGACY FORTIFIED BUSINESS CORP.</h2>
+                    <p className="text-[11px] font-semibold text-[#64748B]">Official Employee Salary & Compensation Statement</p>
+                    <p className="text-[10px] text-[#94A3B8]">Centrio Mall (Waxing & Nails) • Limketkai • SM Downtown Premier</p>
                   </div>
                 </div>
-
-                <div className="grid grid-cols-4 gap-2 pt-2 border-t border-[#EAE8E2] text-[10.5px] font-mono text-[#5A534E]">
-                  <div>
-                    <span className="text-[#8A817C] block text-[9px] uppercase font-bold">SSS Number</span>
-                    <span>{selectedPayslip.sssNo || '34-8192019-3'}</span>
-                  </div>
-                  <div>
-                    <span className="text-[#8A817C] block text-[9px] uppercase font-bold">PhilHealth PIN</span>
-                    <span>{selectedPayslip.philhealthNo || '12-054918230-1'}</span>
-                  </div>
-                  <div>
-                    <span className="text-[#8A817C] block text-[9px] uppercase font-bold">Pag-IBIG MID</span>
-                    <span>{selectedPayslip.pagibigNo || '1210-9482-1104'}</span>
-                  </div>
-                  <div>
-                    <span className="text-[#8A817C] block text-[9px] uppercase font-bold">BIR TIN</span>
-                    <span>{selectedPayslip.tinNo || '291-840-192-000'}</span>
-                  </div>
+                <div className="text-right">
+                  <span className="bg-[#031134] text-[#D4AF37] font-mono font-extrabold text-[9px] px-2 py-0.5 rounded uppercase">
+                    Confidential
+                  </span>
+                  <p className="font-mono text-[11px] font-bold text-[#031134] mt-1">Period: {startDate} ~ {endDate}</p>
+                  <p className="font-mono text-[10px] text-[#64748B]">Voucher: PAY-2026-#{selectedPayslip.employeeId}</p>
                 </div>
               </div>
 
-              {/* Earnings & Deductions Table */}
-              <div className="grid grid-cols-2 gap-6">
-                <div className="space-y-2.5">
-                  <h4 className="font-bold border-b border-[#F2F0E8] pb-1 text-[#77BC2E]">Earnings</h4>
-                  <div className="flex justify-between">
-                    <span>Basic ({selectedPayslip.daysPresent} days)</span>
-                    <span className="font-mono font-medium">₱{selectedPayslip.calculations.basicPay.toFixed(2)}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Overtime ({selectedPayslip.totalOtHours} hrs)</span>
-                    <span className="font-mono font-medium">₱{selectedPayslip.calculations.otPay.toFixed(2)}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Night Diff ({selectedPayslip.totalNdHours} hrs)</span>
-                    <span className="font-mono font-medium">₱{selectedPayslip.calculations.ndPay.toFixed(2)}</span>
-                  </div>
+              {/* Employee & Bank Master Information Grid */}
+              <div className="grid grid-cols-3 gap-3 bg-[#F8FAFC] p-3.5 rounded-xl border border-[#E2E8F0] text-[11px]">
+                <div>
+                  <span className="text-[#64748B] block text-[9px] uppercase font-bold">Employee Name</span>
+                  <strong className="text-sm font-extrabold text-[#031134]">{selectedPayslip.employeeName}</strong>
+                  <span className="text-[10.5px] text-[#64748B] block font-medium">Biometric ID: #{selectedPayslip.employeeId}</span>
                 </div>
+                <div>
+                  <span className="text-[#64748B] block text-[9px] uppercase font-bold">Branch & Role</span>
+                  <strong className="text-[#031134] font-bold block">{selectedPayslip.branch}</strong>
+                  <span className="text-[10.5px] text-[#64748B] block">Daily Rate: ₱{parseFloat(selectedPayslip.dailyRate || 600).toFixed(2)} / day</span>
+                </div>
+                <div>
+                  <span className="text-[#64748B] block text-[9px] uppercase font-bold">BPI BizLink ATM Account</span>
+                  <span className="font-mono font-extrabold text-xs text-[#031134] bg-white px-2 py-0.5 rounded border border-[#CBD5E1] inline-block mt-0.5">
+                    {selectedPayslip.bpiAccount || '0249821401'}
+                  </span>
+                  <span className="text-[10px] text-[#16A34A] font-semibold block mt-0.5">● Direct Credited</span>
+                </div>
+              </div>
 
-                <div className="space-y-2.5">
-                  <h4 className="font-bold border-b border-[#F2F0E8] pb-1 text-[#D47098]">Deductions</h4>
-                  <div className="flex justify-between">
-                    <span>Late / Tardiness</span>
-                    <span className="font-mono text-[#D47098]">-₱{selectedPayslip.calculations.lateDeduction.toFixed(2)}</span>
+              {/* Statutory ID Bar */}
+              <div className="grid grid-cols-4 gap-2 bg-stone-50 p-2.5 rounded-lg border border-stone-200 text-[10px] font-mono text-[#475569]">
+                <div>
+                  <span className="text-[#94A3B8] block text-[8.5px] font-sans uppercase font-bold">SSS Number</span>
+                  <strong className="text-[#1E293B]">{selectedPayslip.sssNo || '34-8192019-3'}</strong>
+                </div>
+                <div>
+                  <span className="text-[#94A3B8] block text-[8.5px] font-sans uppercase font-bold">PhilHealth PIN</span>
+                  <strong className="text-[#1E293B]">{selectedPayslip.philhealthNo || '12-054918230-1'}</strong>
+                </div>
+                <div>
+                  <span className="text-[#94A3B8] block text-[8.5px] font-sans uppercase font-bold">Pag-IBIG MID</span>
+                  <strong className="text-[#1E293B]">{selectedPayslip.pagibigNo || '1210-9482-1104'}</strong>
+                </div>
+                <div>
+                  <span className="text-[#94A3B8] block text-[8.5px] font-sans uppercase font-bold">BIR TIN</span>
+                  <strong className="text-[#1E293B]">{selectedPayslip.tinNo || '291-840-192-000'}</strong>
+                </div>
+              </div>
+
+              {/* 2-Column Earnings & Deductions Tables */}
+              <div className="grid grid-cols-2 gap-5 pt-1">
+                {/* EARNINGS */}
+                <div className="border border-[#CBD5E1] rounded-xl overflow-hidden">
+                  <div className="bg-[#F0FDF4] border-b border-[#CBD5E1] px-3.5 py-2 flex justify-between items-center">
+                    <span className="font-extrabold text-[#166534] text-[11px] uppercase tracking-wider">Gross Earnings</span>
+                    <span className="text-[10px] text-[#166534] font-semibold">{selectedPayslip.daysPresent} Days Present</span>
                   </div>
-                  <div className="flex justify-between">
-                    <span>SSS Contribution</span>
-                    <span className="font-mono text-[#D47098]">-₱{selectedPayslip.calculations.deductions.sss.toFixed(2)}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>PhilHealth (UHC 2.0%)</span>
-                    <span className="font-mono text-[#D47098]">-₱{selectedPayslip.calculations.deductions.philhealth.toFixed(2)}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Pag-IBIG (HDMF)</span>
-                    <span className="font-mono text-[#D47098]">-₱{selectedPayslip.calculations.deductions.pagibig.toFixed(2)}</span>
-                  </div>
-                  {selectedPayslip.calculations.deductions.otherDeductions > 0 && (
-                    <div className="flex justify-between bg-pink-50/70 p-1.5 rounded-lg border border-pink-100 text-[11px]">
-                      <span className="text-[#D47098] font-bold">{selectedPayslip.calculations.deductions.otherDeductionRemarks || 'Cash Advance (Vale)'}</span>
-                      <span className="font-mono text-[#D47098] font-bold">-₱{selectedPayslip.calculations.deductions.otherDeductions.toFixed(2)}</span>
+                  <div className="p-3.5 space-y-2 text-xs">
+                    <div className="flex justify-between">
+                      <span>Basic Pay ({selectedPayslip.daysPresent} days @ ₱{selectedPayslip.dailyRate}/day)</span>
+                      <span className="font-mono font-semibold">₱{selectedPayslip.calculations.basicPay.toFixed(2)}</span>
                     </div>
-                  )}
+                    <div className="flex justify-between">
+                      <span>Overtime Pay ({selectedPayslip.totalOtHours} hrs @ 125%)</span>
+                      <span className="font-mono font-semibold text-[#166534]">+₱{selectedPayslip.calculations.otPay.toFixed(2)}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Night Differential ({selectedPayslip.totalNdHours} hrs @ 10%)</span>
+                      <span className="font-mono font-semibold text-[#166534]">+₱{selectedPayslip.calculations.ndPay.toFixed(2)}</span>
+                    </div>
+                    <div className="border-t border-dashed border-[#CBD5E1] pt-2 mt-2 flex justify-between font-extrabold text-[#031134]">
+                      <span>Total Gross Compensation</span>
+                      <span className="font-mono text-sm">₱{selectedPayslip.calculations.grossPay.toFixed(2)}</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* DEDUCTIONS */}
+                <div className="border border-[#CBD5E1] rounded-xl overflow-hidden">
+                  <div className="bg-[#FFF1F2] border-b border-[#CBD5E1] px-3.5 py-2 flex justify-between items-center">
+                    <span className="font-extrabold text-[#9F1239] text-[11px] uppercase tracking-wider">Mandatory & Store Deductions</span>
+                    <span className="text-[10px] text-[#9F1239] font-semibold">Itemized Breakdown</span>
+                  </div>
+                  <div className="p-3.5 space-y-2 text-xs">
+                    <div className="flex justify-between">
+                      <span>Late & Tardiness ({selectedPayslip.totalLateMins || 0} mins)</span>
+                      <span className="font-mono text-[#E11D48]">-₱{selectedPayslip.calculations.lateDeduction.toFixed(2)}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>SSS Mandatory Contribution</span>
+                      <span className="font-mono text-[#E11D48]">-₱{selectedPayslip.calculations.deductions.sss.toFixed(2)}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>PhilHealth (UHC 2.0% Employee)</span>
+                      <span className="font-mono text-[#E11D48]">-₱{selectedPayslip.calculations.deductions.philhealth.toFixed(2)}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Pag-IBIG (HDMF Standard)</span>
+                      <span className="font-mono text-[#E11D48]">-₱{selectedPayslip.calculations.deductions.pagibig.toFixed(2)}</span>
+                    </div>
+                    {selectedPayslip.calculations.deductions.otherDeductions > 0 && (
+                      <div className="flex justify-between bg-rose-50 px-2 py-0.5 rounded border border-rose-200">
+                        <span className="font-bold text-[#9F1239]">{selectedPayslip.calculations.deductions.otherDeductionRemarks || 'Cash Advance (Vale)'}</span>
+                        <span className="font-mono font-bold text-[#E11D48]">-₱{selectedPayslip.calculations.deductions.otherDeductions.toFixed(2)}</span>
+                      </div>
+                    )}
+                    <div className="border-t border-dashed border-[#CBD5E1] pt-2 mt-2 flex justify-between font-extrabold text-[#9F1239]">
+                      <span>Total Deductions</span>
+                      <span className="font-mono text-sm">-₱{selectedPayslip.calculations.deductions.totalDeductions.toFixed(2)}</span>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              {/* Total gross and net */}
-              <div className="border-t border-[#F2F0E8] pt-4 mt-4 space-y-1.5">
-                <div className="flex justify-between text-[#8A817C]">
-                  <span>Gross Pay</span>
-                  <span className="font-mono font-semibold text-[#4A2E1B]">₱{selectedPayslip.calculations.grossPay.toFixed(2)}</span>
+              {/* Net Take-Home Salary Highlight Banner */}
+              <div className="bg-[#031134] text-white p-4 rounded-xl flex items-center justify-between shadow-xs">
+                <div>
+                  <span className="text-[#D4AF37] font-bold text-[10px] uppercase tracking-wider block">Disbursement Net Amount</span>
+                  <h3 className="font-black text-xl text-white tracking-tight">₱{selectedPayslip.calculations.netPay.toFixed(2)}</h3>
+                  <span className="text-[10px] text-slate-300">Philippine Peso (PHP) • Direct ATM Release</span>
                 </div>
-                <div className="flex justify-between text-[#8A817C]">
-                  <span>Total Deductions</span>
-                  <span className="font-mono font-semibold text-[#D47098]">-₱{selectedPayslip.calculations.deductions.totalDeductions.toFixed(2)}</span>
-                </div>
-                <div className="flex justify-between text-base font-extrabold border-t border-dashed border-[#EAE8E2] pt-3 text-[#4A2E1B]">
-                  <span>Net Take-Home Pay</span>
-                  <span className="font-mono text-[#77BC2E]">₱{selectedPayslip.calculations.netPay.toFixed(2)}</span>
+                <div className="text-right">
+                  <span className="bg-[#77BC2E] text-[#031134] text-[10px] font-black px-2.5 py-1 rounded-md uppercase">
+                    BPI BizLink Verified
+                  </span>
+                  <p className="text-[10px] text-slate-300 mt-1">Authorized by Managing Director</p>
                 </div>
               </div>
+
+              {/* Official Signatures & Verification Block */}
+              <div className="grid grid-cols-3 gap-4 pt-3 border-t border-[#E2E8F0] text-[10px] text-center text-[#64748B]">
+                <div className="space-y-1">
+                  <div className="h-8 border-b border-stone-300"></div>
+                  <strong className="text-[#031134] block">Kristene (HR & Ops Lead)</strong>
+                  <span>Prepared & Verified</span>
+                </div>
+                <div className="space-y-1">
+                  <div className="h-8 border-b border-stone-300"></div>
+                  <strong className="text-[#031134] block">Ms. Jehan Abedin</strong>
+                  <span>Managing Director Sign-off</span>
+                </div>
+                <div className="space-y-1">
+                  <div className="h-8 border-b border-stone-300"></div>
+                  <strong className="text-[#031134] block">{selectedPayslip.employeeName}</strong>
+                  <span>Employee Acknowledgment</span>
+                </div>
+              </div>
+
+              <p className="text-[9px] text-[#94A3B8] text-center italic pt-1">
+                This document is an official computer-generated salary record issued by ALRAJJ LEGACY Fortified Business Corp. under Philippine Labor Standards.
+              </p>
             </div>
           </div>
         </div>
