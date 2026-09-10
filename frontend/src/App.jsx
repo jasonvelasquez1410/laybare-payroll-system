@@ -196,9 +196,60 @@ export default function App() {
   const [crmBranchFilter, setCrmBranchFilter] = useState('');
   const [showAddClientModal, setShowAddClientModal] = useState(false);
   const [newClient, setNewClient] = useState({
-    name: '', phone: '', branch: 'Centrio Mall (Waxing)', preferredTechnician: 'Justine Ann Atay', activePackage: 'Underarm Waxing 5-Pack (5/5 left)', skinNotes: ''
-  });
   const [crmToast, setCrmToast] = useState('');
+
+  // Per-Transaction POS & Live Service Tickets
+  const [serviceTickets, setServiceTickets] = useState([
+    {
+      id: 'TKT-2026-0901',
+      time: '10:15 AM',
+      date: '2026-09-10',
+      clientName: 'Maria Santos (Gold VIP)',
+      branch: 'Centrio Mall (Waxing)',
+      service: 'Underarm & Full Leg Wax',
+      specialist: 'Justine Ann Atay',
+      amount: 1100.00,
+      paymentMethod: 'GCash QR',
+      commission: 110.00,
+      status: 'Paid & Completed'
+    },
+    {
+      id: 'TKT-2026-0902',
+      time: '11:30 AM',
+      date: '2026-09-10',
+      clientName: 'Bea Alonzo-Reyes',
+      branch: 'Passion Nails (Centrio)',
+      service: 'Gel Manicure + Spa Pedicure',
+      specialist: 'Cherimar Concigo',
+      amount: 850.00,
+      paymentMethod: 'Maya QR',
+      commission: 85.00,
+      status: 'Paid & Completed'
+    },
+    {
+      id: 'TKT-2026-0903',
+      time: '01:45 PM',
+      date: '2026-09-10',
+      clientName: 'Walk-in Client (Bed 2)',
+      branch: 'Centrio Mall (Waxing)',
+      service: 'Brazilian Wax Express',
+      specialist: 'Cherry Rose Paculanang',
+      amount: 650.00,
+      paymentMethod: 'Cash',
+      commission: 65.00,
+      status: 'Paid & Completed'
+    }
+  ]);
+  const [showNewTicketModal, setShowNewTicketModal] = useState(false);
+  const [newTicket, setNewTicket] = useState({
+    clientName: 'Maria Santos',
+    branch: 'Centrio Mall (Waxing)',
+    service: 'Brazilian Wax Express (₱650.00)',
+    specialist: 'Justine Ann Atay',
+    amount: 650,
+    paymentMethod: 'Cash',
+    notes: 'Sensitive skin. Standard tea tree post-wax applied.'
+  });
 
   // Purchase Order & Procurement to Accounting States
   const [purchaseOrders, setPurchaseOrders] = useState([
@@ -1740,6 +1791,28 @@ export default function App() {
       setAccountingToast('Biometric Payroll ₱68,400.00 auto-posted to General Ledger with balanced statutory accruals.');
     }
     setTimeout(() => setAccountingToast(''), 5000);
+  };
+
+  const handleCreateTicket = (e) => {
+    e.preventDefault();
+    const createdTicket = {
+      id: `TKT-2026-${String(serviceTickets.length + 904).padStart(4, '0')}`,
+      time: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
+      date: new Date().toISOString().split('T')[0],
+      clientName: newTicket.clientName || 'Walk-in Client',
+      branch: newTicket.branch,
+      service: newTicket.service,
+      specialist: newTicket.specialist,
+      amount: Number(newTicket.amount) || 0,
+      paymentMethod: newTicket.paymentMethod,
+      commission: (Number(newTicket.amount) || 0) * 0.10,
+      status: 'Paid & Completed'
+    };
+
+    setServiceTickets(prev => [createdTicket, ...prev]);
+    setShowNewTicketModal(false);
+    setCrmToast(`Service Ticket ${createdTicket.id} (₱${createdTicket.amount.toLocaleString()}) saved & credited to ${createdTicket.specialist}! Auto-synced with daily POS audit.`);
+    setTimeout(() => setCrmToast(''), 5000);
   };
 
   return (
@@ -4351,6 +4424,14 @@ export default function App() {
                       <Plus className="h-3.5 w-3.5" />
                       <span>Add VIP Client</span>
                     </button>
+
+                    <button
+                      onClick={() => setShowNewTicketModal(true)}
+                      className="bg-[#77BC2E] hover:bg-[#6DB027] text-white font-bold text-xs px-3.5 py-1.5 rounded-xl transition-all flex items-center space-x-1.5 shadow-sm shadow-[#77BC2E]/20"
+                    >
+                      <Calculator className="h-3.5 w-3.5" />
+                      <span>+ Ring Up Service Ticket</span>
+                    </button>
                   </div>
                 </div>
 
@@ -4441,6 +4522,87 @@ export default function App() {
                             </td>
                           </tr>
                         ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              {/* TODAY'S LIVE SERVICE TICKETS (PER-TRANSACTION POS LOG) */}
+              <div className="bg-white border border-[#EAE8E2] rounded-3xl overflow-hidden shadow-2xs space-y-3 p-6">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#F2F0E8] pb-4">
+                  <div>
+                    <div className="flex items-center space-x-2">
+                      <span className="bg-[#77BC2E]/15 text-[#5A9A1E] text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase">
+                        Live POS Register
+                      </span>
+                      <span className="text-xs font-bold text-[#8A817C]">Per-Transaction Sales & Commissions</span>
+                    </div>
+                    <h3 className="font-extrabold text-base text-[#4A2E1B] mt-1">Today's Live Service Tickets</h3>
+                    <p className="text-xs text-[#8A817C]">Individual waxing, nail and retail tickets automatically credited to technician commissions and daily register audits.</p>
+                  </div>
+
+                  <div className="bg-[#FAF9F5] border border-[#EAE8E2] px-4 py-2 rounded-2xl text-right">
+                    <span className="text-[10px] font-bold uppercase text-[#8A817C] block">Tickets Logged Today</span>
+                    <span className="text-base font-extrabold text-[#77BC2E] font-mono">
+                      ₱{serviceTickets.reduce((sum, t) => sum + t.amount, 0).toLocaleString('en-US', { minimumFractionDigits: 2 })} ({serviceTickets.length} tickets)
+                    </span>
+                  </div>
+                </div>
+
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left border-collapse text-xs">
+                    <thead>
+                      <tr className="bg-[#FAF9F5] border-b border-[#F2F0E8] text-[10px] font-extrabold uppercase tracking-wider text-[#8A817C]">
+                        <th className="px-5 py-3">Ticket # & Time</th>
+                        <th className="px-5 py-3">Client / Guest</th>
+                        <th className="px-5 py-3">Branch</th>
+                        <th className="px-5 py-3">Service Rendered</th>
+                        <th className="px-5 py-3">Assigned Specialist</th>
+                        <th className="px-5 py-3">Payment Method</th>
+                        <th className="px-5 py-3 text-right">Amount</th>
+                        <th className="px-5 py-3 text-right">Commission (10%)</th>
+                        <th className="px-5 py-3">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-[#F2F0E8]">
+                      {serviceTickets.map((tkt) => (
+                        <tr key={tkt.id} className="hover:bg-[#FAF9F5]/70 transition-colors">
+                          <td className="px-5 py-3.5 font-mono">
+                            <strong className="text-[#031134] block">{tkt.id}</strong>
+                            <span className="text-[10px] text-[#8A817C]">{tkt.time} &bull; {tkt.date}</span>
+                          </td>
+                          <td className="px-5 py-3.5 font-bold text-[#4A2E1B]">{tkt.clientName}</td>
+                          <td className="px-5 py-3.5 text-[#5A534E]">{tkt.branch}</td>
+                          <td className="px-5 py-3.5 font-semibold text-[#4A2E1B]">{tkt.service}</td>
+                          <td className="px-5 py-3.5">
+                            <span className="bg-[#77BC2E]/10 text-[#5A9A1E] font-bold px-2 py-0.5 rounded-md text-[11px] inline-flex items-center space-x-1">
+                              <Sparkles className="h-3 w-3" />
+                              <span>{tkt.specialist}</span>
+                            </span>
+                          </td>
+                          <td className="px-5 py-3.5 font-semibold">
+                            <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold ${
+                              tkt.paymentMethod.includes('GCash') ? 'bg-sky-50 text-sky-700' :
+                              tkt.paymentMethod.includes('Maya') ? 'bg-emerald-50 text-emerald-700' :
+                              tkt.paymentMethod.includes('Card') ? 'bg-purple-50 text-purple-700' :
+                              'bg-amber-50 text-amber-900'
+                            }`}>
+                              {tkt.paymentMethod}
+                            </span>
+                          </td>
+                          <td className="px-5 py-3.5 text-right font-mono font-extrabold text-[#4A2E1B]">
+                            ₱{tkt.amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                          </td>
+                          <td className="px-5 py-3.5 text-right font-mono text-[#77BC2E] font-bold">
+                            ₱{tkt.commission.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                          </td>
+                          <td className="px-5 py-3.5">
+                            <span className="bg-[#77BC2E]/15 text-[#5A9A1E] font-extrabold text-[10px] px-2 py-0.5 rounded-full">
+                              ✓ {tkt.status}
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
                     </tbody>
                   </table>
                 </div>
@@ -5314,6 +5476,155 @@ export default function App() {
                 Dismiss
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* RING UP SERVICE TICKET MODAL */}
+      {showNewTicketModal && (
+        <div className="fixed inset-0 bg-stone-900/40 backdrop-blur-xs flex items-center justify-center p-4 z-50 animate-fadeIn">
+          <div className="bg-white rounded-3xl border border-[#EAE8E2] shadow-2xl w-full max-w-lg p-7 space-y-5 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between border-b border-[#F2F0E8] pb-3">
+              <div>
+                <span className="text-[10px] font-bold tracking-widest text-[#77BC2E] uppercase">Front Desk POS & CRM</span>
+                <h3 className="font-extrabold text-lg text-[#4A2E1B]">Ring Up Service Ticket</h3>
+              </div>
+              <button onClick={() => setShowNewTicketModal(false)} className="text-[#8A817C] hover:text-[#4A2E1B]">
+                <XCircle className="h-5 w-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleCreateTicket} className="space-y-4 text-xs">
+              <div className="grid grid-cols-2 gap-3.5">
+                <div>
+                  <label className="block font-bold text-[#5A534E] mb-1 uppercase tracking-wider">Client Name / Guest</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Maria Santos or Walk-in"
+                    value={newTicket.clientName}
+                    onChange={(e) => setNewTicket({ ...newTicket, clientName: e.target.value })}
+                    className="w-full bg-[#F7F6F2] border border-transparent rounded-xl px-3.5 py-2 font-medium outline-none focus:ring-1 focus:ring-[#77BC2E]"
+                  />
+                </div>
+                <div>
+                  <label className="block font-bold text-[#5A534E] mb-1 uppercase tracking-wider">Branch Location</label>
+                  <select
+                    value={newTicket.branch}
+                    onChange={(e) => setNewTicket({ ...newTicket, branch: e.target.value })}
+                    className="w-full bg-[#F7F6F2] border border-transparent rounded-xl px-3.5 py-2 font-medium outline-none focus:ring-1 focus:ring-[#77BC2E]"
+                  >
+                    <option value="Centrio Mall (Waxing)">Centrio Mall (Waxing)</option>
+                    <option value="Passion Nails (Centrio)">Passion Nails (Centrio)</option>
+                    <option value="Limketkai Mall">Limketkai Mall</option>
+                    <option value="SM Downtown Premier">SM Downtown Premier</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3.5">
+                <div>
+                  <label className="block font-bold text-[#5A534E] mb-1 uppercase tracking-wider">Service / Product</label>
+                  <select
+                    value={newTicket.service}
+                    onChange={(e) => {
+                      const s = e.target.value;
+                      let amt = 650;
+                      if (s.includes('1,200')) amt = 1200;
+                      else if (s.includes('1,100')) amt = 1100;
+                      else if (s.includes('850')) amt = 850;
+                      else if (s.includes('750')) amt = 750;
+                      else if (s.includes('650')) amt = 650;
+                      else if (s.includes('450')) amt = 450;
+                      else if (s.includes('350')) amt = 350;
+                      setNewTicket({ ...newTicket, service: s, amount: amt });
+                    }}
+                    className="w-full bg-[#F7F6F2] border border-transparent rounded-xl px-3.5 py-2 font-medium outline-none focus:ring-1 focus:ring-[#77BC2E]"
+                  >
+                    <option value="Brazilian Wax Express (₱650.00)">Brazilian Wax Express (₱650.00)</option>
+                    <option value="Underarm Wax (₱450.00)">Underarm Wax (₱450.00)</option>
+                    <option value="Underarm & Full Leg Wax (₱1,100.00)">Underarm & Full Leg Wax (₱1,100.00)</option>
+                    <option value="Full Body Organic Sugar Wax (₱1,200.00)">Full Body Sugar Wax (₱1,200.00)</option>
+                    <option value="Gel Manicure + Spa Pedicure (₱850.00)">Gel Manicure + Spa Pedicure (₱850.00)</option>
+                    <option value="Retail Soothing Aloe Gel (₱350.00)">Retail Soothing Aloe Gel (₱350.00)</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block font-bold text-[#5A534E] mb-1 uppercase tracking-wider">Assigned Specialist</label>
+                  <select
+                    value={newTicket.specialist}
+                    onChange={(e) => setNewTicket({ ...newTicket, specialist: e.target.value })}
+                    className="w-full bg-[#F7F6F2] border border-transparent rounded-xl px-3.5 py-2 font-medium outline-none focus:ring-1 focus:ring-[#77BC2E]"
+                  >
+                    <option value="Justine Ann Atay">Justine Ann Atay (Senior Specialist)</option>
+                    <option value="Cherimar Concigo">Cherimar Concigo (Passion Nails Lead)</option>
+                    <option value="Cherry Rose Paculanang">Cherry Rose Paculanang</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3.5">
+                <div>
+                  <label className="block font-bold text-[#5A534E] mb-1 uppercase tracking-wider">Total Amount (PHP)</label>
+                  <input
+                    type="number"
+                    required
+                    value={newTicket.amount}
+                    onChange={(e) => setNewTicket({ ...newTicket, amount: e.target.value })}
+                    className="w-full bg-[#F7F6F2] border border-transparent rounded-xl px-3.5 py-2 font-mono font-bold text-base outline-none focus:ring-1 focus:ring-[#77BC2E]"
+                  />
+                </div>
+                <div>
+                  <label className="block font-bold text-[#5A534E] mb-1 uppercase tracking-wider">Payment Method</label>
+                  <select
+                    value={newTicket.paymentMethod}
+                    onChange={(e) => setNewTicket({ ...newTicket, paymentMethod: e.target.value })}
+                    className="w-full bg-[#F7F6F2] border border-transparent rounded-xl px-3.5 py-2 font-medium outline-none focus:ring-1 focus:ring-[#77BC2E]"
+                  >
+                    <option value="Cash">Cash (Store Register)</option>
+                    <option value="GCash QR">GCash QR (BPI Linked)</option>
+                    <option value="Maya QR">Maya QR Standee</option>
+                    <option value="Card Terminal (Maya Swipe)">Card Terminal (Maya Swipe)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="bg-[#FAF9F5] border border-[#EAE8E2] rounded-2xl p-3 flex justify-between items-center text-xs">
+                <div>
+                  <span className="text-[10px] font-bold text-[#8A817C] uppercase block">Specialist Commission (10%)</span>
+                  <span className="font-mono font-black text-[#77BC2E] text-sm">₱{((Number(newTicket.amount) || 0) * 0.10).toFixed(2)}</span>
+                </div>
+                <span className="text-[11px] text-[#5A534E]">Auto-credited to {newTicket.specialist}</span>
+              </div>
+
+              <div>
+                <label className="block font-bold text-[#5A534E] mb-1 uppercase tracking-wider">Skin / Service Notes</label>
+                <input
+                  type="text"
+                  placeholder="e.g. Sensitive skin, tea tree lotion requested"
+                  value={newTicket.notes}
+                  onChange={(e) => setNewTicket({ ...newTicket, notes: e.target.value })}
+                  className="w-full bg-[#F7F6F2] border border-transparent rounded-xl px-3.5 py-2 font-medium outline-none focus:ring-1 focus:ring-[#77BC2E]"
+                />
+              </div>
+
+              <div className="flex items-center justify-end space-x-2.5 pt-3 border-t border-[#F2F0E8]">
+                <button
+                  type="button"
+                  onClick={() => setShowNewTicketModal(false)}
+                  className="bg-[#FAF9F5] hover:bg-[#F2F0E8] border border-[#EAE8E2] text-[#4A2E1B] font-bold px-4 py-2 rounded-xl transition-all"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="bg-[#77BC2E] hover:bg-[#6DB027] text-white font-bold px-5 py-2 rounded-xl transition-all shadow-sm shadow-[#77BC2E]/20 flex items-center space-x-1.5"
+                >
+                  <Check className="h-4 w-4" />
+                  <span>Complete & Ring Up</span>
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}
