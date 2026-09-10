@@ -49,27 +49,17 @@
     .header-bar {
       display: flex;
       justify-content: space-between;
-      align-items: flex-start;
+      align-items: center;
       border-bottom: 2px solid var(--border);
-      padding-bottom: 30px;
-      margin-bottom: 40px;
+      padding-bottom: 25px;
+      margin-bottom: 35px;
     }
 
-    .brand-title {
-      font-family: 'Outfit', sans-serif;
-      font-size: 24px;
-      font-weight: 800;
-      color: var(--primary);
-      letter-spacing: -0.5px;
-    }
-
-    .brand-subtitle {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--accent);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-top: 4px;
+    .logo-container img {
+      height: 48px;
+      max-width: 280px;
+      object-fit: contain;
+      display: block;
     }
 
     .meta-box {
@@ -85,10 +75,10 @@
 
     h1.doc-title {
       font-family: 'Outfit', sans-serif;
-      font-size: 28px;
+      font-size: 27px;
       font-weight: 900;
       color: var(--secondary);
-      margin-bottom: 15px;
+      margin-bottom: 12px;
       line-height: 1.2;
     }
 
@@ -97,7 +87,7 @@
       border: 1px solid var(--border);
       border-radius: 16px;
       padding: 20px 24px;
-      margin-bottom: 30px;
+      margin-bottom: 28px;
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 20px;
@@ -109,13 +99,14 @@
       text-transform: uppercase;
       letter-spacing: 1px;
       color: var(--accent);
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     .party-col p {
       font-size: 13px;
       color: var(--text-main);
       font-weight: 500;
+      line-height: 1.5;
     }
 
     .party-col p strong {
@@ -124,10 +115,10 @@
     }
 
     .branch-pills {
-      margin-top: 15px;
+      margin-top: 12px;
       grid-column: 1 / -1;
       border-top: 1px dashed var(--border);
-      padding-top: 15px;
+      padding-top: 12px;
     }
 
     .pill {
@@ -151,11 +142,11 @@
 
     h2.section-heading {
       font-family: 'Outfit', sans-serif;
-      font-size: 18px;
+      font-size: 17px;
       font-weight: 800;
       color: var(--primary);
-      margin-top: 40px;
-      margin-bottom: 16px;
+      margin-top: 35px;
+      margin-bottom: 14px;
       display: flex;
       align-items: center;
       gap: 10px;
@@ -166,28 +157,29 @@
     h2.section-heading .num {
       background: var(--primary);
       color: #FFFFFF;
-      width: 26px;
-      height: 26px;
-      border-radius: 8px;
+      width: 24px;
+      height: 24px;
+      border-radius: 7px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 800;
     }
 
     p.body-p {
-      font-size: 13.5px;
+      font-size: 13px;
       color: var(--text-main);
-      margin-bottom: 14px;
+      margin-bottom: 12px;
       text-align: justify;
+      line-height: 1.6;
     }
 
     .modules-table, .milestone-table {
       width: 100%;
       border-collapse: collapse;
-      margin: 20px 0;
-      font-size: 12.5px;
+      margin: 18px 0;
+      font-size: 12px;
       border-radius: 12px;
       overflow: hidden;
       border: 1px solid var(--border);
@@ -196,16 +188,16 @@
     .modules-table th, .milestone-table th {
       background: var(--primary);
       color: #FFFFFF;
-      padding: 12px 16px;
+      padding: 11px 14px;
       text-align: left;
       font-weight: 700;
-      font-size: 11.5px;
+      font-size: 11px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
 
     .modules-table td, .milestone-table td {
-      padding: 12px 16px;
+      padding: 11px 14px;
       border-bottom: 1px solid var(--border);
       background: #FFFFFF;
       vertical-align: top;
@@ -220,7 +212,7 @@
       font-family: 'JetBrains Mono', monospace;
       font-size: 11px;
       font-weight: 700;
-      padding: 3px 8px;
+      padding: 2px 7px;
       border-radius: 6px;
       background: rgba(3, 17, 52, 0.08);
       color: var(--primary);
@@ -230,24 +222,24 @@
       font-family: 'JetBrains Mono', monospace;
       font-weight: 800;
       color: var(--accent);
-      font-size: 14px;
+      font-size: 13.5px;
     }
 
     .callout-box {
       background: rgba(119, 188, 46, 0.08);
       border-left: 4px solid var(--accent);
-      padding: 16px 20px;
+      padding: 14px 18px;
       border-radius: 0 12px 12px 0;
-      margin: 20px 0;
-      font-size: 13px;
+      margin: 18px 0;
+      font-size: 12.5px;
     }
 
     .signatures-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 50px;
-      margin-top: 50px;
-      padding-top: 30px;
+      margin-top: 45px;
+      padding-top: 25px;
       border-top: 2px solid var(--border);
       page-break-inside: avoid;
     }
@@ -259,7 +251,7 @@
     }
 
     .sig-col h4 {
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 800;
       text-transform: uppercase;
       color: var(--text-muted);
@@ -267,25 +259,25 @@
     }
 
     .sig-col .org-name {
-      font-size: 14px;
+      font-size: 13.5px;
       font-weight: 800;
       color: var(--primary);
-      margin-bottom: 50px;
+      margin-bottom: 45px;
     }
 
     .sig-line {
       border-bottom: 1.5px solid var(--text-main);
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     .signer-name {
-      font-size: 14px;
+      font-size: 13.5px;
       font-weight: 800;
       color: var(--secondary);
     }
 
     .signer-title {
-      font-size: 12px;
+      font-size: 11.5px;
       color: var(--text-muted);
       font-weight: 600;
     }
@@ -327,7 +319,7 @@
       .document-container {
         border: none;
         box-shadow: none;
-        padding: 0;
+        padding: 20px;
         max-width: 100%;
       }
     }
@@ -342,11 +334,10 @@
 
   <div class="document-container">
     
-    <!-- HEADER -->
+    <!-- HEADER WITH LOGO -->
     <div class="header-bar">
-      <div>
-        <div class="brand-title">SETHCON TECHNOLOGIES INC.</div>
-        <div class="brand-subtitle">Enterprise Systems Engineering & Automation</div>
+      <div class="logo-container">
+        <img src="sethcon-logo.png" alt="SETHCON Technologies Corp.">
       </div>
       <div class="meta-box">
         <div>Ref: <strong>SETH-ALRAJJ-ERP-2026-09</strong></div>
@@ -357,7 +348,7 @@
 
     <!-- TITLE -->
     <h1 class="doc-title">Commercial Proposal & Software Service Agreement</h1>
-    <p class="body-p" style="color: var(--text-muted); font-size: 14px; margin-bottom: 24px;">
+    <p class="body-p" style="color: var(--text-muted); font-size: 13.5px; margin-bottom: 22px;">
       Comprehensive Enterprise Biometric HRMS, POS CRM, Procurement, and Philippine GAAP Financial Management ERP System.
     </p>
 
@@ -365,9 +356,9 @@
     <div class="party-card">
       <div class="party-col">
         <h4>The Service Provider</h4>
-        <p><strong>SETHCON TECHNOLOGIES INC.</strong></p>
-        <p>Represented by: <strong>Jason Velasquez</strong></p>
-        <p>Vice President & Lead Systems Engineer</p>
+        <p><strong>SETHCON TECHNOLOGIES CORP.</strong></p>
+        <p>Represented by: <strong>Jason Jeff D. Velasquez</strong></p>
+        <p>Chief Technology Officer (CTO)</p>
       </div>
       <div class="party-col">
         <h4>The Client</h4>
@@ -376,7 +367,7 @@
         <p>General Manager / Managing Director</p>
       </div>
       <div class="branch-pills">
-        <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px;">Authorized Branches Covered:</div>
+        <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px;">Authorized Operating Branches Covered:</div>
         <span class="pill">Centrio Mall (Lay Bare Waxing)</span>
         <span class="pill">Passion Nails (Centrio)</span>
         <span class="pill">Limketkai Mall Branch</span>
@@ -396,8 +387,8 @@
     <table class="modules-table">
       <thead>
         <tr>
-          <th style="width: 30%;">Module</th>
-          <th style="width: 70%;">Key Operational Capabilities</th>
+          <th style="width: 32%;">Module</th>
+          <th style="width: 68%;">Key Operational Capabilities</th>
         </tr>
       </thead>
       <tbody>
@@ -433,7 +424,7 @@
     <!-- SECTION 4 -->
     <h2 class="section-heading"><span class="num">4</span> Financial Investment & Milestone Payments</h2>
     <p class="body-p">
-      The total one-time implementation, customization, and perpetual software license fee for the entire 5-module ERP ecosystem across all branches is <strong>₱120,000.00 PHP</strong>.
+      The total one-time implementation, customization, and perpetual software license fee for the entire 5-module ERP ecosystem across all branches is <strong>₱150,000.00 PHP</strong>.
     </p>
 
     <table class="milestone-table">
@@ -448,26 +439,26 @@
       <tbody>
         <tr>
           <td><strong>Milestone 1: Mobilization</strong></td>
-          <td>Contract signing, database setup, and multi-branch biometric architecture configuration.</td>
+          <td>Contract signing, database provisioning, and multi-branch biometric architecture configuration.</td>
           <td style="text-align: center;"><span class="badge">40%</span></td>
-          <td style="text-align: right;" class="amount-highlight">₱48,000.00</td>
+          <td style="text-align: right;" class="amount-highlight">₱60,000.00</td>
         </tr>
         <tr>
           <td><strong>Milestone 2: Deployment & UAT</strong></td>
           <td>HRMS, Biometric Ingestion, POS CRM, and PO Pipeline deployed for User Acceptance Testing.</td>
           <td style="text-align: center;"><span class="badge">35%</span></td>
-          <td style="text-align: right;" class="amount-highlight">₱42,000.00</td>
+          <td style="text-align: right;" class="amount-highlight">₱52,500.00</td>
         </tr>
         <tr>
           <td><strong>Milestone 3: Final Go-Live</strong></td>
           <td>Accounting module synchronization, BPI BizLink batch file sign-off, staff training, and live launch.</td>
           <td style="text-align: center;"><span class="badge">25%</span></td>
-          <td style="text-align: right;" class="amount-highlight">₱30,000.00</td>
+          <td style="text-align: right;" class="amount-highlight">₱37,500.00</td>
         </tr>
         <tr style="background: rgba(3, 17, 52, 0.04); font-weight: 800;">
           <td colspan="2"><strong>TOTAL ALL-INCLUSIVE PACKAGE</strong></td>
           <td style="text-align: center;"><span class="badge" style="background: var(--primary); color: #fff;">100%</span></td>
-          <td style="text-align: right; font-size: 16px; color: var(--primary);" class="amount-highlight">₱120,000.00</td>
+          <td style="text-align: right; font-size: 15px; color: var(--primary);" class="amount-highlight">₱150,000.00</td>
         </tr>
       </tbody>
     </table>
@@ -498,12 +489,12 @@
       <div class="sig-col">
         <div>
           <h4>For the Service Provider</h4>
-          <div class="org-name">SETHCON TECHNOLOGIES INC.</div>
+          <div class="org-name">SETHCON TECHNOLOGIES CORP.</div>
         </div>
         <div>
           <div class="sig-line"></div>
-          <div class="signer-name">JASON VELASQUEZ</div>
-          <div class="signer-title">Vice President & Lead Systems Engineer</div>
+          <div class="signer-name">JASON JEFF D. VELASQUEZ</div>
+          <div class="signer-title">Chief Technology Officer (CTO)</div>
           <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Date: ________________________</div>
         </div>
       </div>

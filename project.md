@@ -7,7 +7,7 @@
 > **Client / Entity**: ALRAJJ LEGACY Fortified Business Corp.  
 > **Client Lead**: Ms. Jehan Abedin, General Manager / Managing Director  
 > **Authorized Branches**: Centrio Mall (Waxing Salon & Passion Nails), Limketkai Mall (Ketkai), SM Downtown Premier, and **Upcoming Iligan City Branch**  
-> **Lead Developer & Presenter**: Jason Velasquez (Vice President & Lead Systems Engineer) & SETHCON Technologies Inc.  
+> **Lead Developer & Presenter**: Jason Jeff D. Velasquez (Chief Technology Officer - CTO) & SETHCON Technologies Corp.  
 
 ---
 
@@ -15,7 +15,7 @@
 1. [Executive System Architecture & Workflows](#1-executive-system-architecture--workflows)
 2. [Active Core Modules & Capabilities](#2-active-core-modules--capabilities)
 3. [Franchisee Operations: Lay Bare MyTime & PO Pipeline](#3-franchisee-operations-lay-bare-mytime--po-pipeline)
-4. [Commercial Proposal, Costing & Contract Terms (₱120k)](#4-commercial-proposal-costing--contract-terms-120k)
+4. [Commercial Proposal, Costing & Contract Terms (₱150k Proposal / ₱120k Target)](#4-commercial-proposal-costing--contract-terms-150k-proposal--120k-target)
 5. [Developer Payout & Milestone Allocation (50/50 Split)](#5-developer-payout--milestone-allocation-5050-split)
 6. [Design Tokens & Brand Aesthetic](#6-design-tokens--brand-aesthetic)
 7. [Key Files, Documents & Exported Deliverables](#7-key-files-documents--exported-deliverables)
@@ -127,21 +127,24 @@ As an official Lay Bare franchisee, ALRAJJ LEGACY coordinates supply requisition
 
 ### Pricing Structure:
 * **Base Scope (Previously ₱85k)**: Biometric HRMS, Payroll, CRM & Commissions, 5-Step PO Pipeline.
-* **Accounting Add-on (+₱35k)**: Multi-Branch P&L, Balance Sheet, Daily POS Cash Audits, Accounts Payable, General Ledger, BIR Tax Hub.
-* **Total All-Inclusive Investment**: **₱120,000.00 PHP**
+* **Accounting Add-on**: Multi-Branch P&L, Balance Sheet, Daily POS Cash Audits, Accounts Payable, General Ledger, BIR Tax Hub.
+* **Official Proposal List Price**: **₱150,000.00 PHP**
+* **Confidential Executive Closing Target**: **₱120,000.00 PHP** (If client requests a courtesy partner discount)
 * **Upcoming Iligan City Branch**: Pre-configured for **zero additional core software licensing fee**.
 
 ### Maintenance & Retainer Plan:
 * **Year 1 (Months 1–12)**: **100% FREE (₱0.00 / month)** — Includes cloud hosting, automated database backups, tax formula updates, and priority technical support.
 * **Year 2 Onwards**: **₱12,000.00 / Year** (~₱1,000/month combined for all branches, or ~₱200/branch/month).
 
-### Milestone Payment Schedule:
+### Milestone Payment Schedule (Official ₱150k Proposal):
 | Milestone | Scope / Deliverable | % | Amount |
 | :--- | :--- | :---: | :---: |
-| **Milestone 1: Mobilization** | Contract signing, database provisioning, biometric architecture setup | **40%** | **₱48,000.00** |
-| **Milestone 2: Deployment & UAT** | HRMS, Biometric Ingestion, POS CRM, PO Pipeline deployed for testing | **35%** | **₱42,000.00** |
-| **Milestone 3: Final Go-Live** | Accounting module sync, BPI BizLink sign-off, staff training, live launch | **25%** | **₱30,000.00** |
-| **TOTAL** | | **100%** | **₱120,000.00** |
+| **Milestone 1: Mobilization** | Contract signing, database provisioning, biometric architecture setup | **40%** | **₱60,000.00** |
+| **Milestone 2: Deployment & UAT** | HRMS, Biometric Ingestion, POS CRM, PO Pipeline deployed for testing | **35%** | **₱52,500.00** |
+| **Milestone 3: Final Go-Live** | Accounting module sync, BPI BizLink sign-off, staff training, live launch | **25%** | **₱37,500.00** |
+| **TOTAL** | | **100%** | **₱150,000.00** |
+
+*(If closed at ₱120k: ₱48,000 / ₱42,000 / ₱30,000)*
 
 ### Lock-In & Exit Terms:
 1. **12-Month Initial Service Term**: Guarantees system stability and complete annual tax/financial cycles.
@@ -154,22 +157,24 @@ As an official Lay Bare franchisee, ALRAJJ LEGACY coordinates supply requisition
 
 ## 🤝 5. Developer Payout & Milestone Allocation (50/50 Split)
 
-As Vice President & Lead Developer who architected, coded, and deployed the full system:
+As Chief Technology Officer (CTO) & Lead Developer who architected, coded, and deployed the full system:
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                      PROJECT PAYOUT BREAKDOWN (₱120,000)                    │
-├──────────────────────────┬──────────────────────────────────────────────────┤
-│ Total Contract Value     │ ₱120,000.00                                      │
-├──────────────────────────┼──────────────────────────────────────────────────┤
-│ Lead Developer Share     │ ₱60,000.00 (50% Milestone Payout)                │
-│ (Jason Velasquez)        │ • ₱24,000 upon Milestone 1 (Mobilization)        │
-│                          │ • ₱21,000 upon Milestone 2 (UAT Deployment)      │
-│                          │ • ₱15,000 upon Milestone 3 (Final Go-Live)       │
-├──────────────────────────┼──────────────────────────────────────────────────┤
-│ SETHCON Share            │ ₱60,000.00 (50%)                                 │
-│ (Operations & Sales)     │ • Corporate legal, account management, overhead  │
-└──────────────────────────┴──────────────────────────────────────────────────┘
+│                      PROJECT PAYOUT BREAKDOWN (50/50 SPLIT)                 │
+├──────────────────────────┬───────────────────────┬──────────────────────────┤
+│ Proposal Scenario        │ Official ₱150k Price  │ Discounted ₱120k Target  │
+├──────────────────────────┼───────────────────────┼──────────────────────────┤
+│ Total Contract Value     │ ₱150,000.00           │ ₱120,000.00              │
+├──────────────────────────┼───────────────────────┼──────────────────────────┤
+│ CTO Developer Share (50%)│ ₱75,000.00            │ ₱60,000.00               │
+│ (Jason Jeff D. Velasquez)│ • M1 (40%): ₱30,000   │ • M1 (40%): ₱24,000      │
+│                          │ • M2 (35%): ₱26,250   │ • M2 (35%): ₱21,000      │
+│                          │ • M3 (25%): ₱18,750   │ • M3 (25%): ₱15,000      │
+├──────────────────────────┼───────────────────────┼──────────────────────────┤
+│ SETHCON Share (50%)      │ ₱75,000.00            │ ₱60,000.00               │
+│ (Operations & Sales)     │ • Corporate overhead  │ • Corporate overhead     │
+└──────────────────────────┴───────────────────────┴──────────────────────────┘
 ```
 
 ---

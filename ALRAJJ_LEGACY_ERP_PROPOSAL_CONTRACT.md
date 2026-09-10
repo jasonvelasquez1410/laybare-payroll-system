@@ -10,10 +10,10 @@
 
 This Agreement is entered into by and between:
 
-* **THE SERVICE PROVIDER**: **SETHCON TECHNOLOGIES INC.**, an enterprise software engineering firm represented by **Jason Velasquez**, Vice President & Lead Systems Engineer (hereinafter referred to as *"SETHCON"*).
+* **THE SERVICE PROVIDER**: **SETHCON TECHNOLOGIES CORP.**, an enterprise systems engineering and software firm represented by **Jason Jeff D. Velasquez**, Chief Technology Officer (CTO) (hereinafter referred to as *"SETHCON"*).
 * **THE CLIENT**: **ALRAJJ LEGACY FORTIFIED BUSINESS CORP.**, an authorized franchisee of Lay Bare Waxing Salon & Passion Nails, represented by **Ms. Jehan Abedin**, General Manager / Managing Director (hereinafter referred to as the *"Client"* or *"ALRAJJ LEGACY"*).
 
-**Operating Entities / Branches Covered**:
+**Authorized Operating Branches Covered**:
 1. **Centrio Mall Branch** (Lay Bare Waxing Salon) – Cagayan de Oro City
 2. **Passion Nails Branch** (Centrio Mall) – Cagayan de Oro City
 3. **Limketkai Mall Branch (Ketkai)** – Cagayan de Oro City
@@ -26,7 +26,7 @@ This Agreement is entered into by and between:
 
 ALRAJJ LEGACY is upgrading its multi-branch operations from labor-intensive manual Google Sheets into an all-in-one, cloud-synchronized **Enterprise Biometric HRMS, POS CRM, Procurement, and Philippine GAAP Financial Management ERP System**.
 
-This custom-tailored software unified ecosystem eliminates human calculation errors, prevents store cash/inventory shrinkage, automates DOLE & BIR tax statutory compliance, and reduces bi-monthly payroll processing from **2 full working days down to under 60 seconds**.
+This custom-tailored software ecosystem eliminates human calculation errors, prevents store cash/inventory shrinkage, automates DOLE & BIR statutory tax compliance, and reduces bi-monthly payroll processing from **2 full working days down to under 60 seconds**.
 
 ---
 
@@ -74,23 +74,23 @@ SETHCON shall deliver, configure, and maintain the following five (5) integrated
 ### 3. MULTI-BRANCH EXPANSION GUARANTEE (ILIGAN CITY BRANCH)
 
 * The system is built on a scalable cloud architecture. 
-* Upon the official opening of the **Iligan City Branch**, SETHCON guarantees that the new branch will be activated and integrated into the multi-branch dashboard, P&L consolidation, and biometric ingestion **at ZERO additional software core licensing cost**.
+* Upon the official commercial opening of the **Iligan City Branch**, SETHCON guarantees that the new branch will be activated and integrated into the multi-branch dashboard, P&L consolidation, and biometric ingestion **at ZERO additional software core licensing cost**.
 
 ---
 
 ### 4. FINANCIAL INVESTMENT & MILESTONE PAYMENT SCHEDULE
 
-#### A. Total Implementation & Perpetual Software License Fee: **₱120,000.00 PHP**
+#### A. Total Implementation & Perpetual Software License Fee: **₱150,000.00 PHP**
 *(All-inclusive package covering all 5 modules across Centrio Waxing, Passion Nails, Limketkai, SM Downtown, and the upcoming Iligan Branch).*
 
 #### B. Milestone Payment Terms:
 
 | Milestone Phase | Deliverable / Trigger | Percentage | Amount (PHP) |
 | :--- | :--- | :---: | :---: |
-| **Milestone 1: Project Mobilization** | Contract signing, server environment provisioning, and biometric database architecture setup. | **40%** | **₱48,000.00** |
-| **Milestone 2: Multi-Module Deployment** | Core HRMS, Biometric Ingestion, POS CRM, and 5-Step PO Pipeline deployed for User Acceptance Testing (UAT). | **35%** | **₱42,000.00** |
-| **Milestone 3: Accounting Sync & Final Go-Live** | Accounting module integration, BPI BizLink format verification, staff training, and official live deployment across branches. | **25%** | **₱30,000.00** |
-| **TOTAL** | | **100%** | **₱120,000.00** |
+| **Milestone 1: Project Mobilization** | Contract signing, server environment provisioning, and biometric database architecture setup. | **40%** | **₱60,000.00** |
+| **Milestone 2: Multi-Module Deployment** | Core HRMS, Biometric Ingestion, POS CRM, and 5-Step PO Pipeline deployed for User Acceptance Testing (UAT). | **35%** | **₱52,500.00** |
+| **Milestone 3: Accounting Sync & Final Go-Live** | Accounting module integration, BPI BizLink format verification, staff training, and official live deployment across branches. | **25%** | **₱37,500.00** |
+| **TOTAL** | | **100%** | **₱150,000.00** |
 
 ---
 
@@ -132,13 +132,13 @@ IN WITNESS WHEREOF, the authorized representatives of both parties have affixed 
 <br><br>
 
 **FOR THE SERVICE PROVIDER:**  
-**SETHCON TECHNOLOGIES INC.**
+**SETHCON TECHNOLOGIES CORP.**
 
 <br><br>
 _________________________________________  
-**JASON VELASQUEZ**  
-Vice President & Lead Systems Engineer  
-SETHCON Technologies Inc.  
+**JASON JEFF D. VELASQUEZ**  
+Chief Technology Officer (CTO)  
+SETHCON Technologies Corp.  
 Date: ___________________________________  
 
 <br><br><br>
