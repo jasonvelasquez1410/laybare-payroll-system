@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Commercial Proposal & Software Service Agreement - ALRAJJ LEGACY & SETHCON</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #031134;
+      --accent: #77BC2E;
+      --secondary: #4A2E1B;
+      --pink: #E89BB9;
+      --gold: #D4AF37;
+      --bg: #FAF9F5;
+      --card-bg: #FFFFFF;
+      --border: #EAE8E2;
+      --text-main: #2D2520;
+      --text-muted: #6B625B;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #EFECE6;
+      color: var(--text-main);
+      line-height: 1.6;
+      padding: 40px 20px;
+    }
+
+    .document-container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+      padding: 60px 70px;
+      position: relative;
+    }
+
+    .header-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 30px;
+      margin-bottom: 40px;
+    }
+
+    .brand-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--primary);
+      letter-spacing: -0.5px;
+    }
+
+    .brand-subtitle {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 4px;
+    }
+
+    .meta-box {
+      text-align: right;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .meta-box strong {
+      color: var(--primary);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    h1.doc-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 28px;
+      font-weight: 900;
+      color: var(--secondary);
+      margin-bottom: 15px;
+      line-height: 1.2;
+    }
+
+    .party-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px 24px;
+      margin-bottom: 30px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .party-col h4 {
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .party-col p {
+      font-size: 13px;
+      color: var(--text-main);
+      font-weight: 500;
+    }
+
+    .party-col p strong {
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .branch-pills {
+      margin-top: 15px;
+      grid-column: 1 / -1;
+      border-top: 1px dashed var(--border);
+      padding-top: 15px;
+    }
+
+    .pill {
+      display: inline-block;
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--primary);
+      margin-right: 6px;
+      margin-bottom: 6px;
+    }
+
+    .pill.highlight {
+      background: rgba(119, 188, 46, 0.15);
+      border-color: var(--accent);
+      color: #3F6F12;
+    }
+
+    h2.section-heading {
+      font-family: 'Outfit', sans-serif;
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--primary);
+      margin-top: 40px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 8px;
+    }
+
+    h2.section-heading .num {
+      background: var(--primary);
+      color: #FFFFFF;
+      width: 26px;
+      height: 26px;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    p.body-p {
+      font-size: 13.5px;
+      color: var(--text-main);
+      margin-bottom: 14px;
+      text-align: justify;
+    }
+
+    .modules-table, .milestone-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 12.5px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .modules-table th, .milestone-table th {
+      background: var(--primary);
+      color: #FFFFFF;
+      padding: 12px 16px;
+      text-align: left;
+      font-weight: 700;
+      font-size: 11.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .modules-table td, .milestone-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      background: #FFFFFF;
+      vertical-align: top;
+    }
+
+    .modules-table tr:nth-child(even) td, .milestone-table tr:nth-child(even) td {
+      background: var(--bg);
+    }
+
+    .badge {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: rgba(3, 17, 52, 0.08);
+      color: var(--primary);
+    }
+
+    .amount-highlight {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 800;
+      color: var(--accent);
+      font-size: 14px;
+    }
+
+    .callout-box {
+      background: rgba(119, 188, 46, 0.08);
+      border-left: 4px solid var(--accent);
+      padding: 16px 20px;
+      border-radius: 0 12px 12px 0;
+      margin: 20px 0;
+      font-size: 13px;
+    }
+
+    .signatures-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 50px;
+      margin-top: 50px;
+      padding-top: 30px;
+      border-top: 2px solid var(--border);
+      page-break-inside: avoid;
+    }
+
+    .sig-col {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .sig-col h4 {
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .sig-col .org-name {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 50px;
+    }
+
+    .sig-line {
+      border-bottom: 1.5px solid var(--text-main);
+      margin-bottom: 8px;
+    }
+
+    .signer-name {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--secondary);
+    }
+
+    .signer-title {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .print-bar {
+      max-width: 900px;
+      margin: 0 auto 20px auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .print-btn {
+      background: var(--primary);
+      color: #FFFFFF;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(3, 17, 52, 0.15);
+      transition: all 0.2s;
+    }
+
+    .print-btn:hover {
+      background: #082260;
+      transform: translateY(-1px);
+    }
+
+    @media print {
+      body {
+        background: #FFFFFF;
+        padding: 0;
+      }
+      .print-bar {
+        display: none;
+      }
+      .document-container {
+        border: none;
+        box-shadow: none;
+        padding: 0;
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="print-bar">
+    <span style="font-size: 13px; color: var(--text-muted); font-weight: 600;">ALRAJJ LEGACY & SETHCON Official Proposal Agreement</span>
+    <button class="print-btn" onclick="window.print()">🖨️ Print / Save as PDF</button>
+  </div>
+
+  <div class="document-container">
+    
+    <!-- HEADER -->
+    <div class="header-bar">
+      <div>
+        <div class="brand-title">SETHCON TECHNOLOGIES INC.</div>
+        <div class="brand-subtitle">Enterprise Systems Engineering & Automation</div>
+      </div>
+      <div class="meta-box">
+        <div>Ref: <strong>SETH-ALRAJJ-ERP-2026-09</strong></div>
+        <div>Date: <strong>September 11, 2026</strong></div>
+        <div>Status: <strong>Official Executive Proposal</strong></div>
+      </div>
+    </div>
+
+    <!-- TITLE -->
+    <h1 class="doc-title">Commercial Proposal & Software Service Agreement</h1>
+    <p class="body-p" style="color: var(--text-muted); font-size: 14px; margin-bottom: 24px;">
+      Comprehensive Enterprise Biometric HRMS, POS CRM, Procurement, and Philippine GAAP Financial Management ERP System.
+    </p>
+
+    <!-- PARTIES -->
+    <div class="party-card">
+      <div class="party-col">
+        <h4>The Service Provider</h4>
+        <p><strong>SETHCON TECHNOLOGIES INC.</strong></p>
+        <p>Represented by: <strong>Jason Velasquez</strong></p>
+        <p>Vice President & Lead Systems Engineer</p>
+      </div>
+      <div class="party-col">
+        <h4>The Client</h4>
+        <p><strong>ALRAJJ LEGACY FORTIFIED BUSINESS CORP.</strong></p>
+        <p>Represented by: <strong>Ms. Jehan Abedin</strong></p>
+        <p>General Manager / Managing Director</p>
+      </div>
+      <div class="branch-pills">
+        <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px;">Authorized Branches Covered:</div>
+        <span class="pill">Centrio Mall (Lay Bare Waxing)</span>
+        <span class="pill">Passion Nails (Centrio)</span>
+        <span class="pill">Limketkai Mall Branch</span>
+        <span class="pill">SM Downtown Premier</span>
+        <span class="pill highlight">✨ New Expansion: Iligan City Branch</span>
+      </div>
+    </div>
+
+    <!-- SECTION 1 -->
+    <h2 class="section-heading"><span class="num">1</span> Executive Summary & Objectives</h2>
+    <p class="body-p">
+      ALRAJJ LEGACY Fortified Business Corp. is transitioning from manual spreadsheets to an enterprise-grade, cloud-synchronized ERP ecosystem. This platform unifies biometric timekeeping, automated DOLE compliance, 1-click BPI BizLink payroll, POS client CRM, Lay Bare franchisor procurement (MyTime), and complete multi-branch financial accounting (P&L, Balance Sheet, BIR tax filing) into one secure software suite.
+    </p>
+
+    <!-- SECTION 2 -->
+    <h2 class="section-heading"><span class="num">2</span> Scope of Deliverables & Core Modules</h2>
+    <table class="modules-table">
+      <thead>
+        <tr>
+          <th style="width: 30%;">Module</th>
+          <th style="width: 70%;">Key Operational Capabilities</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>1. Biometric Ingestion & HRMS</strong></td>
+          <td>Direct offline NGTeco Excel (.xls/.xlsx) parsing, automatic cross-midnight shift pairing, 1-click supervisor punch override audit log, and automated DOLE-compliant Notice to Explain (NTE) drafting.</td>
+        </tr>
+        <tr>
+          <td><strong>2. 1-Click Biometric Payroll & BPI BizLink</strong></td>
+          <td>Semi-monthly salary computation with exact Philippine statutory deductions (SSS, PhilHealth, Pag-IBIG, BIR 1601-C), 5-stage disbursement approval bar, BPI BizLink Batch CSV export, and official branded printable payslips.</td>
+        </tr>
+        <tr>
+          <td><strong>3. Salon CRM & POS Service Tickets</strong></td>
+          <td>Live walk-in/VIP client database, instant POS service ticket ring-up (Cash, GCash QR, Maya QR), automatic 10% technician commission crediting, and SMS booking reminders.</td>
+        </tr>
+        <tr>
+          <td><strong>4. 5-Step PO Pipeline & MyTime Sync</strong></td>
+          <td>Store requisition drafting, Lay Bare Franchisor / MyTime Commissary order formatting, management authorization, store delivery receiving & inspection, and automated 3-way matching (PO ↔ DR ↔ Invoice).</td>
+        </tr>
+        <tr>
+          <td><strong>5. Enterprise Accounting & BIR Tax Hub</strong></td>
+          <td>Multi-branch P&L (Income Statement) with COGS, Philippine GAAP Balance Sheet, Daily POS cash drawer balancing (anti-shrinkage audit), Accounts Payable vouchers with 1-click BPI pay, and BIR tax compliance (1601-C, 2550Q, 0619-E).</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- SECTION 3 -->
+    <h2 class="section-heading"><span class="num">3</span> Multi-Branch Scalability & Iligan Expansion Guarantee</h2>
+    <div class="callout-box">
+      <strong>✨ Zero-Cost Branch Expansion:</strong> SETHCON guarantees that upon the commercial launch of the upcoming <strong>Iligan City Branch</strong>, the branch will be integrated into the multi-branch dashboard, P&L reporting, and biometric payroll at <strong>ZERO additional software core license fees</strong>.
+    </div>
+
+    <!-- SECTION 4 -->
+    <h2 class="section-heading"><span class="num">4</span> Financial Investment & Milestone Payments</h2>
+    <p class="body-p">
+      The total one-time implementation, customization, and perpetual software license fee for the entire 5-module ERP ecosystem across all branches is <strong>₱120,000.00 PHP</strong>.
+    </p>
+
+    <table class="milestone-table">
+      <thead>
+        <tr>
+          <th>Milestone Phase</th>
+          <th>Deliverable / Verification Trigger</th>
+          <th style="text-align: center;">%</th>
+          <th style="text-align: right;">Amount (PHP)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Milestone 1: Mobilization</strong></td>
+          <td>Contract signing, database setup, and multi-branch biometric architecture configuration.</td>
+          <td style="text-align: center;"><span class="badge">40%</span></td>
+          <td style="text-align: right;" class="amount-highlight">₱48,000.00</td>
+        </tr>
+        <tr>
+          <td><strong>Milestone 2: Deployment & UAT</strong></td>
+          <td>HRMS, Biometric Ingestion, POS CRM, and PO Pipeline deployed for User Acceptance Testing.</td>
+          <td style="text-align: center;"><span class="badge">35%</span></td>
+          <td style="text-align: right;" class="amount-highlight">₱42,000.00</td>
+        </tr>
+        <tr>
+          <td><strong>Milestone 3: Final Go-Live</strong></td>
+          <td>Accounting module synchronization, BPI BizLink batch file sign-off, staff training, and live launch.</td>
+          <td style="text-align: center;"><span class="badge">25%</span></td>
+          <td style="text-align: right;" class="amount-highlight">₱30,000.00</td>
+        </tr>
+        <tr style="background: rgba(3, 17, 52, 0.04); font-weight: 800;">
+          <td colspan="2"><strong>TOTAL ALL-INCLUSIVE PACKAGE</strong></td>
+          <td style="text-align: center;"><span class="badge" style="background: var(--primary); color: #fff;">100%</span></td>
+          <td style="text-align: right; font-size: 16px; color: var(--primary);" class="amount-highlight">₱120,000.00</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- SECTION 5 -->
+    <h2 class="section-heading"><span class="num">5</span> Cloud Hosting, Maintenance & Retainer Terms</h2>
+    <p class="body-p">
+      <strong>• Year 1 (Months 1 to 12): 100% FREE (₱0.00 / month)</strong><br>
+      To ensure a completely risk-free transition, SETHCON includes 12 full months of complimentary cloud hosting, automated database backups, statutory tax table adjustments, and priority technical support.
+    </p>
+    <p class="body-p">
+      <strong>• Year 2 Onwards (Annual Cloud Maintenance SLA): ₱12,000.00 / Year</strong><br>
+      Starting on Month 13, an annual maintenance renewal of ₱12,000.00/year (equivalent to only <strong>₱1,000.00/month combined for all 5 branches</strong>) applies to maintain 99.5% cloud uptime, SSL security encryption, BIR/statutory updates, and bug fixes.
+    </p>
+
+    <!-- SECTION 6 -->
+    <h2 class="section-heading"><span class="num">6</span> Lock-In Period & Exit Terms</h2>
+    <p class="body-p">
+      <strong>1. Minimum Service Term:</strong> An initial minimum term of twelve (12) months from go-live date to ensure operational stability.<br>
+      <strong>2. 100% Client Data Ownership:</strong> ALRAJJ LEGACY retains exclusive ownership of all employee, payroll, sales, and financial records.<br>
+      <strong>3. Zero Data Hostage Guarantee:</strong> Upon contract non-renewal, SETHCON guarantees complete export and turnover of all raw data (.xlsx, .csv, .sql) within fifteen (15) business days at zero additional charge.<br>
+      <strong>4. Termination for Cause:</strong> Client may terminate without penalty if system availability falls below 99.5% or critical calculation errors are unresolved within 72 business hours.<br>
+      <strong>5. Non-Renewal Notice:</strong> Either party may opt out of the annual renewal with sixty (60) days' prior written notice.
+    </p>
+
+    <!-- SECTION 7: SIGNATURES -->
+    <div class="signatures-grid">
+      <div class="sig-col">
+        <div>
+          <h4>For the Service Provider</h4>
+          <div class="org-name">SETHCON TECHNOLOGIES INC.</div>
+        </div>
+        <div>
+          <div class="sig-line"></div>
+          <div class="signer-name">JASON VELASQUEZ</div>
+          <div class="signer-title">Vice President & Lead Systems Engineer</div>
+          <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Date: ________________________</div>
+        </div>
+      </div>
+
+      <div class="sig-col">
+        <div>
+          <h4>For the Client (Conforme)</h4>
+          <div class="org-name">ALRAJJ LEGACY FORTIFIED BUSINESS CORP.</div>
+        </div>
+        <div>
+          <div class="sig-line"></div>
+          <div class="signer-name">MS. JEHAN ABEDIN</div>
+          <div class="signer-title">General Manager / Managing Director</div>
+          <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Date: ________________________</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>
