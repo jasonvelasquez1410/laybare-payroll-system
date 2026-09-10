@@ -194,8 +194,16 @@ export default function App() {
   const [selectedClient, setSelectedClient] = useState(null);
   const [crmSearch, setCrmSearch] = useState('');
   const [crmBranchFilter, setCrmBranchFilter] = useState('');
+  const [crmSubTab, setCrmSubTab] = useState('tickets'); // 'tickets' | 'clients'
   const [showAddClientModal, setShowAddClientModal] = useState(false);
   const [newClient, setNewClient] = useState({
+    name: '',
+    phone: '',
+    branch: 'Centrio Mall (Waxing)',
+    preferredTechnician: 'Justine Ann Atay',
+    activePackage: 'Underarm Waxing 5-Pack (5/5 left)',
+    skinNotes: ''
+  });
   const [crmToast, setCrmToast] = useState('');
 
   // Per-Transaction POS & Live Service Tickets
@@ -4379,234 +4387,299 @@ export default function App() {
                 </div>
               </div>
 
-              {/* CRM Data Table Card */}
-              <div className="bg-white border border-[#EAE8E2] rounded-3xl overflow-hidden shadow-2xs">
-                <div className="p-6 border-b border-[#F2F0E8] flex flex-col md:flex-row md:items-center justify-between gap-4">
-                  <div>
-                    <div className="flex items-center space-x-2">
-                      <span className="bg-[#E89BB9]/20 text-[#D47098] text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase">
-                        Salon CRM
-                      </span>
-                      <h3 className="font-extrabold text-base text-[#4A2E1B]">Client Retention & Loyalty Registry</h3>
-                    </div>
-                    <p className="text-xs text-[#8A817C] mt-0.5">Visit histories, package balances, technician assignments & skin preferences</p>
-                  </div>
+              {/* CRM SUB-NAVIGATION TABS */}
+              <div className="bg-white border border-[#EAE8E2] rounded-3xl p-4 shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div className="flex items-center space-x-2">
+                  <button
+                    onClick={() => setCrmSubTab('tickets')}
+                    className={`px-4 py-2.5 rounded-2xl text-xs font-extrabold transition-all flex items-center space-x-2 ${
+                      crmSubTab === 'tickets'
+                        ? 'bg-[#77BC2E] text-white shadow-sm shadow-[#77BC2E]/25'
+                        : 'bg-[#FAF9F5] text-[#5A534E] hover:bg-[#F2F0E8] hover:text-[#4A2E1B]'
+                    }`}
+                  >
+                    <Calculator className="h-4 w-4" />
+                    <span>Live POS Service Tickets</span>
+                    <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${
+                      crmSubTab === 'tickets' ? 'bg-white text-[#77BC2E]' : 'bg-[#EAE8E2] text-[#5A534E]'
+                    }`}>
+                      {serviceTickets.length}
+                    </span>
+                  </button>
 
-                  {/* Filter & Actions */}
-                  <div className="flex flex-wrap items-center gap-2.5">
-                    <div className="relative">
-                      <Search className="h-3.5 w-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-[#A8A29E]" />
-                      <input
-                        type="text"
-                        placeholder="Search client / phone..."
-                        value={crmSearch}
-                        onChange={(e) => setCrmSearch(e.target.value)}
-                        className="bg-[#F7F6F2] border border-transparent rounded-xl pl-8 pr-3 py-1.5 text-xs font-medium focus:ring-1 focus:ring-[#E89BB9] outline-none text-[#2D2520] w-48"
-                      />
-                    </div>
-
-                    <select
-                      value={crmBranchFilter}
-                      onChange={(e) => setCrmBranchFilter(e.target.value)}
-                      className="bg-[#F7F6F2] border border-transparent rounded-xl px-3 py-1.5 text-xs font-semibold text-[#5A534E] outline-none"
-                    >
-                      <option value="">All Branches</option>
-                      <option value="Centrio">Centrio Waxing</option>
-                      <option value="Passion Nails">Passion Nails</option>
-                      <option value="Limketkai">Limketkai</option>
-                      <option value="SM Downtown">SM Downtown</option>
-                    </select>
-
-                    <button
-                      onClick={() => setShowAddClientModal(true)}
-                      className="bg-[#E89BB9] hover:bg-[#D47098] text-white font-bold text-xs px-3.5 py-1.5 rounded-xl transition-all flex items-center space-x-1.5 shadow-2xs"
-                    >
-                      <Plus className="h-3.5 w-3.5" />
-                      <span>Add VIP Client</span>
-                    </button>
-
-                    <button
-                      onClick={() => setShowNewTicketModal(true)}
-                      className="bg-[#77BC2E] hover:bg-[#6DB027] text-white font-bold text-xs px-3.5 py-1.5 rounded-xl transition-all flex items-center space-x-1.5 shadow-sm shadow-[#77BC2E]/20"
-                    >
-                      <Calculator className="h-3.5 w-3.5" />
-                      <span>+ Ring Up Service Ticket</span>
-                    </button>
-                  </div>
+                  <button
+                    onClick={() => setCrmSubTab('clients')}
+                    className={`px-4 py-2.5 rounded-2xl text-xs font-extrabold transition-all flex items-center space-x-2 ${
+                      crmSubTab === 'clients'
+                        ? 'bg-[#E89BB9] text-white shadow-sm shadow-[#E89BB9]/25'
+                        : 'bg-[#FAF9F5] text-[#5A534E] hover:bg-[#F2F0E8] hover:text-[#4A2E1B]'
+                    }`}
+                  >
+                    <Users className="h-4 w-4" />
+                    <span>VIP Client Retention & Packages</span>
+                    <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${
+                      crmSubTab === 'clients' ? 'bg-white text-[#D47098]' : 'bg-[#EAE8E2] text-[#5A534E]'
+                    }`}>
+                      {crmClients.length}
+                    </span>
+                  </button>
                 </div>
 
-                <div className="overflow-x-auto">
-                  <table className="w-full text-left border-collapse">
-                    <thead>
-                      <tr className="bg-[#FAF9F5] border-b border-[#F2F0E8] text-[10px] font-extrabold uppercase tracking-wider text-[#8A817C]">
-                        <th className="px-6 py-3.5">Client Profile</th>
-                        <th className="px-6 py-3.5">Contact & Branch</th>
-                        <th className="px-6 py-3.5">Active Package Balance</th>
-                        <th className="px-6 py-3.5">Preferred Specialist</th>
-                        <th className="px-6 py-3.5">Skin Sensitivity Notes</th>
-                        <th className="px-6 py-3.5">Next Slot / SMS</th>
-                        <th className="px-6 py-3.5">Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-[#F2F0E8] text-xs">
-                      {crmClients
-                        .filter(c => !crmBranchFilter || c.branch.includes(crmBranchFilter))
-                        .filter(c => !crmSearch || c.name.toLowerCase().includes(crmSearch.toLowerCase()) || c.phone.includes(crmSearch))
-                        .map(client => (
-                          <tr key={client.id} className="hover:bg-[#FAF9F5]/70 transition-colors">
-                            <td className="px-6 py-4 font-bold text-[#4A2E1B]">
-                              <div className="flex items-center space-x-2.5">
-                                <div className="w-8 h-8 rounded-xl bg-[#E89BB9]/20 text-[#D47098] flex items-center justify-center font-extrabold text-xs">
-                                  {client.name.charAt(0)}
-                                </div>
-                                <div>
-                                  <p className="font-extrabold text-[#4A2E1B]">{client.name}</p>
-                                  <div className="flex items-center space-x-1 mt-0.5">
-                                    <span className="text-[10px] font-bold text-[#D4AF37] bg-[#D4AF37]/10 px-1.5 py-0.2 rounded">
-                                      {client.tier}
-                                    </span>
-                                    <span className="text-[10px] text-[#8A817C]">&bull; {client.loyaltyPoints} pts</span>
-                                  </div>
-                                </div>
-                              </div>
+                <div className="flex items-center space-x-2">
+                  {crmSubTab === 'tickets' ? (
+                    <button
+                      onClick={() => setShowNewTicketModal(true)}
+                      className="bg-[#77BC2E] hover:bg-[#6DB027] text-white font-bold text-xs px-4 py-2.5 rounded-2xl transition-all flex items-center space-x-2 shadow-sm shadow-[#77BC2E]/20"
+                    >
+                      <Plus className="h-4 w-4" />
+                      <span>+ Ring Up Service Ticket</span>
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => setShowAddClientModal(true)}
+                      className="bg-[#E89BB9] hover:bg-[#D47098] text-white font-bold text-xs px-4 py-2.5 rounded-2xl transition-all flex items-center space-x-2 shadow-sm shadow-[#E89BB9]/20"
+                    >
+                      <Plus className="h-4 w-4" />
+                      <span>+ Add VIP Client</span>
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              {/* VIEW 1: TODAY'S LIVE SERVICE TICKETS (PER-TRANSACTION POS LOG) */}
+              {crmSubTab === 'tickets' && (
+                <div className="bg-white border border-[#EAE8E2] rounded-3xl overflow-hidden shadow-2xs space-y-4 p-6 animate-fadeIn">
+                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#F2F0E8] pb-4">
+                    <div>
+                      <div className="flex items-center space-x-2">
+                        <span className="bg-[#77BC2E]/15 text-[#5A9A1E] text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase">
+                          Live POS Register
+                        </span>
+                        <span className="text-xs font-bold text-[#8A817C]">Per-Transaction Sales & Specialist Commissions</span>
+                      </div>
+                      <h3 className="font-extrabold text-lg text-[#4A2E1B] mt-1">Today's Live Service Tickets</h3>
+                      <p className="text-xs text-[#8A817C]">Real-time ticketing across Lay Bare & Passion Nails. Automatically calculates technician commissions and feeds daily POS register audits.</p>
+                    </div>
+
+                    <div className="flex items-center space-x-3">
+                      <div className="bg-[#FAF9F5] border border-[#EAE8E2] px-4 py-2 rounded-2xl text-right">
+                        <span className="text-[10px] font-bold uppercase text-[#8A817C] block">Total Logged Today</span>
+                        <span className="text-base font-extrabold text-[#77BC2E] font-mono">
+                          ₱{serviceTickets.reduce((sum, t) => sum + t.amount, 0).toLocaleString('en-US', { minimumFractionDigits: 2 })} ({serviceTickets.length} tickets)
+                        </span>
+                      </div>
+
+                      <button
+                        onClick={() => setShowNewTicketModal(true)}
+                        className="bg-[#77BC2E] hover:bg-[#6DB027] text-white font-bold text-xs px-4 py-2.5 rounded-2xl transition-all flex items-center space-x-2 shadow-sm shadow-[#77BC2E]/20"
+                      >
+                        <Plus className="h-4 w-4" />
+                        <span>+ Ring Up Ticket</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-left border-collapse text-xs">
+                      <thead>
+                        <tr className="bg-[#FAF9F5] border-b border-[#F2F0E8] text-[10px] font-extrabold uppercase tracking-wider text-[#8A817C]">
+                          <th className="px-5 py-3">Ticket # & Time</th>
+                          <th className="px-5 py-3">Client / Guest</th>
+                          <th className="px-5 py-3">Branch Location</th>
+                          <th className="px-5 py-3">Service Rendered</th>
+                          <th className="px-5 py-3">Assigned Specialist</th>
+                          <th className="px-5 py-3">Payment Method</th>
+                          <th className="px-5 py-3 text-right">Amount (PHP)</th>
+                          <th className="px-5 py-3 text-right">Commission (10%)</th>
+                          <th className="px-5 py-3">Status</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-[#F2F0E8]">
+                        {serviceTickets.map((tkt) => (
+                          <tr key={tkt.id} className="hover:bg-[#FAF9F5]/70 transition-colors">
+                            <td className="px-5 py-4 font-mono">
+                              <strong className="text-[#031134] block font-bold">{tkt.id}</strong>
+                              <span className="text-[10px] text-[#8A817C]">{tkt.time} &bull; {tkt.date}</span>
                             </td>
-                            <td className="px-6 py-4">
-                              <p className="font-mono text-[#5A534E] text-[11px]">{client.phone}</p>
-                              <p className="text-[#8A817C] text-[11px]">{client.branch}</p>
-                            </td>
-                            <td className="px-6 py-4">
-                              <div className="space-y-1">
-                                <p className="font-bold text-[#4A2E1B] text-[11px]">{client.activePackage}</p>
-                                <div className="w-32 bg-[#EAE8E2] h-1.5 rounded-full overflow-hidden">
-                                  <div className="bg-[#77BC2E] h-full rounded-full w-3/5"></div>
-                                </div>
-                              </div>
-                            </td>
-                            <td className="px-6 py-4">
-                              <span className="bg-[#77BC2E]/10 text-[#5A9A1E] font-bold px-2 py-0.5 rounded-md text-[11px] flex items-center space-x-1 w-fit">
+                            <td className="px-5 py-4 font-bold text-[#4A2E1B]">{tkt.clientName}</td>
+                            <td className="px-5 py-4 text-[#5A534E] font-medium">{tkt.branch}</td>
+                            <td className="px-5 py-4 font-semibold text-[#4A2E1B]">{tkt.service}</td>
+                            <td className="px-5 py-4">
+                              <span className="bg-[#77BC2E]/10 text-[#5A9A1E] font-bold px-2 py-0.5 rounded-md text-[11px] inline-flex items-center space-x-1">
                                 <Sparkles className="h-3 w-3" />
-                                <span>{client.preferredTechnician}</span>
+                                <span>{tkt.specialist}</span>
                               </span>
                             </td>
-                            <td className="px-6 py-4">
-                              <span className="text-[#4A2E1B] bg-[#FAF9F5] border border-[#EAE8E2] px-2.5 py-1 rounded-xl text-[11px] block max-w-xs truncate" title={client.skinNotes}>
-                                {client.skinNotes}
+                            <td className="px-5 py-4 font-semibold">
+                              <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold ${
+                                tkt.paymentMethod.includes('GCash') ? 'bg-sky-50 text-sky-700' :
+                                tkt.paymentMethod.includes('Maya') ? 'bg-emerald-50 text-emerald-700' :
+                                tkt.paymentMethod.includes('Card') ? 'bg-purple-50 text-purple-700' :
+                                'bg-amber-50 text-amber-900'
+                              }`}>
+                                {tkt.paymentMethod}
                               </span>
                             </td>
-                            <td className="px-6 py-4">
-                              <div className="space-y-0.5">
-                                <p className="font-mono text-[11px] text-[#031134] font-bold">{client.nextBooking}</p>
-                                <span className="inline-flex items-center space-x-1 text-[10px] text-[#5A9A1E] font-semibold">
-                                  <CheckCheck className="h-3 w-3" />
-                                  <span>{client.smsStatus}</span>
-                                </span>
-                              </div>
+                            <td className="px-5 py-4 text-right font-mono font-extrabold text-[#4A2E1B]">
+                              ₱{tkt.amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                             </td>
-                            <td className="px-6 py-4">
-                              <div className="flex items-center space-x-2">
-                                <button
-                                  onClick={() => handleSendSmsReminder(client)}
-                                  className="bg-[#031134] hover:bg-[#082260] text-white font-bold text-[10px] px-2.5 py-1.5 rounded-lg transition-all flex items-center space-x-1 shadow-2xs"
-                                  title="Trigger SMS Booking Reminder"
-                                >
-                                  <Send className="h-3 w-3" />
-                                  <span>SMS</span>
-                                </button>
-                                <button
-                                  onClick={() => setSelectedClient(client)}
-                                  className="bg-[#FAF9F5] hover:bg-[#F2F0E8] border border-[#EAE8E2] text-[#4A2E1B] font-bold text-[10px] px-2.5 py-1.5 rounded-lg transition-all"
-                                >
-                                  Details
-                                </button>
-                              </div>
+                            <td className="px-5 py-4 text-right font-mono text-[#77BC2E] font-bold">
+                              ₱{tkt.commission.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                            </td>
+                            <td className="px-5 py-4">
+                              <span className="bg-[#77BC2E]/15 text-[#5A9A1E] font-extrabold text-[10px] px-2.5 py-1 rounded-full">
+                                ✓ {tkt.status}
+                              </span>
                             </td>
                           </tr>
                         ))}
-                    </tbody>
-                  </table>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
-              </div>
+              )}
 
-              {/* TODAY'S LIVE SERVICE TICKETS (PER-TRANSACTION POS LOG) */}
-              <div className="bg-white border border-[#EAE8E2] rounded-3xl overflow-hidden shadow-2xs space-y-3 p-6">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#F2F0E8] pb-4">
-                  <div>
-                    <div className="flex items-center space-x-2">
-                      <span className="bg-[#77BC2E]/15 text-[#5A9A1E] text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase">
-                        Live POS Register
-                      </span>
-                      <span className="text-xs font-bold text-[#8A817C]">Per-Transaction Sales & Commissions</span>
+              {/* VIEW 2: VIP CLIENT RETENTION & PACKAGES */}
+              {crmSubTab === 'clients' && (
+                <div className="bg-white border border-[#EAE8E2] rounded-3xl overflow-hidden shadow-2xs animate-fadeIn">
+                  <div className="p-6 border-b border-[#F2F0E8] flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div>
+                      <div className="flex items-center space-x-2">
+                        <span className="bg-[#E89BB9]/20 text-[#D47098] text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase">
+                          VIP Registry
+                        </span>
+                        <h3 className="font-extrabold text-base text-[#4A2E1B]">Client Retention & Loyalty Registry</h3>
+                      </div>
+                      <p className="text-xs text-[#8A817C] mt-0.5">Visit histories, package balances, specialist assignments & skin sensitivity notes</p>
                     </div>
-                    <h3 className="font-extrabold text-base text-[#4A2E1B] mt-1">Today's Live Service Tickets</h3>
-                    <p className="text-xs text-[#8A817C]">Individual waxing, nail and retail tickets automatically credited to technician commissions and daily register audits.</p>
+
+                    {/* Filter & Actions */}
+                    <div className="flex flex-wrap items-center gap-2.5">
+                      <div className="relative">
+                        <Search className="h-3.5 w-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-[#A8A29E]" />
+                        <input
+                          type="text"
+                          placeholder="Search client / phone..."
+                          value={crmSearch}
+                          onChange={(e) => setCrmSearch(e.target.value)}
+                          className="bg-[#F7F6F2] border border-transparent rounded-xl pl-8 pr-3 py-1.5 text-xs font-medium focus:ring-1 focus:ring-[#E89BB9] outline-none text-[#2D2520] w-48"
+                        />
+                      </div>
+
+                      <select
+                        value={crmBranchFilter}
+                        onChange={(e) => setCrmBranchFilter(e.target.value)}
+                        className="bg-[#F7F6F2] border border-transparent rounded-xl px-3 py-1.5 text-xs font-semibold text-[#5A534E] outline-none"
+                      >
+                        <option value="">All Branches</option>
+                        <option value="Centrio">Centrio Waxing</option>
+                        <option value="Passion Nails">Passion Nails</option>
+                        <option value="Limketkai">Limketkai</option>
+                        <option value="SM Downtown">SM Downtown</option>
+                      </select>
+
+                      <button
+                        onClick={() => setShowAddClientModal(true)}
+                        className="bg-[#E89BB9] hover:bg-[#D47098] text-white font-bold text-xs px-3.5 py-1.5 rounded-xl transition-all flex items-center space-x-1.5 shadow-2xs"
+                      >
+                        <Plus className="h-3.5 w-3.5" />
+                        <span>Add VIP Client</span>
+                      </button>
+                    </div>
                   </div>
 
-                  <div className="bg-[#FAF9F5] border border-[#EAE8E2] px-4 py-2 rounded-2xl text-right">
-                    <span className="text-[10px] font-bold uppercase text-[#8A817C] block">Tickets Logged Today</span>
-                    <span className="text-base font-extrabold text-[#77BC2E] font-mono">
-                      ₱{serviceTickets.reduce((sum, t) => sum + t.amount, 0).toLocaleString('en-US', { minimumFractionDigits: 2 })} ({serviceTickets.length} tickets)
-                    </span>
-                  </div>
-                </div>
-
-                <div className="overflow-x-auto">
-                  <table className="w-full text-left border-collapse text-xs">
-                    <thead>
-                      <tr className="bg-[#FAF9F5] border-b border-[#F2F0E8] text-[10px] font-extrabold uppercase tracking-wider text-[#8A817C]">
-                        <th className="px-5 py-3">Ticket # & Time</th>
-                        <th className="px-5 py-3">Client / Guest</th>
-                        <th className="px-5 py-3">Branch</th>
-                        <th className="px-5 py-3">Service Rendered</th>
-                        <th className="px-5 py-3">Assigned Specialist</th>
-                        <th className="px-5 py-3">Payment Method</th>
-                        <th className="px-5 py-3 text-right">Amount</th>
-                        <th className="px-5 py-3 text-right">Commission (10%)</th>
-                        <th className="px-5 py-3">Status</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-[#F2F0E8]">
-                      {serviceTickets.map((tkt) => (
-                        <tr key={tkt.id} className="hover:bg-[#FAF9F5]/70 transition-colors">
-                          <td className="px-5 py-3.5 font-mono">
-                            <strong className="text-[#031134] block">{tkt.id}</strong>
-                            <span className="text-[10px] text-[#8A817C]">{tkt.time} &bull; {tkt.date}</span>
-                          </td>
-                          <td className="px-5 py-3.5 font-bold text-[#4A2E1B]">{tkt.clientName}</td>
-                          <td className="px-5 py-3.5 text-[#5A534E]">{tkt.branch}</td>
-                          <td className="px-5 py-3.5 font-semibold text-[#4A2E1B]">{tkt.service}</td>
-                          <td className="px-5 py-3.5">
-                            <span className="bg-[#77BC2E]/10 text-[#5A9A1E] font-bold px-2 py-0.5 rounded-md text-[11px] inline-flex items-center space-x-1">
-                              <Sparkles className="h-3 w-3" />
-                              <span>{tkt.specialist}</span>
-                            </span>
-                          </td>
-                          <td className="px-5 py-3.5 font-semibold">
-                            <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold ${
-                              tkt.paymentMethod.includes('GCash') ? 'bg-sky-50 text-sky-700' :
-                              tkt.paymentMethod.includes('Maya') ? 'bg-emerald-50 text-emerald-700' :
-                              tkt.paymentMethod.includes('Card') ? 'bg-purple-50 text-purple-700' :
-                              'bg-amber-50 text-amber-900'
-                            }`}>
-                              {tkt.paymentMethod}
-                            </span>
-                          </td>
-                          <td className="px-5 py-3.5 text-right font-mono font-extrabold text-[#4A2E1B]">
-                            ₱{tkt.amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}
-                          </td>
-                          <td className="px-5 py-3.5 text-right font-mono text-[#77BC2E] font-bold">
-                            ₱{tkt.commission.toLocaleString('en-US', { minimumFractionDigits: 2 })}
-                          </td>
-                          <td className="px-5 py-3.5">
-                            <span className="bg-[#77BC2E]/15 text-[#5A9A1E] font-extrabold text-[10px] px-2 py-0.5 rounded-full">
-                              ✓ {tkt.status}
-                            </span>
-                          </td>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-left border-collapse">
+                      <thead>
+                        <tr className="bg-[#FAF9F5] border-b border-[#F2F0E8] text-[10px] font-extrabold uppercase tracking-wider text-[#8A817C]">
+                          <th className="px-6 py-3.5">Client Profile</th>
+                          <th className="px-6 py-3.5">Contact & Branch</th>
+                          <th className="px-6 py-3.5">Active Package Balance</th>
+                          <th className="px-6 py-3.5">Preferred Specialist</th>
+                          <th className="px-6 py-3.5">Skin Sensitivity Notes</th>
+                          <th className="px-6 py-3.5">Next Slot / SMS</th>
+                          <th className="px-6 py-3.5">Actions</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody className="divide-y divide-[#F2F0E8] text-xs">
+                        {crmClients
+                          .filter(c => !crmBranchFilter || c.branch.includes(crmBranchFilter))
+                          .filter(c => !crmSearch || c.name.toLowerCase().includes(crmSearch.toLowerCase()) || c.phone.includes(crmSearch))
+                          .map(client => (
+                            <tr key={client.id} className="hover:bg-[#FAF9F5]/70 transition-colors">
+                              <td className="px-6 py-4 font-bold text-[#4A2E1B]">
+                                <div className="flex items-center space-x-2.5">
+                                  <div className="w-8 h-8 rounded-xl bg-[#E89BB9]/20 text-[#D47098] flex items-center justify-center font-extrabold text-xs">
+                                    {client.name.charAt(0)}
+                                  </div>
+                                  <div>
+                                    <p className="font-extrabold text-[#4A2E1B]">{client.name}</p>
+                                    <div className="flex items-center space-x-1 mt-0.5">
+                                      <span className="text-[10px] font-bold text-[#D4AF37] bg-[#D4AF37]/10 px-1.5 py-0.2 rounded">
+                                        {client.tier}
+                                      </span>
+                                      <span className="text-[10px] text-[#8A817C]">&bull; {client.loyaltyPoints} pts</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </td>
+                              <td className="px-6 py-4">
+                                <p className="font-mono text-[#5A534E] text-[11px]">{client.phone}</p>
+                                <p className="text-[#8A817C] text-[11px]">{client.branch}</p>
+                              </td>
+                              <td className="px-6 py-4">
+                                <div className="space-y-1">
+                                  <p className="font-bold text-[#4A2E1B] text-[11px]">{client.activePackage}</p>
+                                  <div className="w-32 bg-[#EAE8E2] h-1.5 rounded-full overflow-hidden">
+                                    <div className="bg-[#77BC2E] h-full rounded-full w-3/5"></div>
+                                  </div>
+                                </div>
+                              </td>
+                              <td className="px-6 py-4">
+                                <span className="bg-[#77BC2E]/10 text-[#5A9A1E] font-bold px-2 py-0.5 rounded-md text-[11px] flex items-center space-x-1 w-fit">
+                                  <Sparkles className="h-3 w-3" />
+                                  <span>{client.preferredTechnician}</span>
+                                </span>
+                              </td>
+                              <td className="px-6 py-4">
+                                <span className="text-[#4A2E1B] bg-[#FAF9F5] border border-[#EAE8E2] px-2.5 py-1 rounded-xl text-[11px] block max-w-xs truncate" title={client.skinNotes}>
+                                  {client.skinNotes}
+                                </span>
+                              </td>
+                              <td className="px-6 py-4">
+                                <div className="space-y-0.5">
+                                  <p className="font-mono text-[11px] text-[#031134] font-bold">{client.nextBooking}</p>
+                                  <span className="inline-flex items-center space-x-1 text-[10px] text-[#5A9A1E] font-semibold">
+                                    <CheckCheck className="h-3 w-3" />
+                                    <span>{client.smsStatus}</span>
+                                  </span>
+                                </div>
+                              </td>
+                              <td className="px-6 py-4">
+                                <div className="flex items-center space-x-2">
+                                  <button
+                                    onClick={() => handleSendSmsReminder(client)}
+                                    className="bg-[#031134] hover:bg-[#082260] text-white font-bold text-[10px] px-2.5 py-1.5 rounded-lg transition-all flex items-center space-x-1 shadow-2xs"
+                                    title="Trigger SMS Booking Reminder"
+                                  >
+                                    <Send className="h-3 w-3" />
+                                    <span>SMS</span>
+                                  </button>
+                                  <button
+                                    onClick={() => setSelectedClient(client)}
+                                    className="bg-[#FAF9F5] hover:bg-[#F2F0E8] border border-[#EAE8E2] text-[#4A2E1B] font-bold text-[10px] px-2.5 py-1.5 rounded-lg transition-all"
+                                  >
+                                    Details
+                                  </button>
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           )}
 
