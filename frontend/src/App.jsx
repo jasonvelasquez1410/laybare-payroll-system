@@ -345,8 +345,8 @@ export default function App() {
   const [showCreatePoModal, setShowCreatePoModal] = useState(false);
   const [newPo, setNewPo] = useState({
     branch: 'Centrio Mall (Waxing)',
-    supplier: 'PureBeauty Salon Supplies Corp.',
-    itemName: 'Organic Hot Wax Pellets (10kg)',
+    supplier: 'Lay Bare Franchisor (MyTime Commissary)',
+    itemName: 'Organic Hot Sugar Wax Pellets (10kg)',
     qty: 3,
     unitPrice: 2400
   });
@@ -1225,8 +1225,8 @@ export default function App() {
     setShowCreatePoModal(false);
     setNewPo({
       branch: 'Centrio Mall (Waxing)',
-      supplier: 'PureBeauty Salon Supplies Corp.',
-      itemName: 'Organic Hot Wax Pellets (10kg)',
+      supplier: 'Lay Bare Franchisor (MyTime Commissary)',
+      itemName: 'Organic Hot Sugar Wax Pellets (10kg)',
       qty: 3,
       unitPrice: 2400
     });
@@ -6235,10 +6235,12 @@ export default function App() {
                     onChange={(e) => setNewPo({ ...newPo, supplier: e.target.value })}
                     className="w-full bg-[#F7F6F2] border border-transparent rounded-xl px-3 py-2.5 font-medium outline-none"
                   >
+                    <option value="Lay Bare Franchisor (MyTime Commissary)">Lay Bare Franchisor (MyTime Commissary)</option>
+                    <option value="Glamour Pro Nail Distributing Co.">Glamour Pro Nails (Passion Nails)</option>
+                    <option value="CleanCare Commercial Solutions">CleanCare Solutions (Clinic Sanitation & PPE)</option>
                     <option value="PureBeauty Salon Supplies Corp.">PureBeauty Supplies</option>
-                    <option value="Glamour Pro Nail Distributing Co.">Glamour Pro Nails</option>
-                    <option value="CleanCare Commercial Solutions">CleanCare Commercial</option>
-                    <option value="Wellness Natural Trading Inc.">Wellness Natural</option>
+                    <option value="Wellness Natural Trading Inc.">Wellness Natural Trading</option>
+                    <option value="General Approved Local Vendor">General Approved Local Vendor</option>
                   </select>
                 </div>
               </div>
