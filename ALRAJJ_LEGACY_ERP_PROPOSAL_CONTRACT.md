@@ -24,15 +24,15 @@ This Agreement is entered into by and between:
 
 ### 1. EXECUTIVE SUMMARY & VALUE PROPOSITION
 
-ALRAJJ LEGACY is upgrading its multi-branch operations from labor-intensive manual Google Sheets into an all-in-one, cloud-synchronized **Enterprise Biometric HRMS, POS CRM, Procurement, and Philippine GAAP Financial Management ERP System**.
+ALRAJJ LEGACY is upgrading its multi-branch operations from labor-intensive manual Google Sheets into an all-in-one, cloud-synchronized **Enterprise Biometric HRMS, POS CRM, Procurement, Philippine GAAP Financial Management, Document Management (DMS) & E-Signature Ecosystem**.
 
-This custom-tailored software ecosystem eliminates human calculation errors, prevents store cash/inventory shrinkage, automates DOLE & BIR statutory tax compliance, and reduces bi-monthly payroll processing from **2 full working days down to under 60 seconds**.
+This custom-tailored software ecosystem eliminates human calculation errors, prevents store cash/inventory shrinkage, automates DOLE & BIR statutory tax compliance, connects commissary purchase orders directly to Accounting AP via 3-Way Match, provides paperless legal document e-signing with Google Workspace integration, and reduces bi-monthly payroll processing from **2 full working days down to under 60 seconds**.
 
 ---
 
 ### 2. SCOPE OF DELIVERABLES & MODULE SPECIFICATIONS
 
-SETHCON shall deliver, configure, and maintain the following five (5) integrated core modules:
+SETHCON shall deliver, configure, and maintain the following seven (7) integrated core modules:
 
 ```
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
@@ -66,6 +66,18 @@ SETHCON shall deliver, configure, and maintain the following five (5) integrated
 │                                │ • Daily POS Cash Drawer Audit & Variance Anti-Theft   │
 │                                │ • Accounts Payable (AP) Vouchers with 1-click BPI Pay │
 │                                │ • BIR Statutory Tax Hub (Form 1601-C, 2550Q, 0619-E)  │
+├────────────────────────────────┼───────────────────────────────────────────────────────┤
+│ Module 6: Enterprise DMS &     │ • Document Management System linked to Google Vault   │
+│           E-Signature Hub ✨   │ • Stylus / Touch / Mouse live digital signature pad   │
+│                                │ • DOLE compliance verification hash & audit timestamps│
+│                                │ • Customizable legal templates (DOLE NTE, BPI BizLink │
+│                                │   Fund Authorization, Commercial Lease, Commissary PO)│
+├────────────────────────────────┼───────────────────────────────────────────────────────┤
+│ Module 7: RBAC & Custom Domain │ • Granular Multi-Tier Role Permissions (MD, HR Lead,  │
+│           Security Matrix ✨   │   Store Supervisor, Accounting, Specialist)           │
+│                                │ • Google Workspace Custom Subdomain Binding           │
+│                                │   (erp.alrajjlegacy-fortifiedbusinesscorp.com)        │
+│                                │ • Automated SSL/TLS Encryption & Biometric IP Mapping │
 └────────────────────────────────┴───────────────────────────────────────────────────────┘
 ```
 
@@ -75,25 +87,25 @@ SETHCON shall deliver, configure, and maintain the following five (5) integrated
 
 * **Google Workspace Corporate Domain Deployment**:
   * The ERP system shall be officially deployed and mapped under ALRAJJ LEGACY's existing Google Workspace corporate domain: **`erp.alrajjlegacy-fortifiedbusinesscorp.com`** (or designated custom subdomain).
-  * Includes automated enterprise SSL/TLS security encryption certificate and global CDN cloud routing at **zero additional setup cost**.
+  * Includes automated enterprise SSL/TLS security encryption certificate, Google Drive repository sync, and global CDN cloud routing at **zero additional setup cost**.
 * **Zero-Cost Iligan Branch Expansion Guarantee**:
   * The system is built on a scalable multi-tenant cloud architecture.
-  * Upon the official commercial opening of the **Iligan City Branch**, SETHCON guarantees that the new branch will be activated and integrated into the multi-branch dashboard, P&L consolidation, and biometric payroll at **ZERO additional software core licensing cost**.
+  * Upon the official commercial opening of the **Iligan City Branch**, SETHCON guarantees that the new branch will be activated and integrated into the multi-branch dashboard, P&L consolidation, DMS repository, and biometric payroll at **ZERO additional software core licensing cost**.
 
 ---
 
 ### 4. FINANCIAL INVESTMENT & MILESTONE PAYMENT SCHEDULE
 
 #### A. Total Implementation & Perpetual Software License Fee: **₱150,000.00 PHP**
-*(All-inclusive package covering all 5 modules across Centrio Waxing, Passion Nails, Limketkai, SM Downtown, and the upcoming Iligan Branch).*
+*(All-inclusive package covering all 7 modules across Centrio Waxing, Passion Nails, Limketkai, SM Downtown, and the upcoming Iligan Branch).*
 
 #### B. Milestone Payment Terms:
 
 | Milestone Phase | Deliverable / Trigger | Percentage | Amount (PHP) |
 | :--- | :--- | :---: | :---: |
-| **Milestone 1: Project Mobilization** | Contract signing, server environment provisioning, and biometric database architecture setup. | **40%** | **₱60,000.00** |
-| **Milestone 2: Multi-Module Deployment** | Core HRMS, Biometric Ingestion, POS CRM, and 5-Step PO Pipeline deployed for User Acceptance Testing (UAT). | **35%** | **₱52,500.00** |
-| **Milestone 3: Accounting Sync & Final Go-Live** | Accounting module integration, BPI BizLink format verification, staff training, and official live deployment across branches. | **25%** | **₱37,500.00** |
+| **Milestone 1: Project Mobilization & Architecture** | Contract signing, server database provisioning, multi-branch biometric architecture setup, and DNS routing. | **40%** | **₱60,000.00** |
+| **Milestone 2: Multi-Module Deployment & UAT** | HRMS, Biometric Ingestion, POS CRM, 5-Step PO Pipeline, and DMS & E-Signature Hub deployed for User Acceptance Testing (UAT). | **35%** | **₱52,500.00** |
+| **Milestone 3: Accounting Sync & Final Go-Live** | Accounting module integration, BPI BizLink format verification, RBAC matrix validation, staff training, and live deployment across branches. | **25%** | **₱37,500.00** |
 | **TOTAL** | | **100%** | **₱150,000.00** |
 
 ---
