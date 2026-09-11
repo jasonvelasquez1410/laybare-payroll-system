@@ -6998,7 +6998,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                     }`}
                   >
                     <Users className="h-3.5 w-3.5" />
-                    <span>201 Dossiers & Masterfile</span>
+                    <span>Staff Directory & Records</span>
                     <span className="bg-white/20 text-white text-[10px] px-1.5 py-0.2 rounded-full">{employees.length}</span>
                   </button>
 
@@ -7084,7 +7084,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                 </div>
               )}
 
-              {/* SUB-TAB 1: 201 DOSSIERS & STAFF MASTERFILE */}
+              {/* SUB-TAB 1: STAFF DIRECTORY & RECORDS */}
               {hrActiveSubTab === 'directory' && (
                 <div className="space-y-6">
                   {/* Statutory Formula & Computation Rules Box */}
@@ -7098,24 +7098,24 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs">
                       <div className="bg-white p-3 rounded-2xl border border-[#F2F0E8]">
-                        <span className="text-[10px] font-bold text-[#8A817C] uppercase block">SSS Employee Share</span>
-                        <strong className="text-[#4A2E1B] block mt-0.5 font-mono text-[11px]">4.5% of Gross Pay</strong>
-                        <span className="text-[10px] text-[#5A534E]">Semi-monthly bracket base</span>
+                        <span className="text-[9px] font-bold text-[#8A817C] uppercase block">SSS Employee Share</span>
+                        <div className="font-extrabold text-[#4A2E1B] mt-0.5">4.5% of Gross Pay</div>
+                        <span className="text-[9px] text-[#8A817C]">Semi-monthly bracket base</span>
                       </div>
                       <div className="bg-white p-3 rounded-2xl border border-[#F2F0E8]">
-                        <span className="text-[10px] font-bold text-[#8A817C] uppercase block">PhilHealth (UHC Law)</span>
-                        <strong className="text-[#0284C7] block mt-0.5 font-mono text-[11px]">2.0% Employee Share</strong>
-                        <span className="text-[10px] text-[#5A534E]">5% total premium split 50/50</span>
+                        <span className="text-[9px] font-bold text-[#8A817C] uppercase block">PhilHealth (UHC Law)</span>
+                        <div className="font-extrabold text-[#0284C7] mt-0.5">2.5% Employee Share</div>
+                        <span className="text-[9px] text-[#8A817C]">5% total premium split 50/50</span>
                       </div>
                       <div className="bg-white p-3 rounded-2xl border border-[#F2F0E8]">
-                        <span className="text-[10px] font-bold text-[#8A817C] uppercase block">Pag-IBIG (HDMF)</span>
-                        <strong className="text-[#77BC2E] block mt-0.5 font-mono text-[11px]">₱100.00 / Cutoff</strong>
-                        <span className="text-[10px] text-[#5A534E]">₱200/mo mandated cap</span>
+                        <span className="text-[9px] font-bold text-[#8A817C] uppercase block">Pag-IBIG (HDMF)</span>
+                        <div className="font-extrabold text-[#77BC2E] mt-0.5">₱100.00 / Cutoff</div>
+                        <span className="text-[9px] text-[#8A817C]">₱200/mo mandated cap</span>
                       </div>
                       <div className="bg-white p-3 rounded-2xl border border-[#F2F0E8]">
-                        <span className="text-[10px] font-bold text-[#8A817C] uppercase block">BIR Withholding (TRAIN)</span>
-                        <strong className="text-[#16A34A] block mt-0.5 font-mono text-[11px]">Tax-Exempt (&lt;₱10,417)</strong>
-                        <span className="text-[10px] text-[#5A534E]">0% for basic salon wage</span>
+                        <span className="text-[9px] font-bold text-[#8A817C] uppercase block">BIR Withholding (TRAIN)</span>
+                        <div className="font-extrabold text-[#16A34A] mt-0.5">Tax-Exempt (&lt;₱10,417)</div>
+                        <span className="text-[9px] text-[#8A817C]">0% for basic salon wage</span>
                       </div>
                     </div>
                   </div>
@@ -7124,8 +7124,8 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                   <div className="bg-white border border-[#EAE8E2] rounded-3xl overflow-hidden shadow-2xs">
                     <div className="p-5 border-b border-[#F2F0E8] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                       <div>
-                        <h4 className="font-extrabold text-sm text-[#4A2E1B]">Employee 201 Files & BPI BizLink Directory</h4>
-                        <p className="text-[11px] text-[#8A817C]">Click any staff member to open their complete 201 file dossier, generate DOLE COE, or print BIR Form 2316.</p>
+                        <h4 className="font-extrabold text-sm text-[#4A2E1B]">Staff Directory & Employment Records</h4>
+                        <p className="text-[11px] text-[#8A817C]">Click any staff member to view full employment records, generate DOLE COE, or print BIR Form 2316.</p>
                       </div>
                       <div className="flex items-center space-x-2">
                         <select
@@ -7254,10 +7254,10 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                                           setShow201Drawer(true);
                                         }}
                                         className="bg-[#031134] hover:bg-[#091D4C] text-white font-bold text-[10px] px-2.5 py-1.5 rounded-lg transition-all flex items-center space-x-1 shadow-2xs"
-                                        title="View 201 Dossier"
+                                        title="View Staff Record"
                                       >
                                         <FileText className="h-3 w-3 text-[#77BC2E]" />
-                                        <span>201 File</span>
+                                        <span>Staff Profile</span>
                                       </button>
                                       <button
                                         onClick={() => {
@@ -7776,7 +7776,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                 </div>
               )}
 
-              {/* MODAL: 201 FILE DOSSIER DRAWER */}
+              {/* MODAL: STAFF PROFILE & EMPLOYMENT RECORD DRAWER */}
               {show201Drawer && selected201Employee && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-fadeIn">
                   <div className="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-7 space-y-5 shadow-2xl border border-[#EAE8E2] max-h-[90vh] overflow-y-auto">
@@ -7786,7 +7786,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                           {selected201Employee.name.charAt(0)}
                         </div>
                         <div>
-                          <span className="text-[10px] font-extrabold text-[#77BC2E] uppercase tracking-wider">DOLE 201 Personnel Dossier</span>
+                          <span className="text-[10px] font-extrabold text-[#77BC2E] uppercase tracking-wider">DOLE Employment Record & Profile</span>
                           <h3 className="font-extrabold text-base text-[#4A2E1B]">{selected201Employee.name}</h3>
                         </div>
                       </div>
