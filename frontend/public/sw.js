@@ -1,4 +1,4 @@
-const CACHE_NAME = 'alrajj-legacy-erp-v2-6-prod';
+const CACHE_NAME = 'alrajj-legacy-erp-v2-7-prod';
 const PRECACHE_ASSETS = [
   '/',
   '/manifest.json',

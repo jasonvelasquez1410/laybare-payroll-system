@@ -1950,6 +1950,26 @@ The Employee acknowledges that all Lay Bare proprietary waxing formulas, cold/ho
       ...prev,
       forwardedAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + ' by Kristene (HR)'
     }));
+
+    // Automatically post live payroll liability voucher directly into Accounting AP
+    const totalPayrollAmount = payroll.reduce((sum, p) => sum + (p.calculations?.netPay || 0), 0) || 3133.61;
+    const payrollVoucherId = `PAYROLL-VOUCH-${startDate ? startDate.replace(/-/g, '') : '20260901'}`;
+    const newPayrollVoucher = {
+      id: payrollVoucherId,
+      vendor: 'BPI BizLink Direct ATM Payroll',
+      category: 'Payroll & Staff Salaries',
+      branch: 'All Branches (Consolidated)',
+      date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+      dueDate: 'Cutoff Disbursement (BPI)',
+      amount: totalPayrollAmount,
+      status: 'Audited & Ready for MD',
+      remarks: `Audited payroll voucher for ${payroll.length > 0 ? payroll.length : 4} salon employees (${startDate} to ${endDate})`
+    };
+    setApInvoices(prev => {
+      const exists = prev.some(item => item.id === payrollVoucherId);
+      if (exists) return prev;
+      return [newPayrollVoucher, ...prev];
+    });
   };
 
   const handleGenerateBpiBatch = () => {
@@ -2479,6 +2499,41 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
           role: 'Salon Specialist'
         }];
       });
+
+      // Instantly recalculate active payroll if currently generated
+      setPayroll(prev => {
+        if (!prev || prev.length === 0) return prev;
+        const targetId = parseInt(newEmployee.id);
+        const deducVal = parseFloat(newEmployee.otherDeductions || 0);
+        const remarks = newEmployee.otherDeductionRemarks || 'Cash Advance (Vale)';
+        return prev.map(p => {
+          if (p.employeeId === targetId) {
+            const gross = p.calculations.grossPay;
+            const sss = p.calculations.deductions.sss;
+            const philhealth = p.calculations.deductions.philhealth;
+            const pagibig = p.calculations.deductions.pagibig;
+            const newTotalDeductions = Number((sss + philhealth + pagibig + deducVal).toFixed(2));
+            const newNet = Number((gross - newTotalDeductions).toFixed(2));
+            return {
+              ...p,
+              otherDeductions: deducVal,
+              otherDeductionRemarks: remarks,
+              calculations: {
+                ...p.calculations,
+                deductions: {
+                  ...p.calculations.deductions,
+                  otherDeductions: deducVal,
+                  otherDeductionRemarks: remarks,
+                  totalDeductions: newTotalDeductions
+                },
+                netPay: newNet
+              }
+            };
+          }
+          return p;
+        });
+      });
+
       setShowAddEmployeeModal(false);
       setNewEmployee({ id: '', name: '', branch: 'Centrio Mall (Waxing)', rate: 600, taxStatus: 'S', bpiAccount: '', sssNo: '', philhealthNo: '', pagibigNo: '', tinNo: '', otherDeductions: 0, otherDeductionRemarks: 'Cash Advance (Vale)' });
     }
@@ -6312,13 +6367,46 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                               ₱{p.calculations.netPay.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                             </td>
                             <td className="px-6 py-4">
-                              <button
-                                onClick={() => setSelectedPayslip(p)}
-                                className="bg-[#FAF9F5] hover:bg-[#F2F0E8] border border-[#EAE8E2] font-bold text-xs px-3.5 py-1.5 rounded-xl transition-all flex items-center space-x-1 text-[#4A2E1B]"
-                              >
-                                <FileText className="h-3 w-3" />
-                                <span>View Slip</span>
-                              </button>
+                              <div className="flex items-center space-x-2">
+                                <button
+                                  onClick={() => {
+                                    const matchedEmp = employees.find(e => e.id === p.employeeId) || {
+                                      id: p.employeeId,
+                                      name: p.employeeName,
+                                      rate: p.dailyRate || 600,
+                                      branch: p.branch || 'Centrio Mall (Waxing)',
+                                      bpi_account: p.bpiAccount || '0249821401'
+                                    };
+                                    setNewEmployee({
+                                      id: p.employeeId,
+                                      name: p.employeeName,
+                                      branch: matchedEmp.branch || 'Centrio Mall (Waxing)',
+                                      rate: matchedEmp.rate || 600,
+                                      taxStatus: matchedEmp.tax_status || 'S',
+                                      bpiAccount: matchedEmp.bpi_account || '0249821401',
+                                      sssNo: matchedEmp.sss_no || '34-8192019-3',
+                                      philhealthNo: matchedEmp.philhealth_no || '12-054918230-1',
+                                      pagibigNo: matchedEmp.pagibig_no || '1210-9482-1104',
+                                      tinNo: matchedEmp.tin_no || '291-840-192-000',
+                                      otherDeductions: p.calculations?.deductions?.otherDeductions || 0,
+                                      otherDeductionRemarks: p.calculations?.deductions?.otherDeductionRemarks || 'Cash Advance (Vale)'
+                                    });
+                                    setShowAddEmployeeModal(true);
+                                  }}
+                                  className="bg-[#FAF9F5] hover:bg-[#F2F0E8] border border-[#EAE8E2] text-[#4A2E1B] font-bold text-xs px-2.5 py-1.5 rounded-xl transition-all flex items-center space-x-1"
+                                  title="Quick Adjust Vale or Deduction"
+                                >
+                                  <Edit className="h-3 w-3 text-[#77BC2E]" />
+                                  <span>Adjust / Vale</span>
+                                </button>
+                                <button
+                                  onClick={() => setSelectedPayslip(p)}
+                                  className="bg-[#031134] hover:bg-[#091D4C] text-white font-bold text-xs px-3 py-1.5 rounded-xl transition-all flex items-center space-x-1 shadow-2xs"
+                                >
+                                  <FileText className="h-3 w-3 text-[#77BC2E]" />
+                                  <span>View Slip</span>
+                                </button>
+                              </div>
                             </td>
                           </tr>
                         ))}
