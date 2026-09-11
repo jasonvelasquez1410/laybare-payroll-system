@@ -115,6 +115,25 @@ graph TD
   * `🏢 Live Store Mode (Clean Slate)`: Wipes all mock demo records, dynamically resetting all charts, feeds, and tables to 0 so management can test real NGTeco Excel files and actual staff rosters.
   * `🧪 Demo Mode`: Restores the full 4-branch Lay Bare simulation in 1 click.
 
+### Module 7: Enterprise Document Management System (DMS), E-Signature Pad & Google Workspace Cloud Vault (`activeTab === 'dms'`)
+* **100% Paperless Digital Signing**: Eliminates the need to print and physically sign physical papers.
+* **Interactive E-Signature Pad**:
+  * Supports 3 signing modes: **Type Cursive Script**, **Draw on Touch/Stylus Canvas**, or **Official ALRAJJ LEGACY Corporate Monogram Seal**.
+  * Authority title selector: *Ms. Jehan Abedin (Managing Director)*, *Kristene (Operations/HR Lead)*, *Branch Lead*, or *Staff Specialist*.
+  * Generates cryptographic **SHA-256 Bit Hash Tamper Seals** stamped with live network NTP timestamps.
+  * Legally binding under **Republic Act No. 8792 (Philippine Electronic Commerce Act of 2000)** and DOLE Department Order No. 174.
+* **Google Workspace Corporate Integration**:
+  * Corporate Domain: `alrajjlegacy-fortifiedbusinesscorp.com`
+  * Official Sender Email: `hr@alrajjlegacy-fortifiedbusinesscorp.com` / `jehan.abedin@alrajjlegacy-fortifiedbusinesscorp.com` for direct 1-click PDF dispatch via Gmail.
+  * Cloud Drive Archiving: Automated backup and folder classification into `Google Workspace Drive / ALRAJJ LEGACY CORP / 2026 Archive`.
+* **Pre-Loaded Legal & Operational Document Vault**:
+  1. `DOC-2026-001`: DOLE Notice to Explain (NTE) - Habitual Tardiness (Justine Ann Atay)
+  2. `DOC-2026-002`: Staff Cash Advance (Vale) Promissory Agreement & Salary Deduction Authorization (₱1,500.00)
+  3. `DOC-2026-003`: MyTime Commissary PO Delivery Receipt & 3-Way Match Voucher (DR-0901, ₱22,450.00)
+  4. `DOC-2026-004`: Ayala Centrio Mall Commercial Space Lease & CUSA Schedule (₱85k/mo + 5% BIR 0619-E EWT)
+  5. `DOC-2026-005`: BPI BizLink Master Batch Payroll Corporate Authorization (₱68,400.00)
+  6. `DOC-2026-006`: Senior Aesthetician Employment Agreement & Proprietary Non-Disclosure (Upcoming Iligan Branch)
+
 ---
 
 ## 📦 3. Franchisee Operations: Lay Bare MyTime & PO Pipeline

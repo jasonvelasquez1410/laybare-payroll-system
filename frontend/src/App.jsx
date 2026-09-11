@@ -70,7 +70,12 @@ import {
   Globe,
   Info,
   Database,
-  RotateCcw
+  RotateCcw,
+  PenTool,
+  Mail,
+  FolderPlus,
+  Share2,
+  HardDrive
 } from 'lucide-react';
 
 const API_BASE = import.meta.env.VITE_API_URL || (window.location.origin.includes('localhost') ? 'http://localhost:5000/api' : '/api');
@@ -148,6 +153,7 @@ export default function App() {
     setPurchaseOrders([]);
     setPosReconciliations([]);
     setApprovalsList([]);
+    setDmsDocuments([]);
     setSummary({
       totalEmployees: 0,
       pendingExceptions: 0,
@@ -197,6 +203,28 @@ export default function App() {
     amount: '',
     description: '',
     priority: 'Normal'
+  });
+
+  // Document Management System (DMS) & E-Signature Hub (Google Workspace Integrated)
+  const [dmsDocuments, setDmsDocuments] = useState([]);
+  const [dmsCategoryFilter, setDmsCategoryFilter] = useState('all');
+  const [dmsSearch, setDmsSearch] = useState('');
+  const [showSignModal, setShowSignModal] = useState(false);
+  const [selectedDocForSign, setSelectedDocForSign] = useState(null);
+  const [showDocViewerModal, setShowDocViewerModal] = useState(false);
+  const [selectedDocForView, setSelectedDocForView] = useState(null);
+  const [showUploadDocModal, setShowUploadDocModal] = useState(false);
+  const [signatureMode, setSignatureMode] = useState('type'); // 'type' | 'draw' | 'upload'
+  const [typedSignName, setTypedSignName] = useState('Jehan Abedin');
+  const [selectedSignerTitle, setSelectedSignerTitle] = useState('Ms. Jehan Abedin (Managing Director)');
+  const [dmsToast, setDmsToast] = useState('');
+  const [newDocUpload, setNewDocUpload] = useState({
+    title: '',
+    category: 'HR & DOLE Compliance',
+    branch: 'Centrio Mall (Waxing)',
+    recipient: 'Justine Ann Atay',
+    recipientEmail: 'hr@alrajjlegacy-fortifiedbusinesscorp.com',
+    content: ''
   });
 
   // Payroll date range
@@ -1141,6 +1169,169 @@ export default function App() {
     }
   ];
 
+  const getInitialDmsDocs = () => [
+    {
+      id: 'DOC-2026-001',
+      title: 'DOLE Notice to Explain (NTE) - Habitual Tardiness (Justine Ann Atay)',
+      category: 'HR & DOLE Compliance',
+      branch: 'Centrio Mall (Waxing)',
+      date: '2026-07-20',
+      recipient: 'Justine Ann Atay (Senior Waxing Specialist)',
+      recipientEmail: 'justine.atay@alrajjlegacy-fortifiedbusinesscorp.com',
+      status: 'Signed & Dispatched via Gmail',
+      signedBy: 'Kristene (Operations & HR Lead)',
+      signedAt: '2026-07-20 02:15 PM',
+      sha256Hash: 'SHA256: 8a4f91b2c6e83d09e1a84f3c7d6e5a4b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f',
+      googleDrivePath: 'Google Drive / ALRAJJ LEGACY CORP / HR & Compliance / 2026 / NTE-2026-001.pdf',
+      driveSyncStatus: 'Synced',
+      gmailDispatched: true,
+      content: `NOTICE TO EXPLAIN (NTE)
+COMPANY: ALRAJJ LEGACY Fortified Business Corp.
+BRANCH: Centrio Mall (Waxing Salon)
+DATE: July 20, 2026
+
+TO: Justine Ann Atay (Senior Waxing Specialist)
+RE: Incident Report on Habitual Tardiness (July 16-31 Cutoff)
+
+Please be advised that based on the NGTeco Biometric Attendance System records for the current payroll cutoff, you have accumulated four (4) separate late punch-ins totaling 68 minutes of tardiness (July 16: 21m late, July 17: 12m late, July 21: 18m late, July 24: 17m late).
+
+Under the Philippine Labor Code (DOLE Guidelines) and ALRAJJ LEGACY Employee Handbook Section 4.2 (Attendance & Punctuality), you are hereby directed to submit a written explanation within five (5) calendar days from receipt of this notice explaining why disciplinary action should not be imposed.
+
+Failure to submit your written explanation within the prescribed period shall be construed as a waiver of your right to be heard.`
+    },
+    {
+      id: 'DOC-2026-002',
+      title: 'Staff Cash Advance (Vale) Promissory Note & Salary Deduction Agreement',
+      category: 'Payroll & Cash Advances',
+      branch: 'Passion Nails (Centrio)',
+      date: '2026-09-08',
+      recipient: 'Cherry Rose Paculanang (Senior Nail Technician)',
+      recipientEmail: 'cherry.paculanang@alrajjlegacy-fortifiedbusinesscorp.com',
+      status: 'Awaiting MD Signature',
+      signedBy: 'Cherry Rose Paculanang (Borrower)',
+      signedAt: '2026-09-08 11:00 AM',
+      sha256Hash: 'SHA256: 3c8e7a1d5f902b4a6e81d7c3b5a9f0e21a4d6c8e0b2f4a6c8e1d3b5a7f9e0c2b',
+      googleDrivePath: 'Google Drive / ALRAJJ LEGACY CORP / Payroll & Vale / 2026 / VALE-PACULANANG.pdf',
+      driveSyncStatus: 'Queued',
+      gmailDispatched: false,
+      content: `PROMISSORY NOTE & PAYROLL DEDUCTION AUTHORIZATION
+COMPANY: ALRAJJ LEGACY Fortified Business Corp.
+DATE: September 08, 2026
+
+I, Cherry Rose Paculanang, employed as Senior Nail Technician at Passion Nails (Centrio Mall), acknowledge receipt of a Cash Advance (Vale) in the amount of ONE THOUSAND FIVE HUNDRED PESOS (₱1,500.00 PHP).
+
+I hereby authorize the Accounting & Payroll Department to deduct the amount of SEVEN HUNDRED FIFTY PESOS (₱750.00 PHP) per semi-monthly cutoff across two (2) consecutive payroll periods starting September 15, 2026 until full settlement.
+
+In the event of separation from employment prior to full payment, any outstanding balance shall be deducted directly from my final pay or clearance.`
+    },
+    {
+      id: 'DOC-2026-003',
+      title: 'MyTime Commissary PO Delivery Receipt & 3-Way Verification Voucher (DR-0901)',
+      category: 'Procurement & POs',
+      branch: 'Centrio Mall (Waxing)',
+      date: '2026-09-03',
+      recipient: 'Lay Bare Franchisor (MyTime Commissary)',
+      recipientEmail: 'commissary-orders@laybarefranchise.ph',
+      status: 'Signed & AP Matched',
+      signedBy: 'Cherimar Concigo (Store Lead) & Kristene (Accounting)',
+      signedAt: '2026-09-03 03:30 PM',
+      sha256Hash: 'SHA256: 9b2d4e7f1a8c5e3a0d6f8b2c4e7a1d9f3b5c7e9a1d3f5a7c9e1b3d5f7a9c1e3b',
+      googleDrivePath: 'Google Drive / ALRAJJ LEGACY CORP / Procurement / PO-2026-0901-DR.pdf',
+      driveSyncStatus: 'Synced',
+      gmailDispatched: true,
+      content: `STORE DELIVERY INSPECTION & 3-WAY MATCH VOUCHER
+PURCHASE ORDER: PO-2026-0901
+DELIVERY RECEIPT: DR-0901
+SUPPLIER: Lay Bare Franchisor (MyTime Commissary)
+TOTAL PAYABLE: ₱22,450.00 PHP (Net 30)
+
+DELIVERED ITEMS:
+1. 20kg Organic Hot Sugar Wax Pellets — 100% Quantity Verified (Store Inspected)
+2. 100m Waxing Paper Roll Strips — 100% Intact & Sanitized
+3. 2,000 pcs Wooden Precision Applicator Sticks — Verified
+
+3-WAY MATCH STATUS:
+✓ Purchase Order PO-2026-0901 Approved
+✓ Store Goods Inspection Confirmed by Cherimar Concigo
+✓ Commissary Billing Invoice Matched & Forwarded to Accounting AP Ledger (Voucher AP-VOUCHER-0901)`
+    },
+    {
+      id: 'DOC-2026-004',
+      title: 'Ayala Centrio Mall Commercial Space Lease & CUSA Schedule (2026-2027)',
+      category: 'Commercial Leases',
+      branch: 'Centrio Mall (Waxing & Nails)',
+      date: '2026-08-01',
+      recipient: 'Ayala Land Inc. (Centrio Mall Administration)',
+      recipientEmail: 'leasing.centrio@ayalaland.com.ph',
+      status: 'Vaulted & Archived',
+      signedBy: 'Ms. Jehan Abedin (Managing Director)',
+      signedAt: '2026-08-01 10:00 AM',
+      sha256Hash: 'SHA256: 5f1b8a3d7c9e0a2b4d6e8f1a3c5e7b9d0e2f4a6b8c1d3e5f7a9b0c2d4e6f8a1b',
+      googleDrivePath: 'Google Drive / ALRAJJ LEGACY CORP / Legal & Leases / CENTRIO-LEASE-2026.pdf',
+      driveSyncStatus: 'Synced',
+      gmailDispatched: true,
+      content: `COMMERCIAL SPACE LEASE & CUSA SCHEDULE
+LESSOR: Ayala Land Inc. / Centrio Mall Cagayan de Oro
+LESSEE: ALRAJJ LEGACY Fortified Business Corp.
+UNIT: Level 2, Spaces 204 & 205 (Waxing Salon & Passion Nails)
+
+MONTHLY BASE RENT: ₱85,000.00 PHP + CUSA Dues
+WITHHOLDING TAX: 5% BIR Form 0619-E expanded withholding deducted at source.
+TERMS: 12-Month Renewable Lease with continuous utility and Mall merchant association participation.`
+    },
+    {
+      id: 'DOC-2026-005',
+      title: 'BPI BizLink Master Batch Payroll Authorization - July 16-31 (₱68,400.00)',
+      category: 'BPI Banking & Authorizations',
+      branch: 'Consolidated (All Branches)',
+      date: '2026-07-31',
+      recipient: 'Bank of the Philippine Islands (BPI BizLink Corporate)',
+      recipientEmail: 'bizlink.support@bpi.com.ph',
+      status: 'Signed & Disbursed',
+      signedBy: 'Ms. Jehan Abedin (Managing Director)',
+      signedAt: '2026-07-31 09:30 PM',
+      sha256Hash: 'SHA256: 1d9e7a3b5c8f0e2a4b6d8f1c3e5a7b9c0d2e4f6a8b1c3d5e7f9a0b2c4d6e8f0a',
+      googleDrivePath: 'Google Drive / ALRAJJ LEGACY CORP / Banking & BPI / BPI-AUTH-2026-07B.pdf',
+      driveSyncStatus: 'Synced',
+      gmailDispatched: true,
+      content: `EXECUTIVE BOARD AUTHORIZATION FOR BPI BIZLINK BATCH PAYROLL
+COMPANY: ALRAJJ LEGACY Fortified Business Corp.
+DATE: July 31, 2026
+BATCH REFERENCE: PAYROLL-2026-07-B
+
+TO: Bank of the Philippine Islands (BPI BizLink Operations)
+TOTAL DISBURSEMENT: ₱68,400.00 PHP
+DEBIT MASTER ACCOUNT: 0249-8214-00 (ALRAJJ LEGACY Fortified Business Corp.)
+
+I, Ms. Jehan Abedin, Managing Director of ALRAJJ LEGACY Fortified Business Corp., hereby officially authorize and certify the automated debit of ₱68,400.00 from our corporate master account for direct crediting into employee payroll ATM accounts across Centrio, Ketkai, and SM Downtown branches.`
+    },
+    {
+      id: 'DOC-2026-006',
+      title: 'Senior Aesthetician Employment Agreement & Non-Disclosure (Upcoming Iligan Branch)',
+      category: 'Employment Contracts',
+      branch: 'Iligan City (Upcoming)',
+      date: '2026-09-10',
+      recipient: 'New Aesthetician Candidate (Iligan City)',
+      recipientEmail: 'hr@alrajjlegacy-fortifiedbusinesscorp.com',
+      status: 'Draft Ready for E-Sign',
+      signedBy: 'Unsigned',
+      signedAt: null,
+      sha256Hash: 'SHA256: Pending Signature',
+      googleDrivePath: 'Google Drive / ALRAJJ LEGACY CORP / HR & Compliance / ILIGAN-CONTRACT-DRAFT.pdf',
+      driveSyncStatus: 'Local Draft',
+      gmailDispatched: false,
+      content: `EMPLOYMENT CONTRACT & PROPRIETARY NON-DISCLOSURE AGREEMENT
+EMPLOYER: ALRAJJ LEGACY Fortified Business Corp. (Lay Bare Franchisee)
+LOCATION: Upcoming Iligan City Branch
+
+POSITION: Senior Waxing & Aesthetic Specialist
+COMPENSATION: ₱650.00 Daily Base + 10% Service Commission + Statutory Benefits (SSS, PhilHealth, Pag-IBIG, 13th Month Pay, SIL).
+
+CONFIDENTIALITY & NON-COMPETE COVENANT:
+The Employee acknowledges that all Lay Bare proprietary waxing formulas, cold/hot organic techniques, client database details, and operational protocols are trade secrets of ALRAJJ LEGACY and the Lay Bare Franchisor.`
+    }
+  ];
+
   const loadMockData = () => {
     const mockEmployees = [
       { id: 33, name: 'Justine Ann Atay', branch: 'Centrio Mall (Waxing)', role: 'Senior Waxing Specialist', rate: 600, tax_status: 'S', bpi_account: '0249821401', sss_no: '34-8192019-3', philhealth_no: '12-054918230-1', pagibig_no: '1210-9482-1104', tin_no: '291-840-192-000', other_deductions: 150.00, other_deduction_remarks: 'Cash Advance (Vale)' },
@@ -1176,6 +1367,7 @@ export default function App() {
     ]);
 
     setApprovalsList(getInitialApprovals());
+    setDmsDocuments(getInitialDmsDocs());
 
     setSummary({
       totalEmployees: 4,
@@ -1368,6 +1560,79 @@ export default function App() {
       mdApprovedAt: null,
       mdSigner: 'Ms. Jehan Abedin (Managing Director)'
     });
+  };
+
+  // Document Management System (DMS) & E-Signature Handlers (Google Workspace Integrated)
+  const handleApplySignature = (docId) => {
+    const timestamp = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+    const fakeHash = 'SHA256: ' + Array.from({length: 32}, () => Math.floor(Math.random()*16).toString(16)).join('');
+    
+    setDmsDocuments(prev => prev.map(doc => {
+      if (doc.id === docId) {
+        return {
+          ...doc,
+          status: 'Signed & Cryptographically Vaulted',
+          signedBy: selectedSignerTitle || typedSignName || 'Ms. Jehan Abedin (Managing Director)',
+          signedAt: timestamp,
+          sha256Hash: fakeHash,
+          driveSyncStatus: 'Synced'
+        };
+      }
+      return doc;
+    }));
+
+    setShowSignModal(false);
+    setSelectedDocForSign(null);
+    setDmsToast(`✍️ Document ${docId} successfully E-Signed and Cryptographically Vaulted! Ready for Google Drive archiving & Gmail dispatch.`);
+    setTimeout(() => setDmsToast(''), 6000);
+  };
+
+  const handleSendGmailDoc = (doc) => {
+    const sender = 'hr@alrajjlegacy-fortifiedbusinesscorp.com';
+    setDmsDocuments(prev => prev.map(d => d.id === doc.id ? { ...d, gmailDispatched: true, dispatchedAt: new Date().toLocaleTimeString() } : d));
+    setDmsToast(`✉️ Official PDF dispatched from ${sender} to ${doc.recipientEmail || doc.recipient} via Google Workspace Gmail.`);
+    setTimeout(() => setDmsToast(''), 6000);
+  };
+
+  const handleSyncGoogleDriveDoc = (doc) => {
+    setDmsDocuments(prev => prev.map(d => d.id === doc.id ? { ...d, driveSyncStatus: 'Synced' } : d));
+    setDmsToast(`☁️ Document ${doc.id} backed up into Google Workspace Drive (${doc.googleDrivePath || 'Google Drive / ALRAJJ LEGACY CORP / 2026 Archive'}).`);
+    setTimeout(() => setDmsToast(''), 6000);
+  };
+
+  const handleCreateNewDoc = (e) => {
+    e.preventDefault();
+    const newDocId = `DOC-2026-00${dmsDocuments.length + 1}`;
+    const newDoc = {
+      id: newDocId,
+      title: newDocUpload.title,
+      category: newDocUpload.category,
+      branch: newDocUpload.branch,
+      date: new Date().toISOString().split('T')[0],
+      recipient: newDocUpload.recipient,
+      recipientEmail: newDocUpload.recipientEmail,
+      status: 'Draft Ready for E-Sign',
+      signedBy: 'Unsigned',
+      signedAt: null,
+      sha256Hash: 'SHA256: Pending Signature',
+      googleDrivePath: `Google Drive / ALRAJJ LEGACY CORP / ${newDocUpload.category} / ${newDocId}.pdf`,
+      driveSyncStatus: 'Queued',
+      gmailDispatched: false,
+      content: newDocUpload.content || 'Official corporate memorandum regarding branch operations and compliance protocols.'
+    };
+
+    setDmsDocuments(prev => [newDoc, ...prev]);
+    setShowUploadDocModal(false);
+    setNewDocUpload({
+      title: '',
+      category: 'HR & DOLE Compliance',
+      branch: 'Centrio Mall (Waxing)',
+      recipient: 'Justine Ann Atay',
+      recipientEmail: 'hr@alrajjlegacy-fortifiedbusinesscorp.com',
+      content: ''
+    });
+    setDmsToast(`📄 New document ${newDocId} filed into Google Workspace Cloud Vault!`);
+    setTimeout(() => setDmsToast(''), 5000);
   };
 
   // CRM Handlers
@@ -2411,6 +2676,25 @@ export default function App() {
                   5-Step
                 </span>
               </button>
+
+              <button
+                onClick={() => { setActiveTab('dms'); setSidebarOpen(false); }}
+                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl font-semibold transition-all ${
+                  activeTab === 'dms'
+                    ? 'bg-[#031134] text-white shadow-sm shadow-[#031134]/25'
+                    : 'text-[#5A534E] hover:bg-[#F7F6F2] hover:text-[#031134]'
+                }`}
+              >
+                <div className="flex items-center space-x-2.5">
+                  <PenTool className="h-4 w-4 text-[#77BC2E]" />
+                  <span>DMS & E-Sign Hub</span>
+                </div>
+                <span className={`text-[9px] font-extrabold px-1.5 py-0.5 rounded-md tracking-wider uppercase ${
+                  activeTab === 'dms' ? 'bg-[#77BC2E] text-white' : 'bg-[#77BC2E]/15 text-[#5A9A1E]'
+                }`}>
+                  Drive Vault
+                </span>
+              </button>
             </div>
           </nav>
         </div>
@@ -2535,6 +2819,17 @@ export default function App() {
                 }`}
               >
                 <span>PO Pipeline</span>
+              </button>
+              <button
+                onClick={() => setActiveTab('dms')}
+                className={`px-3 py-1.5 rounded-xl transition-all flex items-center space-x-1.5 ${
+                  activeTab === 'dms'
+                    ? 'bg-[#031134] text-white font-bold shadow-2xs'
+                    : 'text-[#5A534E] hover:text-[#031134]'
+                }`}
+              >
+                <PenTool className="h-3.5 w-3.5 text-[#77BC2E]" />
+                <span>✍️ DMS & E-Sign</span>
               </button>
             </div>
 
@@ -6112,6 +6407,407 @@ export default function App() {
 
             </div>
           )}
+
+          {/* TAB 8: DOCUMENT MANAGEMENT SYSTEM (DMS) & E-SIGNATURE HUB */}
+          {activeTab === 'dms' && (
+            <div className="space-y-6 animate-fadeIn">
+              
+              {/* Google Workspace Enterprise Vault Banner */}
+              <div className="bg-gradient-to-r from-[#031134] via-[#091D4C] to-[#031134] rounded-3xl p-6 sm:p-7 text-white shadow-xl border border-[#031134] space-y-5">
+                <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-white/10 pb-5">
+                  <div className="flex items-start space-x-3.5">
+                    <div className="w-12 h-12 rounded-2xl bg-[#77BC2E] text-white flex items-center justify-center font-black text-xl shadow-md flex-shrink-0">
+                      <PenTool className="h-6 w-6" />
+                    </div>
+                    <div>
+                      <div className="flex flex-wrap items-center gap-2">
+                        <h2 className="text-xl font-extrabold text-white tracking-tight">Enterprise DMS & E-Signature Hub</h2>
+                        <span className="bg-[#77BC2E]/20 text-[#77BC2E] text-[10px] font-extrabold px-2.5 py-0.5 rounded-full border border-[#77BC2E]/40 flex items-center space-x-1">
+                          <HardDrive className="h-3 w-3" />
+                          <span>Google Workspace Linked</span>
+                        </span>
+                        <span className="bg-white/10 text-white/90 text-[10px] font-bold px-2 py-0.5 rounded-md">
+                          RA 8792 & DOLE Compliant
+                        </span>
+                      </div>
+                      <p className="text-xs text-white/70 mt-1 max-w-2xl leading-relaxed">
+                        100% paperless signing and encrypted cloud vaulting. Sign DOLE notices, BPI BizLink authorizations, MyTime commissary receipts, commercial leases, and staff promissory agreements with cryptographic SHA-256 digital seals.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-wrap items-center gap-2.5">
+                    <button
+                      onClick={() => setShowUploadDocModal(true)}
+                      className="bg-[#77BC2E] hover:bg-[#6DB027] text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-all flex items-center space-x-2 shadow-md shadow-[#77BC2E]/20 active:scale-95"
+                    >
+                      <Plus className="h-4 w-4" />
+                      <span>Upload / File New Doc</span>
+                    </button>
+                    <button
+                      onClick={() => {
+                        setDmsToast('☁️ All 6 active documents synchronized to Google Workspace Drive (ALRAJJ LEGACY CORP / 2026 Archive).');
+                        setTimeout(() => setDmsToast(''), 5000);
+                      }}
+                      className="bg-white/10 hover:bg-white/20 text-white text-xs font-semibold px-3.5 py-2.5 rounded-xl border border-white/20 transition-all flex items-center space-x-1.5"
+                    >
+                      <HardDrive className="h-4 w-4 text-[#77BC2E]" />
+                      <span>Sync All to Drive</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* 4 Quick Vault Stats / Integration Highlights */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 text-xs">
+                  
+                  {/* Google Workspace Domain Pill */}
+                  <div className="bg-white/5 border border-white/10 rounded-2xl p-3.5 space-y-1">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#77BC2E]">Google Domain</span>
+                      <Globe className="h-3.5 w-3.5 text-[#77BC2E]" />
+                    </div>
+                    <div className="font-mono font-bold text-white text-xs truncate">
+                      alrajjlegacy-fortifiedbusinesscorp.com
+                    </div>
+                    <p className="text-[10px] text-white/60">Official corporate workspace sender</p>
+                  </div>
+
+                  {/* Cloud Drive Storage */}
+                  <div className="bg-white/5 border border-white/10 rounded-2xl p-3.5 space-y-1">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#D4AF37]">Drive Cloud Vault</span>
+                      <HardDrive className="h-3.5 w-3.5 text-[#D4AF37]" />
+                    </div>
+                    <div className="font-bold text-white text-sm">
+                      {dmsDocuments.filter(d => d.driveSyncStatus === 'Synced').length} / {dmsDocuments.length} Archived
+                    </div>
+                    <p className="text-[10px] text-white/60">Google Drive / ALRAJJ LEGACY CORP</p>
+                  </div>
+
+                  {/* Cryptographic E-Sign Status */}
+                  <div className="bg-white/5 border border-white/10 rounded-2xl p-3.5 space-y-1">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#77BC2E]">Digital Signatures</span>
+                      <ShieldCheck className="h-3.5 w-3.5 text-[#77BC2E]" />
+                    </div>
+                    <div className="font-bold text-white text-sm">
+                      {dmsDocuments.filter(d => d.status.includes('Signed') || d.status.includes('Vaulted')).length} Sealed Documents
+                    </div>
+                    <p className="text-[10px] text-white/60">SHA-256 cryptographic tamper seal</p>
+                  </div>
+
+                  {/* Pending Signatures */}
+                  <div className="bg-white/10 border border-[#77BC2E]/40 rounded-2xl p-3.5 space-y-1">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#E89BB9]">Pending Action</span>
+                      <span className="w-2 h-2 rounded-full bg-[#E89BB9] animate-ping"></span>
+                    </div>
+                    <div className="font-bold text-white text-sm text-[#E89BB9]">
+                      {dmsDocuments.filter(d => d.status.includes('Awaiting') || d.status.includes('Draft')).length} Docs Awaiting Signature
+                    </div>
+                    <p className="text-[10px] text-white/60">1-click touch/draw E-Sign pad</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Document Filters & Search Controls */}
+              <div className="bg-white border border-[#EAE8E2] rounded-3xl p-5 shadow-2xs space-y-4">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
+                  
+                  {/* Category Pills */}
+                  <div className="flex flex-wrap items-center gap-1.5 text-xs font-semibold">
+                    <button
+                      onClick={() => setDmsCategoryFilter('all')}
+                      className={`px-3 py-1.5 rounded-xl transition-all ${
+                        dmsCategoryFilter === 'all'
+                          ? 'bg-[#031134] text-white font-bold'
+                          : 'bg-[#FAF9F5] text-[#5A534E] hover:bg-[#F2F0E8]'
+                      }`}
+                    >
+                      All Docs ({dmsDocuments.length})
+                    </button>
+                    <button
+                      onClick={() => setDmsCategoryFilter('HR & DOLE Compliance')}
+                      className={`px-3 py-1.5 rounded-xl transition-all ${
+                        dmsCategoryFilter === 'HR & DOLE Compliance'
+                          ? 'bg-[#77BC2E] text-white font-bold'
+                          : 'bg-[#FAF9F5] text-[#5A534E] hover:bg-[#F2F0E8]'
+                      }`}
+                    >
+                      DOLE & NTEs
+                    </button>
+                    <button
+                      onClick={() => setDmsCategoryFilter('Payroll & Cash Advances')}
+                      className={`px-3 py-1.5 rounded-xl transition-all ${
+                        dmsCategoryFilter === 'Payroll & Cash Advances'
+                          ? 'bg-[#E89BB9] text-white font-bold'
+                          : 'bg-[#FAF9F5] text-[#5A534E] hover:bg-[#F2F0E8]'
+                      }`}
+                    >
+                      Vale & Promissory
+                    </button>
+                    <button
+                      onClick={() => setDmsCategoryFilter('Procurement & POs')}
+                      className={`px-3 py-1.5 rounded-xl transition-all ${
+                        dmsCategoryFilter === 'Procurement & POs'
+                          ? 'bg-[#031134] text-white font-bold'
+                          : 'bg-[#FAF9F5] text-[#5A534E] hover:bg-[#F2F0E8]'
+                      }`}
+                    >
+                      MyTime PO Receipts
+                    </button>
+                    <button
+                      onClick={() => setDmsCategoryFilter('Commercial Leases')}
+                      className={`px-3 py-1.5 rounded-xl transition-all ${
+                        dmsCategoryFilter === 'Commercial Leases'
+                          ? 'bg-[#D4AF37] text-[#031134] font-bold'
+                          : 'bg-[#FAF9F5] text-[#5A534E] hover:bg-[#F2F0E8]'
+                      }`}
+                    >
+                      Mall Leases
+                    </button>
+                    <button
+                      onClick={() => setDmsCategoryFilter('BPI Banking & Authorizations')}
+                      className={`px-3 py-1.5 rounded-xl transition-all ${
+                        dmsCategoryFilter === 'BPI Banking & Authorizations'
+                          ? 'bg-[#031134] text-white font-bold'
+                          : 'bg-[#FAF9F5] text-[#5A534E] hover:bg-[#F2F0E8]'
+                      }`}
+                    >
+                      BPI Authorizations
+                    </button>
+                    <button
+                      onClick={() => setDmsCategoryFilter('Employment Contracts')}
+                      className={`px-3 py-1.5 rounded-xl transition-all ${
+                        dmsCategoryFilter === 'Employment Contracts'
+                          ? 'bg-[#77BC2E] text-white font-bold'
+                          : 'bg-[#FAF9F5] text-[#5A534E] hover:bg-[#F2F0E8]'
+                      }`}
+                    >
+                      Employment Contracts
+                    </button>
+                  </div>
+
+                  {/* Search bar */}
+                  <div className="relative min-w-[220px]">
+                    <Search className="h-3.5 w-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-[#8A817C]" />
+                    <input
+                      type="text"
+                      placeholder="Search document title, ID, staff..."
+                      value={dmsSearch}
+                      onChange={(e) => setDmsSearch(e.target.value)}
+                      className="w-full bg-[#FAF9F5] border border-[#EAE8E2] rounded-xl pl-8 pr-3 py-1.5 text-xs text-[#4A2E1B] outline-none font-medium focus:ring-1 focus:ring-[#77BC2E]"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Documents Cards Grid */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                {(() => {
+                  const filtered = dmsDocuments.filter(doc => {
+                    const matchCat = dmsCategoryFilter === 'all' ? true : doc.category === dmsCategoryFilter;
+                    const matchSearch = dmsSearch.trim() === '' ? true : 
+                      doc.title.toLowerCase().includes(dmsSearch.toLowerCase()) ||
+                      doc.id.toLowerCase().includes(dmsSearch.toLowerCase()) ||
+                      doc.recipient.toLowerCase().includes(dmsSearch.toLowerCase()) ||
+                      doc.branch.toLowerCase().includes(dmsSearch.toLowerCase());
+                    return matchCat && matchSearch;
+                  });
+
+                  if (filtered.length === 0) {
+                    return (
+                      <div className="lg:col-span-2 bg-white border border-[#EAE8E2] rounded-3xl p-12 text-center space-y-3 shadow-2xs">
+                        <div className="w-12 h-12 rounded-2xl bg-[#77BC2E]/15 text-[#77BC2E] flex items-center justify-center mx-auto">
+                          <CheckCircle className="h-6 w-6" />
+                        </div>
+                        <h4 className="font-extrabold text-base text-[#4A2E1B]">No Documents Found in this Filter</h4>
+                        <p className="text-xs text-[#8A817C] max-w-md mx-auto">
+                          Upload a new legal memo, contract, or promissory slip to file it in the Google Workspace Cloud Vault.
+                        </p>
+                        <button
+                          onClick={() => setShowUploadDocModal(true)}
+                          className="bg-[#77BC2E] hover:bg-[#6DB027] text-white px-4 py-2 rounded-xl text-xs font-bold shadow-2xs inline-flex items-center space-x-1.5"
+                        >
+                          <Plus className="h-3.5 w-3.5" />
+                          <span>File New Document</span>
+                        </button>
+                      </div>
+                    );
+                  }
+
+                  return filtered.map((doc) => {
+                    const isSigned = doc.status.includes('Signed') || doc.status.includes('Vaulted') || doc.status.includes('Disbursed');
+
+                    return (
+                      <div
+                        key={doc.id}
+                        className="bg-white border border-[#EAE8E2] hover:border-[#77BC2E]/50 rounded-3xl p-6 shadow-2xs space-y-4 flex flex-col justify-between transition-all"
+                      >
+                        {/* Header & Meta */}
+                        <div className="space-y-2.5">
+                          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#F2F0E8] pb-3">
+                            <div className="flex items-center space-x-2">
+                              <span className="font-mono font-extrabold text-xs text-[#031134] bg-[#031134]/10 px-2.5 py-0.5 rounded-lg">
+                                {doc.id}
+                              </span>
+                              <span className="text-[10px] font-bold bg-[#77BC2E]/15 text-[#5A9A1E] px-2 py-0.5 rounded-md">
+                                {doc.category}
+                              </span>
+                            </div>
+
+                            <span className={`text-[10px] font-extrabold px-2.5 py-0.5 rounded-full ${
+                              isSigned 
+                                ? 'bg-[#77BC2E]/15 text-[#5A9A1E]' 
+                                : 'bg-[#E89BB9]/25 text-[#D47098] animate-pulse'
+                            }`}>
+                              {doc.status}
+                            </span>
+                          </div>
+
+                          <h3 className="font-extrabold text-sm sm:text-base text-[#4A2E1B] leading-snug">
+                            {doc.title}
+                          </h3>
+
+                          {/* Recipient & Branch Info */}
+                          <div className="bg-[#FAF9F5] p-3 rounded-2xl border border-[#F2F0E8] space-y-1.5 text-xs">
+                            <div className="flex justify-between text-[#5A534E]">
+                              <span className="text-[#8A817C]">Recipient / Entity:</span>
+                              <strong className="text-[#4A2E1B]">{doc.recipient}</strong>
+                            </div>
+                            <div className="flex justify-between text-[#5A534E]">
+                              <span className="text-[#8A817C]">Branch Location:</span>
+                              <span className="font-semibold text-[#4A2E1B]">{doc.branch}</span>
+                            </div>
+                            <div className="flex justify-between text-[#5A534E]">
+                              <span className="text-[#8A817C]">Corporate Email:</span>
+                              <span className="font-mono text-[11px] text-[#031134] font-semibold">{doc.recipientEmail}</span>
+                            </div>
+                          </div>
+
+                          {/* Digital Signature & Hash Seal Strip */}
+                          <div className={`p-3 rounded-2xl border text-xs space-y-1 ${
+                            isSigned 
+                              ? 'bg-[#77BC2E]/10 border-[#77BC2E]/30 text-[#4A2E1B]' 
+                              : 'bg-amber-50 border-amber-200 text-amber-900'
+                          }`}>
+                            <div className="flex items-center justify-between">
+                              <span className="text-[10px] font-extrabold uppercase tracking-wider flex items-center space-x-1">
+                                <PenTool className="h-3 w-3" />
+                                <span>{isSigned ? 'Digitally Signed & Sealed' : 'Awaiting Digital Signature'}</span>
+                              </span>
+                              {isSigned && (
+                                <span className="text-[9px] font-bold bg-[#77BC2E] text-white px-2 py-0.2 rounded-md">
+                                  Valid & Sealed
+                                </span>
+                              )}
+                            </div>
+                            {isSigned ? (
+                              <>
+                                <p className="text-[11px] font-bold text-[#5A9A1E]">
+                                  Signed by: {doc.signedBy} on {doc.signedAt}
+                                </p>
+                                <p className="font-mono text-[9px] text-[#8A817C] truncate" title={doc.sha256Hash}>
+                                  {doc.sha256Hash}
+                                </p>
+                              </>
+                            ) : (
+                              <p className="text-[11px] text-amber-800">
+                                This document requires official authorization before final disbursement or filing.
+                              </p>
+                            )}
+                          </div>
+
+                          {/* Google Workspace Drive Path */}
+                          <div className="flex items-center justify-between text-[11px] text-[#8A817C] px-1">
+                            <div className="flex items-center space-x-1.5 truncate">
+                              <HardDrive className="h-3.5 w-3.5 text-[#031134] flex-shrink-0" />
+                              <span className="truncate font-medium">{doc.googleDrivePath}</span>
+                            </div>
+                            <span className="text-[#5A9A1E] font-bold flex-shrink-0 ml-2">
+                              ✓ {doc.driveSyncStatus}
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Action Toolbar */}
+                        <div className="pt-3 border-t border-[#F2F0E8] flex flex-wrap items-center justify-between gap-2">
+                          <div className="flex items-center space-x-1.5">
+                            {!isSigned ? (
+                              <button
+                                onClick={() => {
+                                  setSelectedDocForSign(doc);
+                                  setShowSignModal(true);
+                                }}
+                                className="bg-[#77BC2E] hover:bg-[#6DB027] text-white text-xs font-extrabold px-3.5 py-2 rounded-xl transition-all flex items-center space-x-1.5 shadow-sm active:scale-95"
+                              >
+                                <PenTool className="h-3.5 w-3.5" />
+                                <span>✍️ E-Sign Now</span>
+                              </button>
+                            ) : (
+                              <button
+                                onClick={() => {
+                                  setSelectedDocForSign(doc);
+                                  setShowSignModal(true);
+                                }}
+                                className="bg-[#FAF9F5] hover:bg-[#F2F0E8] border border-[#EAE8E2] text-[#4A2E1B] text-xs font-semibold px-3 py-2 rounded-xl transition-all flex items-center space-x-1"
+                              >
+                                <Edit className="h-3 w-3" />
+                                <span>Re-Sign / Stamp</span>
+                              </button>
+                            )}
+
+                            <button
+                              onClick={() => {
+                                setSelectedDocForView(doc);
+                                setShowDocViewerModal(true);
+                              }}
+                              className="bg-[#031134] hover:bg-[#082260] text-white text-xs font-semibold px-3 py-2 rounded-xl transition-all flex items-center space-x-1 shadow-2xs"
+                            >
+                              <FileText className="h-3.5 w-3.5 text-[#77BC2E]" />
+                              <span>View Doc</span>
+                            </button>
+                          </div>
+
+                          <div className="flex items-center space-x-1.5">
+                            <button
+                              onClick={() => handleSendGmailDoc(doc)}
+                              className="bg-[#FAF9F5] hover:bg-[#F2F0E8] border border-[#EAE8E2] text-[#031134] text-xs font-bold px-2.5 py-2 rounded-xl transition-all flex items-center space-x-1"
+                              title="Send PDF via Google Workspace Gmail"
+                            >
+                              <Mail className="h-3.5 w-3.5 text-[#77BC2E]" />
+                              <span className="hidden sm:inline">Gmail</span>
+                            </button>
+
+                            <button
+                              onClick={() => handleSyncGoogleDriveDoc(doc)}
+                              className="bg-[#FAF9F5] hover:bg-[#F2F0E8] border border-[#EAE8E2] text-[#5A534E] text-xs font-bold px-2.5 py-2 rounded-xl transition-all flex items-center space-x-1"
+                              title="Backup into Google Drive"
+                            >
+                              <HardDrive className="h-3.5 w-3.5 text-[#D4AF37]" />
+                              <span className="hidden sm:inline">Drive</span>
+                            </button>
+
+                            <button
+                              onClick={() => {
+                                setSelectedDocForView(doc);
+                                setShowDocViewerModal(true);
+                                setTimeout(() => window.print(), 300);
+                              }}
+                              className="p-2 rounded-xl bg-[#FAF9F5] border border-[#EAE8E2] text-[#5A534E] hover:text-[#4A2E1B]"
+                              title="Print / Save PDF"
+                            >
+                              <Printer className="h-3.5 w-3.5" />
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  });
+                })()}
+              </div>
+            </div>
+          )}
         </main>
       </div>
 
@@ -8538,6 +9234,441 @@ export default function App() {
         <div className="fixed bottom-6 right-6 z-50 bg-[#031134] text-white px-5 py-3.5 rounded-2xl shadow-2xl border border-[#77BC2E]/50 flex items-center space-x-3 text-xs font-bold animate-bounce">
           <ShieldCheck className="h-5 w-5 text-[#77BC2E] flex-shrink-0" />
           <span>{approvalToast}</span>
+        </div>
+      )}
+
+      {/* 18. INTERACTIVE E-SIGNATURE PAD & SEAL MODAL */}
+      {showSignModal && selectedDocForSign && (
+        <div className="fixed inset-0 bg-stone-900/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fadeIn">
+          <div className="bg-white rounded-3xl border border-[#EAE8E2] shadow-2xl w-full max-w-xl p-7 space-y-5 max-h-[90vh] overflow-y-auto">
+            
+            {/* Header */}
+            <div className="flex items-start justify-between border-b border-[#F2F0E8] pb-4">
+              <div className="flex items-center space-x-3">
+                <div className="w-11 h-11 rounded-2xl bg-[#031134] text-[#77BC2E] flex items-center justify-center font-bold text-lg shadow-sm">
+                  <PenTool className="h-6 w-6" />
+                </div>
+                <div>
+                  <div className="flex items-center space-x-2">
+                    <span className="font-mono text-xs font-bold bg-[#031134]/10 text-[#031134] px-2 py-0.5 rounded-md">
+                      {selectedDocForSign.id}
+                    </span>
+                    <span className="text-[10px] font-bold text-[#77BC2E] bg-[#77BC2E]/15 px-2 py-0.5 rounded-full">
+                      RA 8792 E-Sign
+                    </span>
+                  </div>
+                  <h3 className="font-extrabold text-lg text-[#4A2E1B] mt-0.5">Authorize & Sign Document</h3>
+                </div>
+              </div>
+              <button 
+                onClick={() => { setShowSignModal(false); setSelectedDocForSign(null); }}
+                className="text-[#8A817C] hover:text-[#4A2E1B]"
+              >
+                <XCircle className="h-5 w-5" />
+              </button>
+            </div>
+
+            {/* Document Reference Info */}
+            <div className="bg-[#FAF9F5] p-3.5 rounded-2xl border border-[#F2F0E8] space-y-1 text-xs">
+              <div className="font-bold text-[#4A2E1B]">{selectedDocForSign.title}</div>
+              <div className="text-[11px] text-[#8A817C]">
+                Category: <strong>{selectedDocForSign.category}</strong> &bull; Branch: <strong>{selectedDocForSign.branch}</strong>
+              </div>
+              <div className="text-[11px] text-[#5A534E]">
+                Recipient: <strong>{selectedDocForSign.recipient}</strong> ({selectedDocForSign.recipientEmail})
+              </div>
+            </div>
+
+            {/* Signer Title & Identity Selector */}
+            <div className="space-y-3 text-xs">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="space-y-1">
+                  <label className="font-bold text-[#4A2E1B]">Official Signer Authority</label>
+                  <select
+                    value={selectedSignerTitle}
+                    onChange={(e) => {
+                      setSelectedSignerTitle(e.target.value);
+                      if (e.target.value.includes('Jehan')) setTypedSignName('Jehan Abedin');
+                      else if (e.target.value.includes('Kristene')) setTypedSignName('Kristene HR');
+                      else if (e.target.value.includes('Cherimar')) setTypedSignName('Cherimar Concigo');
+                      else setTypedSignName(selectedDocForSign.recipient || 'Specialist Signer');
+                    }}
+                    className="w-full bg-[#FAF9F5] border border-[#EAE8E2] rounded-xl px-3 py-2 text-xs font-semibold text-[#4A2E1B] outline-none focus:ring-1 focus:ring-[#77BC2E]"
+                  >
+                    <option value="Ms. Jehan Abedin (Managing Director)">Ms. Jehan Abedin (Managing Director)</option>
+                    <option value="Kristene (Operations & HR Lead)">Kristene (Operations & HR Lead)</option>
+                    <option value="Cherimar Concigo (Branch Supervisor)">Cherimar Concigo (Branch Lead)</option>
+                    <option value="Authorized Staff / Specialist">Staff / Specialist (Borrower/Employee)</option>
+                  </select>
+                </div>
+
+                <div className="space-y-1">
+                  <label className="font-bold text-[#4A2E1B]">Signer Full Name</label>
+                  <input
+                    type="text"
+                    required
+                    value={typedSignName}
+                    onChange={(e) => setTypedSignName(e.target.value)}
+                    className="w-full bg-[#FAF9F5] border border-[#EAE8E2] rounded-xl px-3 py-2 text-xs font-medium text-[#2D2520] outline-none focus:ring-1 focus:ring-[#77BC2E]"
+                    placeholder="e.g. Jehan Abedin"
+                  />
+                </div>
+              </div>
+
+              {/* Signature Input Mode Switcher */}
+              <div className="space-y-2">
+                <label className="font-bold text-[#4A2E1B]">Signature Style & Method</label>
+                <div className="grid grid-cols-3 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setSignatureMode('type')}
+                    className={`py-2 px-3 rounded-xl border font-bold text-xs transition-all flex items-center justify-center space-x-1.5 ${
+                      signatureMode === 'type'
+                        ? 'bg-[#031134] text-white border-[#031134] shadow-xs'
+                        : 'bg-[#FAF9F5] border-[#EAE8E2] text-[#5A534E] hover:bg-[#F2F0E8]'
+                    }`}
+                  >
+                    <span>✍️ Type Script</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setSignatureMode('draw')}
+                    className={`py-2 px-3 rounded-xl border font-bold text-xs transition-all flex items-center justify-center space-x-1.5 ${
+                      signatureMode === 'draw'
+                        ? 'bg-[#031134] text-white border-[#031134] shadow-xs'
+                        : 'bg-[#FAF9F5] border-[#EAE8E2] text-[#5A534E] hover:bg-[#F2F0E8]'
+                    }`}
+                  >
+                    <span>🖌️ Draw Pad</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setSignatureMode('upload')}
+                    className={`py-2 px-3 rounded-xl border font-bold text-xs transition-all flex items-center justify-center space-x-1.5 ${
+                      signatureMode === 'upload'
+                        ? 'bg-[#031134] text-white border-[#031134] shadow-xs'
+                        : 'bg-[#FAF9F5] border-[#EAE8E2] text-[#5A534E] hover:bg-[#F2F0E8]'
+                    }`}
+                  >
+                    <span>🛡️ Corp Seal</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Signature Preview Canvas Box */}
+              <div className="border-2 border-dashed border-[#77BC2E]/50 rounded-2xl p-6 text-center bg-[#FAF9F5] relative overflow-hidden flex flex-col items-center justify-center min-h-[140px]">
+                {signatureMode === 'type' && (
+                  <div className="space-y-1 animate-fadeIn">
+                    <div className="font-serif italic text-3xl sm:text-4xl text-[#031134] tracking-wide select-none transform -rotate-2">
+                      {typedSignName || 'Jehan Abedin'}
+                    </div>
+                    <div className="w-48 h-0.5 bg-[#77BC2E] mx-auto rounded-full mt-1"></div>
+                    <p className="text-[10px] text-[#8A817C] font-mono mt-1">
+                      Digital Cryptographic Hash: SHA256-AUTHENTICATED
+                    </p>
+                  </div>
+                )}
+
+                {signatureMode === 'draw' && (
+                  <div className="space-y-2 animate-fadeIn">
+                    <svg className="w-56 h-16 mx-auto text-[#031134]" viewBox="0 0 200 60" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M 15 45 Q 35 15, 60 40 T 110 30 Q 140 10, 160 35 T 190 25" />
+                      <path d="M 30 50 Q 80 45, 175 48" stroke="#77BC2E" strokeWidth="1.5" />
+                    </svg>
+                    <p className="text-[10px] text-[#8A817C] font-semibold">Touch / Stylus Capture Verified</p>
+                  </div>
+                )}
+
+                {signatureMode === 'upload' && (
+                  <div className="space-y-2 animate-fadeIn flex flex-col items-center">
+                    <div className="w-16 h-16 rounded-full border-2 border-[#031134] p-1 flex items-center justify-center bg-white shadow-xs">
+                      <div className="w-full h-full rounded-full border border-dashed border-[#77BC2E] flex items-center justify-center text-center p-1">
+                        <span className="text-[8px] font-black uppercase text-[#031134] leading-tight">
+                          ALRAJJ<br/>SEALED
+                        </span>
+                      </div>
+                    </div>
+                    <p className="text-[10px] font-bold text-[#031134]">ALRAJJ LEGACY Fortified Business Corp. Official Seal</p>
+                  </div>
+                )}
+
+                {/* Verification Watermark */}
+                <div className="absolute top-2 right-2 flex items-center space-x-1 text-[9px] font-bold text-[#5A9A1E] bg-[#77BC2E]/15 px-2 py-0.5 rounded-md">
+                  <CheckCircle className="h-3 w-3" />
+                  <span>Verified Identity</span>
+                </div>
+              </div>
+
+              {/* Legal & Compliance Notice */}
+              <div className="bg-[#FAF9F5] p-3 rounded-xl border border-[#EAE8E2] text-[11px] text-[#5A534E] space-y-1">
+                <div className="font-bold text-[#4A2E1B] flex items-center space-x-1.5">
+                  <ShieldCheck className="h-3.5 w-3.5 text-[#77BC2E]" />
+                  <span>Philippine E-Commerce Act (RA 8792) & DOLE DO 174 Legal Validity</span>
+                </div>
+                <p className="text-[10px] text-[#8A817C] leading-relaxed">
+                  By clicking apply, you certify that you possess the requisite corporate authority to execute this legal instrument. A cryptographic SHA-256 seal will be permanently stamped on this document and backed up into the Google Workspace Corporate Drive.
+                </p>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex space-x-2 pt-2">
+                <button
+                  type="button"
+                  onClick={() => handleApplySignature(selectedDocForSign.id)}
+                  className="flex-1 bg-[#77BC2E] hover:bg-[#6DB027] text-white font-extrabold py-3 rounded-xl shadow-md transition-all flex items-center justify-center space-x-2"
+                >
+                  <PenTool className="h-4 w-4" />
+                  <span>Apply Digital Signature & Cryptographically Seal</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => { setShowSignModal(false); setSelectedDocForSign(null); }}
+                  className="bg-[#F2F0E8] text-[#5A534E] font-semibold px-4 py-3 rounded-xl"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 19. OFFICIAL DOCUMENT VIEWER & PRINT PREVIEW MODAL */}
+      {showDocViewerModal && selectedDocForView && (
+        <div className="fixed inset-0 bg-stone-900/70 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fadeIn">
+          <div className="bg-white rounded-3xl border border-[#EAE8E2] shadow-2xl w-full max-w-2xl p-7 space-y-5 max-h-[90vh] overflow-y-auto">
+            
+            {/* Header / Actions */}
+            <div className="flex items-center justify-between border-b border-[#F2F0E8] pb-3">
+              <div className="flex items-center space-x-2">
+                <span className="font-mono text-xs font-bold bg-[#031134] text-[#77BC2E] px-2.5 py-0.5 rounded-lg">
+                  {selectedDocForView.id}
+                </span>
+                <span className="text-xs font-bold text-[#8A817C]">
+                  Google Workspace Cloud Vault
+                </span>
+              </div>
+
+              <div className="flex items-center space-x-2">
+                <button
+                  onClick={() => handleSendGmailDoc(selectedDocForView)}
+                  className="bg-[#FAF9F5] hover:bg-[#F2F0E8] border border-[#EAE8E2] text-[#031134] text-xs font-bold px-3 py-1.5 rounded-xl transition-all flex items-center space-x-1.5"
+                >
+                  <Mail className="h-3.5 w-3.5 text-[#77BC2E]" />
+                  <span>Send via Gmail</span>
+                </button>
+                <button
+                  onClick={() => window.print()}
+                  className="bg-[#77BC2E] hover:bg-[#6DB027] text-white text-xs font-bold px-3 py-1.5 rounded-xl transition-all flex items-center space-x-1.5 shadow-2xs"
+                >
+                  <Printer className="h-3.5 w-3.5" />
+                  <span>Print / Download PDF</span>
+                </button>
+                <button 
+                  onClick={() => { setShowDocViewerModal(false); setSelectedDocForView(null); }}
+                  className="text-[#8A817C] hover:text-[#4A2E1B] p-1"
+                >
+                  <XCircle className="h-5 w-5" />
+                </button>
+              </div>
+            </div>
+
+            {/* Official Formal Document Paper View */}
+            <div className="bg-white border border-[#EAE8E2] rounded-2xl p-6 sm:p-8 shadow-sm space-y-6 text-xs text-[#2D2520]">
+              
+              {/* Document Letterhead */}
+              <div className="text-center space-y-1.5 border-b-2 border-[#031134] pb-4">
+                <div className="flex items-center justify-center space-x-2">
+                  <img src="/alrajj-icon.png" alt="ALRAJJ Logo" className="h-8 w-8 object-contain rounded-lg p-0.5 bg-[#031134]" />
+                  <span className="font-extrabold text-base tracking-tight text-[#031134]">ALRAJJ LEGACY FORTIFIED BUSINESS CORP.</span>
+                </div>
+                <p className="text-[10px] text-[#8A817C] font-semibold uppercase tracking-wider">
+                  Cagayan de Oro City &bull; Centrio Mall &bull; Limketkai Mall &bull; SM Downtown &bull; Iligan City
+                </p>
+                <p className="text-[10px] font-mono text-[#5A534E]">
+                  Corporate Domain: alrajjlegacy-fortifiedbusinesscorp.com &bull; TIN: 009-847-192-000
+                </p>
+              </div>
+
+              {/* Document Title & Sub-meta */}
+              <div className="space-y-1">
+                <div className="flex justify-between text-[11px] text-[#8A817C]">
+                  <span>Date Filed: <strong>{selectedDocForView.date}</strong></span>
+                  <span>Branch: <strong>{selectedDocForView.branch}</strong></span>
+                </div>
+                <h2 className="text-sm sm:text-base font-extrabold text-[#4A2E1B] uppercase tracking-wide">
+                  {selectedDocForView.title}
+                </h2>
+              </div>
+
+              {/* Full Document Content Clauses */}
+              <div className="bg-[#FAF9F5] p-5 rounded-2xl border border-[#F2F0E8] font-mono text-xs text-[#3D352E] whitespace-pre-wrap leading-relaxed">
+                {selectedDocForView.content}
+              </div>
+
+              {/* Cryptographic Digital Signature Block */}
+              <div className="pt-4 border-t border-[#F2F0E8] grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-1">
+                  <span className="text-[10px] font-bold text-[#8A817C] uppercase block">Signer Authority</span>
+                  <p className="font-bold text-[#4A2E1B]">{selectedDocForView.signedBy || 'Pending Signature'}</p>
+                  <p className="text-[10px] text-[#8A817C]">Timestamp: {selectedDocForView.signedAt || 'Awaiting Authorization'}</p>
+                </div>
+
+                <div className="space-y-1">
+                  <span className="text-[10px] font-bold text-[#8A817C] uppercase block">Cryptographic Verification Hash</span>
+                  <p className="font-mono text-[9px] text-[#031134] bg-white p-2 rounded-lg border border-[#EAE8E2] break-all">
+                    {selectedDocForView.sha256Hash}
+                  </p>
+                  <span className="text-[10px] text-[#5A9A1E] font-bold block">
+                    ✓ Google Workspace Cloud Vault Backed Up
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Bottom Footer Close */}
+            <div className="flex justify-end pt-1">
+              <button
+                onClick={() => { setShowDocViewerModal(false); setSelectedDocForView(null); }}
+                className="bg-[#031134] text-white font-semibold text-xs px-5 py-2.5 rounded-xl hover:bg-[#082260] transition-all"
+              >
+                Close Viewer
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 20. UPLOAD / FILE NEW DOCUMENT MODAL */}
+      {showUploadDocModal && (
+        <div className="fixed inset-0 bg-stone-900/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fadeIn">
+          <div className="bg-white rounded-3xl border border-[#EAE8E2] shadow-2xl w-full max-w-lg p-7 space-y-5 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-start justify-between border-b border-[#F2F0E8] pb-4">
+              <div className="flex items-center space-x-3">
+                <div className="w-11 h-11 rounded-2xl bg-[#77BC2E] text-white flex items-center justify-center font-bold text-lg shadow-sm">
+                  <FolderPlus className="h-6 w-6" />
+                </div>
+                <div>
+                  <h3 className="font-extrabold text-lg text-[#4A2E1B]">File Document in Cloud Vault</h3>
+                  <p className="text-xs text-[#8A817C]">Automated archive to Google Workspace Drive</p>
+                </div>
+              </div>
+              <button onClick={() => setShowUploadDocModal(false)} className="text-[#8A817C] hover:text-[#4A2E1B]">
+                <XCircle className="h-5 w-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleCreateNewDoc} className="space-y-4 text-xs">
+              <div className="space-y-1">
+                <label className="font-bold text-[#4A2E1B]">Document Title / Memo Subject</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. Employee Disciplinary Memo / Space Lease Addendum"
+                  value={newDocUpload.title}
+                  onChange={(e) => setNewDocUpload({ ...newDocUpload, title: e.target.value })}
+                  className="w-full bg-[#FAF9F5] border border-[#EAE8E2] rounded-xl px-3 py-2 text-xs font-medium text-[#2D2520] outline-none focus:ring-1 focus:ring-[#77BC2E]"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-1">
+                  <label className="font-bold text-[#4A2E1B]">Category</label>
+                  <select
+                    value={newDocUpload.category}
+                    onChange={(e) => setNewDocUpload({ ...newDocUpload, category: e.target.value })}
+                    className="w-full bg-[#FAF9F5] border border-[#EAE8E2] rounded-xl px-3 py-2 text-xs font-semibold text-[#4A2E1B] outline-none focus:ring-1 focus:ring-[#77BC2E]"
+                  >
+                    <option value="HR & DOLE Compliance">HR & DOLE Compliance</option>
+                    <option value="Payroll & Cash Advances">Payroll & Cash Advances (Vale)</option>
+                    <option value="Procurement & POs">Procurement & POs</option>
+                    <option value="Commercial Leases">Commercial Leases</option>
+                    <option value="BPI Banking & Authorizations">BPI Banking & Authorizations</option>
+                    <option value="Employment Contracts">Employment Contracts</option>
+                  </select>
+                </div>
+
+                <div className="space-y-1">
+                  <label className="font-bold text-[#4A2E1B]">Branch Location</label>
+                  <select
+                    value={newDocUpload.branch}
+                    onChange={(e) => setNewDocUpload({ ...newDocUpload, branch: e.target.value })}
+                    className="w-full bg-[#FAF9F5] border border-[#EAE8E2] rounded-xl px-3 py-2 text-xs font-semibold text-[#4A2E1B] outline-none focus:ring-1 focus:ring-[#77BC2E]"
+                  >
+                    <option value="Centrio Mall (Waxing)">Centrio Mall (Waxing)</option>
+                    <option value="Passion Nails (Centrio)">Passion Nails (Centrio)</option>
+                    <option value="Limketkai Mall">Limketkai Mall</option>
+                    <option value="SM Downtown Branch">SM Downtown Branch</option>
+                    <option value="Iligan City (Upcoming)">Iligan City Branch</option>
+                    <option value="Consolidated (All Branches)">Consolidated (All Branches)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-1">
+                  <label className="font-bold text-[#4A2E1B]">Recipient / Entity Name</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Maria Santos / Ayala Land"
+                    value={newDocUpload.recipient}
+                    onChange={(e) => setNewDocUpload({ ...newDocUpload, recipient: e.target.value })}
+                    className="w-full bg-[#FAF9F5] border border-[#EAE8E2] rounded-xl px-3 py-2 text-xs font-medium text-[#2D2520] outline-none focus:ring-1 focus:ring-[#77BC2E]"
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <label className="font-bold text-[#4A2E1B]">Recipient Corporate Email</label>
+                  <input
+                    type="email"
+                    required
+                    placeholder="email@alrajjlegacy-fortifiedbusinesscorp.com"
+                    value={newDocUpload.recipientEmail}
+                    onChange={(e) => setNewDocUpload({ ...newDocUpload, recipientEmail: e.target.value })}
+                    className="w-full bg-[#FAF9F5] border border-[#EAE8E2] rounded-xl px-3 py-2 text-xs font-medium text-[#2D2520] outline-none focus:ring-1 focus:ring-[#77BC2E]"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-1">
+                <label className="font-bold text-[#4A2E1B]">Document Text & Clauses</label>
+                <textarea
+                  rows="4"
+                  required
+                  placeholder="Enter complete memorandum text, lease terms, or contract stipulations..."
+                  value={newDocUpload.content}
+                  onChange={(e) => setNewDocUpload({ ...newDocUpload, content: e.target.value })}
+                  className="w-full bg-[#FAF9F5] border border-[#EAE8E2] rounded-xl p-3 text-xs font-medium text-[#2D2520] outline-none focus:ring-1 focus:ring-[#77BC2E]"
+                ></textarea>
+              </div>
+
+              <div className="flex space-x-2 pt-2">
+                <button
+                  type="submit"
+                  className="flex-1 bg-[#77BC2E] hover:bg-[#6DB027] text-white font-bold py-2.5 rounded-xl shadow-sm transition-all flex items-center justify-center space-x-1.5"
+                >
+                  <FolderPlus className="h-4 w-4" />
+                  <span>File into Google Drive Vault</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowUploadDocModal(false)}
+                  className="bg-[#F2F0E8] text-[#5A534E] font-semibold px-4 py-2.5 rounded-xl"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Floating DMS Toast Alert */}
+      {dmsToast && (
+        <div className="fixed bottom-6 right-6 z-50 bg-[#031134] text-white px-5 py-3.5 rounded-2xl shadow-2xl border border-[#77BC2E]/50 flex items-center space-x-3 text-xs font-bold animate-bounce">
+          <PenTool className="h-5 w-5 text-[#77BC2E] flex-shrink-0" />
+          <span>{dmsToast}</span>
         </div>
       )}
 
