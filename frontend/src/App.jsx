@@ -7129,7 +7129,8 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                             <th className="px-5 py-3.5">Wage (Daily/Hourly)</th>
                             <th className="px-5 py-3.5">BPI BizLink</th>
                             <th className="px-5 py-3.5">Gov Statutory IDs</th>
-                            <th className="px-5 py-3.5">201 Actions</th>
+                            <th className="px-5 py-3.5">Assigned Deductions & Vale</th>
+                            <th className="px-5 py-3.5">Actions & 201</th>
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-[#F2F0E8]">
@@ -7143,6 +7144,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                               const phNo = emp.philhealth_no || `12-054918230-${idx + 1}`;
                               const pagibigNo = emp.pagibig_no || `1210-9482-110${idx + 1}`;
                               const tinNo = emp.tin_no || `291-840-19${idx + 1}-000`;
+                              const otherDeduc = parseFloat(emp.other_deductions || 0);
 
                               return (
                                 <tr key={emp.id} className="hover:bg-[#FAF9F5]/70 transition-colors">
@@ -7184,8 +7186,44 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                                       <span className="bg-amber-50 text-amber-900 px-1.5 py-0.5 rounded"><strong>TIN:</strong> {tinNo}</span>
                                     </div>
                                   </td>
+                                  <td className="px-5 py-4 font-mono">
+                                    {otherDeduc > 0 ? (
+                                      <div>
+                                        <p className="font-extrabold text-[#D47098]">₱{otherDeduc.toFixed(2)}</p>
+                                        <span className="bg-[#E89BB9]/20 text-[#D47098] font-bold text-[9px] px-1.5 py-0.5 rounded-md inline-block mt-0.5">
+                                          {emp.other_deduction_remarks || 'Cash Advance (Vale)'}
+                                        </span>
+                                      </div>
+                                    ) : (
+                                      <span className="text-[#A8A29E] text-[10px]">₱0.00 (None)</span>
+                                    )}
+                                  </td>
                                   <td className="px-5 py-4">
                                     <div className="flex items-center space-x-1.5">
+                                      <button
+                                        onClick={() => {
+                                          setNewEmployee({
+                                            id: emp.id,
+                                            name: emp.name,
+                                            branch: emp.branch || 'Centrio Mall (Waxing)',
+                                            rate: emp.rate || 600,
+                                            taxStatus: emp.tax_status || 'S',
+                                            bpiAccount: bpiAcct,
+                                            sssNo: sssNo,
+                                            philhealthNo: phNo,
+                                            pagibigNo: pagibigNo,
+                                            tinNo: tinNo,
+                                            otherDeductions: emp.other_deductions || 0,
+                                            otherDeductionRemarks: emp.other_deduction_remarks || 'Cash Advance (Vale)'
+                                          });
+                                          setShowAddEmployeeModal(true);
+                                        }}
+                                        className="bg-[#FAF9F5] hover:bg-[#F2F0E8] border border-[#EAE8E2] text-[#4A2E1B] font-bold text-[10px] px-2.5 py-1.5 rounded-lg transition-all flex items-center space-x-1"
+                                        title="Assign / Edit Deductions & Wage"
+                                      >
+                                        <Edit className="h-3 w-3 text-[#77BC2E]" />
+                                        <span>Edit / Vale</span>
+                                      </button>
                                       <button
                                         onClick={() => {
                                           setSelected201Employee(emp);
@@ -7202,7 +7240,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                                           setSelected201Employee(emp);
                                           setShowCoeModal(true);
                                         }}
-                                        className="bg-[#77BC2E]/15 hover:bg-[#77BC2E]/25 text-[#5A9A1E] font-bold text-[10px] px-2.5 py-1.5 rounded-lg transition-all flex items-center space-x-1"
+                                        className="bg-[#77BC2E]/15 hover:bg-[#77BC2E]/25 text-[#5A9A1E] font-bold text-[10px] px-2 py-1.5 rounded-lg transition-all flex items-center space-x-1"
                                         title="Generate DOLE Certificate of Employment"
                                       >
                                         <Award className="h-3 w-3" />
@@ -7775,8 +7813,78 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                       </div>
                     </div>
 
+                    {/* Assigned Payroll Deductions & Vale Section */}
+                    <div className="bg-[#FAF9F5] border border-[#E89BB9]/40 rounded-2xl p-4 space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#D47098] flex items-center space-x-1.5">
+                          <CreditCard className="h-3.5 w-3.5" />
+                          <span>Assigned Payroll Deductions & Vale</span>
+                        </span>
+                        <button
+                          onClick={() => {
+                            setNewEmployee({
+                              id: selected201Employee.id,
+                              name: selected201Employee.name,
+                              branch: selected201Employee.branch || 'Centrio Mall (Waxing)',
+                              rate: selected201Employee.rate || 600,
+                              taxStatus: selected201Employee.tax_status || 'S',
+                              bpiAccount: selected201Employee.bpi_account || '0249821401',
+                              sssNo: selected201Employee.sss_no || '34-8192019-3',
+                              philhealthNo: selected201Employee.philhealth_no || '12-054918230-1',
+                              pagibigNo: selected201Employee.pagibig_no || '1210-9482-1104',
+                              tinNo: selected201Employee.tin_no || '291-840-192-000',
+                              otherDeductions: selected201Employee.other_deductions || 0,
+                              otherDeductionRemarks: selected201Employee.other_deduction_remarks || 'Cash Advance (Vale)'
+                            });
+                            setShow201Drawer(false);
+                            setShowAddEmployeeModal(true);
+                          }}
+                          className="bg-white hover:bg-[#F2F0E8] border border-[#E89BB9]/50 text-[#D47098] font-bold text-[10px] px-2.5 py-1 rounded-lg transition-all"
+                        >
+                          ✏️ Edit Vale & Deductions
+                        </button>
+                      </div>
+                      <div className="flex items-center justify-between pt-1">
+                        <div>
+                          <p className="font-extrabold text-sm text-[#D47098] font-mono">
+                            ₱{parseFloat(selected201Employee.other_deductions || 0).toFixed(2)} PHP
+                          </p>
+                          <span className="text-[10px] text-[#8A817C]">
+                            Purpose: <strong className="text-[#4A2E1B]">{selected201Employee.other_deduction_remarks || 'None / Not Assigned'}</strong>
+                          </span>
+                        </div>
+                        <span className="text-[10px] text-[#5A534E] font-semibold bg-white border border-[#EAE8E2] px-2 py-0.5 rounded-md">
+                          Deducted Semi-Monthly
+                        </span>
+                      </div>
+                    </div>
+
                     {/* 201 Action Buttons */}
                     <div className="flex flex-wrap items-center justify-end gap-2.5 pt-3 border-t border-[#F2F0E8]">
+                      <button
+                        onClick={() => {
+                          setNewEmployee({
+                            id: selected201Employee.id,
+                            name: selected201Employee.name,
+                            branch: selected201Employee.branch || 'Centrio Mall (Waxing)',
+                            rate: selected201Employee.rate || 600,
+                            taxStatus: selected201Employee.tax_status || 'S',
+                            bpiAccount: selected201Employee.bpi_account || '0249821401',
+                            sssNo: selected201Employee.sss_no || '34-8192019-3',
+                            philhealthNo: selected201Employee.philhealth_no || '12-054918230-1',
+                            pagibigNo: selected201Employee.pagibig_no || '1210-9482-1104',
+                            tinNo: selected201Employee.tin_no || '291-840-192-000',
+                            otherDeductions: selected201Employee.other_deductions || 0,
+                            otherDeductionRemarks: selected201Employee.other_deduction_remarks || 'Cash Advance (Vale)'
+                          });
+                          setShow201Drawer(false);
+                          setShowAddEmployeeModal(true);
+                        }}
+                        className="bg-[#FAF9F5] hover:bg-[#F2F0E8] border border-[#EAE8E2] text-[#4A2E1B] font-bold text-xs px-3.5 py-2.5 rounded-xl transition-all flex items-center space-x-1.5"
+                      >
+                        <Edit className="h-3.5 w-3.5 text-[#77BC2E]" />
+                        <span>Edit Full Profile & Vale</span>
+                      </button>
                       <button
                         onClick={() => {
                           setShow201Drawer(false);
