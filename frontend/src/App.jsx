@@ -6940,6 +6940,30 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                     </button>
                     <button
                       onClick={() => {
+                        const firstEmp = employees[0] || { id: 33, name: 'Justine Ann Atay', rate: 600, branch: 'Centrio Mall (Waxing)', bpi_account: '0249821401' };
+                        setNewEmployee({
+                          id: firstEmp.id,
+                          name: firstEmp.name,
+                          branch: firstEmp.branch || 'Centrio Mall (Waxing)',
+                          rate: firstEmp.rate || 600,
+                          taxStatus: firstEmp.tax_status || 'S',
+                          bpiAccount: firstEmp.bpi_account || '0249821401',
+                          sssNo: firstEmp.sss_no || '34-8192019-3',
+                          philhealthNo: firstEmp.philhealth_no || '12-054918230-1',
+                          pagibigNo: firstEmp.pagibig_no || '1210-9482-1104',
+                          tinNo: firstEmp.tin_no || '291-840-192-000',
+                          otherDeductions: firstEmp.other_deductions || 0,
+                          otherDeductionRemarks: firstEmp.other_deduction_remarks || 'Cash Advance (Vale)'
+                        });
+                        setShowAddEmployeeModal(true);
+                      }}
+                      className="bg-white/10 hover:bg-white/20 text-white font-bold text-xs px-3.5 py-2.5 rounded-xl border border-white/15 transition-all flex items-center space-x-1.5 backdrop-blur-sm"
+                    >
+                      <CreditCard className="h-3.5 w-3.5 text-[#E89BB9]" />
+                      <span>Assign Vale / Deduction</span>
+                    </button>
+                    <button
+                      onClick={() => {
                         const nextId = employees.length > 0 ? Math.max(...employees.map(e => e.id)) + 1 : 37;
                         setNewEmployee({
                           id: nextId,
