@@ -71,10 +71,14 @@ SETHCON shall deliver, configure, and maintain the following five (5) integrated
 
 ---
 
-### 3. MULTI-BRANCH EXPANSION GUARANTEE (ILIGAN CITY BRANCH)
+### 3. MULTI-BRANCH EXPANSION & GOOGLE WORKSPACE DOMAIN INTEGRATION
 
-* The system is built on a scalable cloud architecture. 
-* Upon the official commercial opening of the **Iligan City Branch**, SETHCON guarantees that the new branch will be activated and integrated into the multi-branch dashboard, P&L consolidation, and biometric ingestion **at ZERO additional software core licensing cost**.
+* **Google Workspace Corporate Domain Deployment**:
+  * The ERP system shall be officially deployed and mapped under ALRAJJ LEGACY's existing Google Workspace corporate domain: **`erp.alrajjlegacy-fortifiedbusinesscorp.com`** (or designated custom subdomain).
+  * Includes automated enterprise SSL/TLS security encryption certificate and global CDN cloud routing at **zero additional setup cost**.
+* **Zero-Cost Iligan Branch Expansion Guarantee**:
+  * The system is built on a scalable multi-tenant cloud architecture.
+  * Upon the official commercial opening of the **Iligan City Branch**, SETHCON guarantees that the new branch will be activated and integrated into the multi-branch dashboard, P&L consolidation, and biometric payroll at **ZERO additional software core licensing cost**.
 
 ---
 
