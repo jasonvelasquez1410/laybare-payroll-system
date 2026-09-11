@@ -62,7 +62,13 @@ import {
   BarChart3,
   ArrowDownRight,
   Tag,
-  BadgePercent
+  BadgePercent,
+  Wifi,
+  WifiOff,
+  Smartphone,
+  Laptop,
+  Globe,
+  Info
 } from 'lucide-react';
 
 const API_BASE = import.meta.env.VITE_API_URL || (window.location.origin.includes('localhost') ? 'http://localhost:5000/api' : '/api');
@@ -72,6 +78,58 @@ export default function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
   
+  // PWA, Offline Resilience & Custom Domain States
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
+  const [showPwaModal, setShowPwaModal] = useState(false);
+  const [showHelpGuideModal, setShowHelpGuideModal] = useState(false);
+  const [showDomainModal, setShowDomainModal] = useState(false);
+  const [deferredPrompt, setDeferredPrompt] = useState(null);
+  const [pwaInstalled, setPwaInstalled] = useState(false);
+
+  useEffect(() => {
+    const handleOnline = () => {
+      setIsOnline(true);
+      setEmailToast('🟢 Connection restored! Real-time Cloud Sync active.');
+      setTimeout(() => setEmailToast(''), 4000);
+    };
+    const handleOffline = () => {
+      setIsOnline(false);
+      setEmailToast('🟡 Offline Mode active. All attendance, POS tickets, and POs are securely cached locally.');
+      setTimeout(() => setEmailToast(''), 5000);
+    };
+
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+    });
+
+    window.addEventListener('appinstalled', () => {
+      setPwaInstalled(true);
+      setDeferredPrompt(null);
+    });
+
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
+  }, []);
+
+  const handleTriggerPwaInstall = async () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === 'accepted') {
+        setPwaInstalled(true);
+      }
+      setDeferredPrompt(null);
+    } else {
+      setShowPwaModal(true);
+    }
+  };
+
   // Data States
   const [employees, setEmployees] = useState([]);
   const [attendance, setAttendance] = useState([]);
@@ -2139,6 +2197,50 @@ export default function App() {
               <span>{startDate} ~ {endDate}</span>
             </div>
 
+            {/* Network Online / Offline PWA Status Badge */}
+            <button
+              onClick={() => setShowPwaModal(true)}
+              className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all border shadow-2xs ${
+                isOnline
+                  ? 'bg-[#77BC2E]/10 border-[#77BC2E]/30 text-[#5A9A1E]'
+                  : 'bg-[#D4AF37]/20 border-[#D4AF37]/50 text-[#B48A10] animate-pulse'
+              }`}
+              title={isOnline ? 'Online (Real-time Cloud Sync)' : 'Offline Mode (Local Storage Active)'}
+            >
+              {isOnline ? <Wifi className="h-3.5 w-3.5 text-[#77BC2E]" /> : <WifiOff className="h-3.5 w-3.5 text-[#B48A10]" />}
+              <span className="hidden sm:inline">{isOnline ? 'Cloud Live' : 'Offline Mode'}</span>
+            </button>
+
+            {/* PWA / Desktop App Install Button */}
+            <button
+              onClick={handleTriggerPwaInstall}
+              className="hidden lg:flex items-center space-x-1.5 bg-white border border-[#EAE8E2] hover:bg-[#FAF9F5] text-[#4A2E1B] px-3 py-1.5 rounded-xl text-xs font-bold transition-all shadow-2xs"
+              title="Install Desktop or Tablet App for Offline Use"
+            >
+              <Smartphone className="h-3.5 w-3.5 text-[#031134]" />
+              <span>{pwaInstalled ? 'App Ready' : 'Install App'}</span>
+            </button>
+
+            {/* Google Workspace Domain Pill */}
+            <button
+              onClick={() => setShowDomainModal(true)}
+              className="hidden 2xl:flex items-center space-x-1.5 bg-[#031134]/5 border border-[#031134]/15 hover:bg-[#031134]/10 text-[#031134] px-3 py-1.5 rounded-xl text-xs font-bold transition-all"
+              title="Google Workspace Linked Domain"
+            >
+              <Globe className="h-3.5 w-3.5 text-[#031134]" />
+              <span className="truncate max-w-[140px]">erp.alrajjlegacy...</span>
+            </button>
+
+            {/* Non-Techie Easy Guide Button */}
+            <button
+              onClick={() => setShowHelpGuideModal(true)}
+              className="flex items-center space-x-1.5 bg-[#FAF9F5] hover:bg-[#F2F0E8] border border-[#EAE8E2] text-[#4A2E1B] px-3 py-1.5 rounded-xl text-xs font-bold transition-all shadow-2xs"
+              title="Non-Techie Help & Quick Tour"
+            >
+              <Sparkles className="h-3.5 w-3.5 text-[#77BC2E]" />
+              <span className="hidden sm:inline">Easy Guide</span>
+            </button>
+
             {/* Notification Bell with Badge */}
             <button 
               onClick={() => setActiveTab('exceptions')}
@@ -2153,7 +2255,7 @@ export default function App() {
               )}
             </button>
 
-            {/* + Add Employee Action (Laybare Green Button) */}
+            {/* + Add Employee Action */}
             <button
               onClick={() => setShowAddEmployeeModal(true)}
               className="bg-[#77BC2E] hover:bg-[#6DB027] text-white font-bold text-xs sm:text-sm rounded-xl px-4 py-2.5 flex items-center space-x-2 shadow-sm shadow-[#77BC2E]/20 transition-all active:scale-95"
@@ -7036,6 +7138,225 @@ export default function App() {
               </div>
             </div>
 
+          </div>
+        </div>
+      )}
+
+      {/* 13. PWA & OFFLINE RESILIENCE MODAL */}
+      {showPwaModal && (
+        <div className="fixed inset-0 bg-stone-900/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fadeIn">
+          <div className="bg-white rounded-3xl border border-[#EAE8E2] shadow-2xl w-full max-w-lg p-7 space-y-5">
+            <div className="flex items-start justify-between border-b border-[#F2F0E8] pb-4">
+              <div className="flex items-center space-x-3">
+                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center font-bold text-lg shadow-sm ${
+                  isOnline ? 'bg-[#77BC2E]/15 text-[#5A9A1E]' : 'bg-[#D4AF37]/20 text-[#B48A10]'
+                }`}>
+                  {isOnline ? <Wifi className="h-6 w-6" /> : <WifiOff className="h-6 w-6" />}
+                </div>
+                <div>
+                  <div className="flex items-center space-x-2">
+                    <h3 className="font-extrabold text-lg text-[#4A2E1B]">Offline PWA App Engine</h3>
+                    <span className={`text-[10px] font-extrabold px-2 py-0.5 rounded-full ${
+                      isOnline ? 'bg-[#77BC2E]/15 text-[#5A9A1E]' : 'bg-[#D4AF37]/20 text-[#B48A10]'
+                    }`}>
+                      {isOnline ? '🟢 Online (Cloud Sync)' : '🟡 Offline Mode Active'}
+                    </span>
+                  </div>
+                  <p className="text-xs text-[#8A817C]">100% Operational even with mall Wi-Fi disconnections</p>
+                </div>
+              </div>
+              <button onClick={() => setShowPwaModal(false)} className="text-[#8A817C] hover:text-[#4A2E1B]">
+                <XCircle className="h-5 w-5" />
+              </button>
+            </div>
+
+            <div className="space-y-4 text-xs">
+              <div className="bg-[#FAF9F5] border border-[#EAE8E2] rounded-2xl p-4 space-y-2">
+                <h4 className="font-bold text-[#4A2E1B] flex items-center space-x-1.5">
+                  <ShieldCheck className="h-4 w-4 text-[#77BC2E]" />
+                  <span>How Offline Protection Works for Store Branches</span>
+                </h4>
+                <ul className="space-y-1.5 text-[#5A534E] list-disc list-inside">
+                  <li><strong>Service Worker Caching:</strong> The full ERP application loads instantly from local device storage without waiting for internet.</li>
+                  <li><strong>POS Tickets & Cash Audits:</strong> Shift receipts and cash balances are preserved locally if Wi-Fi drops mid-transaction.</li>
+                  <li><strong>Automatic Auto-Sync:</strong> Once mall internet reconnects, all pending data automatically syncs with the master cloud database.</li>
+                </ul>
+              </div>
+
+              <div className="p-4 rounded-2xl border border-[#031134]/15 bg-[#031134]/5 space-y-2">
+                <span className="text-[10px] font-extrabold uppercase text-[#031134] tracking-wider block">Desktop & Tablet Install</span>
+                <p className="text-[#5A534E] text-[11px]">
+                  Store staff at Centrio, Passion Nails, Ketkai, and SM Downtown can install this ERP as a standalone desktop icon on Windows or home screen app on iPads/tablets.
+                </p>
+              </div>
+
+              <div className="flex space-x-2 pt-2">
+                <button
+                  onClick={() => {
+                    handleTriggerPwaInstall();
+                    setShowPwaModal(false);
+                  }}
+                  className="flex-1 bg-[#77BC2E] hover:bg-[#6DB027] text-white font-bold py-2.5 rounded-xl transition-all flex items-center justify-center space-x-2 shadow-sm"
+                >
+                  <Smartphone className="h-4 w-4" />
+                  <span>Install Salon App</span>
+                </button>
+                <button
+                  onClick={() => setShowPwaModal(false)}
+                  className="bg-[#F2F0E8] text-[#5A534E] font-semibold px-4 py-2.5 rounded-xl"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 14. NON-TECHIE 1-2-3 EASY GUIDE MODAL */}
+      {showHelpGuideModal && (
+        <div className="fixed inset-0 bg-stone-900/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fadeIn">
+          <div className="bg-white rounded-3xl border border-[#EAE8E2] shadow-2xl w-full max-w-xl p-7 space-y-5 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-start justify-between border-b border-[#F2F0E8] pb-4">
+              <div className="flex items-center space-x-3">
+                <div className="w-12 h-12 rounded-2xl bg-[#77BC2E]/15 text-[#77BC2E] flex items-center justify-center font-bold text-lg shadow-sm">
+                  <Sparkles className="h-6 w-6" />
+                </div>
+                <div>
+                  <h3 className="font-extrabold text-lg text-[#4A2E1B]">Non-Techie Easy Guide</h3>
+                  <p className="text-xs text-[#8A817C]">Simple 4-step walkthrough for store managers & supervisors</p>
+                </div>
+              </div>
+              <button onClick={() => setShowHelpGuideModal(false)} className="text-[#8A817C] hover:text-[#4A2E1B]">
+                <XCircle className="h-5 w-5" />
+              </button>
+            </div>
+
+            <div className="space-y-3.5 text-xs">
+              
+              {/* Step 1 */}
+              <div className="bg-[#FAF9F5] border border-[#EAE8E2] rounded-2xl p-4 space-y-1">
+                <div className="flex items-center justify-between">
+                  <span className="font-black text-[#031134] text-xs">1. Daily Biometric Timekeeping</span>
+                  <span className="bg-[#77BC2E]/15 text-[#5A9A1E] text-[10px] font-bold px-2 py-0.5 rounded-md">End of Cutoff</span>
+                </div>
+                <p className="text-[#5A534E]">
+                  Export the punch file from your <strong>NGTeco biometric device</strong> into a USB flash drive. Click <strong>"Biometric Ingestion"</strong> and drag the Excel file. The system pairs in/out punches in 3 seconds!
+                </p>
+              </div>
+
+              {/* Step 2 */}
+              <div className="bg-[#FAF9F5] border border-[#EAE8E2] rounded-2xl p-4 space-y-1">
+                <div className="flex items-center justify-between">
+                  <span className="font-black text-[#031134] text-xs">2. Computing Payroll & BPI Payout</span>
+                  <span className="bg-[#031134] text-[#D4AF37] text-[10px] font-bold px-2 py-0.5 rounded-md">1-Click Action</span>
+                </div>
+                <p className="text-[#5A534E]">
+                  Click <strong>"Biometric Payroll"</strong> &rarr; click the green <strong>"Compute Semi-Monthly Payroll"</strong> button. The system deducts SSS, PhilHealth, Pag-IBIG, and tax automatically. Download the <strong>BPI BizLink CSV</strong> for ATM bank upload.
+                </p>
+              </div>
+
+              {/* Step 3 */}
+              <div className="bg-[#FAF9F5] border border-[#EAE8E2] rounded-2xl p-4 space-y-1">
+                <div className="flex items-center justify-between">
+                  <span className="font-black text-[#031134] text-xs">3. Ringing Up Salon Clients & Specialist Commission</span>
+                  <span className="bg-[#E89BB9]/20 text-[#D47098] text-[10px] font-bold px-2 py-0.5 rounded-md">Frontdesk Shift</span>
+                </div>
+                <p className="text-[#5A534E]">
+                  In <strong>"Salon CRM"</strong>, click <strong>"+ Ring Up Service Ticket"</strong>. Choose service (e.g., Brazilian Wax), assign the technician, and choose payment (Cash, GCash QR, Maya). The 10% commission is credited instantly!
+                </p>
+              </div>
+
+              {/* Step 4 */}
+              <div className="bg-[#FAF9F5] border border-[#EAE8E2] rounded-2xl p-4 space-y-1">
+                <div className="flex items-center justify-between">
+                  <span className="font-black text-[#031134] text-xs">4. Ordering Supplies (MyTime Lay Bare Commissary)</span>
+                  <span className="bg-[#77BC2E]/15 text-[#5A9A1E] text-[10px] font-bold px-2 py-0.5 rounded-md">Procurement</span>
+                </div>
+                <p className="text-[#5A534E]">
+                  Click <strong>"PO to Accounting"</strong> &rarr; <strong>"+ New Store Requisition"</strong> &rarr; select <strong>Lay Bare Franchisor (MyTime Commissary)</strong>. When boxes arrive, click <strong>"Inspect & Received"</strong> to automatically send the bill to Accounting.
+                </p>
+              </div>
+
+              <div className="pt-2">
+                <button
+                  onClick={() => setShowHelpGuideModal(false)}
+                  className="w-full bg-[#031134] hover:bg-[#082260] text-white font-bold py-2.5 rounded-xl transition-all shadow-sm"
+                >
+                  Got It, Close Guide
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 15. CUSTOM GOOGLE WORKSPACE DOMAIN LINK MODAL */}
+      {showDomainModal && (
+        <div className="fixed inset-0 bg-stone-900/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fadeIn">
+          <div className="bg-white rounded-3xl border border-[#EAE8E2] shadow-2xl w-full max-w-lg p-7 space-y-5">
+            <div className="flex items-start justify-between border-b border-[#F2F0E8] pb-4">
+              <div className="flex items-center space-x-3">
+                <div className="w-12 h-12 rounded-2xl bg-[#031134] text-[#D4AF37] flex items-center justify-center font-bold text-lg shadow-sm">
+                  <Globe className="h-6 w-6" />
+                </div>
+                <div>
+                  <h3 className="font-extrabold text-lg text-[#4A2E1B]">Custom Corporate Domain Setup</h3>
+                  <p className="text-xs text-[#8A817C]">Google Workspace DNS & Vercel Subdomain Connection</p>
+                </div>
+              </div>
+              <button onClick={() => setShowDomainModal(false)} className="text-[#8A817C] hover:text-[#4A2E1B]">
+                <XCircle className="h-5 w-5" />
+              </button>
+            </div>
+
+            <div className="space-y-4 text-xs">
+              <div className="bg-[#FAF9F5] border border-[#EAE8E2] rounded-2xl p-4 space-y-2">
+                <span className="text-[10px] font-extrabold uppercase text-[#8A817C]">Client Google Workspace Domain</span>
+                <p className="font-mono font-bold text-sm text-[#031134]">alrajjlegacy-fortifiedbusinesscorp.com</p>
+                <p className="text-[11px] text-[#8A817C]">
+                  Official emails: <code>jehan.abedin@alrajjlegacy-fortifiedbusinesscorp.com</code>, <code>hr@...</code>
+                </p>
+              </div>
+
+              <div className="space-y-2">
+                <h4 className="font-bold text-[#4A2E1B]">Recommended Subdomain to Access ERP:</h4>
+                <div className="p-3 rounded-xl border border-[#77BC2E]/40 bg-[#77BC2E]/10 flex items-center justify-between">
+                  <strong className="font-mono text-[#4A2E1B] text-xs">erp.alrajjlegacy-fortifiedbusinesscorp.com</strong>
+                  <span className="bg-[#77BC2E] text-white text-[10px] font-bold px-2 py-0.5 rounded">Ready to Point</span>
+                </div>
+              </div>
+
+              <div className="bg-[#FAF9F5] border border-[#EAE8E2] rounded-2xl p-3.5 space-y-2 text-[11px] text-[#5A534E]">
+                <span className="font-bold text-[#4A2E1B] block">How Your IT Points the Subdomain in Google Domains / Cloudflare / GoDaddy:</span>
+                <div className="font-mono bg-white p-2.5 rounded-xl border border-[#EAE8E2] space-y-1">
+                  <div><strong>Type:</strong> CNAME</div>
+                  <div><strong>Name (Host):</strong> erp</div>
+                  <div><strong>Target (Points to):</strong> cname.vercel-dns.com</div>
+                  <div><strong>TTL:</strong> Automatic / 3600</div>
+                </div>
+              </div>
+
+              <div className="flex space-x-2 pt-1">
+                <button
+                  onClick={() => {
+                    navigator.clipboard.writeText('cname.vercel-dns.com');
+                    setEmailToast('Vercel CNAME (cname.vercel-dns.com) copied to clipboard!');
+                    setTimeout(() => setEmailToast(''), 4000);
+                  }}
+                  className="flex-1 bg-[#031134] hover:bg-[#082260] text-white font-bold py-2.5 rounded-xl transition-all flex items-center justify-center space-x-1.5 shadow-sm"
+                >
+                  <ExternalLink className="h-3.5 w-3.5 text-[#D4AF37]" />
+                  <span>Copy Vercel CNAME Target</span>
+                </button>
+                <button
+                  onClick={() => setShowDomainModal(false)}
+                  className="bg-[#F2F0E8] text-[#5A534E] font-semibold px-4 py-2.5 rounded-xl"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       )}

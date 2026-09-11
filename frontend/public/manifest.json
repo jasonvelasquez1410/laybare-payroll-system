@@ -1,0 +1,25 @@
+{
+  "short_name": "ALRAJJ ERP",
+  "name": "ALRAJJ LEGACY Multi-Branch Enterprise ERP",
+  "description": "Enterprise Offline-Ready Biometric HRMS, POS CRM, PO Pipeline & Accounting ERP for Lay Bare & Passion Nails Franchisee",
+  "icons": [
+    {
+      "src": "/alrajj-icon.png",
+      "type": "image/png",
+      "sizes": "192x192 512x512",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/alrajj-logo.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#FAF9F5",
+  "theme_color": "#031134",
+  "display": "standalone",
+  "orientation": "any",
+  "scope": "/"
+}

@@ -4,7 +4,13 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" href="/alrajj-icon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ALRAJJ LEGACY - Smart Payroll & HRMS</title>
+    <meta name="theme-color" content="#031134" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="ALRAJJ ERP" />
+    <link rel="apple-touch-icon" href="/alrajj-icon.png" />
+    <link rel="manifest" href="/manifest.json" />
+    <title>ALRAJJ LEGACY - Multi-Branch Enterprise ERP</title>
     <!-- Google Fonts: Plus Jakarta Sans, Outfit, DM Sans & JetBrains Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,5 +19,14 @@
   <body class="bg-[#F5F4EB] dark:bg-[#121211] text-stone-900 dark:text-stone-100 min-h-screen font-sans selection:bg-[#D7F542] selection:text-stone-950">
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then(reg => console.log('PWA Service Worker registered:', reg.scope))
+            .catch(err => console.log('Service Worker registration failed:', err));
+        });
+      }
+    </script>
   </body>
 </html>
