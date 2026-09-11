@@ -214,6 +214,9 @@ export default function App() {
   const [showDocViewerModal, setShowDocViewerModal] = useState(false);
   const [selectedDocForView, setSelectedDocForView] = useState(null);
   const [showUploadDocModal, setShowUploadDocModal] = useState(false);
+  const [showEditDocModal, setShowEditDocModal] = useState(false);
+  const [editingDoc, setEditingDoc] = useState(null);
+  const [selectedTemplateKey, setSelectedTemplateKey] = useState('');
   const [signatureMode, setSignatureMode] = useState('type'); // 'type' | 'draw' | 'upload'
   const [typedSignName, setTypedSignName] = useState('Jehan Abedin');
   const [selectedSignerTitle, setSelectedSignerTitle] = useState('Ms. Jehan Abedin (Managing Director)');
@@ -1633,6 +1636,143 @@ The Employee acknowledges that all Lay Bare proprietary waxing formulas, cold/ho
     });
     setDmsToast(`📄 New document ${newDocId} filed into Google Workspace Cloud Vault!`);
     setTimeout(() => setDmsToast(''), 5000);
+  };
+
+  const dmsDocTemplates = {
+    nte: {
+      name: 'DOLE Notice to Explain (NTE) - Tardiness / Infraction',
+      category: 'HR & DOLE Compliance',
+      defaultTitle: 'DOLE Notice to Explain (NTE) - Habitual Tardiness',
+      content: `NOTICE TO EXPLAIN (NTE)
+COMPANY: ALRAJJ LEGACY Fortified Business Corp.
+BRANCH: Centrio Mall (Waxing Salon)
+DATE: ${new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+
+TO: [EMPLOYEE NAME] ([POSITION / ROLE])
+RE: Notice to Explain - [SPECIFY VIOLATION / INFRACTION]
+
+Please be advised that based on official company records and biometric attendance reports, you have accumulated infractions regarding [SPECIFY REASON, e.g. 4 consecutive late punch-ins totaling 68 minutes].
+
+Under Philippine Labor Code (DOLE Guidelines) and ALRAJJ LEGACY Employee Handbook Section 4, you are hereby given five (5) calendar days from receipt of this notice to submit a formal written explanation why disciplinary action should not be taken against you.
+
+Failure to submit your explanation shall constitute a waiver of your right to be heard.`
+    },
+    vale: {
+      name: 'Staff Cash Advance (Vale) Promissory Agreement',
+      category: 'Payroll & Cash Advances',
+      defaultTitle: 'Staff Cash Advance (Vale) Promissory Agreement & Salary Deduction',
+      content: `PROMISSORY NOTE & SALARY DEDUCTION AUTHORIZATION
+COMPANY: ALRAJJ LEGACY Fortified Business Corp.
+DATE: ${new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+
+I, [EMPLOYEE NAME], employed at [BRANCH NAME], acknowledge receipt of a Cash Advance (Vale) in the amount of ₱[AMOUNT] PHP.
+
+I authorize the Accounting Department to deduct ₱[AMOUNT PER CUTOFF] PHP per semi-monthly cutoff over [NUMBER OF CUTOFFS] consecutive pay periods starting on [START DATE] until fully paid.
+
+In case of employment separation, any unpaid balance shall be deducted from my final pay.`
+    },
+    employment: {
+      name: 'Specialist Employment Agreement & NDA',
+      category: 'Employment Contracts',
+      defaultTitle: 'Specialist Employment Contract & Proprietary NDA',
+      content: `EMPLOYMENT CONTRACT & NON-DISCLOSURE AGREEMENT
+EMPLOYER: ALRAJJ LEGACY Fortified Business Corp.
+BRANCH: [BRANCH NAME]
+SPECIALIST: [EMPLOYEE NAME]
+
+POSITION: Salon Waxing & Aesthetic Specialist
+COMPENSATION: ₱[DAILY RATE] / day + 10% Service Commission + Mandatory Benefits (SSS, PhilHealth, Pag-IBIG, 13th Month Pay, SIL).
+
+CONFIDENTIALITY:
+The Specialist agrees to safeguard all Lay Bare organic wax formulas, technique protocols, client records, and store operating systems.`
+    },
+    poReceipt: {
+      name: 'Commissary / PO Delivery Inspection & 3-Way Match',
+      category: 'Procurement & POs',
+      defaultTitle: 'Commissary Delivery Receipt & 3-Way Match Inspection Voucher',
+      content: `STORE DELIVERY INSPECTION & 3-WAY MATCH VOUCHER
+PURCHASE ORDER: [PO NUMBER]
+SUPPLIER: Lay Bare Franchisor (MyTime Commissary)
+TOTAL PAYABLE: ₱[TOTAL AMOUNT] PHP
+
+INSPECTED ITEMS:
+1. [ITEM 1 NAME & QUANTITY] - 100% Intact & Inspected
+2. [ITEM 2 NAME & QUANTITY] - Verified against Packing Slip
+
+STATUS:
+✓ Store Goods Inspection Completed & Approved
+✓ Matched against Supplier Invoice and Purchase Order`
+    },
+    memo: {
+      name: 'General Corporate Memorandum / Branch Notice',
+      category: 'HR & DOLE Compliance',
+      defaultTitle: 'Corporate Memorandum - Branch Operations & Policy Notice',
+      content: `CORPORATE MEMORANDUM
+COMPANY: ALRAJJ LEGACY Fortified Business Corp.
+DATE: ${new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+
+TO: All Branch Staff & Shift Leads ([BRANCH NAME])
+FROM: Management / Operations Lead
+SUBJECT: [MEMORANDUM TOPIC]
+
+1. OBJECTIVE:
+[State the objective or operational reminder, e.g. Customer service protocols and sanitization standards].
+
+2. GUIDELINES & IMPLEMENTATION:
+[Detail specific instructions, shift timings, or compliance rules].
+
+Please acknowledge receipt and adhere strictly to these guidelines.`
+    }
+  };
+
+  const handleOpenEditDoc = (doc) => {
+    setEditingDoc({ ...doc });
+    setShowEditDocModal(true);
+  };
+
+  const handleSaveEditedDoc = (e) => {
+    e.preventDefault();
+    if (!editingDoc) return;
+
+    setDmsDocuments(prev => prev.map(d => {
+      if (d.id === editingDoc.id) {
+        return {
+          ...editingDoc,
+          driveSyncStatus: 'Synced'
+        };
+      }
+      return d;
+    }));
+
+    if (selectedDocForView && selectedDocForView.id === editingDoc.id) {
+      setSelectedDocForView({ ...editingDoc });
+    }
+
+    setShowEditDocModal(false);
+    setDmsToast(`✏️ Document ${editingDoc.id} customized and synchronized to Google Workspace Drive!`);
+    setTimeout(() => setDmsToast(''), 5000);
+  };
+
+  const handleApplyPresetTemplate = (templateKey, isEditing = false) => {
+    const tmpl = dmsDocTemplates[templateKey];
+    if (!tmpl) return;
+
+    if (isEditing && editingDoc) {
+      setEditingDoc(prev => ({
+        ...prev,
+        title: tmpl.defaultTitle,
+        category: tmpl.category,
+        content: tmpl.content
+      }));
+    } else {
+      setNewDocUpload(prev => ({
+        ...prev,
+        title: tmpl.defaultTitle,
+        category: tmpl.category,
+        content: tmpl.content
+      }));
+    }
+    setSelectedTemplateKey(templateKey);
   };
 
   // CRM Handlers
@@ -6767,6 +6907,15 @@ The Employee acknowledges that all Lay Bare proprietary waxing formulas, cold/ho
                               <FileText className="h-3.5 w-3.5 text-[#77BC2E]" />
                               <span>View Doc</span>
                             </button>
+
+                            <button
+                              onClick={() => handleOpenEditDoc(doc)}
+                              className="bg-[#FAF9F5] hover:bg-[#F2F0E8] border border-[#EAE8E2] text-[#4A2E1B] text-xs font-semibold px-2.5 py-2 rounded-xl transition-all flex items-center space-x-1"
+                              title="Edit clauses, recipient, or terms"
+                            >
+                              <Edit className="h-3 w-3 text-[#77BC2E]" />
+                              <span>Customize</span>
+                            </button>
                           </div>
 
                           <div className="flex items-center space-x-1.5">
@@ -9451,6 +9600,18 @@ The Employee acknowledges that all Lay Bare proprietary waxing formulas, cold/ho
 
               <div className="flex items-center space-x-2">
                 <button
+                  onClick={() => {
+                    const doc = selectedDocForView;
+                    setShowDocViewerModal(false);
+                    handleOpenEditDoc(doc);
+                  }}
+                  className="bg-[#FAF9F5] hover:bg-[#F2F0E8] border border-[#EAE8E2] text-[#4A2E1B] text-xs font-bold px-3 py-1.5 rounded-xl transition-all flex items-center space-x-1.5"
+                  title="Edit document clauses & wording"
+                >
+                  <Edit className="h-3.5 w-3.5 text-[#77BC2E]" />
+                  <span>Customize Clauses</span>
+                </button>
+                <button
                   onClick={() => handleSendGmailDoc(selectedDocForView)}
                   className="bg-[#FAF9F5] hover:bg-[#F2F0E8] border border-[#EAE8E2] text-[#031134] text-xs font-bold px-3 py-1.5 rounded-xl transition-all flex items-center space-x-1.5"
                 >
@@ -9559,6 +9720,49 @@ The Employee acknowledges that all Lay Bare proprietary waxing formulas, cold/ho
             </div>
 
             <form onSubmit={handleCreateNewDoc} className="space-y-4 text-xs">
+              
+              {/* Template Quick Loader */}
+              <div className="bg-[#FAF9F5] p-3 rounded-2xl border border-[#EAE8E2] space-y-1.5">
+                <span className="font-bold text-[#4A2E1B] text-[11px] block">⚡ Load Pre-Formatted Document Template (Customizable):</span>
+                <div className="flex flex-wrap gap-1.5">
+                  <button
+                    type="button"
+                    onClick={() => handleApplyPresetTemplate('nte')}
+                    className="bg-white hover:bg-[#F2F0E8] border border-[#EAE8E2] text-[#4A2E1B] px-2.5 py-1 rounded-lg text-[10px] font-bold transition-colors"
+                  >
+                    DOLE NTE
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleApplyPresetTemplate('vale')}
+                    className="bg-white hover:bg-[#F2F0E8] border border-[#EAE8E2] text-[#4A2E1B] px-2.5 py-1 rounded-lg text-[10px] font-bold transition-colors"
+                  >
+                    Staff Vale Slip
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleApplyPresetTemplate('employment')}
+                    className="bg-white hover:bg-[#F2F0E8] border border-[#EAE8E2] text-[#4A2E1B] px-2.5 py-1 rounded-lg text-[10px] font-bold transition-colors"
+                  >
+                    Specialist NDA
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleApplyPresetTemplate('poReceipt')}
+                    className="bg-white hover:bg-[#F2F0E8] border border-[#EAE8E2] text-[#4A2E1B] px-2.5 py-1 rounded-lg text-[10px] font-bold transition-colors"
+                  >
+                    PO 3-Way Match
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleApplyPresetTemplate('memo')}
+                    className="bg-white hover:bg-[#F2F0E8] border border-[#EAE8E2] text-[#4A2E1B] px-2.5 py-1 rounded-lg text-[10px] font-bold transition-colors"
+                  >
+                    General Memo
+                  </button>
+                </div>
+              </div>
+
               <div className="space-y-1">
                 <label className="font-bold text-[#4A2E1B]">Document Title / Memo Subject</label>
                 <input
@@ -9632,14 +9836,17 @@ The Employee acknowledges that all Lay Bare proprietary waxing formulas, cold/ho
               </div>
 
               <div className="space-y-1">
-                <label className="font-bold text-[#4A2E1B]">Document Text & Clauses</label>
+                <div className="flex items-center justify-between">
+                  <label className="font-bold text-[#4A2E1B]">Document Text & Clauses (Fully Customizable)</label>
+                  <span className="text-[10px] text-[#8A817C]">Type or paste custom stipulations</span>
+                </div>
                 <textarea
-                  rows="4"
+                  rows="5"
                   required
                   placeholder="Enter complete memorandum text, lease terms, or contract stipulations..."
                   value={newDocUpload.content}
                   onChange={(e) => setNewDocUpload({ ...newDocUpload, content: e.target.value })}
-                  className="w-full bg-[#FAF9F5] border border-[#EAE8E2] rounded-xl p-3 text-xs font-medium text-[#2D2520] outline-none focus:ring-1 focus:ring-[#77BC2E]"
+                  className="w-full bg-[#FAF9F5] border border-[#EAE8E2] rounded-xl p-3 font-mono text-xs text-[#2D2520] outline-none focus:ring-1 focus:ring-[#77BC2E]"
                 ></textarea>
               </div>
 
@@ -9654,6 +9861,180 @@ The Employee acknowledges that all Lay Bare proprietary waxing formulas, cold/ho
                 <button
                   type="button"
                   onClick={() => setShowUploadDocModal(false)}
+                  className="bg-[#F2F0E8] text-[#5A534E] font-semibold px-4 py-2.5 rounded-xl"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* 21. CUSTOMIZE & EDIT DOCUMENT MODAL */}
+      {showEditDocModal && editingDoc && (
+        <div className="fixed inset-0 bg-stone-900/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fadeIn">
+          <div className="bg-white rounded-3xl border border-[#EAE8E2] shadow-2xl w-full max-w-xl p-7 space-y-5 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-start justify-between border-b border-[#F2F0E8] pb-4">
+              <div className="flex items-center space-x-3">
+                <div className="w-11 h-11 rounded-2xl bg-[#031134] text-[#77BC2E] flex items-center justify-center font-bold text-lg shadow-sm">
+                  <Edit className="h-6 w-6" />
+                </div>
+                <div>
+                  <div className="flex items-center space-x-2">
+                    <span className="font-mono text-xs font-bold bg-[#031134]/10 text-[#031134] px-2 py-0.5 rounded-md">
+                      {editingDoc.id}
+                    </span>
+                    <span className="text-[10px] font-bold text-[#5A9A1E] bg-[#77BC2E]/15 px-2 py-0.5 rounded-full">
+                      Custom Editor
+                    </span>
+                  </div>
+                  <h3 className="font-extrabold text-lg text-[#4A2E1B] mt-0.5">Customize Document Clauses & Content</h3>
+                </div>
+              </div>
+              <button onClick={() => setShowEditDocModal(false)} className="text-[#8A817C] hover:text-[#4A2E1B]">
+                <XCircle className="h-5 w-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveEditedDoc} className="space-y-4 text-xs">
+              
+              {/* Quick Template Overwrite Picker */}
+              <div className="bg-[#FAF9F5] p-3 rounded-2xl border border-[#EAE8E2] space-y-1.5">
+                <span className="font-bold text-[#4A2E1B] text-[11px] block">⚡ Replace with Standard Template (Optional):</span>
+                <div className="flex flex-wrap gap-1.5">
+                  <button
+                    type="button"
+                    onClick={() => handleApplyPresetTemplate('nte', true)}
+                    className="bg-white hover:bg-[#F2F0E8] border border-[#EAE8E2] text-[#4A2E1B] px-2.5 py-1 rounded-lg text-[10px] font-bold"
+                  >
+                    DOLE NTE
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleApplyPresetTemplate('vale', true)}
+                    className="bg-white hover:bg-[#F2F0E8] border border-[#EAE8E2] text-[#4A2E1B] px-2.5 py-1 rounded-lg text-[10px] font-bold"
+                  >
+                    Staff Vale Slip
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleApplyPresetTemplate('employment', true)}
+                    className="bg-white hover:bg-[#F2F0E8] border border-[#EAE8E2] text-[#4A2E1B] px-2.5 py-1 rounded-lg text-[10px] font-bold"
+                  >
+                    Specialist NDA
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleApplyPresetTemplate('poReceipt', true)}
+                    className="bg-white hover:bg-[#F2F0E8] border border-[#EAE8E2] text-[#4A2E1B] px-2.5 py-1 rounded-lg text-[10px] font-bold"
+                  >
+                    PO 3-Way Match
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleApplyPresetTemplate('memo', true)}
+                    className="bg-white hover:bg-[#F2F0E8] border border-[#EAE8E2] text-[#4A2E1B] px-2.5 py-1 rounded-lg text-[10px] font-bold"
+                  >
+                    General Memo
+                  </button>
+                </div>
+              </div>
+
+              <div className="space-y-1">
+                <label className="font-bold text-[#4A2E1B]">Document Title</label>
+                <input
+                  type="text"
+                  required
+                  value={editingDoc.title}
+                  onChange={(e) => setEditingDoc({ ...editingDoc, title: e.target.value })}
+                  className="w-full bg-[#FAF9F5] border border-[#EAE8E2] rounded-xl px-3 py-2 text-xs font-semibold text-[#2D2520] outline-none focus:ring-1 focus:ring-[#77BC2E]"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-1">
+                  <label className="font-bold text-[#4A2E1B]">Category</label>
+                  <select
+                    value={editingDoc.category}
+                    onChange={(e) => setEditingDoc({ ...editingDoc, category: e.target.value })}
+                    className="w-full bg-[#FAF9F5] border border-[#EAE8E2] rounded-xl px-3 py-2 text-xs font-semibold text-[#4A2E1B] outline-none focus:ring-1 focus:ring-[#77BC2E]"
+                  >
+                    <option value="HR & DOLE Compliance">HR & DOLE Compliance</option>
+                    <option value="Payroll & Cash Advances">Payroll & Cash Advances (Vale)</option>
+                    <option value="Procurement & POs">Procurement & POs</option>
+                    <option value="Commercial Leases">Commercial Leases</option>
+                    <option value="BPI Banking & Authorizations">BPI Banking & Authorizations</option>
+                    <option value="Employment Contracts">Employment Contracts</option>
+                  </select>
+                </div>
+
+                <div className="space-y-1">
+                  <label className="font-bold text-[#4A2E1B]">Branch Location</label>
+                  <select
+                    value={editingDoc.branch}
+                    onChange={(e) => setEditingDoc({ ...editingDoc, branch: e.target.value })}
+                    className="w-full bg-[#FAF9F5] border border-[#EAE8E2] rounded-xl px-3 py-2 text-xs font-semibold text-[#4A2E1B] outline-none focus:ring-1 focus:ring-[#77BC2E]"
+                  >
+                    <option value="Centrio Mall (Waxing)">Centrio Mall (Waxing)</option>
+                    <option value="Passion Nails (Centrio)">Passion Nails (Centrio)</option>
+                    <option value="Limketkai Mall">Limketkai Mall</option>
+                    <option value="SM Downtown Branch">SM Downtown Branch</option>
+                    <option value="Iligan City (Upcoming)">Iligan City Branch</option>
+                    <option value="Consolidated (All Branches)">Consolidated (All Branches)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-1">
+                  <label className="font-bold text-[#4A2E1B]">Recipient / Addressee</label>
+                  <input
+                    type="text"
+                    required
+                    value={editingDoc.recipient}
+                    onChange={(e) => setEditingDoc({ ...editingDoc, recipient: e.target.value })}
+                    className="w-full bg-[#FAF9F5] border border-[#EAE8E2] rounded-xl px-3 py-2 text-xs font-medium text-[#2D2520] outline-none focus:ring-1 focus:ring-[#77BC2E]"
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <label className="font-bold text-[#4A2E1B]">Recipient Email</label>
+                  <input
+                    type="email"
+                    required
+                    value={editingDoc.recipientEmail}
+                    onChange={(e) => setEditingDoc({ ...editingDoc, recipientEmail: e.target.value })}
+                    className="w-full bg-[#FAF9F5] border border-[#EAE8E2] rounded-xl px-3 py-2 text-xs font-medium text-[#2D2520] outline-none focus:ring-1 focus:ring-[#77BC2E]"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-1">
+                <div className="flex items-center justify-between">
+                  <label className="font-bold text-[#4A2E1B]">Document Clauses & Body Text (Customizable)</label>
+                  <span className="text-[10px] text-[#77BC2E] font-semibold">Live Text Editor</span>
+                </div>
+                <textarea
+                  rows="7"
+                  required
+                  value={editingDoc.content}
+                  onChange={(e) => setEditingDoc({ ...editingDoc, content: e.target.value })}
+                  className="w-full bg-[#FAF9F5] border border-[#EAE8E2] rounded-xl p-3 font-mono text-xs text-[#2D2520] outline-none focus:ring-1 focus:ring-[#77BC2E] leading-relaxed"
+                ></textarea>
+              </div>
+
+              <div className="flex space-x-2 pt-2">
+                <button
+                  type="submit"
+                  className="flex-1 bg-[#77BC2E] hover:bg-[#6DB027] text-white font-bold py-2.5 rounded-xl shadow-sm transition-all flex items-center justify-center space-x-1.5"
+                >
+                  <Check className="h-4 w-4" />
+                  <span>Save Custom Changes to Drive Vault</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowEditDocModal(false)}
                   className="bg-[#F2F0E8] text-[#5A534E] font-semibold px-4 py-2.5 rounded-xl"
                 >
                   Cancel
