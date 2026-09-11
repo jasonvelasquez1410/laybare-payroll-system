@@ -10,7 +10,7 @@
 
 This Agreement is entered into by and between:
 
-* **THE SERVICE PROVIDER**: **SETHCON TECHNOLOGIES CORP.**, an enterprise systems engineering and software firm represented by **Jason Jeff D. Velasquez**, Chief Technology Officer (CTO) (hereinafter referred to as *"SETHCON"*).
+* **THE SERVICE PROVIDER**: **HR Suite TECHNOLOGIES CORP.**, an enterprise systems engineering and software firm represented by **Jason Jeff D. Velasquez**, Chief Technology Officer (CTO) (hereinafter referred to as *"HR Suite"*).
 * **THE CLIENT**: **ALRAJJ LEGACY FORTIFIED BUSINESS CORP.**, an authorized franchisee of Lay Bare Waxing Salon & Passion Nails, represented by **Ms. Jehan Abedin**, General Manager / Managing Director (hereinafter referred to as the *"Client"* or *"ALRAJJ LEGACY"*).
 
 **Authorized Operating Branches Covered**:
@@ -32,18 +32,18 @@ This custom-tailored software ecosystem eliminates human calculation errors, pre
 
 ### 2. SCOPE OF DELIVERABLES & MODULE SPECIFICATIONS
 
-SETHCON shall deliver, configure, and maintain the following seven (7) integrated core modules:
+HR Suite shall deliver, configure, and maintain the following seven (7) integrated core modules:
 
 ```
 â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
 â”‚                        ALRAJJ LEGACY ENTERPRISE ERP ARCHITECTURE                       â”‚
 â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤
-â”‚ Module 1: SETHCON HRMS &        â”‚ â€¢ Complete 201 Personnel Files & DOLE COE Generator   â”‚
+â”‚ Module 1: HR Suite HRMS &        â”‚ â€¢ Complete 201 Personnel Files & DOLE COE Generator   â”‚
 â”‚           Biometric Ingestion  â”‚ â€¢ Mandated Service Incentive Leave (SIL) balances     â”‚
 â”‚                                â”‚ â€¢ Branch Weekly Shift Rostering & Bed/Station Matrix  â”‚
 â”‚                                â”‚ â€¢ Overtime (OT) & Official Business (OB) filing queue â”‚
 â”‚                                â”‚ â€¢ 13th-Month Accrual Tracker & BIR Form 2316 Center   â”‚
-â”‚                                â”‚ â€¢ Employee Self-Service (ESS) & SETHCON ESS Mobile Portal  â”‚
+â”‚                                â”‚ â€¢ Employee Self-Service (ESS) & HR Suite ESS Mobile Portal  â”‚
 â”‚                                â”‚ â€¢ NGTeco offline raw Excel log ingestion (.xls/.xlsx) â”‚
 â”‚                                â”‚ â€¢ Cross-midnight & split-shift automatic pairing      â”‚
 â”‚                                â”‚ â€¢ 1-Click Supervisor Exception Overrides & Audit Log  â”‚
@@ -96,7 +96,7 @@ SETHCON shall deliver, configure, and maintain the following seven (7) integrate
   * Includes automated enterprise SSL/TLS security encryption certificate, Google Drive repository sync, and global CDN cloud routing at **zero additional setup cost**.
 * **Zero-Cost Iligan Branch Expansion Guarantee**:
   * The system is built on a scalable multi-tenant cloud architecture.
-  * Upon the official commercial opening of the **Iligan City Branch**, SETHCON guarantees that the new branch will be activated and integrated into the multi-branch dashboard, P&L consolidation, DMS repository, and biometric payroll at **ZERO additional software core licensing cost**.
+  * Upon the official commercial opening of the **Iligan City Branch**, HR Suite guarantees that the new branch will be activated and integrated into the multi-branch dashboard, P&L consolidation, DMS repository, and biometric payroll at **ZERO additional software core licensing cost**.
 
 ---
 
@@ -119,7 +119,7 @@ SETHCON shall deliver, configure, and maintain the following seven (7) integrate
 ### 5. CLOUD HOSTING, MAINTENANCE & RETAINER TERMS
 
 #### A. Year 1 (Months 1 to 12): **100% FREE (â‚±0.00 / month)**
-* To ensure seamless transition from manual spreadsheets, SETHCON includes **12 full months of complimentary cloud hosting, automated database backups, statutory tax formula updates, and priority technical support**.
+* To ensure seamless transition from manual spreadsheets, HR Suite includes **12 full months of complimentary cloud hosting, automated database backups, statutory tax formula updates, and priority technical support**.
 
 #### B. Year 2 Onwards (Annual Cloud Maintenance & Support SLA): **â‚±12,000.00 / Year**
 * Beginning on the 13th month, an annual renewal fee of **â‚±12,000.00/year** (equivalent to only **â‚±1,000.00/month combined for all 5 branches**, or ~â‚±200/branch/month) applies to maintain:
@@ -136,10 +136,10 @@ SETHCON shall deliver, configure, and maintain the following seven (7) integrate
 
 #### B. Data Ownership & Portability (Client Protection Guarantee)
 * **100% Client Data Ownership**: ALRAJJ LEGACY retains exclusive and absolute ownership of all employee records, biometric logs, sales transactions, general ledger entries, and supplier data.
-* **Zero Data Hostage Guarantee**: In the event of contract completion or non-renewal, SETHCON guarantees that a complete, unencrypted export of all company data (`.xlsx`, `.csv`, `.sql` formats) will be turned over to the Client within **fifteen (15) business days** at **zero additional charge**.
+* **Zero Data Hostage Guarantee**: In the event of contract completion or non-renewal, HR Suite guarantees that a complete, unencrypted export of all company data (`.xlsx`, `.csv`, `.sql` formats) will be turned over to the Client within **fifteen (15) business days** at **zero additional charge**.
 
 #### C. Termination for Cause (Service Level Breach)
-* The Client may terminate this agreement without financial penalty if SETHCON fails to maintain a minimum system availability of **99.5%** or fails to resolve critical payroll or financial calculation errors within **seventy-two (72) business hours** after formal notification.
+* The Client may terminate this agreement without financial penalty if HR Suite fails to maintain a minimum system availability of **99.5%** or fails to resolve critical payroll or financial calculation errors within **seventy-two (72) business hours** after formal notification.
 
 #### D. Non-Renewal & Early Termination
 * Following the 12-month lock-in period, either party may opt out of the annual renewal by submitting a **sixty (60) days' prior written notice**.
@@ -154,13 +154,13 @@ IN WITNESS WHEREOF, the authorized representatives of both parties have affixed 
 <br><br>
 
 **FOR THE SERVICE PROVIDER:**  
-**SETHCON TECHNOLOGIES CORP.**
+**HR Suite TECHNOLOGIES CORP.**
 
 <br><br>
 _________________________________________  
 **JASON JEFF D. VELASQUEZ**  
 Chief Technology Officer (CTO)  
-SETHCON Technologies Corp.  
+HR Suite Technologies Corp.  
 Date: ___________________________________  
 
 <br><br><br>
@@ -175,4 +175,5 @@ _________________________________________
 General Manager / Managing Director  
 ALRAJJ LEGACY Fortified Business Corp.  
 Date: ___________________________________  
+
 

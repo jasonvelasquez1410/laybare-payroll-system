@@ -337,12 +337,12 @@ export default function App() {
   useEffect(() => {
     const handleOnline = () => {
       setIsOnline(true);
-      setEmailToast('ðŸŸ¢ Connection restored! Real-time Cloud Sync active.');
+      setEmailToast('Ã°Å¸Å¸Â¢ Connection restored! Real-time Cloud Sync active.');
       setTimeout(() => setEmailToast(''), 4000);
     };
     const handleOffline = () => {
       setIsOnline(false);
-      setEmailToast('ðŸŸ¡ Offline Mode active. All attendance, POS tickets, and POs are securely cached locally.');
+      setEmailToast('Ã°Å¸Å¸Â¡ Offline Mode active. All attendance, POS tickets, and POs are securely cached locally.');
       setTimeout(() => setEmailToast(''), 5000);
     };
 
@@ -400,7 +400,7 @@ export default function App() {
       averageHours: 0
     });
     setShowDataModeModal(false);
-    setEmailToast('ðŸ¢ Live Store Mode Active: Clean slate activated! All demo records cleared. Ready for your actual NGTeco biometric uploads & store operations.');
+    setEmailToast('Ã°Å¸ÂÂ¢ Live Store Mode Active: Clean slate activated! All demo records cleared. Ready for your actual NGTeco biometric uploads & store operations.');
     setTimeout(() => setEmailToast(''), 5000);
   };
 
@@ -408,7 +408,7 @@ export default function App() {
     setSystemDataMode('demo');
     loadMockData();
     setShowDataModeModal(false);
-    setEmailToast('ðŸ§ª Demo Dataset Restored: Full 4-branch Lay Bare simulation reloaded.');
+    setEmailToast('Ã°Å¸Â§Âª Demo Dataset Restored: Full 4-branch Lay Bare simulation reloaded.');
     setTimeout(() => setEmailToast(''), 5000);
   };
 
@@ -483,7 +483,7 @@ export default function App() {
   const [hrSearchQuery, setHrSearchQuery] = useState('');
   const [sproutToast, setSproutToast] = useState('');
 
-  // SETHCON Leave Records & Time-Off Masterlist
+  // HR Leave Records & Time-Off Masterlist
   const [sproutLeaves, setSproutLeaves] = useState([
     {
       id: 'LV-2026-001',
@@ -833,7 +833,7 @@ export default function App() {
   const [newTicket, setNewTicket] = useState({
     clientName: 'Maria Santos',
     branch: 'Centrio Mall (Waxing)',
-    service: 'Brazilian Wax Express (â‚±650.00)',
+    service: 'Brazilian Wax Express (Ã¢â€šÂ±650.00)',
     specialist: 'Justine Ann Atay',
     amount: 650,
     paymentMethod: 'Cash',
@@ -957,7 +957,7 @@ export default function App() {
   // Multi-Branch P&L Data
   const [plData, setPlData] = useState({
     period: 'Month of August 2026 (MTD)',
-    currency: 'PHP (â‚±)',
+    currency: 'PHP (Ã¢â€šÂ±)',
     branches: [
       {
         id: 'consolidated',
@@ -1115,7 +1115,7 @@ export default function App() {
   // Balance Sheet Data
   const [balanceSheetData, setBalanceSheetData] = useState({
     asOfDate: 'As of August 31, 2026',
-    currency: 'PHP (â‚±)',
+    currency: 'PHP (Ã¢â€šÂ±)',
     assets: {
       currentAssets: {
         cashAndCashEquivalents: 1518500.00,
@@ -1298,7 +1298,7 @@ export default function App() {
       actualCashCounted: 23000.00,
       variance: 0.00,
       status: 'Reconciled & Balanced',
-      auditNotes: 'Perfect match. Petty cash was â‚±450 for branch water refill.'
+      auditNotes: 'Perfect match. Petty cash was Ã¢â€šÂ±450 for branch water refill.'
     },
     {
       id: 'POS-REC-2026-0807-PAS',
@@ -1526,7 +1526,7 @@ export default function App() {
       id: 'APR-2026-002',
       type: 'commissary_po',
       typeName: 'MyTime Commissary Purchase Order',
-      title: 'PO-2026-0901: 20kg Organic Hot Wax Pellets & 100m Paper Strips (â‚±22,450.00)',
+      title: 'PO-2026-0901: 20kg Organic Hot Wax Pellets & 100m Paper Strips (Ã¢â€šÂ±22,450.00)',
       requestor: 'Kristene (Operations Lead)',
       role: 'Operations & HR Lead',
       branch: 'Centrio Mall (Waxing)',
@@ -1539,7 +1539,7 @@ export default function App() {
       stages: [
         { level: 1, name: 'Store Requisition', by: 'Centrio Waxing Store Team', time: '2026-09-03 08:30 AM', status: 'Approved', note: 'Stock alert: Hot wax buffer below 3 days.' },
         { level: 2, name: 'Store Supervisor Endorsement', by: 'Cherimar Concigo (Branch Lead)', time: '2026-09-03 09:15 AM', status: 'Approved', note: 'Physical count verified. Requisition endorsed.' },
-        { level: 3, name: 'Accounting 3-Way Match & Budget', by: 'Kristene (Accounting)', time: '2026-09-03 02:00 PM', status: 'Approved', note: 'GL Account 5100-20 budget verified. 3-Way Match (PO â†” DR â†” Invoice) verified.' },
+        { level: 3, name: 'Accounting 3-Way Match & Budget', by: 'Kristene (Accounting)', time: '2026-09-03 02:00 PM', status: 'Approved', note: 'GL Account 5100-20 budget verified. 3-Way Match (PO Ã¢â€ â€ DR Ã¢â€ â€ Invoice) verified.' },
         { level: 4, name: 'Managing Director Sign-off', by: 'Ms. Jehan Abedin (MD)', time: null, status: 'Pending', note: 'Awaiting executive authorization for BPI BizLink supplier payment release.' }
       ]
     },
@@ -1547,7 +1547,7 @@ export default function App() {
       id: 'APR-2026-003',
       type: 'payroll_disbursement',
       typeName: 'Semi-Monthly BPI Payroll Release',
-      title: 'July 16-31 Semi-Monthly Multi-Branch Payroll Disbursement (â‚±68,400.00)',
+      title: 'July 16-31 Semi-Monthly Multi-Branch Payroll Disbursement (Ã¢â€šÂ±68,400.00)',
       requestor: 'Kristene (HR & Payroll)',
       role: 'Operations & HR Lead',
       branch: 'Consolidated (All Branches)',
@@ -1568,7 +1568,7 @@ export default function App() {
       id: 'APR-2026-004',
       type: 'cash_advance',
       typeName: 'Staff Cash Advance (Vale)',
-      title: 'Emergency Vale Request (â‚±1,500.00) - 2 Cutoff Payroll Deduction',
+      title: 'Emergency Vale Request (Ã¢â€šÂ±1,500.00) - 2 Cutoff Payroll Deduction',
       requestor: 'Cherry Rose Paculanang',
       role: 'Senior Nail Technician',
       branch: 'Passion Nails (Centrio)',
@@ -1577,7 +1577,7 @@ export default function App() {
       currentLevel: 2,
       status: 'Pending Store Lead Endorsement',
       priority: 'Normal',
-      description: 'Emergency assistance request. Staff agrees to deduction of â‚±750 per semi-monthly cutoff starting Sept 15.',
+      description: 'Emergency assistance request. Staff agrees to deduction of Ã¢â€šÂ±750 per semi-monthly cutoff starting Sept 15.',
       stages: [
         { level: 1, name: 'Staff Application', by: 'Cherry Rose Paculanang', time: '2026-09-08 11:00 AM', status: 'Approved', note: 'Signed promissory slip submitted.' },
         { level: 2, name: 'Store Supervisor Endorsement', by: 'Cherimar Concigo (Branch Lead)', time: null, status: 'Pending', note: 'Awaiting branch lead performance & tenure verification.' },
@@ -1657,9 +1657,9 @@ Failure to submit your written explanation within the prescribed period shall be
 COMPANY: ALRAJJ LEGACY Fortified Business Corp.
 DATE: September 08, 2026
 
-I, Cherry Rose Paculanang, employed as Senior Nail Technician at Passion Nails (Centrio Mall), acknowledge receipt of a Cash Advance (Vale) in the amount of ONE THOUSAND FIVE HUNDRED PESOS (â‚±1,500.00 PHP).
+I, Cherry Rose Paculanang, employed as Senior Nail Technician at Passion Nails (Centrio Mall), acknowledge receipt of a Cash Advance (Vale) in the amount of ONE THOUSAND FIVE HUNDRED PESOS (Ã¢â€šÂ±1,500.00 PHP).
 
-I hereby authorize the Accounting & Payroll Department to deduct the amount of SEVEN HUNDRED FIFTY PESOS (â‚±750.00 PHP) per semi-monthly cutoff across two (2) consecutive payroll periods starting September 15, 2026 until full settlement.
+I hereby authorize the Accounting & Payroll Department to deduct the amount of SEVEN HUNDRED FIFTY PESOS (Ã¢â€šÂ±750.00 PHP) per semi-monthly cutoff across two (2) consecutive payroll periods starting September 15, 2026 until full settlement.
 
 In the event of separation from employment prior to full payment, any outstanding balance shall be deducted directly from my final pay or clearance.`
     },
@@ -1682,17 +1682,17 @@ In the event of separation from employment prior to full payment, any outstandin
 PURCHASE ORDER: PO-2026-0901
 DELIVERY RECEIPT: DR-0901
 SUPPLIER: Lay Bare Franchisor (MyTime Commissary)
-TOTAL PAYABLE: â‚±22,450.00 PHP (Net 30)
+TOTAL PAYABLE: Ã¢â€šÂ±22,450.00 PHP (Net 30)
 
 DELIVERED ITEMS:
-1. 20kg Organic Hot Sugar Wax Pellets â€” 100% Quantity Verified (Store Inspected)
-2. 100m Waxing Paper Roll Strips â€” 100% Intact & Sanitized
-3. 2,000 pcs Wooden Precision Applicator Sticks â€” Verified
+1. 20kg Organic Hot Sugar Wax Pellets Ã¢â‚¬â€ 100% Quantity Verified (Store Inspected)
+2. 100m Waxing Paper Roll Strips Ã¢â‚¬â€ 100% Intact & Sanitized
+3. 2,000 pcs Wooden Precision Applicator Sticks Ã¢â‚¬â€ Verified
 
 3-WAY MATCH STATUS:
-âœ“ Purchase Order PO-2026-0901 Approved
-âœ“ Store Goods Inspection Confirmed by Cherimar Concigo
-âœ“ Commissary Billing Invoice Matched & Forwarded to Accounting AP Ledger (Voucher AP-VOUCHER-0901)`
+Ã¢Å“â€œ Purchase Order PO-2026-0901 Approved
+Ã¢Å“â€œ Store Goods Inspection Confirmed by Cherimar Concigo
+Ã¢Å“â€œ Commissary Billing Invoice Matched & Forwarded to Accounting AP Ledger (Voucher AP-VOUCHER-0901)`
     },
     {
       id: 'DOC-2026-004',
@@ -1714,13 +1714,13 @@ LESSOR: Ayala Land Inc. / Centrio Mall Cagayan de Oro
 LESSEE: ALRAJJ LEGACY Fortified Business Corp.
 UNIT: Level 2, Spaces 204 & 205 (Waxing Salon & Passion Nails)
 
-MONTHLY BASE RENT: â‚±85,000.00 PHP + CUSA Dues
+MONTHLY BASE RENT: Ã¢â€šÂ±85,000.00 PHP + CUSA Dues
 WITHHOLDING TAX: 5% BIR Form 0619-E expanded withholding deducted at source.
 TERMS: 12-Month Renewable Lease with continuous utility and Mall merchant association participation.`
     },
     {
       id: 'DOC-2026-005',
-      title: 'BPI BizLink Master Batch Payroll Authorization - July 16-31 (â‚±68,400.00)',
+      title: 'BPI BizLink Master Batch Payroll Authorization - July 16-31 (Ã¢â€šÂ±68,400.00)',
       category: 'BPI Banking & Authorizations',
       branch: 'Consolidated (All Branches)',
       date: '2026-07-31',
@@ -1739,10 +1739,10 @@ DATE: July 31, 2026
 BATCH REFERENCE: PAYROLL-2026-07-B
 
 TO: Bank of the Philippine Islands (BPI BizLink Operations)
-TOTAL DISBURSEMENT: â‚±68,400.00 PHP
+TOTAL DISBURSEMENT: Ã¢â€šÂ±68,400.00 PHP
 DEBIT MASTER ACCOUNT: 0249-8214-00 (ALRAJJ LEGACY Fortified Business Corp.)
 
-I, Ms. Jehan Abedin, Managing Director of ALRAJJ LEGACY Fortified Business Corp., hereby officially authorize and certify the automated debit of â‚±68,400.00 from our corporate master account for direct crediting into employee payroll ATM accounts across Centrio, Ketkai, and SM Downtown branches.`
+I, Ms. Jehan Abedin, Managing Director of ALRAJJ LEGACY Fortified Business Corp., hereby officially authorize and certify the automated debit of Ã¢â€šÂ±68,400.00 from our corporate master account for direct crediting into employee payroll ATM accounts across Centrio, Ketkai, and SM Downtown branches.`
     },
     {
       id: 'DOC-2026-006',
@@ -1764,7 +1764,7 @@ EMPLOYER: ALRAJJ LEGACY Fortified Business Corp. (Lay Bare Franchisee)
 LOCATION: Upcoming Iligan City Branch
 
 POSITION: Senior Waxing & Aesthetic Specialist
-COMPENSATION: â‚±650.00 Daily Base + 10% Service Commission + Statutory Benefits (SSS, PhilHealth, Pag-IBIG, 13th Month Pay, SIL).
+COMPENSATION: Ã¢â€šÂ±650.00 Daily Base + 10% Service Commission + Statutory Benefits (SSS, PhilHealth, Pag-IBIG, 13th Month Pay, SIL).
 
 CONFIDENTIALITY & NON-COMPETE COVENANT:
 The Employee acknowledges that all Lay Bare proprietary waxing formulas, cold/hot organic techniques, client database details, and operational protocols are trade secrets of ALRAJJ LEGACY and the Lay Bare Franchisor.`
@@ -2042,20 +2042,20 @@ The Employee acknowledges that all Lay Bare proprietary waxing formulas, cold/ho
 
     setShowSignModal(false);
     setSelectedDocForSign(null);
-    setDmsToast(`âœï¸ Document ${docId} successfully E-Signed and Cryptographically Vaulted! Ready for Google Drive archiving & Gmail dispatch.`);
+    setDmsToast(`Ã¢Å“ÂÃ¯Â¸Â Document ${docId} successfully E-Signed and Cryptographically Vaulted! Ready for Google Drive archiving & Gmail dispatch.`);
     setTimeout(() => setDmsToast(''), 6000);
   };
 
   const handleSendGmailDoc = (doc) => {
     const sender = 'hr@alrajjlegacy-fortifiedbusinesscorp.com';
     setDmsDocuments(prev => prev.map(d => d.id === doc.id ? { ...d, gmailDispatched: true, dispatchedAt: new Date().toLocaleTimeString() } : d));
-    setDmsToast(`âœ‰ï¸ Official PDF dispatched from ${sender} to ${doc.recipientEmail || doc.recipient} via Google Workspace Gmail.`);
+    setDmsToast(`Ã¢Å“â€°Ã¯Â¸Â Official PDF dispatched from ${sender} to ${doc.recipientEmail || doc.recipient} via Google Workspace Gmail.`);
     setTimeout(() => setDmsToast(''), 6000);
   };
 
   const handleSyncGoogleDriveDoc = (doc) => {
     setDmsDocuments(prev => prev.map(d => d.id === doc.id ? { ...d, driveSyncStatus: 'Synced' } : d));
-    setDmsToast(`â˜ï¸ Document ${doc.id} backed up into Google Workspace Drive (${doc.googleDrivePath || 'Google Drive / ALRAJJ LEGACY CORP / 2026 Archive'}).`);
+    setDmsToast(`Ã¢ËœÂÃ¯Â¸Â Document ${doc.id} backed up into Google Workspace Drive (${doc.googleDrivePath || 'Google Drive / ALRAJJ LEGACY CORP / 2026 Archive'}).`);
     setTimeout(() => setDmsToast(''), 6000);
   };
 
@@ -2090,7 +2090,7 @@ The Employee acknowledges that all Lay Bare proprietary waxing formulas, cold/ho
       recipientEmail: 'hr@alrajjlegacy-fortifiedbusinesscorp.com',
       content: ''
     });
-    setDmsToast(`ðŸ“„ New document ${newDocId} filed into Google Workspace Cloud Vault!`);
+    setDmsToast(`Ã°Å¸â€œâ€ž New document ${newDocId} filed into Google Workspace Cloud Vault!`);
     setTimeout(() => setDmsToast(''), 5000);
   };
 
@@ -2121,9 +2121,9 @@ Failure to submit your explanation shall constitute a waiver of your right to be
 COMPANY: ALRAJJ LEGACY Fortified Business Corp.
 DATE: ${new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
 
-I, [EMPLOYEE NAME], employed at [BRANCH NAME], acknowledge receipt of a Cash Advance (Vale) in the amount of â‚±[AMOUNT] PHP.
+I, [EMPLOYEE NAME], employed at [BRANCH NAME], acknowledge receipt of a Cash Advance (Vale) in the amount of Ã¢â€šÂ±[AMOUNT] PHP.
 
-I authorize the Accounting Department to deduct â‚±[AMOUNT PER CUTOFF] PHP per semi-monthly cutoff over [NUMBER OF CUTOFFS] consecutive pay periods starting on [START DATE] until fully paid.
+I authorize the Accounting Department to deduct Ã¢â€šÂ±[AMOUNT PER CUTOFF] PHP per semi-monthly cutoff over [NUMBER OF CUTOFFS] consecutive pay periods starting on [START DATE] until fully paid.
 
 In case of employment separation, any unpaid balance shall be deducted from my final pay.`
     },
@@ -2137,7 +2137,7 @@ BRANCH: [BRANCH NAME]
 SPECIALIST: [EMPLOYEE NAME]
 
 POSITION: Salon Waxing & Aesthetic Specialist
-COMPENSATION: â‚±[DAILY RATE] / day + 10% Service Commission + Mandatory Benefits (SSS, PhilHealth, Pag-IBIG, 13th Month Pay, SIL).
+COMPENSATION: Ã¢â€šÂ±[DAILY RATE] / day + 10% Service Commission + Mandatory Benefits (SSS, PhilHealth, Pag-IBIG, 13th Month Pay, SIL).
 
 CONFIDENTIALITY:
 The Specialist agrees to safeguard all Lay Bare organic wax formulas, technique protocols, client records, and store operating systems.`
@@ -2149,15 +2149,15 @@ The Specialist agrees to safeguard all Lay Bare organic wax formulas, technique 
       content: `STORE DELIVERY INSPECTION & 3-WAY MATCH VOUCHER
 PURCHASE ORDER: [PO NUMBER]
 SUPPLIER: Lay Bare Franchisor (MyTime Commissary)
-TOTAL PAYABLE: â‚±[TOTAL AMOUNT] PHP
+TOTAL PAYABLE: Ã¢â€šÂ±[TOTAL AMOUNT] PHP
 
 INSPECTED ITEMS:
 1. [ITEM 1 NAME & QUANTITY] - 100% Intact & Inspected
 2. [ITEM 2 NAME & QUANTITY] - Verified against Packing Slip
 
 STATUS:
-âœ“ Store Goods Inspection Completed & Approved
-âœ“ Matched against Supplier Invoice and Purchase Order`
+Ã¢Å“â€œ Store Goods Inspection Completed & Approved
+Ã¢Å“â€œ Matched against Supplier Invoice and Purchase Order`
     },
     memo: {
       name: 'General Corporate Memorandum / Branch Notice',
@@ -2205,7 +2205,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
     }
 
     setShowEditDocModal(false);
-    setDmsToast(`âœï¸ Document ${editingDoc.id} customized and synchronized to Google Workspace Drive!`);
+    setDmsToast(`Ã¢Å“ÂÃ¯Â¸Â Document ${editingDoc.id} customized and synchronized to Google Workspace Drive!`);
     setTimeout(() => setDmsToast(''), 5000);
   };
 
@@ -2253,7 +2253,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
     setDnsTestStatus('testing');
     setTimeout(() => {
       setDnsTestStatus('success');
-      setSettingsToast(`ðŸŸ¢ DNS Health Check Passed! CNAME and TXT records for ${customDomainConfig.subdomain} are actively propagating.`);
+      setSettingsToast(`Ã°Å¸Å¸Â¢ DNS Health Check Passed! CNAME and TXT records for ${customDomainConfig.subdomain} are actively propagating.`);
       setTimeout(() => setSettingsToast(''), 5000);
     }, 1200);
   };
@@ -2262,7 +2262,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(text);
     }
-    setSettingsToast(`ðŸ“‹ Copied ${label} to clipboard: "${text}"`);
+    setSettingsToast(`Ã°Å¸â€œâ€¹ Copied ${label} to clipboard: "${text}"`);
     setTimeout(() => setSettingsToast(''), 4000);
   };
 
@@ -2304,7 +2304,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
         settings: false
       }
     });
-    setSettingsToast(`âœ… User account ${newUser.name} (${newId}) successfully created with custom RBAC permissions.`);
+    setSettingsToast(`Ã¢Å“â€¦ User account ${newUser.name} (${newId}) successfully created with custom RBAC permissions.`);
     setTimeout(() => setSettingsToast(''), 5000);
   };
 
@@ -2336,7 +2336,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
       biometricIp: 'NGTeco MB20 Series',
       bedsStations: '4 Stations'
     });
-    setSettingsToast(`ðŸ¢ Branch ${newBr.name} (${newId}) registered in multi-store network.`);
+    setSettingsToast(`Ã°Å¸ÂÂ¢ Branch ${newBr.name} (${newId}) registered in multi-store network.`);
     setTimeout(() => setSettingsToast(''), 5000);
   };
 
@@ -2345,7 +2345,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
       try {
         const cacheNames = await caches.keys();
         await Promise.all(cacheNames.map(name => caches.delete(name)));
-        setSettingsToast('ðŸ§¹ Offline Service Worker Cache successfully cleared! Reloading fresh assets...');
+        setSettingsToast('Ã°Å¸Â§Â¹ Offline Service Worker Cache successfully cleared! Reloading fresh assets...');
         setTimeout(() => {
           setSettingsToast('');
           window.location.reload();
@@ -2760,7 +2760,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
       toastMessage = `HR/Accounting verified ${item.id}! Passed to Managing Director Ms. Jehan Abedin for executive authorization.`;
     } else if (nextLevel >= 5) {
       newStatus = 'Approved & Disbursed';
-      toastMessage = `ðŸ‘‘ Managing Director Ms. Jehan Abedin officially authorized ${item.id}! Auto-posted to GL and queued for BPI release.`;
+      toastMessage = `Ã°Å¸â€˜â€˜ Managing Director Ms. Jehan Abedin officially authorized ${item.id}! Auto-posted to GL and queued for BPI release.`;
     }
 
     setApprovalsList(prev => prev.map(a => {
@@ -2891,7 +2891,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
         formatter: (params) => {
           let str = `<div class="font-bold border-b border-[#F2F0E8] pb-1 mb-1">${params[0].name}</div>`;
           params.forEach(p => {
-            str += `<div class="flex items-center justify-between space-x-4"><span style="color:${p.color}">â— ${p.seriesName}:</span> <strong class="font-mono">â‚±${Number(p.value).toLocaleString()}</strong></div>`;
+            str += `<div class="flex items-center justify-between space-x-4"><span style="color:${p.color}">Ã¢â€”Â ${p.seriesName}:</span> <strong class="font-mono">Ã¢â€šÂ±${Number(p.value).toLocaleString()}</strong></div>`;
           });
           return str;
         }
@@ -2914,7 +2914,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
         axisLabel: {
           color: '#8A817C',
           fontSize: 10,
-          formatter: (val) => `â‚±${(val / 1000).toFixed(0)}k`
+          formatter: (val) => `Ã¢â€šÂ±${(val / 1000).toFixed(0)}k`
         }
       },
       series: [
@@ -2949,7 +2949,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
       backgroundColor: 'transparent',
       tooltip: {
         trigger: 'item',
-        formatter: '{b}: â‚±{c} ({d}%)',
+        formatter: '{b}: Ã¢â€šÂ±{c} ({d}%)',
         backgroundColor: '#FFFFFF',
         borderColor: '#EAE8E2',
         borderRadius: 12
@@ -3011,7 +3011,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
     };
 
     setJournalEntries(prev => [newJe, ...prev]);
-    setAccountingToast(`Invoice ${inv.id} for â‚±${inv.amount.toLocaleString()} disbursed via BPI BizLink & auto-posted to General Ledger.`);
+    setAccountingToast(`Invoice ${inv.id} for Ã¢â€šÂ±${inv.amount.toLocaleString()} disbursed via BPI BizLink & auto-posted to General Ledger.`);
     setTimeout(() => setAccountingToast(''), 6000);
   };
 
@@ -3021,7 +3021,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
     const totalCredit = newJournalEntry.lines.reduce((sum, l) => sum + (Number(l.credit) || 0), 0);
 
     if (Math.abs(totalDebit - totalCredit) > 0.01) {
-      alert(`Journal entry is unbalanced! Total Debits: â‚±${totalDebit.toFixed(2)} vs Total Credits: â‚±${totalCredit.toFixed(2)}. Debits must equal Credits.`);
+      alert(`Journal entry is unbalanced! Total Debits: Ã¢â€šÂ±${totalDebit.toFixed(2)} vs Total Credits: Ã¢â€šÂ±${totalCredit.toFixed(2)}. Debits must equal Credits.`);
       return;
     }
 
@@ -3044,7 +3044,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
 
     setJournalEntries(prev => [createdJe, ...prev]);
     setShowNewJournalModal(false);
-    setAccountingToast(`Journal Entry ${createdJe.id} posted successfully with â‚±${totalDebit.toLocaleString()} balanced lines.`);
+    setAccountingToast(`Journal Entry ${createdJe.id} posted successfully with Ã¢â€šÂ±${totalDebit.toLocaleString()} balanced lines.`);
     setTimeout(() => setAccountingToast(''), 5000);
   };
 
@@ -3099,7 +3099,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
 
     setPosReconciliations(prev => [createdRec, ...prev]);
     setShowPosReconModal(false);
-    setAccountingToast(`Daily POS Cash Audit saved for ${createdRec.branch}: Expected â‚±${expected.toLocaleString()}, Counted â‚±${actual.toLocaleString()} (${createdRec.status}).`);
+    setAccountingToast(`Daily POS Cash Audit saved for ${createdRec.branch}: Expected Ã¢â€šÂ±${expected.toLocaleString()}, Counted Ã¢â€šÂ±${actual.toLocaleString()} (${createdRec.status}).`);
     setTimeout(() => setAccountingToast(''), 6000);
   };
 
@@ -3158,7 +3158,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
       status: 'Reconciled & Balanced',
       auditNotes: 'Auto-audited & verified matching POS electronic journal'
     })));
-    setAccountingToast('All 4 branch POS shift cash drawers successfully balanced & reconciled to â‚±0 variance.');
+    setAccountingToast('All 4 branch POS shift cash drawers successfully balanced & reconciled to Ã¢â€šÂ±0 variance.');
     setTimeout(() => setAccountingToast(''), 5000);
   };
 
@@ -3186,7 +3186,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
         ]
       };
       setJournalEntries(prev => [newJe, ...prev]);
-      setAccountingToast('Biometric Payroll â‚±68,400.00 auto-posted to General Ledger with balanced statutory accruals.');
+      setAccountingToast('Biometric Payroll Ã¢â€šÂ±68,400.00 auto-posted to General Ledger with balanced statutory accruals.');
     }
     setTimeout(() => setAccountingToast(''), 5000);
   };
@@ -3209,7 +3209,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
 
     setServiceTickets(prev => [createdTicket, ...prev]);
     setShowNewTicketModal(false);
-    setCrmToast(`Service Ticket ${createdTicket.id} (â‚±${createdTicket.amount.toLocaleString()}) saved & credited to ${createdTicket.specialist}! Auto-synced with daily POS audit.`);
+    setCrmToast(`Service Ticket ${createdTicket.id} (Ã¢â€šÂ±${createdTicket.amount.toLocaleString()}) saved & credited to ${createdTicket.specialist}! Auto-synced with daily POS audit.`);
     setTimeout(() => setCrmToast(''), 5000);
   };
 
@@ -3561,7 +3561,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
               title="Switch between Live Store Testing and Demo Simulation Data"
             >
               <Database className={`h-3.5 w-3.5 ${systemDataMode === 'live' ? 'text-[#77BC2E]' : 'text-[#8A817C]'}`} />
-              <span className="hidden md:inline">{systemDataMode === 'live' ? 'ðŸ¢ Live Store Mode' : 'ðŸ§ª Demo Mode'}</span>
+              <span className="hidden md:inline">{systemDataMode === 'live' ? 'Ã°Å¸ÂÂ¢ Live Store Mode' : 'Ã°Å¸Â§Âª Demo Mode'}</span>
               <span className="md:hidden">{systemDataMode === 'live' ? 'Live' : 'Demo'}</span>
             </button>
 
@@ -3942,7 +3942,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                       onClick={() => setActiveTab('payroll')}
                       className="font-bold text-[#77BC2E] hover:underline"
                     >
-                      Run Payroll â†’
+                      Run Payroll Ã¢â€ â€™
                     </button>
                   </div>
                 </div>
@@ -4357,7 +4357,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                               {req.priority} Priority
                             </span>
                             <span className="text-xs text-[#8A817C] font-semibold">
-                              â— {req.branch}
+                              Ã¢â€”Â {req.branch}
                             </span>
                           </div>
                           <h3 className="font-extrabold text-base text-[#4A2E1B]">{req.title}</h3>
@@ -4366,7 +4366,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                         <div className="text-right flex flex-col md:items-end">
                           {req.amount && (
                             <span className="text-lg font-mono font-extrabold text-[#77BC2E]">
-                              â‚±{req.amount.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                              Ã¢â€šÂ±{req.amount.toLocaleString(undefined, { minimumFractionDigits: 2 })}
                             </span>
                           )}
                           <span className={`text-xs font-bold px-2.5 py-0.5 rounded-full inline-block ${
@@ -4474,12 +4474,12 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                           )}
                           {req.currentLevel === 4 && (
                             <span className="text-[#031134] font-bold">
-                              ðŸ‘‘ Awaiting <strong>Level 4: Managing Director Ms. Jehan Abedin</strong> executive sign-off & BPI disbursement.
+                              Ã°Å¸â€˜â€˜ Awaiting <strong>Level 4: Managing Director Ms. Jehan Abedin</strong> executive sign-off & BPI disbursement.
                             </span>
                           )}
                           {req.currentLevel >= 5 && (
                             <span className="text-[#77BC2E] font-bold">
-                              âœ… Fully Approved & Disbursed! Auto-posted to General Ledger & BPI BizLink Batch file.
+                              Ã¢Å“â€¦ Fully Approved & Disbursed! Auto-posted to General Ledger & BPI BizLink Batch file.
                             </span>
                           )}
                         </div>
@@ -4512,7 +4512,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                                 className="bg-gradient-to-r from-[#031134] to-[#77BC2E] hover:opacity-95 text-white text-xs font-extrabold px-5 py-2.5 rounded-xl transition-all flex items-center space-x-2 shadow-md"
                               >
                                 <ShieldCheck className="h-4 w-4 text-[#77BC2E]" />
-                                <span>ðŸ‘‘ Authorize as Managing Director (Ms. Jehan Abedin)</span>
+                                <span>Ã°Å¸â€˜â€˜ Authorize as Managing Director (Ms. Jehan Abedin)</span>
                               </button>
                             )}
 
@@ -4559,7 +4559,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                         <FileSpreadsheet className="h-5 w-5" />
                       </div>
                       <p className="font-bold text-sm text-[#4A2E1B]">{uploadFile.name}</p>
-                      <p className="text-xs text-[#8A817C]">{(uploadFile.size / 1024).toFixed(1)} KB â€” Ready to parse</p>
+                      <p className="text-xs text-[#8A817C]">{(uploadFile.size / 1024).toFixed(1)} KB Ã¢â‚¬â€ Ready to parse</p>
                     </div>
                   ) : (
                     <div className="space-y-2">
@@ -4855,7 +4855,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                       Accounting & Financial Operations
                     </h2>
                     <p className="text-xs text-[#8A817C] max-w-2xl mt-0.5">
-                      Smart, automated bookkeeping designed for Lay Bare branches. Zero manual spreadsheets neededâ€”all POS revenue, payroll accruals, and supplier bills are automatically reconciled.
+                      Smart, automated bookkeeping designed for Lay Bare branches. Zero manual spreadsheets neededÃ¢â‚¬â€all POS revenue, payroll accruals, and supplier bills are automatically reconciled.
                     </p>
                   </div>
 
@@ -4896,7 +4896,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                 <div className="bg-gradient-to-r from-[#FAF9F5] via-[#F4F2EB] to-[#FAF9F5] border border-[#EAE8E2] rounded-2xl p-3.5 flex flex-col md:flex-row md:items-center justify-between gap-3">
                   <div className="flex items-center space-x-2">
                     <span className="w-2 h-2 rounded-full bg-[#77BC2E] animate-pulse"></span>
-                    <span className="text-xs font-extrabold text-[#4A2E1B]">âš¡ 1-Click Smart Automations:</span>
+                    <span className="text-xs font-extrabold text-[#4A2E1B]">Ã¢Å¡Â¡ 1-Click Smart Automations:</span>
                     <span className="text-[11px] text-[#8A817C] hidden sm:inline">(Automates everything in seconds)</span>
                   </div>
 
@@ -5044,7 +5044,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                         </div>
                       </div>
                       <div className="text-2xl font-black text-[#4A2E1B] font-mono">
-                        â‚±{(bankBalances.bpiBizLink + 90000).toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                        Ã¢â€šÂ±{(bankBalances.bpiBizLink + 90000).toLocaleString('en-US', { minimumFractionDigits: 2 })}
                       </div>
                       <div className="flex items-center space-x-1.5 text-[11px] text-[#5A9A1E] font-semibold">
                         <CheckCircle className="h-3.5 w-3.5" />
@@ -5060,11 +5060,11 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                         </div>
                       </div>
                       <div className="text-2xl font-black text-[#4A2E1B] font-mono">
-                        â‚±1,284,650.00
+                        Ã¢â€šÂ±1,284,650.00
                       </div>
                       <div className="flex items-center space-x-1.5 text-[11px] text-[#5A9A1E] font-semibold">
                         <ArrowUpRight className="h-3.5 w-3.5" />
-                        <span>80.67% Gross Margin (â‚±1.036M)</span>
+                        <span>80.67% Gross Margin (Ã¢â€šÂ±1.036M)</span>
                       </div>
                     </div>
 
@@ -5076,10 +5076,10 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                         </div>
                       </div>
                       <div className="text-2xl font-black text-[#4A2E1B] font-mono">
-                        â‚±582,400.00
+                        Ã¢â€šÂ±582,400.00
                       </div>
                       <div className="text-[11px] text-[#8A817C] font-semibold">
-                        Salaries: â‚±184.5k &bull; Mall Leases: â‚±295k
+                        Salaries: Ã¢â€šÂ±184.5k &bull; Mall Leases: Ã¢â€šÂ±295k
                       </div>
                     </div>
 
@@ -5091,7 +5091,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                         </div>
                       </div>
                       <div className="text-2xl font-black text-white font-mono">
-                        â‚±453,950.00
+                        Ã¢â€šÂ±453,950.00
                       </div>
                       <div className="flex items-center space-x-1.5 text-[11px] text-[#77BC2E] font-semibold">
                         <Sparkles className="h-3.5 w-3.5 text-[#D4AF37]" />
@@ -5139,28 +5139,28 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                             <span className="w-2 h-2 rounded-full bg-[#77BC2E]"></span>
                             <span>Centrio Waxing Salon</span>
                           </span>
-                          <strong className="font-mono text-[#4A2E1B]">â‚±542.1k (42%)</strong>
+                          <strong className="font-mono text-[#4A2E1B]">Ã¢â€šÂ±542.1k (42%)</strong>
                         </div>
                         <div className="flex items-center justify-between">
                           <span className="text-[#5A534E] flex items-center space-x-1.5">
                             <span className="w-2 h-2 rounded-full bg-[#E89BB9]"></span>
                             <span>Passion Nails (Centrio)</span>
                           </span>
-                          <strong className="font-mono text-[#4A2E1B]">â‚±318.4k (25%)</strong>
+                          <strong className="font-mono text-[#4A2E1B]">Ã¢â€šÂ±318.4k (25%)</strong>
                         </div>
                         <div className="flex items-center justify-between">
                           <span className="text-[#5A534E] flex items-center space-x-1.5">
                             <span className="w-2 h-2 rounded-full bg-[#B58EBE]"></span>
                             <span>Limketkai Mall</span>
                           </span>
-                          <strong className="font-mono text-[#4A2E1B]">â‚±264.1k (21%)</strong>
+                          <strong className="font-mono text-[#4A2E1B]">Ã¢â€šÂ±264.1k (21%)</strong>
                         </div>
                         <div className="flex items-center justify-between">
                           <span className="text-[#5A534E] flex items-center space-x-1.5">
                             <span className="w-2 h-2 rounded-full bg-[#031134]"></span>
                             <span>SM Downtown Premier</span>
                           </span>
-                          <strong className="font-mono text-[#4A2E1B]">â‚±160.0k (12%)</strong>
+                          <strong className="font-mono text-[#4A2E1B]">Ã¢â€šÂ±160.0k (12%)</strong>
                         </div>
                       </div>
                     </div>
@@ -5192,7 +5192,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                           <span className="bg-[#031134] text-[#D4AF37] text-[9px] font-bold px-1.5 py-0.5 rounded">BPI BizLink</span>
                         </div>
                         <strong className="text-[#4A2E1B] text-lg block font-mono">
-                          â‚±{bankBalances.bpiBizLink.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                          Ã¢â€šÂ±{bankBalances.bpiBizLink.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                         </strong>
                         <p className="text-[11px] text-[#8A817C]">Acc: 0249-8819-22 (ALRAJJ LEGACY Fortified)</p>
                       </div>
@@ -5200,7 +5200,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                       <div className="bg-white border border-[#EAE8E2] rounded-2xl p-4 space-y-1">
                         <span className="text-[10px] font-extrabold uppercase text-[#8A817C] block">Centrio Waxing Float</span>
                         <strong className="text-[#4A2E1B] text-base block font-mono">
-                          â‚±{bankBalances.pettyCashCentrioWaxing.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                          Ã¢â€šÂ±{bankBalances.pettyCashCentrioWaxing.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                         </strong>
                         <span className="text-[10px] font-bold text-[#5A9A1E]">Audited & Balanced</span>
                       </div>
@@ -5208,7 +5208,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                       <div className="bg-white border border-[#EAE8E2] rounded-2xl p-4 space-y-1">
                         <span className="text-[10px] font-extrabold uppercase text-[#8A817C] block">Passion Nails Float</span>
                         <strong className="text-[#4A2E1B] text-base block font-mono">
-                          â‚±{bankBalances.pettyCashPassionNails.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                          Ã¢â€šÂ±{bankBalances.pettyCashPassionNails.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                         </strong>
                         <span className="text-[10px] font-bold text-[#5A9A1E]">Audited & Balanced</span>
                       </div>
@@ -5216,7 +5216,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                       <div className="bg-white border border-[#EAE8E2] rounded-2xl p-4 space-y-1">
                         <span className="text-[10px] font-extrabold uppercase text-[#8A817C] block">Ketkai & SM Floats</span>
                         <strong className="text-[#4A2E1B] text-base block font-mono">
-                          â‚±{(bankBalances.pettyCashLimketkai + bankBalances.pettyCashSmDowntown).toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                          Ã¢â€šÂ±{(bankBalances.pettyCashLimketkai + bankBalances.pettyCashSmDowntown).toLocaleString('en-US', { minimumFractionDigits: 2 })}
                         </strong>
                         <span className="text-[10px] font-bold text-[#5A9A1E]">Combined Total</span>
                       </div>
@@ -5297,7 +5297,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                           <div className="bg-[#FAF9F5] border border-[#EAE8E2] rounded-2xl p-4 text-right">
                             <span className="text-[10px] font-bold uppercase text-[#8A817C] block">Net Operating Profit</span>
                             <span className="text-2xl font-black text-[#5A9A1E] font-mono">
-                              â‚±{currentBranch.netOperatingIncome.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                              Ã¢â€šÂ±{currentBranch.netOperatingIncome.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                             </span>
                             <span className="text-[11px] font-extrabold text-[#77BC2E] block">
                               {currentBranch.netMarginPct}% Net Margin
@@ -5325,23 +5325,23 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                               </tr>
                               <tr>
                                 <td className="py-2 px-8 text-[#5A534E]">Waxing Salon Services Revenue</td>
-                                <td className="py-2 px-4 text-right font-mono">â‚±{currentBranch.revenue.waxingServices.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+                                <td className="py-2 px-4 text-right font-mono">Ã¢â€šÂ±{currentBranch.revenue.waxingServices.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
                                 <td className="py-2 px-4 text-right text-[#8A817C] font-mono">{((currentBranch.revenue.waxingServices / currentBranch.revenue.totalRevenue) * 100).toFixed(1)}%</td>
                               </tr>
                               <tr>
                                 <td className="py-2 px-8 text-[#5A534E]">Nail Art & Spa Services Revenue</td>
-                                <td className="py-2 px-4 text-right font-mono">â‚±{currentBranch.revenue.nailServices.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+                                <td className="py-2 px-4 text-right font-mono">Ã¢â€šÂ±{currentBranch.revenue.nailServices.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
                                 <td className="py-2 px-4 text-right text-[#8A817C] font-mono">{((currentBranch.revenue.nailServices / currentBranch.revenue.totalRevenue) * 100).toFixed(1)}%</td>
                               </tr>
                               <tr>
                                 <td className="py-2 px-8 text-[#5A534E]">Retail Aftercare Products (Balms, Lotions, Scrubs)</td>
-                                <td className="py-2 px-4 text-right font-mono">â‚±{currentBranch.revenue.retailProducts.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+                                <td className="py-2 px-4 text-right font-mono">Ã¢â€šÂ±{currentBranch.revenue.retailProducts.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
                                 <td className="py-2 px-4 text-right text-[#8A817C] font-mono">{((currentBranch.revenue.retailProducts / currentBranch.revenue.totalRevenue) * 100).toFixed(1)}%</td>
                               </tr>
                               <tr className="bg-[#77BC2E]/10 font-bold text-[#4A2E1B]">
                                 <td className="py-2.5 px-4 font-bold">TOTAL GROSS REVENUE</td>
                                 <td className="py-2.5 px-4 text-right font-mono font-black text-[#5A9A1E]">
-                                  â‚±{currentBranch.revenue.totalRevenue.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                                  Ã¢â€šÂ±{currentBranch.revenue.totalRevenue.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                                 </td>
                                 <td className="py-2.5 px-4 text-right font-mono font-bold text-[#5A9A1E]">100.0%</td>
                               </tr>
@@ -5354,28 +5354,28 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                               </tr>
                               <tr>
                                 <td className="py-2 px-8 text-[#5A534E]">Organic Honey/Sugar Wax Consumables</td>
-                                <td className="py-2 px-4 text-right font-mono text-[#D47098]">â‚±{currentBranch.cogs.waxConsumables.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+                                <td className="py-2 px-4 text-right font-mono text-[#D47098]">Ã¢â€šÂ±{currentBranch.cogs.waxConsumables.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
                                 <td className="py-2 px-4 text-right text-[#8A817C] font-mono">{((currentBranch.cogs.waxConsumables / currentBranch.revenue.totalRevenue) * 100).toFixed(1)}%</td>
                               </tr>
                               <tr>
                                 <td className="py-2 px-8 text-[#5A534E]">Nail Gels, Lacquers & Acrylic Powders</td>
-                                <td className="py-2 px-4 text-right font-mono text-[#D47098]">â‚±{currentBranch.cogs.nailGelsAndLacquers.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+                                <td className="py-2 px-4 text-right font-mono text-[#D47098]">Ã¢â€šÂ±{currentBranch.cogs.nailGelsAndLacquers.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
                                 <td className="py-2 px-4 text-right text-[#8A817C] font-mono">{((currentBranch.cogs.nailGelsAndLacquers / currentBranch.revenue.totalRevenue) * 100).toFixed(1)}%</td>
                               </tr>
                               <tr>
                                 <td className="py-2 px-8 text-[#5A534E]">PPE, Disposable Strips & Sanitizer Kits</td>
-                                <td className="py-2 px-4 text-right font-mono text-[#D47098]">â‚±{currentBranch.cogs.ppeAndSanitizers.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+                                <td className="py-2 px-4 text-right font-mono text-[#D47098]">Ã¢â€šÂ±{currentBranch.cogs.ppeAndSanitizers.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
                                 <td className="py-2 px-4 text-right text-[#8A817C] font-mono">{((currentBranch.cogs.ppeAndSanitizers / currentBranch.revenue.totalRevenue) * 100).toFixed(1)}%</td>
                               </tr>
                               <tr>
                                 <td className="py-2 px-8 text-[#5A534E]">Branded Product Packaging & Carry Bags</td>
-                                <td className="py-2 px-4 text-right font-mono text-[#D47098]">â‚±{currentBranch.cogs.packagingAndBags.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+                                <td className="py-2 px-4 text-right font-mono text-[#D47098]">Ã¢â€šÂ±{currentBranch.cogs.packagingAndBags.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
                                 <td className="py-2 px-4 text-right text-[#8A817C] font-mono">{((currentBranch.cogs.packagingAndBags / currentBranch.revenue.totalRevenue) * 100).toFixed(1)}%</td>
                               </tr>
                               <tr className="bg-[#FAF9F5] font-bold text-[#4A2E1B]">
                                 <td className="py-2.5 px-4 font-bold">TOTAL COST OF GOODS SOLD</td>
                                 <td className="py-2.5 px-4 text-right font-mono font-bold text-[#D47098]">
-                                  (â‚±{currentBranch.cogs.totalCogs.toLocaleString('en-US', { minimumFractionDigits: 2 })})
+                                  (Ã¢â€šÂ±{currentBranch.cogs.totalCogs.toLocaleString('en-US', { minimumFractionDigits: 2 })})
                                 </td>
                                 <td className="py-2.5 px-4 text-right font-mono text-[#8A817C]">{((currentBranch.cogs.totalCogs / currentBranch.revenue.totalRevenue) * 100).toFixed(1)}%</td>
                               </tr>
@@ -5384,7 +5384,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                               <tr className="bg-[#77BC2E]/20 font-black text-[#4A2E1B] text-sm">
                                 <td className="py-3 px-4 uppercase">GROSS PROFIT</td>
                                 <td className="py-3 px-4 text-right font-mono font-black text-[#5A9A1E]">
-                                  â‚±{currentBranch.grossProfit.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                                  Ã¢â€šÂ±{currentBranch.grossProfit.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                                 </td>
                                 <td className="py-3 px-4 text-right font-mono font-black text-[#5A9A1E]">{currentBranch.grossMarginPct}%</td>
                               </tr>
@@ -5400,38 +5400,38 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                                   <span>Salaries, Overtime & Staff Allowances</span>
                                   <span className="bg-[#77BC2E]/15 text-[#5A9A1E] text-[9px] px-1.5 py-0.2 rounded font-bold">Payroll Synced</span>
                                 </td>
-                                <td className="py-2 px-4 text-right font-mono text-[#4A2E1B]">â‚±{currentBranch.operatingExpenses.salariesAndWages.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+                                <td className="py-2 px-4 text-right font-mono text-[#4A2E1B]">Ã¢â€šÂ±{currentBranch.operatingExpenses.salariesAndWages.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
                                 <td className="py-2 px-4 text-right text-[#8A817C] font-mono">{((currentBranch.operatingExpenses.salariesAndWages / currentBranch.revenue.totalRevenue) * 100).toFixed(1)}%</td>
                               </tr>
                               <tr>
                                 <td className="py-2 px-8 text-[#5A534E]">Mall Space Lease & CUSA Common Charges (Ayala/SM)</td>
-                                <td className="py-2 px-4 text-right font-mono text-[#4A2E1B]">â‚±{currentBranch.operatingExpenses.storeRentsAndCusa.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+                                <td className="py-2 px-4 text-right font-mono text-[#4A2E1B]">Ã¢â€šÂ±{currentBranch.operatingExpenses.storeRentsAndCusa.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
                                 <td className="py-2 px-4 text-right text-[#8A817C] font-mono">{((currentBranch.operatingExpenses.storeRentsAndCusa / currentBranch.revenue.totalRevenue) * 100).toFixed(1)}%</td>
                               </tr>
                               <tr>
                                 <td className="py-2 px-8 text-[#5A534E]">Electricity, Air Conditioning & Water Utilities</td>
-                                <td className="py-2 px-4 text-right font-mono text-[#4A2E1B]">â‚±{currentBranch.operatingExpenses.electricityAndWater.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+                                <td className="py-2 px-4 text-right font-mono text-[#4A2E1B]">Ã¢â€šÂ±{currentBranch.operatingExpenses.electricityAndWater.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
                                 <td className="py-2 px-4 text-right text-[#8A817C] font-mono">{((currentBranch.operatingExpenses.electricityAndWater / currentBranch.revenue.totalRevenue) * 100).toFixed(1)}%</td>
                               </tr>
                               <tr>
                                 <td className="py-2 px-8 text-[#5A534E]">Digital Marketing, SMS Bookings & Loyalty Rewards</td>
-                                <td className="py-2 px-4 text-right font-mono text-[#4A2E1B]">â‚±{currentBranch.operatingExpenses.marketingAndLoyalty.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+                                <td className="py-2 px-4 text-right font-mono text-[#4A2E1B]">Ã¢â€šÂ±{currentBranch.operatingExpenses.marketingAndLoyalty.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
                                 <td className="py-2 px-4 text-right text-[#8A817C] font-mono">{((currentBranch.operatingExpenses.marketingAndLoyalty / currentBranch.revenue.totalRevenue) * 100).toFixed(1)}%</td>
                               </tr>
                               <tr>
                                 <td className="py-2 px-8 text-[#5A534E]">Salon Sanitation & Equipment Maintenance</td>
-                                <td className="py-2 px-4 text-right font-mono text-[#4A2E1B]">â‚±{currentBranch.operatingExpenses.maintenanceAndSanitation.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+                                <td className="py-2 px-4 text-right font-mono text-[#4A2E1B]">Ã¢â€šÂ±{currentBranch.operatingExpenses.maintenanceAndSanitation.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
                                 <td className="py-2 px-4 text-right text-[#8A817C] font-mono">{((currentBranch.operatingExpenses.maintenanceAndSanitation / currentBranch.revenue.totalRevenue) * 100).toFixed(1)}%</td>
                               </tr>
                               <tr>
                                 <td className="py-2 px-8 text-[#5A534E]">Depreciation - Wax Warmers & Spa Chairs</td>
-                                <td className="py-2 px-4 text-right font-mono text-[#4A2E1B]">â‚±{currentBranch.operatingExpenses.depreciationEquipment.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+                                <td className="py-2 px-4 text-right font-mono text-[#4A2E1B]">Ã¢â€šÂ±{currentBranch.operatingExpenses.depreciationEquipment.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
                                 <td className="py-2 px-4 text-right text-[#8A817C] font-mono">{((currentBranch.operatingExpenses.depreciationEquipment / currentBranch.revenue.totalRevenue) * 100).toFixed(1)}%</td>
                               </tr>
                               <tr className="bg-[#FAF9F5] font-bold text-[#4A2E1B]">
                                 <td className="py-2.5 px-4 font-bold">TOTAL OPERATING EXPENSES</td>
                                 <td className="py-2.5 px-4 text-right font-mono font-bold text-[#4A2E1B]">
-                                  (â‚±{currentBranch.operatingExpenses.totalOpex.toLocaleString('en-US', { minimumFractionDigits: 2 })})
+                                  (Ã¢â€šÂ±{currentBranch.operatingExpenses.totalOpex.toLocaleString('en-US', { minimumFractionDigits: 2 })})
                                 </td>
                                 <td className="py-2.5 px-4 text-right font-mono text-[#8A817C]">{((currentBranch.operatingExpenses.totalOpex / currentBranch.revenue.totalRevenue) * 100).toFixed(1)}%</td>
                               </tr>
@@ -5443,7 +5443,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                                   <span>NET OPERATING INCOME (EBITDA)</span>
                                 </td>
                                 <td className="py-3 px-4 text-right font-mono font-black text-white text-base">
-                                  â‚±{currentBranch.netOperatingIncome.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                                  Ã¢â€šÂ±{currentBranch.netOperatingIncome.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                                 </td>
                                 <td className="py-3 px-4 text-right font-mono font-black text-[#D4AF37]">{currentBranch.netMarginPct}%</td>
                               </tr>
@@ -5479,7 +5479,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                     <div className="flex items-center space-x-3">
                       <div className="bg-[#77BC2E]/15 border border-[#77BC2E]/40 text-[#5A9A1E] px-4 py-2 rounded-2xl flex items-center space-x-2 text-xs font-extrabold shadow-2xs">
                         <CheckCircle className="h-4 w-4 text-[#77BC2E]" />
-                        <span>Balanced: Assets = Liabilities + Equity (â‚±4,121,700.00)</span>
+                        <span>Balanced: Assets = Liabilities + Equity (Ã¢â€šÂ±4,121,700.00)</span>
                       </div>
                       <button
                         onClick={() => { setFinancialReportType('balance_sheet'); setShowFinancialReportModal(true); }}
@@ -5502,7 +5502,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                           <span>Total Assets</span>
                         </h4>
                         <span className="font-mono font-black text-lg text-[#5A9A1E]">
-                          â‚±{balanceSheetData.assets.totalAssets.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                          Ã¢â€šÂ±{balanceSheetData.assets.totalAssets.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                         </span>
                       </div>
 
@@ -5514,27 +5514,27 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                         <div className="space-y-2 text-xs">
                           <div className="flex justify-between py-1.5 border-b border-[#FAF9F5]">
                             <span className="text-[#5A534E]">Cash & Cash Equivalents (BPI BizLink + Floats)</span>
-                            <strong className="font-mono text-[#4A2E1B]">â‚±{balanceSheetData.assets.currentAssets.cashAndCashEquivalents.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
+                            <strong className="font-mono text-[#4A2E1B]">Ã¢â€šÂ±{balanceSheetData.assets.currentAssets.cashAndCashEquivalents.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
                           </div>
                           <div className="flex justify-between py-1.5 border-b border-[#FAF9F5]">
                             <span className="text-[#5A534E]">Trade & Digital Accounts Receivable</span>
-                            <strong className="font-mono text-[#4A2E1B]">â‚±{balanceSheetData.assets.currentAssets.accountsReceivable.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
+                            <strong className="font-mono text-[#4A2E1B]">Ã¢â€šÂ±{balanceSheetData.assets.currentAssets.accountsReceivable.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
                           </div>
                           <div className="flex justify-between py-1.5 border-b border-[#FAF9F5]">
                             <span className="text-[#5A534E]">Consumable Stock Inventory (Wax & Gels)</span>
-                            <strong className="font-mono text-[#4A2E1B]">â‚±{balanceSheetData.assets.currentAssets.consumableInventory.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
+                            <strong className="font-mono text-[#4A2E1B]">Ã¢â€šÂ±{balanceSheetData.assets.currentAssets.consumableInventory.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
                           </div>
                           <div className="flex justify-between py-1.5 border-b border-[#FAF9F5]">
                             <span className="text-[#5A534E]">Retail Aftercare Product Inventory</span>
-                            <strong className="font-mono text-[#4A2E1B]">â‚±{balanceSheetData.assets.currentAssets.retailProductsInventory.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
+                            <strong className="font-mono text-[#4A2E1B]">Ã¢â€šÂ±{balanceSheetData.assets.currentAssets.retailProductsInventory.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
                           </div>
                           <div className="flex justify-between py-1.5 border-b border-[#FAF9F5]">
                             <span className="text-[#5A534E]">Prepaid Mall Space Lease Deposits (Ayala & SM)</span>
-                            <strong className="font-mono text-[#4A2E1B]">â‚±{balanceSheetData.assets.currentAssets.prepaidMallLeaseDeposits.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
+                            <strong className="font-mono text-[#4A2E1B]">Ã¢â€šÂ±{balanceSheetData.assets.currentAssets.prepaidMallLeaseDeposits.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
                           </div>
                           <div className="flex justify-between py-2 bg-[#FAF9F5] px-3 rounded-xl font-bold text-[#4A2E1B]">
                             <span>Total Current Assets</span>
-                            <span className="font-mono font-black text-[#5A9A1E]">â‚±{balanceSheetData.assets.currentAssets.totalCurrentAssets.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
+                            <span className="font-mono font-black text-[#5A9A1E]">Ã¢â€šÂ±{balanceSheetData.assets.currentAssets.totalCurrentAssets.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
                           </div>
                         </div>
                       </div>
@@ -5547,23 +5547,23 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                         <div className="space-y-2 text-xs">
                           <div className="flex justify-between py-1.5 border-b border-[#FAF9F5]">
                             <span className="text-[#5A534E]">Salon Fixtures, Warmers & Sterilizers</span>
-                            <strong className="font-mono text-[#4A2E1B]">â‚±{balanceSheetData.assets.nonCurrentAssets.salonFixturesAndEquipment.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
+                            <strong className="font-mono text-[#4A2E1B]">Ã¢â€šÂ±{balanceSheetData.assets.nonCurrentAssets.salonFixturesAndEquipment.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
                           </div>
                           <div className="flex justify-between py-1.5 border-b border-[#FAF9F5]">
                             <span className="text-[#5A534E]">Nail Stations, UV Lamps & Spa Chairs</span>
-                            <strong className="font-mono text-[#4A2E1B]">â‚±{balanceSheetData.assets.nonCurrentAssets.nailStationsAndSpaChairs.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
+                            <strong className="font-mono text-[#4A2E1B]">Ã¢â€šÂ±{balanceSheetData.assets.nonCurrentAssets.nailStationsAndSpaChairs.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
                           </div>
                           <div className="flex justify-between py-1.5 border-b border-[#FAF9F5]">
                             <span className="text-[#5A534E]">IT, Biometric Clocks & POS Terminals</span>
-                            <strong className="font-mono text-[#4A2E1B]">â‚±{balanceSheetData.assets.nonCurrentAssets.itAndBiometricHardware.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
+                            <strong className="font-mono text-[#4A2E1B]">Ã¢â€šÂ±{balanceSheetData.assets.nonCurrentAssets.itAndBiometricHardware.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
                           </div>
                           <div className="flex justify-between py-1.5 border-b border-[#FAF9F5]">
                             <span className="text-[#D47098]">Less: Accumulated Depreciation</span>
-                            <strong className="font-mono text-[#D47098]">(â‚±420,000.00)</strong>
+                            <strong className="font-mono text-[#D47098]">(Ã¢â€šÂ±420,000.00)</strong>
                           </div>
                           <div className="flex justify-between py-2 bg-[#FAF9F5] px-3 rounded-xl font-bold text-[#4A2E1B]">
                             <span>Total Non-Current Assets</span>
-                            <span className="font-mono font-black text-[#5A9A1E]">â‚±{balanceSheetData.assets.nonCurrentAssets.totalNonCurrentAssets.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
+                            <span className="font-mono font-black text-[#5A9A1E]">Ã¢â€šÂ±{balanceSheetData.assets.nonCurrentAssets.totalNonCurrentAssets.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
                           </div>
                         </div>
                       </div>
@@ -5577,7 +5577,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                           <span>Liabilities & Shareholder Equity</span>
                         </h4>
                         <span className="font-mono font-black text-lg text-[#031134]">
-                          â‚±{balanceSheetData.totalLiabilitiesAndEquity.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                          Ã¢â€šÂ±{balanceSheetData.totalLiabilitiesAndEquity.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                         </span>
                       </div>
 
@@ -5589,23 +5589,23 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                         <div className="space-y-2 text-xs">
                           <div className="flex justify-between py-1.5 border-b border-[#FAF9F5]">
                             <span className="text-[#5A534E]">Accounts Payable - Trade Suppliers (PO Invoices)</span>
-                            <strong className="font-mono text-[#4A2E1B]">â‚±{balanceSheetData.liabilities.currentLiabilities.accountsPayableVendors.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
+                            <strong className="font-mono text-[#4A2E1B]">Ã¢â€šÂ±{balanceSheetData.liabilities.currentLiabilities.accountsPayableVendors.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
                           </div>
                           <div className="flex justify-between py-1.5 border-b border-[#FAF9F5]">
                             <span className="text-[#5A534E]">Accrued Salaries & Payroll Payable</span>
-                            <strong className="font-mono text-[#4A2E1B]">â‚±{balanceSheetData.liabilities.currentLiabilities.accruedPayrollPayable.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
+                            <strong className="font-mono text-[#4A2E1B]">Ã¢â€šÂ±{balanceSheetData.liabilities.currentLiabilities.accruedPayrollPayable.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
                           </div>
                           <div className="flex justify-between py-1.5 border-b border-[#FAF9F5]">
                             <span className="text-[#5A534E]">SSS, PhilHealth & Pag-IBIG Premium Payables</span>
-                            <strong className="font-mono text-[#4A2E1B]">â‚±{balanceSheetData.liabilities.currentLiabilities.sssPhilhealthPagibigPayables.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
+                            <strong className="font-mono text-[#4A2E1B]">Ã¢â€šÂ±{balanceSheetData.liabilities.currentLiabilities.sssPhilhealthPagibigPayables.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
                           </div>
                           <div className="flex justify-between py-1.5 border-b border-[#FAF9F5]">
                             <span className="text-[#5A534E]">BIR Taxes Withheld & VAT Payable</span>
-                            <strong className="font-mono text-[#4A2E1B]">â‚±{balanceSheetData.liabilities.currentLiabilities.birWithholdingAndVatPayable.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
+                            <strong className="font-mono text-[#4A2E1B]">Ã¢â€šÂ±{balanceSheetData.liabilities.currentLiabilities.birWithholdingAndVatPayable.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
                           </div>
                           <div className="flex justify-between py-2 bg-[#FAF9F5] px-3 rounded-xl font-bold text-[#4A2E1B]">
                             <span>Total Current Liabilities</span>
-                            <span className="font-mono font-black text-[#D47098]">â‚±{balanceSheetData.liabilities.currentLiabilities.totalCurrentLiabilities.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
+                            <span className="font-mono font-black text-[#D47098]">Ã¢â€šÂ±{balanceSheetData.liabilities.currentLiabilities.totalCurrentLiabilities.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
                           </div>
                         </div>
                       </div>
@@ -5618,7 +5618,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                         <div className="space-y-2 text-xs">
                           <div className="flex justify-between py-1.5 border-b border-[#FAF9F5]">
                             <span className="text-[#5A534E]">Equipment Financing & Lease Obligations</span>
-                            <strong className="font-mono text-[#4A2E1B]">â‚±250,000.00</strong>
+                            <strong className="font-mono text-[#4A2E1B]">Ã¢â€šÂ±250,000.00</strong>
                           </div>
                         </div>
                       </div>
@@ -5631,19 +5631,19 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                         <div className="space-y-2 text-xs">
                           <div className="flex justify-between py-1.5 border-b border-[#FAF9F5]">
                             <span className="text-[#5A534E]">Contributed Capital (ALRAJJ Partners)</span>
-                            <strong className="font-mono text-[#4A2E1B]">â‚±{balanceSheetData.equity.ownerContributedCapital.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
+                            <strong className="font-mono text-[#4A2E1B]">Ã¢â€šÂ±{balanceSheetData.equity.ownerContributedCapital.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
                           </div>
                           <div className="flex justify-between py-1.5 border-b border-[#FAF9F5]">
                             <span className="text-[#5A534E]">Retained Earnings (Prior Periods)</span>
-                            <strong className="font-mono text-[#4A2E1B]">â‚±{balanceSheetData.equity.retainedEarningsPrior.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
+                            <strong className="font-mono text-[#4A2E1B]">Ã¢â€šÂ±{balanceSheetData.equity.retainedEarningsPrior.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
                           </div>
                           <div className="flex justify-between py-1.5 border-b border-[#FAF9F5]">
                             <span className="text-[#5A534E]">Current Period Net Income (MTD)</span>
-                            <strong className="font-mono text-[#5A9A1E]">â‚±{balanceSheetData.equity.currentPeriodNetIncome.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
+                            <strong className="font-mono text-[#5A9A1E]">Ã¢â€šÂ±{balanceSheetData.equity.currentPeriodNetIncome.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
                           </div>
                           <div className="flex justify-between py-2 bg-[#031134]/5 px-3 rounded-xl font-bold text-[#031134]">
                             <span>Total Owner's Equity</span>
-                            <span className="font-mono font-black text-[#031134]">â‚±{balanceSheetData.equity.totalEquity.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
+                            <span className="font-mono font-black text-[#031134]">Ã¢â€šÂ±{balanceSheetData.equity.totalEquity.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
                           </div>
                         </div>
                       </div>
@@ -5663,7 +5663,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                     <div className="bg-white border border-[#EAE8E2] rounded-3xl p-5 shadow-2xs space-y-1">
                       <span className="text-[10px] font-extrabold uppercase text-[#8A817C]">Unpaid Supplier Bills</span>
                       <div className="text-xl font-black text-[#4A2E1B] font-mono">
-                        â‚±{apInvoices.filter(i => i.status !== 'Paid').reduce((sum, i) => sum + i.amount, 0).toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                        Ã¢â€šÂ±{apInvoices.filter(i => i.status !== 'Paid').reduce((sum, i) => sum + i.amount, 0).toLocaleString('en-US', { minimumFractionDigits: 2 })}
                       </div>
                       <span className="text-[10px] font-bold text-[#D47098]">
                         {apInvoices.filter(i => i.status !== 'Paid').length} Pending Settlement
@@ -5681,7 +5681,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                     <div className="bg-white border border-[#EAE8E2] rounded-3xl p-5 shadow-2xs space-y-1">
                       <span className="text-[10px] font-extrabold uppercase text-[#8A817C]">Due in 15 Days</span>
                       <div className="text-xl font-black text-[#D4AF37] font-mono">
-                        â‚±125,000.00
+                        Ã¢â€šÂ±125,000.00
                       </div>
                       <span className="text-[10px] text-[#8A817C]">Ayala Mall Lease Scheduled</span>
                     </div>
@@ -5751,7 +5751,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                                 <span className="text-[11px] text-[#8A817C]">{inv.paymentTerms}</span>
                               </td>
                               <td className="py-4 px-6 text-right font-mono font-black text-sm text-[#4A2E1B]">
-                                â‚±{inv.amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                                Ã¢â€šÂ±{inv.amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                               </td>
                               <td className="py-4 px-6">
                                 <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full ${
@@ -5855,19 +5855,19 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                                 </span>
                               </td>
                               <td className="py-4 px-6 text-right font-mono">
-                                â‚±{rec.openingFloat.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                                Ã¢â€šÂ±{rec.openingFloat.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                               </td>
                               <td className="py-4 px-6 text-right font-mono font-bold text-[#5A9A1E]">
-                                â‚±{rec.cashSales.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                                Ã¢â€šÂ±{rec.cashSales.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                               </td>
                               <td className="py-4 px-6 text-right font-mono text-[#031134]">
-                                â‚±{(rec.mayaQrSales + rec.gcashQrSales + rec.cardTerminalSales).toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                                Ã¢â€šÂ±{(rec.mayaQrSales + rec.gcashQrSales + rec.cardTerminalSales).toLocaleString('en-US', { minimumFractionDigits: 2 })}
                               </td>
                               <td className="py-4 px-6 text-right font-mono text-[#D47098]">
-                                (â‚±{rec.pettyCashExpenses.toLocaleString('en-US', { minimumFractionDigits: 2 })})
+                                (Ã¢â€šÂ±{rec.pettyCashExpenses.toLocaleString('en-US', { minimumFractionDigits: 2 })})
                               </td>
                               <td className="py-4 px-6 text-right font-mono font-black text-sm text-[#4A2E1B]">
-                                â‚±{rec.actualCashCounted.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                                Ã¢â€šÂ±{rec.actualCashCounted.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                               </td>
                               <td className="py-4 px-6 text-center">
                                 <span className={`text-[10px] font-extrabold px-2.5 py-1 rounded-full ${
@@ -5875,7 +5875,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                                     ? 'bg-[#77BC2E]/15 text-[#5A9A1E]'
                                     : 'bg-[#D47098]/20 text-[#D47098]'
                                 }`}>
-                                  {rec.variance === 0 ? 'â‚±0.00 Exact' : `â‚±${rec.variance.toFixed(2)}`}
+                                  {rec.variance === 0 ? 'Ã¢â€šÂ±0.00 Exact' : `Ã¢â€šÂ±${rec.variance.toFixed(2)}`}
                                 </span>
                               </td>
                               <td className="py-4 px-6">
@@ -5953,7 +5953,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                               <div className="text-right">
                                 <span className="text-[10px] font-bold uppercase text-[#8A817C] block">Total Amount</span>
                                 <span className="font-mono font-black text-sm text-[#4A2E1B]">
-                                  â‚±{totalDebit.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                                  Ã¢â€šÂ±{totalDebit.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                                 </span>
                               </div>
                             </div>
@@ -5979,10 +5979,10 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                                       <td className="py-2 px-3 font-mono font-bold text-[#031134]">{l.accountCode}</td>
                                       <td className="py-2 px-3 text-[#4A2E1B]">{l.accountName}</td>
                                       <td className="py-2 px-3 text-right font-mono font-bold text-[#5A9A1E]">
-                                        {l.debit > 0 ? `â‚±${l.debit.toLocaleString('en-US', { minimumFractionDigits: 2 })}` : '-'}
+                                        {l.debit > 0 ? `Ã¢â€šÂ±${l.debit.toLocaleString('en-US', { minimumFractionDigits: 2 })}` : '-'}
                                       </td>
                                       <td className="py-2 px-3 text-right font-mono font-bold text-[#D47098]">
-                                        {l.credit > 0 ? `â‚±${l.credit.toLocaleString('en-US', { minimumFractionDigits: 2 })}` : '-'}
+                                        {l.credit > 0 ? `Ã¢â€šÂ±${l.credit.toLocaleString('en-US', { minimumFractionDigits: 2 })}` : '-'}
                                       </td>
                                     </tr>
                                   ))}
@@ -6048,11 +6048,11 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                         <div className="bg-[#FAF9F5] border border-[#EAE8E2] p-4 rounded-2xl space-y-2 text-xs">
                           <div className="flex justify-between text-[#5A534E]">
                             <span>Taxable Base (Compensation / Sales / Rent):</span>
-                            <strong className="font-mono text-[#4A2E1B]">â‚±{form.taxableBase.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
+                            <strong className="font-mono text-[#4A2E1B]">Ã¢â€šÂ±{form.taxableBase.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
                           </div>
                           <div className="flex justify-between text-[#4A2E1B] font-bold pt-1 border-t border-[#EAE8E2]">
                             <span>Remittance Amount Due:</span>
-                            <span className="font-mono font-black text-sm text-[#5A9A1E]">â‚±{form.taxDue.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
+                            <span className="font-mono font-black text-sm text-[#5A9A1E]">Ã¢â€šÂ±{form.taxDue.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
                           </div>
                         </div>
 
@@ -6162,7 +6162,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                       <p className="font-extrabold text-[#4A2E1B]">Automated Math</p>
                       <p className="text-[11px] text-[#5A534E]">Gross-to-Net computed in 1 sec.</p>
                       <span className="inline-block mt-1 text-[10px] font-bold text-[#5A9A1E] bg-white px-2 py-0.5 rounded-md">
-                        âœ“ Ready
+                        Ã¢Å“â€œ Ready
                       </span>
                     </div>
 
@@ -6190,7 +6190,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                         </button>
                       ) : (
                         <span className="inline-block mt-1 text-[10px] font-bold text-[#5A9A1E] bg-white px-2 py-0.5 rounded-md">
-                          âœ“ Verified
+                          Ã¢Å“â€œ Verified
                         </span>
                       )}
                     </div>
@@ -6266,7 +6266,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                         </button>
                       ) : ['md_approved', 'disbursed'].includes(disbursementStage) ? (
                         <span className="inline-block mt-1 text-[10px] font-bold text-[#5A9A1E] bg-white px-2 py-0.5 rounded-md">
-                          âœ“ Authorized
+                          Ã¢Å“â€œ Authorized
                         </span>
                       ) : (
                         <span className="inline-block mt-1 text-[10px] font-semibold text-[#8A817C]">Standby</span>
@@ -6289,14 +6289,14 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                       </div>
                       <p className="font-extrabold text-[#4A2E1B]">Credited to Staff</p>
                       <p className="text-[11px] text-[#5A534E]">
-                        {disbursementStage === 'disbursed' ? 'Available in ATMs â€¢ Slips active' : 'Live upon MD approval'}
+                        {disbursementStage === 'disbursed' ? 'Available in ATMs Ã¢â‚¬Â¢ Slips active' : 'Live upon MD approval'}
                       </p>
                       <span className={`inline-block mt-1 text-[10px] font-bold px-2 py-0.5 rounded-md ${
                         disbursementStage === 'disbursed'
                           ? 'bg-[#77BC2E] text-white shadow-xs'
                           : 'bg-[#EAE8E2] text-[#8A817C]'
                       }`}>
-                        {disbursementStage === 'disbursed' ? 'ðŸŽ‰ Disbursed' : 'Awaiting Stage 4'}
+                        {disbursementStage === 'disbursed' ? 'Ã°Å¸Å½â€° Disbursed' : 'Awaiting Stage 4'}
                       </span>
                     </div>
 
@@ -6352,19 +6352,19 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                           <tr key={p.employeeId} className="hover:bg-[#FAF9F5]/70 transition-colors">
                             <td className="px-6 py-4 font-bold text-[#4A2E1B]">{p.employeeName}</td>
                             <td className="px-6 py-4 font-mono text-[#5A534E]">{p.daysPresent} days</td>
-                            <td className="px-6 py-4 font-mono font-medium">â‚±{p.calculations.basicPay.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+                            <td className="px-6 py-4 font-mono font-medium">Ã¢â€šÂ±{p.calculations.basicPay.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
                             <td className="px-6 py-4 font-mono text-[#77BC2E] font-bold">
-                              +â‚±{(p.calculations.otPay + p.calculations.ndPay).toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                              +Ã¢â€šÂ±{(p.calculations.otPay + p.calculations.ndPay).toLocaleString('en-US', { minimumFractionDigits: 2 })}
                             </td>
                             <td className="px-6 py-4 font-mono text-[#D47098]">
-                              -â‚±{p.calculations.totalTardinessDeduction.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                              -Ã¢â€šÂ±{p.calculations.totalTardinessDeduction.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                             </td>
-                            <td className="px-6 py-4 font-mono font-medium">â‚±{p.calculations.grossPay.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+                            <td className="px-6 py-4 font-mono font-medium">Ã¢â€šÂ±{p.calculations.grossPay.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
                             <td className="px-6 py-4 font-mono text-[#D47098]">
-                              -â‚±{p.calculations.deductions.totalDeductions.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                              -Ã¢â€šÂ±{p.calculations.deductions.totalDeductions.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                             </td>
                             <td className="px-6 py-4 font-mono font-extrabold text-[#77BC2E]">
-                              â‚±{p.calculations.netPay.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                              Ã¢â€šÂ±{p.calculations.netPay.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                             </td>
                             <td className="px-6 py-4">
                               <div className="flex items-center space-x-2">
@@ -6554,7 +6554,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                       <div className="bg-[#FAF9F5] border border-[#EAE8E2] px-4 py-2 rounded-2xl text-right">
                         <span className="text-[10px] font-bold uppercase text-[#8A817C] block">Total Logged Today</span>
                         <span className="text-base font-extrabold text-[#77BC2E] font-mono">
-                          â‚±{serviceTickets.reduce((sum, t) => sum + t.amount, 0).toLocaleString('en-US', { minimumFractionDigits: 2 })} ({serviceTickets.length} tickets)
+                          Ã¢â€šÂ±{serviceTickets.reduce((sum, t) => sum + t.amount, 0).toLocaleString('en-US', { minimumFractionDigits: 2 })} ({serviceTickets.length} tickets)
                         </span>
                       </div>
 
@@ -6610,14 +6610,14 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                               </span>
                             </td>
                             <td className="px-5 py-4 text-right font-mono font-extrabold text-[#4A2E1B]">
-                              â‚±{tkt.amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                              Ã¢â€šÂ±{tkt.amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                             </td>
                             <td className="px-5 py-4 text-right font-mono text-[#77BC2E] font-bold">
-                              â‚±{tkt.commission.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                              Ã¢â€šÂ±{tkt.commission.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                             </td>
                             <td className="px-5 py-4">
                               <span className="bg-[#77BC2E]/15 text-[#5A9A1E] font-extrabold text-[10px] px-2.5 py-1 rounded-full">
-                                âœ“ {tkt.status}
+                                Ã¢Å“â€œ {tkt.status}
                               </span>
                             </td>
                           </tr>
@@ -6917,7 +6917,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                               <p className="text-[11px] text-[#5A534E]">{po.supplier}</p>
                             </td>
                             <td className="px-6 py-4 font-mono font-extrabold text-[#4A2E1B]">
-                              â‚±{po.totalAmount.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                              Ã¢â€šÂ±{po.totalAmount.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                             </td>
                             <td className="px-6 py-4">
                               <span className={`px-2.5 py-1 rounded-full text-[10px] font-extrabold inline-flex items-center space-x-1 ${
@@ -6986,7 +6986,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
             </div>
           )}
 
-          {/* TAB: ENTERPRISE HR HUB & SETHCON WORKFORCE SUITE */}
+          {/* TAB: ENTERPRISE HR HUB & HR SUITE WORKFORCE */}
           {activeTab === 'employees' && (
             <div className="space-y-6 animate-fadeIn">
               
@@ -6999,10 +6999,10 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                     </div>
                     <div>
                       <div className="flex flex-wrap items-center gap-2">
-                        <h2 className="text-xl font-extrabold text-white tracking-tight">ALRAJJ Enterprise HRMS & Workforce Suite</h2>
+                        <h2 className="text-xl font-extrabold text-white tracking-tight">ALRAJJ Enterprise HRMS & HR Suite</h2>
                         <span className="bg-[#77BC2E]/20 text-[#77BC2E] text-[10px] font-extrabold px-2.5 py-0.5 rounded-full border border-[#77BC2E]/40 flex items-center space-x-1">
                           <Sparkles className="h-3 w-3" />
-                          <span>SETHCON HR + Workforce Integrated</span>
+                          <span>HR Suite</span>
                         </span>
                       </div>
                       <p className="text-xs text-white/70 mt-1 max-w-2xl">
@@ -7197,12 +7197,12 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                       </div>
                       <div className="bg-white p-3 rounded-2xl border border-[#F2F0E8]">
                         <span className="text-[9px] font-bold text-[#8A817C] uppercase block">Pag-IBIG (HDMF)</span>
-                        <div className="font-extrabold text-[#77BC2E] mt-0.5">â‚±100.00 / Cutoff</div>
-                        <span className="text-[9px] text-[#8A817C]">â‚±200/mo mandated cap</span>
+                        <div className="font-extrabold text-[#77BC2E] mt-0.5">Ã¢â€šÂ±100.00 / Cutoff</div>
+                        <span className="text-[9px] text-[#8A817C]">Ã¢â€šÂ±200/mo mandated cap</span>
                       </div>
                       <div className="bg-white p-3 rounded-2xl border border-[#F2F0E8]">
                         <span className="text-[9px] font-bold text-[#8A817C] uppercase block">BIR Withholding (TRAIN)</span>
-                        <div className="font-extrabold text-[#16A34A] mt-0.5">Tax-Exempt (&lt;â‚±10,417)</div>
+                        <div className="font-extrabold text-[#16A34A] mt-0.5">Tax-Exempt (&lt;Ã¢â€šÂ±10,417)</div>
                         <span className="text-[9px] text-[#8A817C]">0% for basic salon wage</span>
                       </div>
                     </div>
@@ -7280,8 +7280,8 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                                     {emp.branch}
                                   </td>
                                   <td className="px-5 py-4 font-mono">
-                                    <p className="font-extrabold text-[#4A2E1B]">â‚±{parseFloat(emp.rate).toFixed(2)}/day</p>
-                                    <p className="text-[10px] text-[#8A817C]">â‚±{hourly}/hr</p>
+                                    <p className="font-extrabold text-[#4A2E1B]">Ã¢â€šÂ±{parseFloat(emp.rate).toFixed(2)}/day</p>
+                                    <p className="text-[10px] text-[#8A817C]">Ã¢â€šÂ±{hourly}/hr</p>
                                   </td>
                                   <td className="px-5 py-4 font-mono">
                                     <span className="bg-[#031134]/10 text-[#031134] font-bold px-2 py-0.5 rounded-md text-[10px]">
@@ -7301,13 +7301,13 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                                   <td className="px-5 py-4 font-mono">
                                     {otherDeduc > 0 ? (
                                       <div>
-                                        <p className="font-extrabold text-[#D47098]">â‚±{otherDeduc.toFixed(2)}</p>
+                                        <p className="font-extrabold text-[#D47098]">Ã¢â€šÂ±{otherDeduc.toFixed(2)}</p>
                                         <span className="bg-[#E89BB9]/20 text-[#D47098] font-bold text-[9px] px-1.5 py-0.5 rounded-md inline-block mt-0.5">
                                           {emp.other_deduction_remarks || 'Cash Advance (Vale)'}
                                         </span>
                                       </div>
                                     ) : (
-                                      <span className="text-[#A8A29E] text-[10px]">â‚±0.00 (None)</span>
+                                      <span className="text-[#A8A29E] text-[10px]">Ã¢â€šÂ±0.00 (None)</span>
                                     )}
                                   </td>
                                   <td className="px-5 py-4">
@@ -7380,7 +7380,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                 </div>
               )}
 
-              {/* SUB-TAB 2: LEAVE & SIL MANAGEMENT (SETHCON Leave Records) */}
+              {/* SUB-TAB 2: LEAVE & SIL MANAGEMENT (HR Leave Records) */}
               {hrActiveSubTab === 'leaves' && (
                 <div className="space-y-6">
                   {/* Leave Metrics Row */}
@@ -7518,12 +7518,12 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#F2F0E8] pb-4">
                       <div>
                         <h4 className="font-extrabold text-base text-[#4A2E1B]">Weekly Store Shift Roster & Station Grid</h4>
-                        <p className="text-xs text-[#8A817C]">Current Cycle: July 16, 2026 â€“ July 22, 2026 &bull; Multi-Branch Salon Floor Assignments</p>
+                        <p className="text-xs text-[#8A817C]">Current Cycle: July 16, 2026 Ã¢â‚¬â€œ July 22, 2026 &bull; Multi-Branch Salon Floor Assignments</p>
                       </div>
                       <div className="flex items-center space-x-2">
                         <button
                           onClick={() => {
-                            setSproutToast('ðŸ“… Weekly shift schedule broadcasted via SMS and synced to Biometric NGTeco terminals.');
+                            setSproutToast('Ã°Å¸â€œâ€¦ Weekly shift schedule broadcasted via SMS and synced to Biometric NGTeco terminals.');
                             setTimeout(() => setSproutToast(''), 4000);
                           }}
                           className="bg-[#031134] hover:bg-[#091D4C] text-white font-bold text-xs px-3.5 py-2 rounded-xl transition-all flex items-center space-x-1.5 shadow-2xs"
@@ -7537,10 +7537,10 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                     {/* Roster Legend */}
                     <div className="flex flex-wrap items-center gap-3 text-[11px] font-bold">
                       <span className="text-[#8A817C]">Shift Legend:</span>
-                      <span className="px-2.5 py-1 rounded-lg bg-[#77BC2E]/15 text-[#5A9A1E] border border-[#77BC2E]/30">ðŸŸ¢ Morning (10AM - 7PM)</span>
-                      <span className="px-2.5 py-1 rounded-lg bg-[#E89BB9]/25 text-[#D47098] border border-[#E89BB9]/40">ðŸŸ£ Mid (11AM - 8PM)</span>
-                      <span className="px-2.5 py-1 rounded-lg bg-[#031134]/10 text-[#031134] border border-[#031134]/20">ðŸ”µ Closing (12PM - 9PM)</span>
-                      <span className="px-2.5 py-1 rounded-lg bg-stone-100 text-stone-500 border border-stone-200">âšª Rest Day (RD)</span>
+                      <span className="px-2.5 py-1 rounded-lg bg-[#77BC2E]/15 text-[#5A9A1E] border border-[#77BC2E]/30">Ã°Å¸Å¸Â¢ Morning (10AM - 7PM)</span>
+                      <span className="px-2.5 py-1 rounded-lg bg-[#E89BB9]/25 text-[#D47098] border border-[#E89BB9]/40">Ã°Å¸Å¸Â£ Mid (11AM - 8PM)</span>
+                      <span className="px-2.5 py-1 rounded-lg bg-[#031134]/10 text-[#031134] border border-[#031134]/20">Ã°Å¸â€Âµ Closing (12PM - 9PM)</span>
+                      <span className="px-2.5 py-1 rounded-lg bg-stone-100 text-stone-500 border border-stone-200">Ã¢Å¡Âª Rest Day (RD)</span>
                     </div>
 
                     {/* Roster Matrix Table */}
@@ -7710,10 +7710,10 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                               <tr key={emp.id} className="hover:bg-[#FAF9F5]/70 transition-colors">
                                 <td className="px-5 py-4 font-bold text-[#4A2E1B]">{emp.name}</td>
                                 <td className="px-5 py-4 text-[#5A534E]">{emp.branch}</td>
-                                <td className="px-5 py-4 font-mono font-bold">â‚±{parseFloat(basicDaily).toFixed(2)}</td>
-                                <td className="px-5 py-4 font-mono text-[#031134]">â‚±{ytdBasic.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
-                                <td className="px-5 py-4 font-mono text-[#77BC2E] font-bold">â‚±{accrualPerMonth.toFixed(2)}/mo</td>
-                                <td className="px-5 py-4 font-mono font-black text-[#4A2E1B] bg-[#FAF9F5]">â‚±{projected13th.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+                                <td className="px-5 py-4 font-mono font-bold">Ã¢â€šÂ±{parseFloat(basicDaily).toFixed(2)}</td>
+                                <td className="px-5 py-4 font-mono text-[#031134]">Ã¢â€šÂ±{ytdBasic.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+                                <td className="px-5 py-4 font-mono text-[#77BC2E] font-bold">Ã¢â€šÂ±{accrualPerMonth.toFixed(2)}/mo</td>
+                                <td className="px-5 py-4 font-mono font-black text-[#4A2E1B] bg-[#FAF9F5]">Ã¢â€šÂ±{projected13th.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
                                 <td className="px-5 py-4">
                                   <button
                                     onClick={() => {
@@ -7744,7 +7744,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                       <div>
                         <div className="flex items-center space-x-2">
                           <span className="bg-[#E89BB9]/25 text-[#D47098] text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase">
-                            SETHCON Workforce &bull; ESS Mobile Portal
+                            HR Suite &bull; ESS Mobile Portal
                           </span>
                           <span className="text-[11px] font-bold text-[#8A817C]">Mobile & Desktop View</span>
                         </div>
@@ -7816,7 +7816,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                             </div>
                             <div className="bg-white p-4 rounded-2xl border border-[#EAE8E2] space-y-1">
                               <span className="text-[10px] font-bold text-[#8A817C] uppercase block">Estimated Net Take-Home</span>
-                              <div className="text-xl font-black text-[#77BC2E]">â‚±8,142.50</div>
+                              <div className="text-xl font-black text-[#77BC2E]">Ã¢â€šÂ±8,142.50</div>
                               <span className="text-[10px] text-[#8A817C]">BPI BizLink Direct Credit</span>
                             </div>
                           </div>
@@ -7894,7 +7894,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                       </div>
                       <div className="bg-[#FAF9F5] p-3.5 rounded-2xl border border-[#F2F0E8] space-y-1">
                         <span className="text-[10px] font-bold text-[#8A817C] uppercase">Daily Basic Wage</span>
-                        <p className="font-bold font-mono text-[#77BC2E]">â‚±{parseFloat(selected201Employee.rate).toFixed(2)}/day (â‚±{(selected201Employee.rate/8).toFixed(2)}/hr)</p>
+                        <p className="font-bold font-mono text-[#77BC2E]">Ã¢â€šÂ±{parseFloat(selected201Employee.rate).toFixed(2)}/day (Ã¢â€šÂ±{(selected201Employee.rate/8).toFixed(2)}/hr)</p>
                       </div>
                       <div className="bg-[#FAF9F5] p-3.5 rounded-2xl border border-[#F2F0E8] space-y-1">
                         <span className="text-[10px] font-bold text-[#8A817C] uppercase">BPI BizLink Account</span>
@@ -7953,13 +7953,13 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                           }}
                           className="bg-white hover:bg-[#F2F0E8] border border-[#E89BB9]/50 text-[#D47098] font-bold text-[10px] px-2.5 py-1 rounded-lg transition-all"
                         >
-                          âœï¸ Edit Vale & Deductions
+                          Ã¢Å“ÂÃ¯Â¸Â Edit Vale & Deductions
                         </button>
                       </div>
                       <div className="flex items-center justify-between pt-1">
                         <div>
                           <p className="font-extrabold text-sm text-[#D47098] font-mono">
-                            â‚±{parseFloat(selected201Employee.other_deductions || 0).toFixed(2)} PHP
+                            Ã¢â€šÂ±{parseFloat(selected201Employee.other_deductions || 0).toFixed(2)} PHP
                           </p>
                           <span className="text-[10px] text-[#8A817C]">
                             Purpose: <strong className="text-[#4A2E1B]">{selected201Employee.other_deduction_remarks || 'None / Not Assigned'}</strong>
@@ -8051,7 +8051,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                       </p>
 
                       <p>
-                        She currently holds the position of <strong>{selected201Employee.role || 'Senior Specialist'}</strong> with a basic compensation rate of <strong>â‚±{parseFloat(selected201Employee.rate).toFixed(2)} PHP per day</strong> plus statutory benefits.
+                        She currently holds the position of <strong>{selected201Employee.role || 'Senior Specialist'}</strong> with a basic compensation rate of <strong>Ã¢â€šÂ±{parseFloat(selected201Employee.rate).toFixed(2)} PHP per day</strong> plus statutory benefits.
                       </p>
 
                       <p>
@@ -8118,19 +8118,19 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                       <div className="space-y-1 text-[11px]">
                         <div className="flex justify-between py-1 border-b border-[#F2F0E8]">
                           <span>Gross Compensation Income (YTD):</span>
-                          <strong className="font-mono">â‚±{(selected201Employee.rate * 26 * 7.5).toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
+                          <strong className="font-mono">Ã¢â€šÂ±{(selected201Employee.rate * 26 * 7.5).toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
                         </div>
                         <div className="flex justify-between py-1 border-b border-[#F2F0E8]">
                           <span>Non-Taxable Mandatory SSS/PH/HDMF:</span>
-                          <strong className="font-mono text-[#77BC2E]">â‚±8,410.00</strong>
+                          <strong className="font-mono text-[#77BC2E]">Ã¢â€šÂ±8,410.00</strong>
                         </div>
                         <div className="flex justify-between py-1 border-b border-[#F2F0E8]">
                           <span>Total Taxable Compensation:</span>
-                          <strong className="font-mono">â‚±{((selected201Employee.rate * 26 * 7.5) - 8410).toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
+                          <strong className="font-mono">Ã¢â€šÂ±{((selected201Employee.rate * 26 * 7.5) - 8410).toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
                         </div>
                         <div className="flex justify-between py-1 font-bold text-[#031134]">
                           <span>Tax Withheld (TRAIN Law Minimum Wage Exempt):</span>
-                          <span className="font-mono text-[#16A34A]">â‚±0.00 (Exempt)</span>
+                          <span className="font-mono text-[#16A34A]">Ã¢â€šÂ±0.00 (Exempt)</span>
                         </div>
                       </div>
                     </div>
@@ -8160,7 +8160,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                   <div className="bg-white rounded-3xl max-w-lg w-full p-6 space-y-4 shadow-2xl border border-[#EAE8E2]">
                     <div className="flex items-center justify-between border-b border-[#F2F0E8] pb-3">
                       <div>
-                        <span className="text-[10px] font-bold text-[#77BC2E] uppercase">SETHCON Leave Records</span>
+                        <span className="text-[10px] font-bold text-[#77BC2E] uppercase">HR Leave Records</span>
                         <h4 className="font-extrabold text-base text-[#4A2E1B]">File Leave Application</h4>
                       </div>
                       <button onClick={() => setShowLeaveFilingModal(false)} className="text-[#8A817C] hover:text-[#4A2E1B]">
@@ -8294,7 +8294,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                   <div className="bg-white rounded-3xl max-w-lg w-full p-6 space-y-4 shadow-2xl border border-[#EAE8E2]">
                     <div className="flex items-center justify-between border-b border-[#F2F0E8] pb-3">
                       <div>
-                        <span className="text-[10px] font-bold text-[#77BC2E] uppercase">SETHCON Attendance</span>
+                        <span className="text-[10px] font-bold text-[#77BC2E] uppercase">HR Attendance</span>
                         <h4 className="font-extrabold text-base text-[#4A2E1B]">File Overtime / OB Slip</h4>
                       </div>
                       <button onClick={() => setShowOtObModal(false)} className="text-[#8A817C] hover:text-[#4A2E1B]">
@@ -8460,7 +8460,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                     </button>
                     <button
                       onClick={() => {
-                        setDmsToast('â˜ï¸ All 6 active documents synchronized to Google Workspace Drive (ALRAJJ LEGACY CORP / 2026 Archive).');
+                        setDmsToast('Ã¢ËœÂÃ¯Â¸Â All 6 active documents synchronized to Google Workspace Drive (ALRAJJ LEGACY CORP / 2026 Archive).');
                         setTimeout(() => setDmsToast(''), 5000);
                       }}
                       className="bg-white/10 hover:bg-white/20 text-white text-xs font-semibold px-3.5 py-2.5 rounded-xl border border-white/20 transition-all flex items-center space-x-1.5"
@@ -8739,7 +8739,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                               <span className="truncate font-medium">{doc.googleDrivePath}</span>
                             </div>
                             <span className="text-[#5A9A1E] font-bold flex-shrink-0 ml-2">
-                              âœ“ {doc.driveSyncStatus}
+                              Ã¢Å“â€œ {doc.driveSyncStatus}
                             </span>
                           </div>
                         </div>
@@ -8756,7 +8756,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                                 className="bg-[#77BC2E] hover:bg-[#6DB027] text-white text-xs font-extrabold px-3.5 py-2 rounded-xl transition-all flex items-center space-x-1.5 shadow-sm active:scale-95"
                               >
                                 <PenTool className="h-3.5 w-3.5" />
-                                <span>âœï¸ E-Sign Now</span>
+                                <span>Ã¢Å“ÂÃ¯Â¸Â E-Sign Now</span>
                               </button>
                             ) : (
                               <button
@@ -8931,7 +8931,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
               {settingsToast && (
                 <div className="bg-[#031134] text-white text-xs px-4 py-3 rounded-2xl border border-[#77BC2E] shadow-md flex items-center justify-between animate-fadeIn">
                   <div className="flex items-center space-x-2">
-                    <span className="text-[#77BC2E] font-bold">â—</span>
+                    <span className="text-[#77BC2E] font-bold">Ã¢â€”Â</span>
                     <span>{settingsToast}</span>
                   </div>
                   <button onClick={() => setSettingsToast('')} className="text-white/60 hover:text-white">
@@ -9012,7 +9012,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                             <td className="p-3.5 font-mono text-[#5A534E]">cname.vercel-dns.com</td>
                             <td className="p-3.5 font-mono text-[#8A817C]">3600 (Auto)</td>
                             <td className="p-3.5">
-                              <span className="bg-[#77BC2E]/15 text-[#5A9A1E] font-bold text-[10px] px-2 py-0.5 rounded-full">âœ“ Verified & Live</span>
+                              <span className="bg-[#77BC2E]/15 text-[#5A9A1E] font-bold text-[10px] px-2 py-0.5 rounded-full">Ã¢Å“â€œ Verified & Live</span>
                             </td>
                             <td className="p-3.5 text-right">
                               <button
@@ -9033,7 +9033,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                             <td className="p-3.5 font-mono text-[#5A534E] truncate max-w-xs">{customDomainConfig.txtRecordValue}</td>
                             <td className="p-3.5 font-mono text-[#8A817C]">3600 (Auto)</td>
                             <td className="p-3.5">
-                              <span className="bg-[#77BC2E]/15 text-[#5A9A1E] font-bold text-[10px] px-2 py-0.5 rounded-full">âœ“ Authenticated</span>
+                              <span className="bg-[#77BC2E]/15 text-[#5A9A1E] font-bold text-[10px] px-2 py-0.5 rounded-full">Ã¢Å“â€œ Authenticated</span>
                             </td>
                             <td className="p-3.5 text-right">
                               <button
@@ -9054,7 +9054,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                             <td className="p-3.5 font-mono text-[#5A534E]">ASPMX.L.GOOGLE.COM (Google Workspace Mail)</td>
                             <td className="p-3.5 font-mono text-[#8A817C]">3600</td>
                             <td className="p-3.5">
-                              <span className="bg-[#77BC2E]/15 text-[#5A9A1E] font-bold text-[10px] px-2 py-0.5 rounded-full">âœ“ Retained</span>
+                              <span className="bg-[#77BC2E]/15 text-[#5A9A1E] font-bold text-[10px] px-2 py-0.5 rounded-full">Ã¢Å“â€œ Retained</span>
                             </td>
                             <td className="p-3.5 text-right">
                               <span className="text-[11px] text-[#8A817C] italic">Email Protected</span>
@@ -9258,7 +9258,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                               {/* Status */}
                               <td className="p-3.5 text-center">
                                 <span className="bg-[#77BC2E]/15 text-[#5A9A1E] font-bold text-[10px] px-2.5 py-0.5 rounded-full">
-                                  â— {user.status}
+                                  Ã¢â€”Â {user.status}
                                 </span>
                               </td>
 
@@ -9365,7 +9365,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                         </div>
 
                         <p className="text-[11px] text-[#8A817C] truncate" title={branch.location}>
-                          ðŸ“ {branch.location}
+                          Ã°Å¸â€œÂ {branch.location}
                         </p>
                       </div>
                     ))}
@@ -9393,7 +9393,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                         </div>
                       </div>
                       <span className="hidden sm:inline-block bg-[#77BC2E]/15 text-[#5A9A1E] font-bold text-xs px-3 py-1 rounded-xl">
-                        âœ“ 99.5% Uptime SLA
+                        Ã¢Å“â€œ 99.5% Uptime SLA
                       </span>
                     </div>
 
@@ -9442,7 +9442,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                         <div className="bg-[#FAF9F5] border border-[#EAE8E2] p-4 rounded-2xl space-y-3">
                           <div>
                             <strong className="text-[#031134] block font-bold">Dataset Mode (Live vs Demo Data)</strong>
-                            <p className="text-[11px] text-[#5A534E]">Currently active: <strong>{systemDataMode === 'live' ? 'ðŸ¢ Live Store Mode' : 'ðŸ§ª Demo Simulation Mode'}</strong></p>
+                            <p className="text-[11px] text-[#5A534E]">Currently active: <strong>{systemDataMode === 'live' ? 'Ã°Å¸ÂÂ¢ Live Store Mode' : 'Ã°Å¸Â§Âª Demo Simulation Mode'}</strong></p>
                           </div>
                           <div className="flex space-x-2">
                             <button
@@ -9571,7 +9571,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
               {/* Philippine Government Statutory IDs Section */}
               <div className="bg-[#FAF9F5] border border-[#EAE8E2] rounded-2xl p-4 space-y-3">
                 <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#031134] block">
-                  ðŸ›ï¸ Philippine Government Statutory Registration
+                  Ã°Å¸Ââ€ºÃ¯Â¸Â Philippine Government Statutory Registration
                 </span>
                 
                 <div className="grid grid-cols-2 gap-3">
@@ -9621,7 +9621,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
               {/* Optional Custom Other Deductions & Cash Advances */}
               <div className="bg-[#FAF9F5] border border-[#EAE8E2] rounded-2xl p-4 space-y-3">
                 <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#D47098] block">
-                  ðŸ’³ Custom Payroll Deductions & Cash Advance (Vale)
+                  Ã°Å¸â€™Â³ Custom Payroll Deductions & Cash Advance (Vale)
                 </span>
                 <div className="grid grid-cols-2 gap-3">
                   <div>
@@ -9712,7 +9712,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
             {/* Email notification toast in modal */}
             {emailToast && (
               <div className="no-print bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs px-4 py-2.5 rounded-xl font-medium animate-fadeIn flex items-center space-x-2">
-                <span>ðŸ“§</span>
+                <span>Ã°Å¸â€œÂ§</span>
                 <span>{emailToast}</span>
               </div>
             )}
@@ -9726,7 +9726,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                   <div>
                     <h2 className="font-extrabold text-base text-[#031134] tracking-tight">ALRAJJ LEGACY FORTIFIED BUSINESS CORP.</h2>
                     <p className="text-[11px] font-semibold text-[#64748B]">Official Employee Salary & Compensation Statement</p>
-                    <p className="text-[10px] text-[#94A3B8]">Centrio Mall (Waxing & Nails) â€¢ Limketkai â€¢ SM Downtown Premier</p>
+                    <p className="text-[10px] text-[#94A3B8]">Centrio Mall (Waxing & Nails) Ã¢â‚¬Â¢ Limketkai Ã¢â‚¬Â¢ SM Downtown Premier</p>
                   </div>
                 </div>
                 <div className="text-right">
@@ -9748,14 +9748,14 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                 <div>
                   <span className="text-[#64748B] block text-[9px] uppercase font-bold">Branch & Role</span>
                   <strong className="text-[#031134] font-bold block">{selectedPayslip.branch}</strong>
-                  <span className="text-[10.5px] text-[#64748B] block">Daily Rate: â‚±{parseFloat(selectedPayslip.dailyRate || 600).toFixed(2)} / day</span>
+                  <span className="text-[10.5px] text-[#64748B] block">Daily Rate: Ã¢â€šÂ±{parseFloat(selectedPayslip.dailyRate || 600).toFixed(2)} / day</span>
                 </div>
                 <div>
                   <span className="text-[#64748B] block text-[9px] uppercase font-bold">BPI BizLink ATM Account</span>
                   <span className="font-mono font-extrabold text-xs text-[#031134] bg-white px-2 py-0.5 rounded border border-[#CBD5E1] inline-block mt-0.5">
                     {selectedPayslip.bpiAccount || '0249821401'}
                   </span>
-                  <span className="text-[10px] text-[#16A34A] font-semibold block mt-0.5">â— Direct Credited</span>
+                  <span className="text-[10px] text-[#16A34A] font-semibold block mt-0.5">Ã¢â€”Â Direct Credited</span>
                 </div>
               </div>
 
@@ -9789,20 +9789,20 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                   </div>
                   <div className="p-3.5 space-y-2 text-xs">
                     <div className="flex justify-between">
-                      <span>Basic Pay ({selectedPayslip.daysPresent} days @ â‚±{selectedPayslip.dailyRate}/day)</span>
-                      <span className="font-mono font-semibold">â‚±{selectedPayslip.calculations.basicPay.toFixed(2)}</span>
+                      <span>Basic Pay ({selectedPayslip.daysPresent} days @ Ã¢â€šÂ±{selectedPayslip.dailyRate}/day)</span>
+                      <span className="font-mono font-semibold">Ã¢â€šÂ±{selectedPayslip.calculations.basicPay.toFixed(2)}</span>
                     </div>
                     <div className="flex justify-between">
                       <span>Overtime Pay ({selectedPayslip.totalOtHours} hrs @ 125%)</span>
-                      <span className="font-mono font-semibold text-[#166534]">+â‚±{selectedPayslip.calculations.otPay.toFixed(2)}</span>
+                      <span className="font-mono font-semibold text-[#166534]">+Ã¢â€šÂ±{selectedPayslip.calculations.otPay.toFixed(2)}</span>
                     </div>
                     <div className="flex justify-between">
                       <span>Night Differential ({selectedPayslip.totalNdHours} hrs @ 10%)</span>
-                      <span className="font-mono font-semibold text-[#166534]">+â‚±{selectedPayslip.calculations.ndPay.toFixed(2)}</span>
+                      <span className="font-mono font-semibold text-[#166534]">+Ã¢â€šÂ±{selectedPayslip.calculations.ndPay.toFixed(2)}</span>
                     </div>
                     <div className="border-t border-dashed border-[#CBD5E1] pt-2 mt-2 flex justify-between font-extrabold text-[#031134]">
                       <span>Total Gross Compensation</span>
-                      <span className="font-mono text-sm">â‚±{selectedPayslip.calculations.grossPay.toFixed(2)}</span>
+                      <span className="font-mono text-sm">Ã¢â€šÂ±{selectedPayslip.calculations.grossPay.toFixed(2)}</span>
                     </div>
                   </div>
                 </div>
@@ -9816,29 +9816,29 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                   <div className="p-3.5 space-y-2 text-xs">
                     <div className="flex justify-between">
                       <span>Late & Tardiness ({selectedPayslip.totalLateMins || 0} mins)</span>
-                      <span className="font-mono text-[#E11D48]">-â‚±{selectedPayslip.calculations.lateDeduction.toFixed(2)}</span>
+                      <span className="font-mono text-[#E11D48]">-Ã¢â€šÂ±{selectedPayslip.calculations.lateDeduction.toFixed(2)}</span>
                     </div>
                     <div className="flex justify-between">
                       <span>SSS Mandatory Contribution</span>
-                      <span className="font-mono text-[#E11D48]">-â‚±{selectedPayslip.calculations.deductions.sss.toFixed(2)}</span>
+                      <span className="font-mono text-[#E11D48]">-Ã¢â€šÂ±{selectedPayslip.calculations.deductions.sss.toFixed(2)}</span>
                     </div>
                     <div className="flex justify-between">
                       <span>PhilHealth (UHC 2.0% Employee)</span>
-                      <span className="font-mono text-[#E11D48]">-â‚±{selectedPayslip.calculations.deductions.philhealth.toFixed(2)}</span>
+                      <span className="font-mono text-[#E11D48]">-Ã¢â€šÂ±{selectedPayslip.calculations.deductions.philhealth.toFixed(2)}</span>
                     </div>
                     <div className="flex justify-between">
                       <span>Pag-IBIG (HDMF Standard)</span>
-                      <span className="font-mono text-[#E11D48]">-â‚±{selectedPayslip.calculations.deductions.pagibig.toFixed(2)}</span>
+                      <span className="font-mono text-[#E11D48]">-Ã¢â€šÂ±{selectedPayslip.calculations.deductions.pagibig.toFixed(2)}</span>
                     </div>
                     {selectedPayslip.calculations.deductions.otherDeductions > 0 && (
                       <div className="flex justify-between bg-rose-50 px-2 py-0.5 rounded border border-rose-200">
                         <span className="font-bold text-[#9F1239]">{selectedPayslip.calculations.deductions.otherDeductionRemarks || 'Cash Advance (Vale)'}</span>
-                        <span className="font-mono font-bold text-[#E11D48]">-â‚±{selectedPayslip.calculations.deductions.otherDeductions.toFixed(2)}</span>
+                        <span className="font-mono font-bold text-[#E11D48]">-Ã¢â€šÂ±{selectedPayslip.calculations.deductions.otherDeductions.toFixed(2)}</span>
                       </div>
                     )}
                     <div className="border-t border-dashed border-[#CBD5E1] pt-2 mt-2 flex justify-between font-extrabold text-[#9F1239]">
                       <span>Total Deductions</span>
-                      <span className="font-mono text-sm">-â‚±{selectedPayslip.calculations.deductions.totalDeductions.toFixed(2)}</span>
+                      <span className="font-mono text-sm">-Ã¢â€šÂ±{selectedPayslip.calculations.deductions.totalDeductions.toFixed(2)}</span>
                     </div>
                   </div>
                 </div>
@@ -9848,8 +9848,8 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
               <div className="bg-[#031134] text-white p-4 rounded-xl flex items-center justify-between shadow-xs">
                 <div>
                   <span className="text-[#D4AF37] font-bold text-[10px] uppercase tracking-wider block">Disbursement Net Amount</span>
-                  <h3 className="font-black text-xl text-white tracking-tight">â‚±{selectedPayslip.calculations.netPay.toFixed(2)}</h3>
-                  <span className="text-[10px] text-slate-300">Philippine Peso (PHP) â€¢ Direct ATM Release</span>
+                  <h3 className="font-black text-xl text-white tracking-tight">Ã¢â€šÂ±{selectedPayslip.calculations.netPay.toFixed(2)}</h3>
+                  <span className="text-[10px] text-slate-300">Philippine Peso (PHP) Ã¢â‚¬Â¢ Direct ATM Release</span>
                 </div>
                 <div className="text-right">
                   <span className="bg-[#77BC2E] text-[#031134] text-[10px] font-black px-2.5 py-1 rounded-md uppercase">
@@ -10012,12 +10012,12 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                     }}
                     className="w-full bg-[#F7F6F2] border border-transparent rounded-xl px-3.5 py-2 font-medium outline-none focus:ring-1 focus:ring-[#77BC2E]"
                   >
-                    <option value="Brazilian Wax Express (â‚±650.00)">Brazilian Wax Express (â‚±650.00)</option>
-                    <option value="Underarm Wax (â‚±450.00)">Underarm Wax (â‚±450.00)</option>
-                    <option value="Underarm & Full Leg Wax (â‚±1,100.00)">Underarm & Full Leg Wax (â‚±1,100.00)</option>
-                    <option value="Full Body Organic Sugar Wax (â‚±1,200.00)">Full Body Sugar Wax (â‚±1,200.00)</option>
-                    <option value="Gel Manicure + Spa Pedicure (â‚±850.00)">Gel Manicure + Spa Pedicure (â‚±850.00)</option>
-                    <option value="Retail Soothing Aloe Gel (â‚±350.00)">Retail Soothing Aloe Gel (â‚±350.00)</option>
+                    <option value="Brazilian Wax Express (Ã¢â€šÂ±650.00)">Brazilian Wax Express (Ã¢â€šÂ±650.00)</option>
+                    <option value="Underarm Wax (Ã¢â€šÂ±450.00)">Underarm Wax (Ã¢â€šÂ±450.00)</option>
+                    <option value="Underarm & Full Leg Wax (Ã¢â€šÂ±1,100.00)">Underarm & Full Leg Wax (Ã¢â€šÂ±1,100.00)</option>
+                    <option value="Full Body Organic Sugar Wax (Ã¢â€šÂ±1,200.00)">Full Body Sugar Wax (Ã¢â€šÂ±1,200.00)</option>
+                    <option value="Gel Manicure + Spa Pedicure (Ã¢â€šÂ±850.00)">Gel Manicure + Spa Pedicure (Ã¢â€šÂ±850.00)</option>
+                    <option value="Retail Soothing Aloe Gel (Ã¢â€šÂ±350.00)">Retail Soothing Aloe Gel (Ã¢â€šÂ±350.00)</option>
                   </select>
                 </div>
                 <div>
@@ -10063,7 +10063,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
               <div className="bg-[#FAF9F5] border border-[#EAE8E2] rounded-2xl p-3 flex justify-between items-center text-xs">
                 <div>
                   <span className="text-[10px] font-bold text-[#8A817C] uppercase block">Specialist Commission (10%)</span>
-                  <span className="font-mono font-black text-[#77BC2E] text-sm">â‚±{((Number(newTicket.amount) || 0) * 0.10).toFixed(2)}</span>
+                  <span className="font-mono font-black text-[#77BC2E] text-sm">Ã¢â€šÂ±{((Number(newTicket.amount) || 0) * 0.10).toFixed(2)}</span>
                 </div>
                 <span className="text-[11px] text-[#5A534E]">Auto-credited to {newTicket.specialist}</span>
               </div>
@@ -10374,7 +10374,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                       <td className="px-4 py-3 font-bold text-[#4A2E1B]">{p.employeeName}</td>
                       <td className="px-4 py-3 text-[#5A534E]">{p.branch || 'Centrio'}</td>
                       <td className="px-4 py-3 font-mono font-extrabold text-[#77BC2E]">
-                        â‚±{(p.calculations?.netPay || 0).toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                        Ã¢â€šÂ±{(p.calculations?.netPay || 0).toLocaleString('en-US', { minimumFractionDigits: 2 })}
                       </td>
                       <td className="px-4 py-3">
                         <span className="bg-[#77BC2E]/15 text-[#5A9A1E] text-[10px] font-bold px-2 py-0.5 rounded-md">
@@ -10682,7 +10682,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
 
               <div className="p-3 bg-[#FAF9F5] rounded-xl border border-[#EAE8E2] flex justify-between font-bold">
                 <span className="text-[#8A817C]">Estimated Total Amount:</span>
-                <span className="font-mono text-[#031134]">â‚±{(newPo.qty * newPo.unitPrice).toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
+                <span className="font-mono text-[#031134]">Ã¢â€šÂ±{(newPo.qty * newPo.unitPrice).toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
               </div>
 
               <div className="flex space-x-3 pt-2">
@@ -10732,17 +10732,17 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                 <div className="bg-[#77BC2E]/10 border border-[#77BC2E]/30 p-3 rounded-2xl">
                   <span className="text-[10px] font-bold text-[#5A9A1E] block">1. Purchase Order</span>
                   <strong className="text-[#4A2E1B] text-xs mt-0.5 block">{selectedPo.poNumber}</strong>
-                  <span className="text-[10px] text-[#5A9A1E] font-bold">âœ“ Approved</span>
+                  <span className="text-[10px] text-[#5A9A1E] font-bold">Ã¢Å“â€œ Approved</span>
                 </div>
                 <div className="bg-[#77BC2E]/10 border border-[#77BC2E]/30 p-3 rounded-2xl">
                   <span className="text-[10px] font-bold text-[#5A9A1E] block">2. Goods Receipt</span>
                   <strong className="text-[#4A2E1B] text-xs mt-0.5 block">Store Inspected</strong>
-                  <span className="text-[10px] text-[#5A9A1E] font-bold">âœ“ 100% Quantity</span>
+                  <span className="text-[10px] text-[#5A9A1E] font-bold">Ã¢Å“â€œ 100% Quantity</span>
                 </div>
                 <div className="bg-[#77BC2E]/10 border border-[#77BC2E]/30 p-3 rounded-2xl">
                   <span className="text-[10px] font-bold text-[#5A9A1E] block">3. Vendor Invoice</span>
                   <strong className="text-[#4A2E1B] text-xs mt-0.5 block">INV-{selectedPo.poNumber.replace('PO-', '')}</strong>
-                  <span className="text-[10px] text-[#5A9A1E] font-bold">âœ“ Math Verified</span>
+                  <span className="text-[10px] text-[#5A9A1E] font-bold">Ã¢Å“â€œ Math Verified</span>
                 </div>
               </div>
 
@@ -10754,15 +10754,15 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                     <div key={i} className="py-2 flex justify-between">
                       <div>
                         <p className="font-bold text-[#4A2E1B]">{item.name}</p>
-                        <p className="text-[11px] text-[#8A817C]">{item.qty} units &times; â‚±{item.unitPrice.toLocaleString()}</p>
+                        <p className="text-[11px] text-[#8A817C]">{item.qty} units &times; Ã¢â€šÂ±{item.unitPrice.toLocaleString()}</p>
                       </div>
-                      <span className="font-mono font-bold text-[#4A2E1B]">â‚±{item.total.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
+                      <span className="font-mono font-bold text-[#4A2E1B]">Ã¢â€šÂ±{item.total.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
                     </div>
                   ))}
                 </div>
                 <div className="border-t border-[#EAE8E2] pt-2 flex justify-between text-sm font-extrabold text-[#031134]">
                   <span>Total Payable:</span>
-                  <span className="font-mono text-[#77BC2E]">â‚±{selectedPo.totalAmount.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
+                  <span className="font-mono text-[#77BC2E]">Ã¢â€šÂ±{selectedPo.totalAmount.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
                 </div>
               </div>
 
@@ -10953,7 +10953,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                       <div className="col-span-3">
                         <input
                           type="number"
-                          placeholder="Debit â‚±"
+                          placeholder="Debit Ã¢â€šÂ±"
                           min={0}
                           value={line.debit || ''}
                           onChange={(e) => {
@@ -10967,7 +10967,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                       <div className="col-span-2">
                         <input
                           type="number"
-                          placeholder="Credit â‚±"
+                          placeholder="Credit Ã¢â€šÂ±"
                           min={0}
                           value={line.credit || ''}
                           onChange={(e) => {
@@ -11007,12 +11007,12 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                       <div className="flex items-center space-x-2">
                         <span className={`w-2.5 h-2.5 rounded-full ${isBalanced ? 'bg-[#77BC2E]' : 'bg-[#D47098]'}`}></span>
                         <span className={isBalanced ? 'text-[#5A9A1E] font-bold' : 'text-[#D47098] font-bold'}>
-                          {isBalanced ? 'âœ“ Balanced Entry' : `Unbalanced Difference: â‚±${Math.abs(debits - credits).toFixed(2)}`}
+                          {isBalanced ? 'Ã¢Å“â€œ Balanced Entry' : `Unbalanced Difference: Ã¢â€šÂ±${Math.abs(debits - credits).toFixed(2)}`}
                         </span>
                       </div>
                       <div className="space-x-4 font-mono font-bold">
-                        <span>Debits: <strong className="text-[#5A9A1E]">â‚±{debits.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong></span>
-                        <span>Credits: <strong className="text-[#D47098]">â‚±{credits.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong></span>
+                        <span>Debits: <strong className="text-[#5A9A1E]">Ã¢â€šÂ±{debits.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong></span>
+                        <span>Credits: <strong className="text-[#D47098]">Ã¢â€šÂ±{credits.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong></span>
                       </div>
                     </div>
                   );
@@ -11205,7 +11205,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-bold text-[#5A534E] mb-1 uppercase tracking-wider">Morning Float (â‚±)</label>
+                  <label className="block font-bold text-[#5A534E] mb-1 uppercase tracking-wider">Morning Float (Ã¢â€šÂ±)</label>
                   <input
                     type="number"
                     required
@@ -11215,7 +11215,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                   />
                 </div>
                 <div>
-                  <label className="block font-bold text-[#5A534E] mb-1 uppercase tracking-wider">Physical Cash Sales (â‚±)</label>
+                  <label className="block font-bold text-[#5A534E] mb-1 uppercase tracking-wider">Physical Cash Sales (Ã¢â€šÂ±)</label>
                   <input
                     type="number"
                     required
@@ -11228,7 +11228,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
 
               <div className="grid grid-cols-3 gap-2 bg-[#FAF9F5] p-3 rounded-2xl border border-[#EAE8E2]">
                 <div>
-                  <label className="block font-bold text-[#8A817C] text-[10px] mb-1 uppercase">Maya QR (â‚±)</label>
+                  <label className="block font-bold text-[#8A817C] text-[10px] mb-1 uppercase">Maya QR (Ã¢â€šÂ±)</label>
                   <input
                     type="number"
                     value={newPosRecon.mayaQrSales}
@@ -11237,7 +11237,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                   />
                 </div>
                 <div>
-                  <label className="block font-bold text-[#8A817C] text-[10px] mb-1 uppercase">GCash QR (â‚±)</label>
+                  <label className="block font-bold text-[#8A817C] text-[10px] mb-1 uppercase">GCash QR (Ã¢â€šÂ±)</label>
                   <input
                     type="number"
                     value={newPosRecon.gcashQrSales}
@@ -11246,7 +11246,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                   />
                 </div>
                 <div>
-                  <label className="block font-bold text-[#8A817C] text-[10px] mb-1 uppercase">Card POS (â‚±)</label>
+                  <label className="block font-bold text-[#8A817C] text-[10px] mb-1 uppercase">Card POS (Ã¢â€šÂ±)</label>
                   <input
                     type="number"
                     value={newPosRecon.cardTerminalSales}
@@ -11258,7 +11258,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-bold text-[#5A534E] mb-1 uppercase tracking-wider">Petty Cash Out (â‚±)</label>
+                  <label className="block font-bold text-[#5A534E] mb-1 uppercase tracking-wider">Petty Cash Out (Ã¢â€šÂ±)</label>
                   <input
                     type="number"
                     value={newPosRecon.pettyCashExpenses}
@@ -11267,7 +11267,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                   />
                 </div>
                 <div>
-                  <label className="block font-bold text-[#5A534E] mb-1 uppercase tracking-wider">Counted Physical Cash (â‚±)</label>
+                  <label className="block font-bold text-[#5A534E] mb-1 uppercase tracking-wider">Counted Physical Cash (Ã¢â€šÂ±)</label>
                   <input
                     type="number"
                     required
@@ -11288,12 +11288,12 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                   <div className="bg-[#FAF9F5] p-3.5 rounded-2xl border border-[#EAE8E2] flex items-center justify-between text-xs font-bold">
                     <div>
                       <span className="text-[#8A817C] block text-[10px]">Expected Cash in Drawer:</span>
-                      <span className="font-mono text-[#4A2E1B]">â‚±{expected.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
+                      <span className="font-mono text-[#4A2E1B]">Ã¢â€šÂ±{expected.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
                     </div>
                     <div className="text-right">
                       <span className="text-[#8A817C] block text-[10px]">Variance:</span>
                       <span className={`font-mono text-sm ${diff === 0 ? 'text-[#5A9A1E]' : 'text-[#D47098]'}`}>
-                        {diff === 0 ? 'â‚±0.00 Exact Match' : `â‚±${diff.toFixed(2)} (${diff > 0 ? 'Over' : 'Short'})`}
+                        {diff === 0 ? 'Ã¢â€šÂ±0.00 Exact Match' : `Ã¢â€šÂ±${diff.toFixed(2)} (${diff > 0 ? 'Over' : 'Short'})`}
                       </span>
                     </div>
                   </div>
@@ -11349,48 +11349,48 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                 <h3 className="font-extrabold text-base text-[#4A2E1B] uppercase tracking-wider">
                   {financialReportType === 'pl' ? 'Statement of Comprehensive Income (Profit & Loss)' : 'Statement of Financial Position (Balance Sheet)'}
                 </h3>
-                <p className="text-[#8A817C]">For the Period Ended August 31, 2026 (All amounts in Philippine Peso â‚±)</p>
+                <p className="text-[#8A817C]">For the Period Ended August 31, 2026 (All amounts in Philippine Peso Ã¢â€šÂ±)</p>
               </div>
 
               {financialReportType === 'pl' ? (
                 <div className="border border-[#EAE8E2] rounded-2xl p-4 bg-[#FAF9F5] space-y-3 font-medium">
                   <div className="flex justify-between font-bold text-[#031134] border-b border-[#EAE8E2] pb-1">
                     <span>Gross Service & Retail Revenue:</span>
-                    <span className="font-mono">â‚±1,284,650.00</span>
+                    <span className="font-mono">Ã¢â€šÂ±1,284,650.00</span>
                   </div>
                   <div className="flex justify-between text-[#D47098]">
                     <span>Less: Cost of Goods Sold (Consumables & Supplies):</span>
-                    <span className="font-mono">(â‚±248,300.00)</span>
+                    <span className="font-mono">(Ã¢â€šÂ±248,300.00)</span>
                   </div>
                   <div className="flex justify-between font-extrabold text-[#5A9A1E] bg-[#77BC2E]/15 p-2 rounded-xl">
                     <span>GROSS OPERATING PROFIT (80.67%):</span>
-                    <span className="font-mono">â‚±1,036,350.00</span>
+                    <span className="font-mono">Ã¢â€šÂ±1,036,350.00</span>
                   </div>
                   <div className="flex justify-between text-[#4A2E1B] pt-1">
                     <span>Less: Operating Expenses (Salaries, Mall Rents, Utilities):</span>
-                    <span className="font-mono">(â‚±582,400.00)</span>
+                    <span className="font-mono">(Ã¢â€šÂ±582,400.00)</span>
                   </div>
                   <div className="flex justify-between font-black text-sm text-white bg-[#031134] p-3 rounded-xl border border-[#D4AF37]">
                     <span className="text-[#D4AF37]">NET OPERATING INCOME (EBITDA - 35.33%):</span>
-                    <span className="font-mono text-white">â‚±453,950.00</span>
+                    <span className="font-mono text-white">Ã¢â€šÂ±453,950.00</span>
                   </div>
                 </div>
               ) : (
                 <div className="border border-[#EAE8E2] rounded-2xl p-4 bg-[#FAF9F5] space-y-3 font-medium">
                   <div className="flex justify-between font-bold text-[#5A9A1E] border-b border-[#EAE8E2] pb-1">
                     <span>TOTAL ASSETS (Current + Non-Current Property/Equipment):</span>
-                    <span className="font-mono">â‚±4,121,700.00</span>
+                    <span className="font-mono">Ã¢â€šÂ±4,121,700.00</span>
                   </div>
                   <div className="flex justify-between text-[#D47098]">
                     <span>TOTAL LIABILITIES (Trade AP, Accrued Payroll, Tax Payables):</span>
-                    <span className="font-mono">â‚±562,500.00</span>
+                    <span className="font-mono">Ã¢â€šÂ±562,500.00</span>
                   </div>
                   <div className="flex justify-between font-extrabold text-[#031134] bg-[#031134]/10 p-2 rounded-xl">
                     <span>TOTAL SHAREHOLDER EQUITY (Capital + Retained + MTD Profit):</span>
-                    <span className="font-mono">â‚±3,559,200.00</span>
+                    <span className="font-mono">Ã¢â€šÂ±3,559,200.00</span>
                   </div>
                   <div className="flex justify-between font-black text-xs text-[#5A9A1E] pt-1 text-center">
-                    <span>âœ“ Equation Verified: Total Assets = Total Liabilities + Equity</span>
+                    <span>Ã¢Å“â€œ Equation Verified: Total Assets = Total Liabilities + Equity</span>
                   </div>
                 </div>
               )}
@@ -11455,7 +11455,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                     <span className={`text-[10px] font-extrabold px-2 py-0.5 rounded-full ${
                       isOnline ? 'bg-[#77BC2E]/15 text-[#5A9A1E]' : 'bg-[#D4AF37]/20 text-[#B48A10]'
                     }`}>
-                      {isOnline ? 'ðŸŸ¢ Online (Cloud Sync)' : 'ðŸŸ¡ Offline Mode Active'}
+                      {isOnline ? 'Ã°Å¸Å¸Â¢ Online (Cloud Sync)' : 'Ã°Å¸Å¸Â¡ Offline Mode Active'}
                     </span>
                   </div>
                   <p className="text-xs text-[#8A817C]">100% Operational even with mall Wi-Fi disconnections</p>
@@ -11672,7 +11672,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                     <span className={`text-[10px] font-extrabold px-2 py-0.5 rounded-full ${
                       systemDataMode === 'live' ? 'bg-[#031134] text-[#77BC2E]' : 'bg-[#FAF9F5] text-[#5A534E] border border-[#EAE8E2]'
                     }`}>
-                      {systemDataMode === 'live' ? 'ðŸ¢ Live Store Active' : 'ðŸ§ª Demo Simulation'}
+                      {systemDataMode === 'live' ? 'Ã°Å¸ÂÂ¢ Live Store Active' : 'Ã°Å¸Â§Âª Demo Simulation'}
                     </span>
                   </div>
                   <p className="text-xs text-[#8A817C]">Switch between actual live store testing and 4-branch demo simulation</p>
@@ -11689,7 +11689,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
               <div className="bg-[#FAF9F5] border border-[#EAE8E2] rounded-2xl p-4 space-y-2">
                 <div className="flex items-center justify-between">
                   <strong className="text-sm font-extrabold text-[#4A2E1B] flex items-center space-x-1.5">
-                    <span>ðŸ¢ Switch to Live Store Mode (Clean Slate)</span>
+                    <span>Ã°Å¸ÂÂ¢ Switch to Live Store Mode (Clean Slate)</span>
                   </strong>
                   <span className="text-[10px] font-bold text-[#77BC2E]">Ready for Real Data</span>
                 </div>
@@ -11709,7 +11709,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
               <div className="bg-white border border-[#EAE8E2] rounded-2xl p-4 space-y-2">
                 <div className="flex items-center justify-between">
                   <strong className="text-sm font-extrabold text-[#4A2E1B] flex items-center space-x-1.5">
-                    <span>ðŸ§ª Reload 4-Branch Demo Dataset</span>
+                    <span>Ã°Å¸Â§Âª Reload 4-Branch Demo Dataset</span>
                   </strong>
                   <span className="text-[10px] font-bold text-[#8A817C]">Simulation Preset</span>
                 </div>
@@ -11836,7 +11836,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                   <input
                     type="number"
                     step="0.01"
-                    placeholder="â‚± 0.00"
+                    placeholder="Ã¢â€šÂ± 0.00"
                     value={newApproval.amount}
                     onChange={(e) => setNewApproval({ ...newApproval, amount: e.target.value })}
                     className="w-full bg-[#FAF9F5] border border-[#EAE8E2] rounded-xl px-3 py-2 text-xs font-medium text-[#2D2520] outline-none focus:ring-1 focus:ring-[#77BC2E]"
@@ -11989,7 +11989,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                         : 'bg-[#FAF9F5] border-[#EAE8E2] text-[#5A534E] hover:bg-[#F2F0E8]'
                     }`}
                   >
-                    <span>âœï¸ Type Script</span>
+                    <span>Ã¢Å“ÂÃ¯Â¸Â Type Script</span>
                   </button>
                   <button
                     type="button"
@@ -12000,7 +12000,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                         : 'bg-[#FAF9F5] border-[#EAE8E2] text-[#5A534E] hover:bg-[#F2F0E8]'
                     }`}
                   >
-                    <span>ðŸ–Œï¸ Draw Pad</span>
+                    <span>Ã°Å¸â€“Å’Ã¯Â¸Â Draw Pad</span>
                   </button>
                   <button
                     type="button"
@@ -12011,7 +12011,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                         : 'bg-[#FAF9F5] border-[#EAE8E2] text-[#5A534E] hover:bg-[#F2F0E8]'
                     }`}
                   >
-                    <span>ðŸ›¡ï¸ Corp Seal</span>
+                    <span>Ã°Å¸â€ºÂ¡Ã¯Â¸Â Corp Seal</span>
                   </button>
                 </div>
               </div>
@@ -12193,7 +12193,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                     {selectedDocForView.sha256Hash}
                   </p>
                   <span className="text-[10px] text-[#5A9A1E] font-bold block">
-                    âœ“ Google Workspace Cloud Vault Backed Up
+                    Ã¢Å“â€œ Google Workspace Cloud Vault Backed Up
                   </span>
                 </div>
               </div>
@@ -12235,7 +12235,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
               
               {/* Template Quick Loader */}
               <div className="bg-[#FAF9F5] p-3 rounded-2xl border border-[#EAE8E2] space-y-1.5">
-                <span className="font-bold text-[#4A2E1B] text-[11px] block">âš¡ Load Pre-Formatted Document Template (Customizable):</span>
+                <span className="font-bold text-[#4A2E1B] text-[11px] block">Ã¢Å¡Â¡ Load Pre-Formatted Document Template (Customizable):</span>
                 <div className="flex flex-wrap gap-1.5">
                   <button
                     type="button"
@@ -12413,7 +12413,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
               
               {/* Quick Template Overwrite Picker */}
               <div className="bg-[#FAF9F5] p-3 rounded-2xl border border-[#EAE8E2] space-y-1.5">
-                <span className="font-bold text-[#4A2E1B] text-[11px] block">âš¡ Replace with Standard Template (Optional):</span>
+                <span className="font-bold text-[#4A2E1B] text-[11px] block">Ã¢Å¡Â¡ Replace with Standard Template (Optional):</span>
                 <div className="flex flex-wrap gap-1.5">
                   <button
                     type="button"
@@ -12816,4 +12816,5 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
     </div>
   );
 }
+
 
