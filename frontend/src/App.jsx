@@ -81,7 +81,8 @@ import {
   Key,
   Shield,
   UserPlus,
-  Trash2
+  Trash2,
+  Award
 } from 'lucide-react';
 
 const API_BASE = import.meta.env.VITE_API_URL || (window.location.origin.includes('localhost') ? 'http://localhost:5000/api' : '/api');
