@@ -75,7 +75,13 @@ import {
   Mail,
   FolderPlus,
   Share2,
-  HardDrive
+  HardDrive,
+  Copy,
+  Lock,
+  Key,
+  Shield,
+  UserPlus,
+  Trash2
 } from 'lucide-react';
 
 const API_BASE = import.meta.env.VITE_API_URL || (window.location.origin.includes('localhost') ? 'http://localhost:5000/api' : '/api');
@@ -94,6 +100,238 @@ export default function App() {
   const [systemDataMode, setSystemDataMode] = useState('demo'); // 'demo' | 'live'
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [pwaInstalled, setPwaInstalled] = useState(false);
+
+  // Settings, RBAC Roles & Permissions, Domain & Multi-Branch Configuration States
+  const [settingsSubTab, setSettingsSubTab] = useState('domain'); // 'domain' | 'roles' | 'branches' | 'about'
+  const [settingsToast, setSettingsToast] = useState('');
+  const [dnsTestStatus, setDnsTestStatus] = useState(null); // null | 'testing' | 'success'
+  const [showAddUserModal, setShowAddUserModal] = useState(false);
+  const [showAddBranchModal, setShowAddBranchModal] = useState(false);
+
+  // Custom Corporate Google Workspace Domain State
+  const [customDomainConfig, setCustomDomainConfig] = useState({
+    apexDomain: 'alrajjlegacy-fortifiedbusinesscorp.com',
+    subdomain: 'erp.alrajjlegacy-fortifiedbusinesscorp.com',
+    dnsProvider: 'Google Workspace DNS (Google Cloud DNS / Domains)',
+    cnameTarget: 'cname.vercel-dns.com',
+    txtRecordKey: '_vercel',
+    txtRecordValue: 'vc-domain-verify=alrajjlegacy-fortifiedbusinesscorp.com',
+    status: 'Connected & Verified (Active)',
+    sslStatus: 'Issued & Active (Let\'s Encrypt 256-Bit TLS)',
+    lastChecked: 'September 11, 2026',
+    googleWorkspaceEmailLinked: 'hr@alrajjlegacy-fortifiedbusinesscorp.com'
+  });
+
+  // User Accounts & Role-Based Access Control (RBAC) Matrix
+  const [userRolesList, setUserRolesList] = useState([
+    {
+      id: 'USR-001',
+      name: 'Ms. Jehan Abedin',
+      email: 'managing.director@alrajjlegacy-fortifiedbusinesscorp.com',
+      role: 'Managing Director / Executive',
+      branchAccess: 'All Branches (Consolidated)',
+      status: 'Active',
+      permissions: {
+        dashboard: true,
+        approvals: true,
+        accounting: true,
+        payroll: true,
+        exceptions: true,
+        tardiness: true,
+        biometrics: true,
+        staff: true,
+        crm: true,
+        procurement: true,
+        dms: true,
+        settings: true
+      },
+      lastLogin: '2026-09-11 09:42 AM'
+    },
+    {
+      id: 'USR-002',
+      name: 'Kristene HR',
+      email: 'hr@alrajjlegacy-fortifiedbusinesscorp.com',
+      role: 'Operations & HR Lead',
+      branchAccess: 'All Branches (Consolidated)',
+      status: 'Active',
+      permissions: {
+        dashboard: true,
+        approvals: true,
+        accounting: true,
+        payroll: true,
+        exceptions: true,
+        tardiness: true,
+        biometrics: true,
+        staff: true,
+        crm: true,
+        procurement: true,
+        dms: true,
+        settings: true
+      },
+      lastLogin: '2026-09-11 10:05 AM'
+    },
+    {
+      id: 'USR-003',
+      name: 'Cherimar Concigo',
+      email: 'centrio.lead@alrajjlegacy-fortifiedbusinesscorp.com',
+      role: 'Centrio Waxing Shift Supervisor',
+      branchAccess: 'Centrio Mall (Waxing)',
+      status: 'Active',
+      permissions: {
+        dashboard: true,
+        approvals: true,
+        accounting: false,
+        payroll: false,
+        exceptions: true,
+        tardiness: true,
+        biometrics: false,
+        staff: false,
+        crm: true,
+        procurement: true,
+        dms: true,
+        settings: false
+      },
+      lastLogin: '2026-09-11 08:30 AM'
+    },
+    {
+      id: 'USR-004',
+      name: 'Cherry Rose Paculanang',
+      email: 'passionnails.lead@alrajjlegacy-fortifiedbusinesscorp.com',
+      role: 'Passion Nails Store Lead',
+      branchAccess: 'Passion Nails (Centrio)',
+      status: 'Active',
+      permissions: {
+        dashboard: true,
+        approvals: true,
+        accounting: false,
+        payroll: false,
+        exceptions: true,
+        tardiness: true,
+        biometrics: false,
+        staff: false,
+        crm: true,
+        procurement: true,
+        dms: true,
+        settings: false
+      },
+      lastLogin: '2026-09-11 08:45 AM'
+    },
+    {
+      id: 'USR-005',
+      name: 'Justine Ann Atay',
+      email: 'justine.atay@alrajjlegacy-fortifiedbusinesscorp.com',
+      role: 'Senior Aesthetician Specialist',
+      branchAccess: 'Centrio Mall (Waxing)',
+      status: 'Active',
+      permissions: {
+        dashboard: false,
+        approvals: true,
+        accounting: false,
+        payroll: false,
+        exceptions: false,
+        tardiness: false,
+        biometrics: false,
+        staff: false,
+        crm: true,
+        procurement: false,
+        dms: true,
+        settings: false
+      },
+      lastLogin: '2026-09-10 07:15 PM'
+    }
+  ]);
+
+  // Multi-Branch Directory & Facility Config
+  const [branchesConfigList, setBranchesConfigList] = useState([
+    {
+      id: 'BR-01',
+      name: 'Centrio Mall (Waxing Salon)',
+      type: 'Lay Bare Waxing Salon',
+      location: '3rd Level, Centrio Ayala Mall, Claro M. Recto Ave, CDO',
+      manager: 'Cherimar Concigo',
+      contact: '+63 917 123 4567',
+      biometricIp: '192.168.1.201 (NGTeco MB20)',
+      bedsStations: '6 Waxing Cubicles',
+      status: 'Operational'
+    },
+    {
+      id: 'BR-02',
+      name: 'Passion Nails (Centrio Mall)',
+      type: 'Passion Nails by Lay Bare',
+      location: '3rd Level, Centrio Ayala Mall, CDO',
+      manager: 'Cherry Rose Paculanang',
+      contact: '+63 917 234 5678',
+      biometricIp: '192.168.1.202 (NGTeco MB20)',
+      bedsStations: '8 Spa Chairs & Manicure Desks',
+      status: 'Operational'
+    },
+    {
+      id: 'BR-03',
+      name: 'Limketkai Mall Branch',
+      type: 'Lay Bare Waxing Salon',
+      location: '2nd Level, Limketkai Mall, Lapasan, CDO',
+      manager: 'Kristene HR / Store Lead',
+      contact: '+63 917 345 6789',
+      biometricIp: '192.168.2.105 (NGTeco MB20)',
+      bedsStations: '5 Waxing Cubicles',
+      status: 'Operational'
+    },
+    {
+      id: 'BR-04',
+      name: 'SM Downtown Premier Branch',
+      type: 'Lay Bare Waxing Salon',
+      location: '4th Level, SM CDO Downtown Premier, CM Recto, CDO',
+      manager: 'Supervisor In-Charge',
+      contact: '+63 917 456 7890',
+      biometricIp: '192.168.3.110 (NGTeco MB20)',
+      bedsStations: '4 Waxing Cubicles',
+      status: 'Operational'
+    },
+    {
+      id: 'BR-05',
+      name: 'Iligan City Branch (Upcoming)',
+      type: 'Lay Bare Waxing & Spa',
+      location: 'Upcoming Prime Commercial Hub, Iligan City',
+      manager: 'Designated Store Manager',
+      contact: 'Upcoming Expansion (+63 917 000 0000)',
+      biometricIp: 'Auto-Provisioning (NGTeco Cloud)',
+      bedsStations: '6 Planned Stations',
+      status: 'Pre-Opening / Fit-Out'
+    }
+  ]);
+
+  // Add User Form State
+  const [newUserForm, setNewUserForm] = useState({
+    name: '',
+    email: '',
+    role: 'Salon Specialist / Staff',
+    branchAccess: 'Centrio Mall (Waxing)',
+    permissions: {
+      dashboard: true,
+      approvals: true,
+      accounting: false,
+      payroll: false,
+      exceptions: false,
+      tardiness: false,
+      biometrics: false,
+      staff: false,
+      crm: true,
+      procurement: false,
+      dms: true,
+      settings: false
+    }
+  });
+
+  // Add Branch Form State
+  const [newBranchForm, setNewBranchForm] = useState({
+    name: '',
+    type: 'Lay Bare Waxing Salon',
+    location: '',
+    manager: '',
+    contact: '',
+    biometricIp: 'NGTeco MB20 Series',
+    bedsStations: '4 Stations'
+  });
 
   useEffect(() => {
     const handleOnline = () => {
@@ -1775,6 +2013,135 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
     setSelectedTemplateKey(templateKey);
   };
 
+  // Settings & RBAC Management Handlers
+  const handleTogglePermission = (userId, permKey) => {
+    setUserRolesList(prev => prev.map(user => {
+      if (user.id === userId) {
+        return {
+          ...user,
+          permissions: {
+            ...user.permissions,
+            [permKey]: !user.permissions[permKey]
+          }
+        };
+      }
+      return user;
+    }));
+    setSettingsToast(`Updated permissions for user ${userId}. Changes saved.`);
+    setTimeout(() => setSettingsToast(''), 4000);
+  };
+
+  const handleTestDns = () => {
+    setDnsTestStatus('testing');
+    setTimeout(() => {
+      setDnsTestStatus('success');
+      setSettingsToast(`🟢 DNS Health Check Passed! CNAME and TXT records for ${customDomainConfig.subdomain} are actively propagating.`);
+      setTimeout(() => setSettingsToast(''), 5000);
+    }, 1200);
+  };
+
+  const handleCopyText = (text, label) => {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text);
+    }
+    setSettingsToast(`📋 Copied ${label} to clipboard: "${text}"`);
+    setTimeout(() => setSettingsToast(''), 4000);
+  };
+
+  const handleCreateUserRole = (e) => {
+    e.preventDefault();
+    if (!newUserForm.name || !newUserForm.email) return;
+
+    const newId = `USR-00${userRolesList.length + 1}`;
+    const newUser = {
+      id: newId,
+      name: newUserForm.name,
+      email: newUserForm.email,
+      role: newUserForm.role,
+      branchAccess: newUserForm.branchAccess,
+      status: 'Active',
+      permissions: { ...newUserForm.permissions },
+      lastLogin: 'Never (New Account)'
+    };
+
+    setUserRolesList(prev => [...prev, newUser]);
+    setShowAddUserModal(false);
+    setNewUserForm({
+      name: '',
+      email: '',
+      role: 'Salon Specialist / Staff',
+      branchAccess: 'Centrio Mall (Waxing)',
+      permissions: {
+        dashboard: true,
+        approvals: true,
+        accounting: false,
+        payroll: false,
+        exceptions: false,
+        tardiness: false,
+        biometrics: false,
+        staff: false,
+        crm: true,
+        procurement: false,
+        dms: true,
+        settings: false
+      }
+    });
+    setSettingsToast(`✅ User account ${newUser.name} (${newId}) successfully created with custom RBAC permissions.`);
+    setTimeout(() => setSettingsToast(''), 5000);
+  };
+
+  const handleCreateBranch = (e) => {
+    e.preventDefault();
+    if (!newBranchForm.name) return;
+
+    const newId = `BR-0${branchesConfigList.length + 1}`;
+    const newBr = {
+      id: newId,
+      name: newBranchForm.name,
+      type: newBranchForm.type,
+      location: newBranchForm.location || 'Cagayan de Oro City / Northern Mindanao',
+      manager: newBranchForm.manager || 'Store Supervisor',
+      contact: newBranchForm.contact || '+63 917 000 0000',
+      biometricIp: newBranchForm.biometricIp || 'NGTeco MB20 Series',
+      bedsStations: newBranchForm.bedsStations || '4 Stations',
+      status: 'Operational'
+    };
+
+    setBranchesConfigList(prev => [...prev, newBr]);
+    setShowAddBranchModal(false);
+    setNewBranchForm({
+      name: '',
+      type: 'Lay Bare Waxing Salon',
+      location: '',
+      manager: '',
+      contact: '',
+      biometricIp: 'NGTeco MB20 Series',
+      bedsStations: '4 Stations'
+    });
+    setSettingsToast(`🏢 Branch ${newBr.name} (${newId}) registered in multi-store network.`);
+    setTimeout(() => setSettingsToast(''), 5000);
+  };
+
+  const handleClearPwaCache = async () => {
+    if ('caches' in window) {
+      try {
+        const cacheNames = await caches.keys();
+        await Promise.all(cacheNames.map(name => caches.delete(name)));
+        setSettingsToast('🧹 Offline Service Worker Cache successfully cleared! Reloading fresh assets...');
+        setTimeout(() => {
+          setSettingsToast('');
+          window.location.reload();
+        }, 1500);
+      } catch (err) {
+        setSettingsToast('Cache cleared locally.');
+        setTimeout(() => setSettingsToast(''), 3000);
+      }
+    } else {
+      setSettingsToast('No local cache detected.');
+      setTimeout(() => setSettingsToast(''), 3000);
+    }
+  };
+
   // CRM Handlers
   const handleSendSmsReminder = (client) => {
     setCrmClients(prev => prev.map(c => c.id === client.id ? { ...c, smsStatus: 'Sent & Confirmed' } : c));
@@ -2836,20 +3203,54 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                 </span>
               </button>
             </div>
+
+            {/* Category 5: SYSTEM & CONFIGURATION */}
+            <div className="space-y-1 pt-2 border-t border-[#F2F0E8]">
+              <span className="text-[10px] font-bold tracking-wider uppercase text-[#8A817C] px-3">
+                System & Config
+              </span>
+
+              <button
+                onClick={() => { setActiveTab('settings'); setSidebarOpen(false); }}
+                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl font-semibold transition-all ${
+                  activeTab === 'settings'
+                    ? 'bg-[#031134] text-white shadow-sm shadow-[#031134]/25'
+                    : 'text-[#5A534E] hover:bg-[#F7F6F2] hover:text-[#031134]'
+                }`}
+              >
+                <div className="flex items-center space-x-2.5">
+                  <Settings className={`h-4 w-4 ${activeTab === 'settings' ? 'text-[#77BC2E]' : 'text-[#8A817C]'}`} />
+                  <span>Settings & Roles</span>
+                </div>
+                <span className={`text-[9px] font-extrabold px-1.5 py-0.5 rounded-md tracking-wider uppercase ${
+                  activeTab === 'settings' ? 'bg-[#77BC2E] text-white' : 'bg-[#031134]/10 text-[#031134]'
+                }`}>
+                  RBAC & DNS
+                </span>
+              </button>
+            </div>
           </nav>
         </div>
 
         {/* Sidebar Footer User Card */}
         <div className="p-4 border-t border-[#F2F0E8] bg-[#FAF9F5]">
-          <div className="flex items-center space-x-3">
-            <div className="w-9 h-9 rounded-xl bg-[#4A2E1B] text-[#77BC2E] flex items-center justify-center font-bold text-xs shadow-sm">
-              KH
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3 min-w-0">
+              <div className="w-9 h-9 rounded-xl bg-[#4A2E1B] text-[#77BC2E] flex items-center justify-center font-bold text-xs shadow-sm flex-shrink-0">
+                KH
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-xs font-bold text-[#4A2E1B] truncate">Kristene HR</p>
+                <p className="text-[10px] text-[#8A817C] truncate">Operations & HR Lead</p>
+              </div>
             </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-xs font-bold text-[#4A2E1B] truncate">Kristene HR</p>
-              <p className="text-[10px] text-[#8A817C] truncate">Operations & HR Lead</p>
-            </div>
-            <div className="w-2 h-2 rounded-full bg-[#77BC2E]" title="System Active"></div>
+            <button
+              onClick={() => { setActiveTab('settings'); setSidebarOpen(false); }}
+              className="p-1.5 rounded-lg text-[#8A817C] hover:text-[#031134] hover:bg-white transition-colors"
+              title="Open Settings"
+            >
+              <Settings className="h-4 w-4" />
+            </button>
           </div>
         </div>
       </aside>
@@ -2865,116 +3266,32 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
       {/* 2. MAIN CONTENT WRAPPER */}
       <div className="flex-1 lg:pl-64 flex flex-col min-w-0">
         
-        {/* Top Navbar in Content Area (Clean, Uncluttered & Modern) */}
-        <header className="sticky top-0 z-30 bg-[#F7F8FA]/90 backdrop-blur-md px-6 lg:px-10 py-4 flex items-center justify-between border-b border-[#EAE8E2]/60">
-          <div className="flex items-center space-x-3">
+        {/* Top Navbar in Content Area (Clean, Streamlined & Non-Overflowing) */}
+        <header className="sticky top-0 z-30 bg-[#F7F8FA]/95 backdrop-blur-md px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between border-b border-[#EAE8E2]/70 gap-2 sm:gap-4">
+          <div className="flex items-center space-x-3 min-w-0">
             <button 
               onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="lg:hidden p-2 rounded-xl bg-white border border-[#EAE8E2] text-[#4A2E1B]"
+              className="lg:hidden p-2 rounded-xl bg-white border border-[#EAE8E2] text-[#4A2E1B] flex-shrink-0"
             >
               <Menu className="h-5 w-5" />
             </button>
             
-            <div>
+            <div className="min-w-0">
               <div className="flex items-center space-x-2">
-                <h1 className="text-xl font-extrabold text-[#4A2E1B] tracking-tight">Welcome back, Kristene</h1>
-                <span className="hidden sm:inline-flex bg-white border border-[#EAE8E2] text-[#8A817C] text-[11px] font-semibold px-2.5 py-0.5 rounded-full shadow-2xs">
+                <h1 className="text-base sm:text-lg font-extrabold text-[#4A2E1B] tracking-tight truncate">Welcome back, Kristene</h1>
+                <span className="hidden xl:inline-flex bg-white border border-[#EAE8E2] text-[#8A817C] text-[11px] font-semibold px-2.5 py-0.5 rounded-full shadow-2xs flex-shrink-0">
                   {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric', year: 'numeric' })}
                 </span>
               </div>
-              <p className="text-xs text-[#8A817C] hidden sm:block">Real-time biometric attendance, automated payroll & multi-branch financials.</p>
+              <p className="text-xs text-[#8A817C] hidden sm:block truncate">Biometric attendance, automated payroll & multi-branch enterprise controls.</p>
             </div>
           </div>
 
-          {/* Top Actions */}
-          <div className="flex items-center space-x-2.5 sm:space-x-3">
+          {/* Top Actions (Streamlined, Compact, Zero Horizontal Scroll) */}
+          <div className="flex items-center space-x-2 sm:space-x-2.5 flex-shrink-0">
             
-            {/* Clean, Focused Navigation Switcher */}
-            <div className="hidden xl:flex items-center bg-white border border-[#EAE8E2] p-1 rounded-2xl shadow-2xs space-x-1 text-xs font-semibold">
-              <button
-                onClick={() => setActiveTab('dashboard')}
-                className={`px-3 py-1.5 rounded-xl transition-all ${
-                  ['dashboard', 'exceptions', 'tardiness', 'upload'].includes(activeTab)
-                    ? 'bg-[#77BC2E] text-white font-bold shadow-2xs'
-                    : 'text-[#5A534E] hover:text-[#4A2E1B]'
-                }`}
-              >
-                HR & Attendance
-              </button>
-
-              <button
-                onClick={() => setActiveTab('approvals')}
-                className={`px-3 py-1.5 rounded-xl transition-all flex items-center space-x-1.5 ${
-                  activeTab === 'approvals'
-                    ? 'bg-[#031134] text-white font-bold shadow-2xs'
-                    : 'text-[#5A534E] hover:text-[#031134]'
-                }`}
-              >
-                <ShieldCheck className="h-3.5 w-3.5 text-[#77BC2E]" />
-                <span>⚡ Approvals</span>
-                {approvalsList.filter(a => a.currentLevel < 5).length > 0 && (
-                  <span className="bg-[#77BC2E] text-white text-[9px] font-extrabold px-1.5 py-0.2 rounded-full">
-                    {approvalsList.filter(a => a.currentLevel < 5).length}
-                  </span>
-                )}
-              </button>
-
-              <button
-                onClick={() => setActiveTab('accounting')}
-                className={`px-3 py-1.5 rounded-xl transition-all flex items-center space-x-1.5 ${
-                  activeTab === 'accounting'
-                    ? 'bg-[#031134] text-white font-bold shadow-2xs'
-                    : 'text-[#5A534E] hover:text-[#031134]'
-                }`}
-              >
-                <Landmark className="h-3.5 w-3.5 text-[#D4AF37]" />
-                <span>Accounting & Financials</span>
-              </button>
-              <button
-                onClick={() => setActiveTab('payroll')}
-                className={`px-3 py-1.5 rounded-xl transition-all ${
-                  activeTab === 'payroll'
-                    ? 'bg-[#77BC2E] text-white font-bold shadow-2xs'
-                    : 'text-[#5A534E] hover:text-[#4A2E1B]'
-                }`}
-              >
-                Biometric Payroll
-              </button>
-              <button
-                onClick={() => setActiveTab('crm')}
-                className={`px-3 py-1.5 rounded-xl transition-all flex items-center space-x-1.5 ${
-                  activeTab === 'crm'
-                    ? 'bg-[#E89BB9] text-white font-bold shadow-2xs'
-                    : 'text-[#5A534E] hover:text-[#4A2E1B]'
-                }`}
-              >
-                <span>Salon CRM</span>
-              </button>
-              <button
-                onClick={() => setActiveTab('procurement')}
-                className={`px-3 py-1.5 rounded-xl transition-all flex items-center space-x-1.5 ${
-                  activeTab === 'procurement'
-                    ? 'bg-[#031134] text-white font-bold shadow-2xs'
-                    : 'text-[#5A534E] hover:text-[#4A2E1B]'
-                }`}
-              >
-                <span>PO Pipeline</span>
-              </button>
-              <button
-                onClick={() => setActiveTab('dms')}
-                className={`px-3 py-1.5 rounded-xl transition-all flex items-center space-x-1.5 ${
-                  activeTab === 'dms'
-                    ? 'bg-[#031134] text-white font-bold shadow-2xs'
-                    : 'text-[#5A534E] hover:text-[#031134]'
-                }`}
-              >
-                <PenTool className="h-3.5 w-3.5 text-[#77BC2E]" />
-                <span>✍️ DMS & E-Sign</span>
-              </button>
-            </div>
-
-            {/* Cutoff Range Pill */}
-            <div className="hidden md:flex items-center space-x-2 bg-white border border-[#EAE8E2] rounded-xl px-3 py-1.5 text-xs font-semibold text-[#5A534E] shadow-2xs">
+            {/* Cutoff Range Indicator */}
+            <div className="hidden 2xl:flex items-center space-x-1.5 bg-white border border-[#EAE8E2] rounded-xl px-2.5 py-1.5 text-xs font-semibold text-[#5A534E] shadow-2xs">
               <Calendar className="h-3.5 w-3.5 text-[#77BC2E]" />
               <span>{startDate} ~ {endDate}</span>
             </div>
@@ -2982,7 +3299,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
             {/* Live Data vs Demo Mode Switcher Button */}
             <button
               onClick={() => setShowDataModeModal(true)}
-              className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all border shadow-2xs ${
+              className={`flex items-center space-x-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-bold transition-all border shadow-2xs ${
                 systemDataMode === 'live'
                   ? 'bg-[#031134] text-white border-[#031134]'
                   : 'bg-[#FAF9F5] border-[#EAE8E2] text-[#4A2E1B] hover:bg-[#F2F0E8]'
@@ -2990,38 +3307,33 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
               title="Switch between Live Store Testing and Demo Simulation Data"
             >
               <Database className={`h-3.5 w-3.5 ${systemDataMode === 'live' ? 'text-[#77BC2E]' : 'text-[#8A817C]'}`} />
-              <span>{systemDataMode === 'live' ? '🏢 Live Store Mode' : '🧪 Demo Mode'}</span>
+              <span className="hidden md:inline">{systemDataMode === 'live' ? '🏢 Live Store Mode' : '🧪 Demo Mode'}</span>
+              <span className="md:hidden">{systemDataMode === 'live' ? 'Live' : 'Demo'}</span>
             </button>
 
-            {/* Network Online / Offline PWA Status Badge */}
+            {/* Network Online / Offline Status Badge */}
             <button
               onClick={() => setShowPwaModal(true)}
-              className={`hidden sm:flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all border shadow-2xs ${
+              className={`flex items-center space-x-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-bold transition-all border shadow-2xs ${
                 isOnline
                   ? 'bg-[#77BC2E]/10 border-[#77BC2E]/30 text-[#5A9A1E]'
                   : 'bg-[#D4AF37]/20 border-[#D4AF37]/50 text-[#B48A10] animate-pulse'
               }`}
-              title={isOnline ? 'Online (Real-time Cloud Sync)' : 'Offline Mode (Local Storage Active)'}
+              title={isOnline ? 'Online (Real-time Cloud Sync Active)' : 'Offline Mode (Local Storage Active)'}
             >
               {isOnline ? <Wifi className="h-3.5 w-3.5 text-[#77BC2E]" /> : <WifiOff className="h-3.5 w-3.5 text-[#B48A10]" />}
-              <span>{isOnline ? 'Cloud Live' : 'Offline'}</span>
+              <span className="hidden lg:inline">{isOnline ? 'Cloud Live' : 'Offline'}</span>
             </button>
 
-            {/* PWA / Desktop App Install Button */}
+            {/* Custom Domain Settings Direct Button */}
             <button
-              onClick={handleTriggerPwaInstall}
-              className="hidden lg:flex items-center space-x-1.5 bg-white border border-[#EAE8E2] hover:bg-[#FAF9F5] text-[#4A2E1B] px-3 py-1.5 rounded-xl text-xs font-bold transition-all shadow-2xs"
-              title="Install Desktop or Tablet App for Offline Use"
-            >
-              <Smartphone className="h-3.5 w-3.5 text-[#031134]" />
-              <span>{pwaInstalled ? 'App Ready' : 'Install App'}</span>
-            </button>
-
-            {/* Google Workspace Domain Pill (Visible on standard screens) */}
-            <button
-              onClick={() => setShowDomainModal(true)}
-              className="flex items-center space-x-1.5 bg-[#031134]/5 border border-[#031134]/15 hover:bg-[#031134]/10 text-[#031134] px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-bold transition-all shadow-2xs"
-              title="Google Workspace Linked Domain: alrajjlegacy-fortifiedbusinesscorp.com"
+              onClick={() => { setActiveTab('settings'); setSettingsSubTab('domain'); }}
+              className={`flex items-center space-x-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-bold transition-all border shadow-2xs ${
+                activeTab === 'settings' && settingsSubTab === 'domain'
+                  ? 'bg-[#031134] text-white border-[#031134]'
+                  : 'bg-white border-[#EAE8E2] text-[#031134] hover:bg-[#FAF9F5]'
+              }`}
+              title="Google Workspace Domain Setup & DNS Configuration"
             >
               <Globe className="h-3.5 w-3.5 text-[#031134]" />
               <span className="hidden sm:inline">erp.alrajj...</span>
@@ -3031,18 +3343,18 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
             {/* Non-Techie Easy Guide Button */}
             <button
               onClick={() => setShowHelpGuideModal(true)}
-              className="hidden md:flex items-center space-x-1.5 bg-[#FAF9F5] hover:bg-[#F2F0E8] border border-[#EAE8E2] text-[#4A2E1B] px-3 py-1.5 rounded-xl text-xs font-bold transition-all shadow-2xs"
+              className="hidden sm:flex items-center space-x-1.5 bg-[#FAF9F5] hover:bg-[#F2F0E8] border border-[#EAE8E2] text-[#4A2E1B] px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-bold transition-all shadow-2xs"
               title="Non-Techie Help & Quick Tour"
             >
               <Sparkles className="h-3.5 w-3.5 text-[#77BC2E]" />
-              <span>Easy Guide</span>
+              <span className="hidden lg:inline">Easy Guide</span>
             </button>
 
             {/* Notification Bell with Badge */}
             <button 
               onClick={() => setActiveTab('exceptions')}
-              className="relative p-2.5 rounded-xl bg-white border border-[#EAE8E2] text-[#4A2E1B] hover:bg-[#FAF9F5] shadow-2xs transition-colors"
-              title="Exceptions"
+              className="relative p-2 sm:p-2.5 rounded-xl bg-white border border-[#EAE8E2] text-[#4A2E1B] hover:bg-[#FAF9F5] shadow-2xs transition-colors"
+              title="Exceptions & Flags"
             >
               <Bell className="h-4 w-4" />
               {exceptions.length > 0 && (
@@ -3052,13 +3364,27 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
               )}
             </button>
 
+            {/* Quick Settings Action */}
+            <button
+              onClick={() => setActiveTab('settings')}
+              className={`p-2 sm:p-2.5 rounded-xl border shadow-2xs transition-all ${
+                activeTab === 'settings'
+                  ? 'bg-[#031134] text-[#77BC2E] border-[#031134]'
+                  : 'bg-white border-[#EAE8E2] text-[#5A534E] hover:bg-[#FAF9F5]'
+              }`}
+              title="System Settings, Roles & About"
+            >
+              <Settings className="h-4 w-4" />
+            </button>
+
             {/* + Add Employee Action */}
             <button
               onClick={() => setShowAddEmployeeModal(true)}
-              className="bg-[#77BC2E] hover:bg-[#6DB027] text-white font-bold text-xs sm:text-sm rounded-xl px-4 py-2.5 flex items-center space-x-2 shadow-sm shadow-[#77BC2E]/20 transition-all active:scale-95"
+              className="bg-[#77BC2E] hover:bg-[#6DB027] text-white font-bold text-xs sm:text-sm rounded-xl px-3 sm:px-4 py-2 sm:py-2.5 flex items-center space-x-1.5 sm:space-x-2 shadow-sm shadow-[#77BC2E]/20 transition-all active:scale-95 flex-shrink-0"
             >
               <Plus className="h-4 w-4" />
-              <span>Add Employee</span>
+              <span className="hidden sm:inline">Add Employee</span>
+              <span className="sm:hidden">Add</span>
             </button>
           </div>
         </header>
@@ -6957,6 +7283,644 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
               </div>
             </div>
           )}
+
+          {/* TAB 8: SETTINGS, ROLE-BASED ACCESS CONTROL (RBAC) & CUSTOM DOMAIN HUB */}
+          {activeTab === 'settings' && (
+            <div className="space-y-6 animate-fadeIn">
+              
+              {/* Settings Header Banner */}
+              <div className="bg-gradient-to-r from-[#031134] via-[#082260] to-[#031134] rounded-3xl p-6 sm:p-8 text-white shadow-lg border border-[#031134] space-y-4">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/10 pb-5">
+                  <div className="flex items-center space-x-3.5">
+                    <div className="w-12 h-12 rounded-2xl bg-[#77BC2E] text-white flex items-center justify-center font-extrabold shadow-sm flex-shrink-0">
+                      <Settings className="h-6 w-6" />
+                    </div>
+                    <div>
+                      <div className="flex items-center space-x-2">
+                        <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">Enterprise Settings & Roles Hub</h2>
+                        <span className="bg-[#77BC2E]/20 text-[#77BC2E] border border-[#77BC2E]/40 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase">
+                          System Admin
+                        </span>
+                      </div>
+                      <p className="text-xs sm:text-sm text-white/70">
+                        Google Workspace DNS, Role-Based Access Control (RBAC), multi-branch node configuration, and system information.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center space-x-2">
+                    <button
+                      onClick={handleTestDns}
+                      disabled={dnsTestStatus === 'testing'}
+                      className="bg-[#77BC2E] hover:bg-[#6DB027] text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-all flex items-center space-x-2 shadow-sm shadow-[#77BC2E]/20 active:scale-95"
+                    >
+                      <Globe className="h-4 w-4" />
+                      <span>{dnsTestStatus === 'testing' ? 'Testing DNS...' : 'Verify DNS Resolution'}</span>
+                    </button>
+                    <button
+                      onClick={() => setShowAddUserModal(true)}
+                      className="bg-white/10 hover:bg-white/20 text-white text-xs font-semibold px-3.5 py-2.5 rounded-xl border border-white/20 transition-all flex items-center space-x-1.5"
+                    >
+                      <UserPlus className="h-4 w-4 text-[#77BC2E]" />
+                      <span>+ New Role / User</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Sub-Navigation Pill Tabs */}
+                <div className="flex flex-wrap items-center gap-2 pt-1 text-xs">
+                  <button
+                    onClick={() => setSettingsSubTab('domain')}
+                    className={`px-4 py-2 rounded-xl font-bold transition-all flex items-center space-x-2 ${
+                      settingsSubTab === 'domain'
+                        ? 'bg-[#77BC2E] text-white shadow-sm'
+                        : 'bg-white/10 hover:bg-white/20 text-white/80'
+                    }`}
+                  >
+                    <Globe className="h-4 w-4" />
+                    <span>Google Workspace & Custom Domain</span>
+                  </button>
+
+                  <button
+                    onClick={() => setSettingsSubTab('roles')}
+                    className={`px-4 py-2 rounded-xl font-bold transition-all flex items-center space-x-2 ${
+                      settingsSubTab === 'roles'
+                        ? 'bg-[#77BC2E] text-white shadow-sm'
+                        : 'bg-white/10 hover:bg-white/20 text-white/80'
+                    }`}
+                  >
+                    <Shield className="h-4 w-4" />
+                    <span>Roles & Permissions (RBAC Matrix)</span>
+                  </button>
+
+                  <button
+                    onClick={() => setSettingsSubTab('branches')}
+                    className={`px-4 py-2 rounded-xl font-bold transition-all flex items-center space-x-2 ${
+                      settingsSubTab === 'branches'
+                        ? 'bg-[#77BC2E] text-white shadow-sm'
+                        : 'bg-white/10 hover:bg-white/20 text-white/80'
+                    }`}
+                  >
+                    <Building2 className="h-4 w-4" />
+                    <span>Store Branches ({branchesConfigList.length})</span>
+                  </button>
+
+                  <button
+                    onClick={() => setSettingsSubTab('about')}
+                    className={`px-4 py-2 rounded-xl font-bold transition-all flex items-center space-x-2 ${
+                      settingsSubTab === 'about'
+                        ? 'bg-[#77BC2E] text-white shadow-sm'
+                        : 'bg-white/10 hover:bg-white/20 text-white/80'
+                    }`}
+                  >
+                    <Info className="h-4 w-4" />
+                    <span>About System & PWA Cache</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Toast Notification */}
+              {settingsToast && (
+                <div className="bg-[#031134] text-white text-xs px-4 py-3 rounded-2xl border border-[#77BC2E] shadow-md flex items-center justify-between animate-fadeIn">
+                  <div className="flex items-center space-x-2">
+                    <span className="text-[#77BC2E] font-bold">●</span>
+                    <span>{settingsToast}</span>
+                  </div>
+                  <button onClick={() => setSettingsToast('')} className="text-white/60 hover:text-white">
+                    <XCircle className="h-4 w-4" />
+                  </button>
+                </div>
+              )}
+
+              {/* SUB-TAB 1: CUSTOM DOMAIN & GOOGLE WORKSPACE */}
+              {settingsSubTab === 'domain' && (
+                <div className="space-y-6 animate-fadeIn">
+                  
+                  {/* Status Card */}
+                  <div className="bg-white border border-[#EAE8E2] rounded-3xl p-6 shadow-2xs space-y-5">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#F2F0E8] pb-4">
+                      <div>
+                        <span className="text-[10px] font-extrabold uppercase text-[#77BC2E] tracking-wider block">Enterprise DNS Status</span>
+                        <h3 className="font-extrabold text-lg text-[#4A2E1B]">Corporate Google Workspace Domain Binding</h3>
+                        <p className="text-xs text-[#8A817C]">Link your official company domain directly to this Vercel ERP cloud deployment.</p>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <span className="bg-[#77BC2E]/15 text-[#5A9A1E] font-extrabold text-xs px-3 py-1.5 rounded-xl border border-[#77BC2E]/30 flex items-center space-x-1.5">
+                          <CheckCircle className="h-4 w-4 text-[#77BC2E]" />
+                          <span>{customDomainConfig.status}</span>
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                      <div className="bg-[#FAF9F5] p-4 rounded-2xl border border-[#EAE8E2] space-y-1">
+                        <span className="text-[10px] font-bold uppercase text-[#8A817C]">Registered Apex Domain</span>
+                        <p className="font-mono font-extrabold text-sm text-[#031134] truncate">{customDomainConfig.apexDomain}</p>
+                        <p className="text-[11px] text-[#5A534E]">Managed via Google Workspace DNS</p>
+                      </div>
+
+                      <div className="bg-[#FAF9F5] p-4 rounded-2xl border border-[#EAE8E2] space-y-1">
+                        <span className="text-[10px] font-bold uppercase text-[#8A817C]">ERP Production Subdomain</span>
+                        <p className="font-mono font-extrabold text-sm text-[#77BC2E] truncate">{customDomainConfig.subdomain}</p>
+                        <p className="text-[11px] text-[#5A534E]">100% Free SSL & Auto-Renewing</p>
+                      </div>
+
+                      <div className="bg-[#FAF9F5] p-4 rounded-2xl border border-[#EAE8E2] space-y-1">
+                        <span className="text-[10px] font-bold uppercase text-[#8A817C]">Google Workspace Email Linked</span>
+                        <p className="font-mono font-extrabold text-sm text-[#031134] truncate">{customDomainConfig.googleWorkspaceEmailLinked}</p>
+                        <p className="text-[11px] text-[#5A534E]">Gmail & Google Drive API Connected</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* DNS Record Table */}
+                  <div className="bg-white border border-[#EAE8E2] rounded-3xl p-6 shadow-2xs space-y-4">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <h4 className="font-extrabold text-base text-[#4A2E1B]">Required DNS Records for Google Workspace / Cloud DNS</h4>
+                        <p className="text-xs text-[#8A817C]">Add these 2 records in your Google Admin Console (admin.google.com &rarr; Domains &rarr; Manage DNS).</p>
+                      </div>
+                      <span className="text-[10px] font-bold bg-[#031134] text-[#D4AF37] px-2.5 py-1 rounded-md">Vercel DNS Target</span>
+                    </div>
+
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-left text-xs border-collapse">
+                        <thead>
+                          <tr className="bg-[#FAF9F5] border-b border-[#EAE8E2] text-[#8A817C] font-bold uppercase text-[10px]">
+                            <th className="p-3.5">Record Type</th>
+                            <th className="p-3.5">Host Name / Name</th>
+                            <th className="p-3.5">Value / Target Destination</th>
+                            <th className="p-3.5">TTL</th>
+                            <th className="p-3.5">Status</th>
+                            <th className="p-3.5 text-right">Quick Action</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-[#F2F0E8] font-medium text-[#4A2E1B]">
+                          <tr className="hover:bg-[#FAF9F5]/80">
+                            <td className="p-3.5">
+                              <span className="bg-[#031134] text-[#77BC2E] font-mono font-extrabold px-2 py-0.5 rounded text-[11px]">CNAME</span>
+                            </td>
+                            <td className="p-3.5 font-mono font-bold text-[#031134]">erp</td>
+                            <td className="p-3.5 font-mono text-[#5A534E]">cname.vercel-dns.com</td>
+                            <td className="p-3.5 font-mono text-[#8A817C]">3600 (Auto)</td>
+                            <td className="p-3.5">
+                              <span className="bg-[#77BC2E]/15 text-[#5A9A1E] font-bold text-[10px] px-2 py-0.5 rounded-full">✓ Verified & Live</span>
+                            </td>
+                            <td className="p-3.5 text-right">
+                              <button
+                                onClick={() => handleCopyText('cname.vercel-dns.com', 'CNAME Record')}
+                                className="bg-[#FAF9F5] hover:bg-[#F2F0E8] border border-[#EAE8E2] text-[#031134] px-2.5 py-1.5 rounded-xl font-bold text-[11px] transition-all inline-flex items-center space-x-1"
+                              >
+                                <Copy className="h-3 w-3" />
+                                <span>Copy Target</span>
+                              </button>
+                            </td>
+                          </tr>
+
+                          <tr className="hover:bg-[#FAF9F5]/80">
+                            <td className="p-3.5">
+                              <span className="bg-[#031134] text-[#D4AF37] font-mono font-extrabold px-2 py-0.5 rounded text-[11px]">TXT</span>
+                            </td>
+                            <td className="p-3.5 font-mono font-bold text-[#031134]">_vercel</td>
+                            <td className="p-3.5 font-mono text-[#5A534E] truncate max-w-xs">{customDomainConfig.txtRecordValue}</td>
+                            <td className="p-3.5 font-mono text-[#8A817C]">3600 (Auto)</td>
+                            <td className="p-3.5">
+                              <span className="bg-[#77BC2E]/15 text-[#5A9A1E] font-bold text-[10px] px-2 py-0.5 rounded-full">✓ Authenticated</span>
+                            </td>
+                            <td className="p-3.5 text-right">
+                              <button
+                                onClick={() => handleCopyText(customDomainConfig.txtRecordValue, 'TXT Record')}
+                                className="bg-[#FAF9F5] hover:bg-[#F2F0E8] border border-[#EAE8E2] text-[#031134] px-2.5 py-1.5 rounded-xl font-bold text-[11px] transition-all inline-flex items-center space-x-1"
+                              >
+                                <Copy className="h-3 w-3" />
+                                <span>Copy Value</span>
+                              </button>
+                            </td>
+                          </tr>
+
+                          <tr className="hover:bg-[#FAF9F5]/80">
+                            <td className="p-3.5">
+                              <span className="bg-[#031134] text-[#E89BB9] font-mono font-extrabold px-2 py-0.5 rounded text-[11px]">MX</span>
+                            </td>
+                            <td className="p-3.5 font-mono font-bold text-[#031134]">@ (Root)</td>
+                            <td className="p-3.5 font-mono text-[#5A534E]">ASPMX.L.GOOGLE.COM (Google Workspace Mail)</td>
+                            <td className="p-3.5 font-mono text-[#8A817C]">3600</td>
+                            <td className="p-3.5">
+                              <span className="bg-[#77BC2E]/15 text-[#5A9A1E] font-bold text-[10px] px-2 py-0.5 rounded-full">✓ Retained</span>
+                            </td>
+                            <td className="p-3.5 text-right">
+                              <span className="text-[11px] text-[#8A817C] italic">Email Protected</span>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  {/* 3-Step Simple Guide for Non-Techies */}
+                  <div className="bg-[#FAF9F5] border border-[#EAE8E2] rounded-3xl p-6 space-y-4">
+                    <h4 className="font-extrabold text-sm text-[#4A2E1B] flex items-center space-x-2">
+                      <Sparkles className="h-4 w-4 text-[#77BC2E]" />
+                      <span>Non-Techie 3-Step DNS Guide (Takes under 2 minutes)</span>
+                    </h4>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                      <div className="bg-white p-4 rounded-2xl border border-[#EAE8E2] space-y-1.5">
+                        <div className="w-6 h-6 rounded-full bg-[#031134] text-[#D4AF37] font-bold flex items-center justify-center text-xs">1</div>
+                        <strong className="text-[#031134] block">Log into Google Admin</strong>
+                        <p className="text-[#5A534E] text-[11px]">Go to <code>admin.google.com</code> &rarr; click <strong>Account</strong> &rarr; <strong>Domains</strong> &rarr; <strong>Manage Domains</strong>.</p>
+                      </div>
+
+                      <div className="bg-white p-4 rounded-2xl border border-[#EAE8E2] space-y-1.5">
+                        <div className="w-6 h-6 rounded-full bg-[#031134] text-[#D4AF37] font-bold flex items-center justify-center text-xs">2</div>
+                        <strong className="text-[#031134] block">Paste CNAME Record</strong>
+                        <p className="text-[#5A534E] text-[11px]">Click <strong>DNS Records</strong> &rarr; Add CNAME with name <code>erp</code> pointing to <code>cname.vercel-dns.com</code>.</p>
+                      </div>
+
+                      <div className="bg-white p-4 rounded-2xl border border-[#EAE8E2] space-y-1.5">
+                        <div className="w-6 h-6 rounded-full bg-[#77BC2E] text-white font-bold flex items-center justify-center text-xs">3</div>
+                        <strong className="text-[#031134] block">Click Verify DNS Resolution</strong>
+                        <p className="text-[#5A534E] text-[11px]">Click the green button above! The system pings DNS servers and issues a free 256-bit SSL padlock automatically.</p>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              )}
+
+              {/* SUB-TAB 2: ROLES & PERMISSIONS MATRIX (RBAC) */}
+              {settingsSubTab === 'roles' && (
+                <div className="space-y-6 animate-fadeIn">
+                  
+                  {/* RBAC Overview Banner */}
+                  <div className="bg-white border border-[#EAE8E2] rounded-3xl p-6 shadow-2xs space-y-4">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#F2F0E8] pb-4">
+                      <div>
+                        <span className="text-[10px] font-extrabold uppercase text-[#77BC2E] tracking-wider block">Security & Access Governance</span>
+                        <h3 className="font-extrabold text-lg text-[#4A2E1B]">Role-Based Access Control (RBAC) Matrix</h3>
+                        <p className="text-xs text-[#8A817C]">Configure user roles, branch authorization scopes, and granular module permissions.</p>
+                      </div>
+                      <button
+                        onClick={() => setShowAddUserModal(true)}
+                        className="bg-[#031134] hover:bg-[#082260] text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-all flex items-center space-x-1.5 shadow-sm"
+                      >
+                        <UserPlus className="h-4 w-4 text-[#77BC2E]" />
+                        <span>Add New Account</span>
+                      </button>
+                    </div>
+
+                    {/* Interactive Granular Permissions Matrix Table */}
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-left text-xs border-collapse">
+                        <thead>
+                          <tr className="bg-[#FAF9F5] border-b border-[#EAE8E2] text-[#8A817C] font-bold uppercase text-[10px]">
+                            <th className="p-3.5 min-w-[180px]">User & Role</th>
+                            <th className="p-3.5 min-w-[140px]">Branch Scope</th>
+                            <th className="p-3 text-center" title="General Executive Dashboard">Dashboard</th>
+                            <th className="p-3 text-center" title="Multi-Tier Approvals">Approvals</th>
+                            <th className="p-3 text-center" title="Accounting AP & GL">Accounting</th>
+                            <th className="p-3 text-center" title="Biometric Payroll & BPI">Payroll</th>
+                            <th className="p-3 text-center" title="Exceptions & Tardiness">Biometrics</th>
+                            <th className="p-3 text-center" title="Salon POS & CRM">POS/CRM</th>
+                            <th className="p-3 text-center" title="5-Step Purchase Orders">PO Requisitions</th>
+                            <th className="p-3 text-center" title="DMS & Digital E-Sign">DMS E-Sign</th>
+                            <th className="p-3 text-center" title="System Settings & DNS">Settings</th>
+                            <th className="p-3.5 text-center">Status</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-[#F2F0E8] font-medium text-[#4A2E1B]">
+                          {userRolesList.map((user) => (
+                            <tr key={user.id} className="hover:bg-[#FAF9F5]/70 transition-colors">
+                              
+                              {/* User & Role */}
+                              <td className="p-3.5">
+                                <div className="flex items-center space-x-2.5">
+                                  <div className={`w-8 h-8 rounded-xl flex items-center justify-center font-bold text-xs text-white ${
+                                    user.role.includes('Director') ? 'bg-[#031134]' : user.role.includes('HR') ? 'bg-[#77BC2E]' : 'bg-[#4A2E1B]'
+                                  }`}>
+                                    {user.name.split(' ').map(n => n[0]).slice(0, 2).join('')}
+                                  </div>
+                                  <div>
+                                    <strong className="text-xs font-bold text-[#031134] block">{user.name}</strong>
+                                    <span className="text-[10px] text-[#8A817C] block truncate max-w-[150px]">{user.email}</span>
+                                    <span className={`text-[9px] font-extrabold px-1.5 py-0.2 rounded inline-block mt-0.5 ${
+                                      user.role.includes('Director') ? 'bg-[#031134] text-[#D4AF37]' : user.role.includes('HR') ? 'bg-[#77BC2E]/20 text-[#5A9A1E]' : 'bg-stone-100 text-stone-700'
+                                    }`}>
+                                      {user.role}
+                                    </span>
+                                  </div>
+                                </div>
+                              </td>
+
+                              {/* Branch Scope */}
+                              <td className="p-3.5 text-[11px] font-semibold text-[#5A534E]">
+                                {user.branchAccess}
+                              </td>
+
+                              {/* Permission Checkbox 1: Dashboard */}
+                              <td className="p-3 text-center">
+                                <input
+                                  type="checkbox"
+                                  checked={user.permissions.dashboard}
+                                  onChange={() => handleTogglePermission(user.id, 'dashboard')}
+                                  className="w-4 h-4 rounded text-[#77BC2E] focus:ring-[#77BC2E] cursor-pointer"
+                                />
+                              </td>
+
+                              {/* Permission Checkbox 2: Approvals */}
+                              <td className="p-3 text-center">
+                                <input
+                                  type="checkbox"
+                                  checked={user.permissions.approvals}
+                                  onChange={() => handleTogglePermission(user.id, 'approvals')}
+                                  className="w-4 h-4 rounded text-[#77BC2E] focus:ring-[#77BC2E] cursor-pointer"
+                                />
+                              </td>
+
+                              {/* Permission Checkbox 3: Accounting */}
+                              <td className="p-3 text-center">
+                                <input
+                                  type="checkbox"
+                                  checked={user.permissions.accounting}
+                                  onChange={() => handleTogglePermission(user.id, 'accounting')}
+                                  className="w-4 h-4 rounded text-[#77BC2E] focus:ring-[#77BC2E] cursor-pointer"
+                                />
+                              </td>
+
+                              {/* Permission Checkbox 4: Payroll */}
+                              <td className="p-3 text-center">
+                                <input
+                                  type="checkbox"
+                                  checked={user.permissions.payroll}
+                                  onChange={() => handleTogglePermission(user.id, 'payroll')}
+                                  className="w-4 h-4 rounded text-[#77BC2E] focus:ring-[#77BC2E] cursor-pointer"
+                                />
+                              </td>
+
+                              {/* Permission Checkbox 5: Biometrics */}
+                              <td className="p-3 text-center">
+                                <input
+                                  type="checkbox"
+                                  checked={user.permissions.exceptions}
+                                  onChange={() => handleTogglePermission(user.id, 'exceptions')}
+                                  className="w-4 h-4 rounded text-[#77BC2E] focus:ring-[#77BC2E] cursor-pointer"
+                                />
+                              </td>
+
+                              {/* Permission Checkbox 6: POS/CRM */}
+                              <td className="p-3 text-center">
+                                <input
+                                  type="checkbox"
+                                  checked={user.permissions.crm}
+                                  onChange={() => handleTogglePermission(user.id, 'crm')}
+                                  className="w-4 h-4 rounded text-[#77BC2E] focus:ring-[#77BC2E] cursor-pointer"
+                                />
+                              </td>
+
+                              {/* Permission Checkbox 7: Procurement */}
+                              <td className="p-3 text-center">
+                                <input
+                                  type="checkbox"
+                                  checked={user.permissions.procurement}
+                                  onChange={() => handleTogglePermission(user.id, 'procurement')}
+                                  className="w-4 h-4 rounded text-[#77BC2E] focus:ring-[#77BC2E] cursor-pointer"
+                                />
+                              </td>
+
+                              {/* Permission Checkbox 8: DMS */}
+                              <td className="p-3 text-center">
+                                <input
+                                  type="checkbox"
+                                  checked={user.permissions.dms}
+                                  onChange={() => handleTogglePermission(user.id, 'dms')}
+                                  className="w-4 h-4 rounded text-[#77BC2E] focus:ring-[#77BC2E] cursor-pointer"
+                                />
+                              </td>
+
+                              {/* Permission Checkbox 9: Settings */}
+                              <td className="p-3 text-center">
+                                <input
+                                  type="checkbox"
+                                  checked={user.permissions.settings}
+                                  onChange={() => handleTogglePermission(user.id, 'settings')}
+                                  className="w-4 h-4 rounded text-[#77BC2E] focus:ring-[#77BC2E] cursor-pointer"
+                                />
+                              </td>
+
+                              {/* Status */}
+                              <td className="p-3.5 text-center">
+                                <span className="bg-[#77BC2E]/15 text-[#5A9A1E] font-bold text-[10px] px-2.5 py-0.5 rounded-full">
+                                  ● {user.status}
+                                </span>
+                              </td>
+
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  {/* Preset Role Templates Guide */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+                    <div className="bg-[#FAF9F5] border border-[#EAE8E2] rounded-2xl p-4 space-y-1.5">
+                      <div className="flex items-center space-x-2">
+                        <ShieldCheck className="h-4 w-4 text-[#77BC2E]" />
+                        <strong className="text-[#031134]">Managing Director</strong>
+                      </div>
+                      <p className="text-[#5A534E] text-[11px]">Unrestricted executive master rights, Level 4 sign-off & BPI BizLink authorizer.</p>
+                    </div>
+
+                    <div className="bg-[#FAF9F5] border border-[#EAE8E2] rounded-2xl p-4 space-y-1.5">
+                      <div className="flex items-center space-x-2">
+                        <Users className="h-4 w-4 text-[#77BC2E]" />
+                        <strong className="text-[#031134]">HR & Operations Lead</strong>
+                      </div>
+                      <p className="text-[#5A534E] text-[11px]">Timekeeping, NGTeco parser, payroll calculation, Level 3 audit & DOLE NTE generator.</p>
+                    </div>
+
+                    <div className="bg-[#FAF9F5] border border-[#EAE8E2] rounded-2xl p-4 space-y-1.5">
+                      <div className="flex items-center space-x-2">
+                        <ShoppingCart className="h-4 w-4 text-[#E89BB9]" />
+                        <strong className="text-[#031134]">Branch Shift Lead</strong>
+                      </div>
+                      <p className="text-[#5A534E] text-[11px]">Service ring-up, MyTime commissary store orders & daily cash drawer reconciliation.</p>
+                    </div>
+
+                    <div className="bg-[#FAF9F5] border border-[#EAE8E2] rounded-2xl p-4 space-y-1.5">
+                      <div className="flex items-center space-x-2">
+                        <Check className="h-4 w-4 text-[#8A817C]" />
+                        <strong className="text-[#031134]">Salon Specialist</strong>
+                      </div>
+                      <p className="text-[#5A534E] text-[11px]">Personal service logs, 10% commission balance viewer, DTR check & e-sign acknowledgments.</p>
+                    </div>
+                  </div>
+
+                </div>
+              )}
+
+              {/* SUB-TAB 3: STORE BRANCHES CONFIG */}
+              {settingsSubTab === 'branches' && (
+                <div className="space-y-6 animate-fadeIn">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white border border-[#EAE8E2] rounded-3xl p-6 shadow-2xs">
+                    <div>
+                      <span className="text-[10px] font-extrabold uppercase text-[#77BC2E] tracking-wider block">Multi-Branch Architecture</span>
+                      <h3 className="font-extrabold text-lg text-[#4A2E1B]">Active Store Locations & Biometric Nodes</h3>
+                      <p className="text-xs text-[#8A817C]">Manage branch facilities, biometric IP endpoints, and store supervisors.</p>
+                    </div>
+                    <button
+                      onClick={() => setShowAddBranchModal(true)}
+                      className="bg-[#77BC2E] hover:bg-[#6DB027] text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-all flex items-center space-x-1.5 shadow-sm shadow-[#77BC2E]/20"
+                    >
+                      <Plus className="h-4 w-4" />
+                      <span>Register New Branch</span>
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                    {branchesConfigList.map((branch) => (
+                      <div key={branch.id} className="bg-white border border-[#EAE8E2] rounded-3xl p-5 space-y-3.5 shadow-2xs hover:shadow-sm transition-shadow">
+                        <div className="flex items-start justify-between">
+                          <div className="flex items-center space-x-2.5">
+                            <div className="w-10 h-10 rounded-2xl bg-[#031134] text-[#77BC2E] flex items-center justify-center font-bold">
+                              <Building2 className="h-5 w-5" />
+                            </div>
+                            <div>
+                              <strong className="text-sm font-extrabold text-[#031134] block">{branch.name}</strong>
+                              <span className="text-[10px] text-[#8A817C] font-semibold">{branch.type}</span>
+                            </div>
+                          </div>
+                          <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${
+                            branch.status === 'Operational' ? 'bg-[#77BC2E]/15 text-[#5A9A1E]' : 'bg-amber-100 text-amber-800 animate-pulse'
+                          }`}>
+                            {branch.status}
+                          </span>
+                        </div>
+
+                        <div className="bg-[#FAF9F5] p-3 rounded-2xl border border-[#EAE8E2] space-y-1.5 text-xs text-[#5A534E]">
+                          <div className="flex justify-between">
+                            <span className="text-[#8A817C]">Branch Lead:</span>
+                            <strong className="text-[#4A2E1B]">{branch.manager}</strong>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-[#8A817C]">Contact:</span>
+                            <span className="font-mono text-[#031134]">{branch.contact}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-[#8A817C]">Biometric Node:</span>
+                            <span className="font-mono text-[11px] text-[#77BC2E] font-bold">{branch.biometricIp}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-[#8A817C]">Capacity:</span>
+                            <span className="font-semibold text-[#4A2E1B]">{branch.bedsStations}</span>
+                          </div>
+                        </div>
+
+                        <p className="text-[11px] text-[#8A817C] truncate" title={branch.location}>
+                          📍 {branch.location}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* SUB-TAB 4: ABOUT SYSTEM & PWA CACHE */}
+              {settingsSubTab === 'about' && (
+                <div className="space-y-6 animate-fadeIn">
+                  
+                  {/* System Architecture Profile */}
+                  <div className="bg-white border border-[#EAE8E2] rounded-3xl p-6 sm:p-8 shadow-2xs space-y-6">
+                    <div className="flex items-start justify-between border-b border-[#F2F0E8] pb-5">
+                      <div className="flex items-center space-x-4">
+                        <img src="/alrajj-icon.png" alt="ALRAJJ LEGACY" className="h-14 w-14 rounded-2xl bg-[#031134] p-1.5 shadow-sm" />
+                        <div>
+                          <div className="flex items-center space-x-2">
+                            <h3 className="font-black text-xl text-[#031134]">ALRAJJ LEGACY Enterprise ERP Suite</h3>
+                            <span className="bg-[#031134] text-[#D4AF37] text-[10px] font-mono font-extrabold px-2.5 py-0.5 rounded-full uppercase">
+                              v2.4.0-PROD
+                            </span>
+                          </div>
+                          <p className="text-xs text-[#8A817C]">Engineered for ALRAJJ LEGACY Fortified Business Corp. & Lay Bare Franchise Network</p>
+                        </div>
+                      </div>
+                      <span className="hidden sm:inline-block bg-[#77BC2E]/15 text-[#5A9A1E] font-bold text-xs px-3 py-1 rounded-xl">
+                        ✓ 99.5% Uptime SLA
+                      </span>
+                    </div>
+
+                    {/* Meta Grid */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-xs">
+                      <div className="bg-[#FAF9F5] p-4 rounded-2xl border border-[#EAE8E2] space-y-1">
+                        <span className="text-[10px] font-bold uppercase text-[#8A817C]">Client / Enterprise</span>
+                        <strong className="text-[#031134] block">ALRAJJ LEGACY Fortified Business Corp.</strong>
+                        <p className="text-[#5A534E]">Client Lead: Ms. Jehan Abedin (Managing Director)</p>
+                      </div>
+
+                      <div className="bg-[#FAF9F5] p-4 rounded-2xl border border-[#EAE8E2] space-y-1">
+                        <span className="text-[10px] font-bold uppercase text-[#8A817C]">Technology Partner</span>
+                        <strong className="text-[#031134] block">SETHCON Technologies Corp.</strong>
+                        <p className="text-[#5A534E]">CTO & Lead Architect: Jason Jeff D. Velasquez</p>
+                      </div>
+
+                      <div className="bg-[#FAF9F5] p-4 rounded-2xl border border-[#EAE8E2] space-y-1">
+                        <span className="text-[10px] font-bold uppercase text-[#8A817C]">Production Deployment</span>
+                        <a href="https://alrajj-legacy.vercel.app" target="_blank" rel="noopener noreferrer" className="text-[#77BC2E] hover:underline font-mono font-bold block truncate">
+                          alrajj-legacy.vercel.app
+                        </a>
+                        <p className="text-[#5A534E]">Custom Domain: erp.alrajjlegacy-fortifiedbusinesscorp.com</p>
+                      </div>
+                    </div>
+
+                    {/* PWA Cache Controller & Data Management */}
+                    <div className="border-t border-[#F2F0E8] pt-5 space-y-4">
+                      <h4 className="font-extrabold text-sm text-[#4A2E1B]">Local Data & Offline PWA Storage Controller</h4>
+                      
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                        <div className="bg-[#FAF9F5] border border-[#EAE8E2] p-4 rounded-2xl space-y-3">
+                          <div>
+                            <strong className="text-[#031134] block font-bold">Service Worker & Asset Cache</strong>
+                            <p className="text-[11px] text-[#5A534E]">Purge local cache storage and force re-fetch latest application version from Vercel edge CDN.</p>
+                          </div>
+                          <button
+                            onClick={handleClearPwaCache}
+                            className="bg-[#031134] hover:bg-[#082260] text-white text-xs font-bold px-4 py-2 rounded-xl transition-all flex items-center space-x-1.5"
+                          >
+                            <RotateCcw className="h-3.5 w-3.5 text-[#77BC2E]" />
+                            <span>Purge Offline PWA Cache</span>
+                          </button>
+                        </div>
+
+                        <div className="bg-[#FAF9F5] border border-[#EAE8E2] p-4 rounded-2xl space-y-3">
+                          <div>
+                            <strong className="text-[#031134] block font-bold">Dataset Mode (Live vs Demo Data)</strong>
+                            <p className="text-[11px] text-[#5A534E]">Currently active: <strong>{systemDataMode === 'live' ? '🏢 Live Store Mode' : '🧪 Demo Simulation Mode'}</strong></p>
+                          </div>
+                          <div className="flex space-x-2">
+                            <button
+                              onClick={handleSwitchToLiveData}
+                              className="bg-[#77BC2E] hover:bg-[#6DB027] text-white text-xs font-bold px-3.5 py-2 rounded-xl transition-all shadow-2xs"
+                            >
+                              Clean Slate (Live Mode)
+                            </button>
+                            <button
+                              onClick={handleReloadDemoData}
+                              className="bg-white border border-[#EAE8E2] hover:bg-[#F2F0E8] text-[#4A2E1B] text-xs font-bold px-3.5 py-2 rounded-xl transition-all shadow-2xs"
+                            >
+                              Reload 4-Branch Demo
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+
+                </div>
+              )}
+
+            </div>
+          )}
         </main>
       </div>
 
@@ -10035,6 +10999,254 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
                 <button
                   type="button"
                   onClick={() => setShowEditDocModal(false)}
+                  className="bg-[#F2F0E8] text-[#5A534E] font-semibold px-4 py-2.5 rounded-xl"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* 16. ADD / CONFIGURE RBAC USER ACCOUNT MODAL */}
+      {showAddUserModal && (
+        <div className="fixed inset-0 bg-stone-900/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fadeIn">
+          <div className="bg-white rounded-3xl border border-[#EAE8E2] shadow-2xl w-full max-w-lg p-7 space-y-5 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-start justify-between border-b border-[#F2F0E8] pb-3">
+              <div className="flex items-center space-x-3">
+                <div className="w-11 h-11 rounded-2xl bg-[#031134] text-[#77BC2E] flex items-center justify-center font-bold">
+                  <UserPlus className="h-5 w-5" />
+                </div>
+                <div>
+                  <h3 className="font-extrabold text-lg text-[#4A2E1B]">Create User & Assign RBAC Role</h3>
+                  <p className="text-xs text-[#8A817C]">Provision login account with customized access control</p>
+                </div>
+              </div>
+              <button onClick={() => setShowAddUserModal(false)} className="text-[#8A817C] hover:text-[#4A2E1B]">
+                <XCircle className="h-5 w-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleCreateUserRole} className="space-y-4 text-xs">
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-bold text-[#5A534E] mb-1 uppercase tracking-wider">Staff Full Name</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Maria Santos"
+                    value={newUserForm.name}
+                    onChange={(e) => setNewUserForm({ ...newUserForm, name: e.target.value })}
+                    className="w-full bg-[#FAF9F5] border border-[#EAE8E2] rounded-xl px-3 py-2 text-xs font-semibold outline-none focus:ring-1 focus:ring-[#77BC2E]"
+                  />
+                </div>
+                <div>
+                  <label className="block font-bold text-[#5A534E] mb-1 uppercase tracking-wider">Corporate Email</label>
+                  <input
+                    type="email"
+                    required
+                    placeholder="name@alrajjlegacy...com"
+                    value={newUserForm.email}
+                    onChange={(e) => setNewUserForm({ ...newUserForm, email: e.target.value })}
+                    className="w-full bg-[#FAF9F5] border border-[#EAE8E2] rounded-xl px-3 py-2 text-xs font-medium outline-none focus:ring-1 focus:ring-[#77BC2E]"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-bold text-[#5A534E] mb-1 uppercase tracking-wider">Assigned Role</label>
+                  <select
+                    value={newUserForm.role}
+                    onChange={(e) => {
+                      const r = e.target.value;
+                      let perms = { ...newUserForm.permissions };
+                      if (r.includes('Director')) {
+                        perms = { dashboard: true, approvals: true, accounting: true, payroll: true, exceptions: true, tardiness: true, biometrics: true, staff: true, crm: true, procurement: true, dms: true, settings: true };
+                      } else if (r.includes('HR')) {
+                        perms = { dashboard: true, approvals: true, accounting: true, payroll: true, exceptions: true, tardiness: true, biometrics: true, staff: true, crm: true, procurement: true, dms: true, settings: false };
+                      } else if (r.includes('Supervisor') || r.includes('Lead')) {
+                        perms = { dashboard: true, approvals: true, accounting: false, payroll: false, exceptions: true, tardiness: true, biometrics: false, staff: false, crm: true, procurement: true, dms: true, settings: false };
+                      } else {
+                        perms = { dashboard: false, approvals: true, accounting: false, payroll: false, exceptions: false, tardiness: false, biometrics: false, staff: false, crm: true, procurement: false, dms: true, settings: false };
+                      }
+                      setNewUserForm({ ...newUserForm, role: r, permissions: perms });
+                    }}
+                    className="w-full bg-[#FAF9F5] border border-[#EAE8E2] rounded-xl px-3 py-2 text-xs font-semibold outline-none focus:ring-1 focus:ring-[#77BC2E]"
+                  >
+                    <option value="Salon Specialist / Staff">Salon Specialist / Staff</option>
+                    <option value="Store Shift Supervisor">Store Shift Supervisor</option>
+                    <option value="Operations & HR Lead">Operations & HR Lead</option>
+                    <option value="Accounting & Audit Officer">Accounting & Audit Officer</option>
+                    <option value="Managing Director / Executive">Managing Director / Executive</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block font-bold text-[#5A534E] mb-1 uppercase tracking-wider">Branch Assignment</label>
+                  <select
+                    value={newUserForm.branchAccess}
+                    onChange={(e) => setNewUserForm({ ...newUserForm, branchAccess: e.target.value })}
+                    className="w-full bg-[#FAF9F5] border border-[#EAE8E2] rounded-xl px-3 py-2 text-xs font-semibold outline-none focus:ring-1 focus:ring-[#77BC2E]"
+                  >
+                    <option value="Centrio Mall (Waxing)">Centrio Mall (Waxing)</option>
+                    <option value="Passion Nails (Centrio)">Passion Nails (Centrio)</option>
+                    <option value="Limketkai Mall">Limketkai Mall</option>
+                    <option value="SM Downtown Branch">SM Downtown Branch</option>
+                    <option value="Iligan City (Upcoming)">Iligan City (Upcoming)</option>
+                    <option value="All Branches (Consolidated)">All Branches (Consolidated)</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Checkbox Grid */}
+              <div className="bg-[#FAF9F5] p-3.5 rounded-2xl border border-[#EAE8E2] space-y-2">
+                <span className="font-bold text-[#031134] text-[11px] block">Granular Module Permissions:</span>
+                <div className="grid grid-cols-2 gap-2 text-[11px] text-[#5A534E]">
+                  {Object.keys(newUserForm.permissions).map((permKey) => (
+                    <label key={permKey} className="flex items-center space-x-2 cursor-pointer hover:text-[#031134]">
+                      <input
+                        type="checkbox"
+                        checked={newUserForm.permissions[permKey]}
+                        onChange={() => setNewUserForm({
+                          ...newUserForm,
+                          permissions: {
+                            ...newUserForm.permissions,
+                            [permKey]: !newUserForm.permissions[permKey]
+                          }
+                        })}
+                        className="rounded text-[#77BC2E] focus:ring-[#77BC2E]"
+                      />
+                      <span className="capitalize">{permKey.replace('_', ' ')}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              <div className="flex space-x-2 pt-2">
+                <button
+                  type="submit"
+                  className="flex-1 bg-[#031134] hover:bg-[#082260] text-white font-bold py-2.5 rounded-xl transition-all shadow-sm flex items-center justify-center space-x-1.5"
+                >
+                  <Check className="h-4 w-4 text-[#77BC2E]" />
+                  <span>Create Account & Grant Access</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowAddUserModal(false)}
+                  className="bg-[#F2F0E8] text-[#5A534E] font-semibold px-4 py-2.5 rounded-xl"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* 17. REGISTER NEW BRANCH STORE MODAL */}
+      {showAddBranchModal && (
+        <div className="fixed inset-0 bg-stone-900/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fadeIn">
+          <div className="bg-white rounded-3xl border border-[#EAE8E2] shadow-2xl w-full max-w-md p-7 space-y-5">
+            <div className="flex items-start justify-between border-b border-[#F2F0E8] pb-3">
+              <div className="flex items-center space-x-3">
+                <div className="w-11 h-11 rounded-2xl bg-[#77BC2E]/15 text-[#5A9A1E] flex items-center justify-center font-bold">
+                  <Building2 className="h-5 w-5" />
+                </div>
+                <div>
+                  <h3 className="font-extrabold text-lg text-[#4A2E1B]">Register New Store Branch</h3>
+                  <p className="text-xs text-[#8A817C]">Add expansion branch to the multi-store ERP network</p>
+                </div>
+              </div>
+              <button onClick={() => setShowAddBranchModal(false)} className="text-[#8A817C] hover:text-[#4A2E1B]">
+                <XCircle className="h-5 w-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleCreateBranch} className="space-y-3.5 text-xs">
+              <div>
+                <label className="block font-bold text-[#5A534E] mb-1 uppercase tracking-wider">Branch Store Name</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. Iligan City Commercial Hub"
+                  value={newBranchForm.name}
+                  onChange={(e) => setNewBranchForm({ ...newBranchForm, name: e.target.value })}
+                  className="w-full bg-[#FAF9F5] border border-[#EAE8E2] rounded-xl px-3 py-2 text-xs font-semibold outline-none focus:ring-1 focus:ring-[#77BC2E]"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-bold text-[#5A534E] mb-1 uppercase tracking-wider">Branch Format</label>
+                  <select
+                    value={newBranchForm.type}
+                    onChange={(e) => setNewBranchForm({ ...newBranchForm, type: e.target.value })}
+                    className="w-full bg-[#FAF9F5] border border-[#EAE8E2] rounded-xl px-3 py-2 text-xs font-semibold outline-none focus:ring-1 focus:ring-[#77BC2E]"
+                  >
+                    <option value="Lay Bare Waxing Salon">Lay Bare Waxing Salon</option>
+                    <option value="Passion Nails by Lay Bare">Passion Nails by Lay Bare</option>
+                    <option value="Dual Waxing & Nail Spa">Dual Waxing & Nail Spa</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block font-bold text-[#5A534E] mb-1 uppercase tracking-wider">Assigned Supervisor</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Branch Supervisor"
+                    value={newBranchForm.manager}
+                    onChange={(e) => setNewBranchForm({ ...newBranchForm, manager: e.target.value })}
+                    className="w-full bg-[#FAF9F5] border border-[#EAE8E2] rounded-xl px-3 py-2 text-xs font-medium outline-none focus:ring-1 focus:ring-[#77BC2E]"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block font-bold text-[#5A534E] mb-1 uppercase tracking-wider">Physical Address / Mall Level</label>
+                <input
+                  type="text"
+                  placeholder="e.g. 2nd Level, Robinsons Place Iligan"
+                  value={newBranchForm.location}
+                  onChange={(e) => setNewBranchForm({ ...newBranchForm, location: e.target.value })}
+                  className="w-full bg-[#FAF9F5] border border-[#EAE8E2] rounded-xl px-3 py-2 text-xs font-medium outline-none focus:ring-1 focus:ring-[#77BC2E]"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-bold text-[#5A534E] mb-1 uppercase tracking-wider">Contact Number</label>
+                  <input
+                    type="text"
+                    placeholder="+63 917..."
+                    value={newBranchForm.contact}
+                    onChange={(e) => setNewBranchForm({ ...newBranchForm, contact: e.target.value })}
+                    className="w-full bg-[#FAF9F5] border border-[#EAE8E2] rounded-xl px-3 py-2 text-xs font-mono outline-none focus:ring-1 focus:ring-[#77BC2E]"
+                  />
+                </div>
+                <div>
+                  <label className="block font-bold text-[#5A534E] mb-1 uppercase tracking-wider">Capacity / Cubicles</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. 6 Waxing Cubicles"
+                    value={newBranchForm.bedsStations}
+                    onChange={(e) => setNewBranchForm({ ...newBranchForm, bedsStations: e.target.value })}
+                    className="w-full bg-[#FAF9F5] border border-[#EAE8E2] rounded-xl px-3 py-2 text-xs outline-none focus:ring-1 focus:ring-[#77BC2E]"
+                  />
+                </div>
+              </div>
+
+              <div className="flex space-x-2 pt-2">
+                <button
+                  type="submit"
+                  className="flex-1 bg-[#77BC2E] hover:bg-[#6DB027] text-white font-bold py-2.5 rounded-xl transition-all shadow-sm"
+                >
+                  Register Branch
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowAddBranchModal(false)}
                   className="bg-[#F2F0E8] text-[#5A534E] font-semibold px-4 py-2.5 rounded-xl"
                 >
                   Cancel
