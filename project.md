@@ -105,6 +105,16 @@ graph TD
 * **Daily POS Cash Drawer Audits**: `Opening Float + Cash Sales - Petty Expenses = Expected Count` with anti-theft variance detection.
 * **BIR Statutory Tax Hub**: Automated computations for BIR Form 1601-C (Withholding), BIR 2550Q (VAT), BIR 0619-E (Expanded Withholding on Mall Leases), and SSS/PhilHealth/HDMF schedules.
 
+### Module 6: Multi-Level Approval Matrix & Chain of Command Routing (`activeTab === 'approvals'`)
+* **4-Tier Hierarchical Routing Matrix**:
+  1. **Level 1 (Branch Specialist / Staff Requestor)**: Submits DTR override, MyTime commissary store requisition, Vale (cash advance), or SIL leave.
+  2. **Level 2 (Shift Supervisor / Store Lead)**: Cherimar Concigo / Branch Leads physically verify logs, store stock counts, and bed schedules.
+  3. **Level 3 (Operations & HR / Accounting Dept Audit)**: Kristene HR / Accounting check DOLE compliance, budget limits, GL account codes, and 3-way match.
+  4. **Level 4 (Managing Director Executive Sign-off)**: **Ms. Jehan Abedin (Managing Director)** provides final corporate authorization and BPI BizLink fund release.
+* **Live Store Mode vs Demo Preset Switcher**:
+  * `🏢 Live Store Mode (Clean Slate)`: Wipes all mock demo records, dynamically resetting all charts, feeds, and tables to 0 so management can test real NGTeco Excel files and actual staff rosters.
+  * `🧪 Demo Mode`: Restores the full 4-branch Lay Bare simulation in 1 click.
+
 ---
 
 ## 📦 3. Franchisee Operations: Lay Bare MyTime & PO Pipeline

@@ -142,6 +142,12 @@ export default function App() {
     setTardiness([]);
     setPayroll([]);
     setServiceTickets([]);
+    setLivePunches([]);
+    setJournalEntries([]);
+    setApInvoices([]);
+    setPurchaseOrders([]);
+    setPosReconciliations([]);
+    setApprovalsList([]);
     setSummary({
       totalEmployees: 0,
       pendingExceptions: 0,
@@ -149,7 +155,7 @@ export default function App() {
       averageHours: 0
     });
     setShowDataModeModal(false);
-    setEmailToast('🏢 Live Store Mode Active: Sample data cleared. Ready for actual NGTeco biometric upload & employee roster!');
+    setEmailToast('🏢 Live Store Mode Active: Clean slate activated! All demo records cleared. Ready for your actual NGTeco biometric uploads & store operations.');
     setTimeout(() => setEmailToast(''), 5000);
   };
 
@@ -172,6 +178,25 @@ export default function App() {
     pendingExceptions: 0,
     totalLateMins: 0,
     averageHours: 0
+  });
+
+  // Multi-Level Approval Hierarchy State (Chain of Command Routing)
+  // Level 1: Branch Specialist/Staff Filing -> Level 2: Shift Supervisor Endorsement -> Level 3: HR/Accounting Audit -> Level 4: Managing Director Ms. Jehan Abedin Executive Sign-off
+  const [approvalsList, setApprovalsList] = useState([]);
+  const [selectedApproval, setSelectedApproval] = useState(null);
+  const [showNewApprovalModal, setShowNewApprovalModal] = useState(false);
+  const [approvalLevelFilter, setApprovalLevelFilter] = useState('all'); // 'all' | 'level2' | 'level3' | 'level4' | 'completed'
+  const [approvalTypeFilter, setApprovalTypeFilter] = useState('all'); // 'all' | 'dtr' | 'po' | 'payroll' | 'vale' | 'leave' | 'expense'
+  const [approvalToast, setApprovalToast] = useState('');
+  const [newApproval, setNewApproval] = useState({
+    type: 'dtr_override',
+    title: '',
+    requestor: 'Justine Ann Atay',
+    role: 'Senior Waxing Specialist',
+    branch: 'Centrio Mall (Waxing)',
+    amount: '',
+    description: '',
+    priority: 'Normal'
   });
 
   // Payroll date range
@@ -1008,6 +1033,114 @@ export default function App() {
     fetchData();
   }, []);
 
+  const getInitialApprovals = () => [
+    {
+      id: 'APR-2026-001',
+      type: 'dtr_override',
+      typeName: 'DTR Punch Override',
+      title: 'Missed OUT Punch on July 16 (Centrio Mall Brownout at Closing)',
+      requestor: 'Justine Ann Atay',
+      role: 'Senior Waxing Specialist',
+      branch: 'Centrio Mall (Waxing)',
+      dateSubmitted: '2026-07-17 09:00 AM',
+      amount: null,
+      currentLevel: 3,
+      status: 'Pending HR Audit',
+      priority: 'High',
+      description: 'Mall experienced emergency brownout at 8:00 PM closing. Store logbook confirms shift completion at 8:07 PM.',
+      stages: [
+        { level: 1, name: 'Staff Filing', by: 'Justine Ann Atay', time: '2026-07-17 09:00 AM', status: 'Approved', note: 'Submitted via staff attendance portal with physical logbook photo.' },
+        { level: 2, name: 'Store Supervisor Endorsement', by: 'Cherimar Concigo (Branch Lead)', time: '2026-07-17 10:15 AM', status: 'Approved', note: 'Verified against Centrio security closing log. Recommended 8.0h regular + 1.77h OT.' },
+        { level: 3, name: 'HR Compliance Audit', by: 'Kristene (HR Lead)', time: null, status: 'Pending', note: 'Validating DOLE overtime calculation and rest-day rules.' },
+        { level: 4, name: 'Managing Director Sign-off', by: 'Ms. Jehan Abedin (MD)', time: null, status: 'Queued', note: 'Final executive authorization required for retroactive payroll card update.' }
+      ]
+    },
+    {
+      id: 'APR-2026-002',
+      type: 'commissary_po',
+      typeName: 'MyTime Commissary Purchase Order',
+      title: 'PO-2026-0901: 20kg Organic Hot Wax Pellets & 100m Paper Strips (₱22,450.00)',
+      requestor: 'Kristene (Operations Lead)',
+      role: 'Operations & HR Lead',
+      branch: 'Centrio Mall (Waxing)',
+      dateSubmitted: '2026-09-03 08:30 AM',
+      amount: 22450.00,
+      currentLevel: 4,
+      status: 'Awaiting MD Sign-off',
+      priority: 'Urgent',
+      description: 'Monthly store replenishment ordered from Lay Bare Franchisor (MyTime Commissary) under Net 30 terms.',
+      stages: [
+        { level: 1, name: 'Store Requisition', by: 'Centrio Waxing Store Team', time: '2026-09-03 08:30 AM', status: 'Approved', note: 'Stock alert: Hot wax buffer below 3 days.' },
+        { level: 2, name: 'Store Supervisor Endorsement', by: 'Cherimar Concigo (Branch Lead)', time: '2026-09-03 09:15 AM', status: 'Approved', note: 'Physical count verified. Requisition endorsed.' },
+        { level: 3, name: 'Accounting 3-Way Match & Budget', by: 'Kristene (Accounting)', time: '2026-09-03 02:00 PM', status: 'Approved', note: 'GL Account 5100-20 budget verified. 3-Way Match (PO ↔ DR ↔ Invoice) verified.' },
+        { level: 4, name: 'Managing Director Sign-off', by: 'Ms. Jehan Abedin (MD)', time: null, status: 'Pending', note: 'Awaiting executive authorization for BPI BizLink supplier payment release.' }
+      ]
+    },
+    {
+      id: 'APR-2026-003',
+      type: 'payroll_disbursement',
+      typeName: 'Semi-Monthly BPI Payroll Release',
+      title: 'July 16-31 Semi-Monthly Multi-Branch Payroll Disbursement (₱68,400.00)',
+      requestor: 'Kristene (HR & Payroll)',
+      role: 'Operations & HR Lead',
+      branch: 'Consolidated (All Branches)',
+      dateSubmitted: '2026-07-31 05:00 PM',
+      amount: 68400.00,
+      currentLevel: 4,
+      status: 'Awaiting MD Sign-off',
+      priority: 'Urgent',
+      description: 'Biometric timecard computations with DOLE overtime, SSS, PhilHealth, Pag-IBIG, and BIR 1601-C tax accruals.',
+      stages: [
+        { level: 1, name: 'Biometric Time Computation', by: 'NGTeco Automated Ingestion Engine', time: '2026-07-31 05:00 PM', status: 'Approved', note: 'Offline punch records paired and validated.' },
+        { level: 2, name: 'Branch Shift Exceptions Resolved', by: 'Store Leads (Centrio / Ketkai / SM)', time: '2026-07-31 06:30 PM', status: 'Approved', note: 'All missed punch flags and grace periods verified.' },
+        { level: 3, name: 'Accounting Statutory Audit & BPI CSV', by: 'Kristene (HR/Accounting)', time: '2026-07-31 08:00 PM', status: 'Approved', note: 'GL JE-2026-0801 posted. BPI BizLink batch file generated.' },
+        { level: 4, name: 'Managing Director Sign-off', by: 'Ms. Jehan Abedin (MD)', time: null, status: 'Pending', note: 'Awaiting final authorization signature from Ms. Jehan Abedin to credit BPI bank accounts.' }
+      ]
+    },
+    {
+      id: 'APR-2026-004',
+      type: 'cash_advance',
+      typeName: 'Staff Cash Advance (Vale)',
+      title: 'Emergency Vale Request (₱1,500.00) - 2 Cutoff Payroll Deduction',
+      requestor: 'Cherry Rose Paculanang',
+      role: 'Senior Nail Technician',
+      branch: 'Passion Nails (Centrio)',
+      dateSubmitted: '2026-09-08 11:00 AM',
+      amount: 1500.00,
+      currentLevel: 2,
+      status: 'Pending Store Lead Endorsement',
+      priority: 'Normal',
+      description: 'Emergency assistance request. Staff agrees to deduction of ₱750 per semi-monthly cutoff starting Sept 15.',
+      stages: [
+        { level: 1, name: 'Staff Application', by: 'Cherry Rose Paculanang', time: '2026-09-08 11:00 AM', status: 'Approved', note: 'Signed promissory slip submitted.' },
+        { level: 2, name: 'Store Supervisor Endorsement', by: 'Cherimar Concigo (Branch Lead)', time: null, status: 'Pending', note: 'Awaiting branch lead performance & tenure verification.' },
+        { level: 3, name: 'HR / Payroll Schedule', by: 'Kristene (HR)', time: null, status: 'Queued', note: 'To be scheduled into Biometric Payroll deductions column.' },
+        { level: 4, name: 'Managing Director Sign-off', by: 'Ms. Jehan Abedin (MD)', time: null, status: 'Queued', note: 'Executive approval for petty cash fund release.' }
+      ]
+    },
+    {
+      id: 'APR-2026-005',
+      type: 'leave_application',
+      typeName: 'Service Incentive Leave (SIL)',
+      title: '2-Day Paid Service Incentive Leave (Sept 18 - Sept 19, 2026)',
+      requestor: 'Cherimar Concigo',
+      role: 'Master Aesthetician',
+      branch: 'Centrio Mall (Waxing)',
+      dateSubmitted: '2026-09-09 09:00 AM',
+      amount: null,
+      currentLevel: 3,
+      status: 'Pending HR Compliance Audit',
+      priority: 'Normal',
+      description: 'SIL request for family matter. Shift coverage arranged with Justine Ann Atay for Friday & Saturday salon schedule.',
+      stages: [
+        { level: 1, name: 'Staff Leave Filing', by: 'Cherimar Concigo', time: '2026-09-09 09:00 AM', status: 'Approved', note: 'Filed 9 days in advance per company handbook.' },
+        { level: 2, name: 'Store Roster Endorsement', by: 'Centrio Shift Lead', time: '2026-09-09 10:00 AM', status: 'Approved', note: 'Confirmed bed coverage. No appointment conflicts.' },
+        { level: 3, name: 'HR Compliance & SIL Balance Audit', by: 'Kristene (HR)', time: null, status: 'Pending', note: 'Checking employee leave credits (3/5 SIL days remaining).' },
+        { level: 4, name: 'Managing Director Sign-off', by: 'Ms. Jehan Abedin (MD)', time: null, status: 'Queued', note: 'Final approval.' }
+      ]
+    }
+  ];
+
   const loadMockData = () => {
     const mockEmployees = [
       { id: 33, name: 'Justine Ann Atay', branch: 'Centrio Mall (Waxing)', role: 'Senior Waxing Specialist', rate: 600, tax_status: 'S', bpi_account: '0249821401', sss_no: '34-8192019-3', philhealth_no: '12-054918230-1', pagibig_no: '1210-9482-1104', tin_no: '291-840-192-000', other_deductions: 150.00, other_deduction_remarks: 'Cash Advance (Vale)' },
@@ -1034,6 +1167,15 @@ export default function App() {
       { employee_id: 34, employee_name: 'Cherimar Concigo', branch: 'Centrio Mall (Waxing)', late_count: 0, total_late_minutes: 0 }
     ];
     setTardiness(mockTardiness);
+
+    setLivePunches([
+      { id: 1, name: 'Justine Ann Atay', time: '09:21 AM', type: 'IN', branch: 'Centrio Waxing', status: 'Late (21m)' },
+      { id: 2, name: 'Kristene HR', time: '08:58 AM', type: 'IN', branch: 'Limketkai', status: 'On Time' },
+      { id: 3, name: 'Cherry Rose Paculanang', time: '09:12 AM', type: 'IN', branch: 'Passion Nails', status: 'Late (12m)' },
+      { id: 4, name: 'Cherimar Concigo', time: '09:24 PM', type: 'IN', branch: 'Centrio Waxing', status: 'Missing OUT' }
+    ]);
+
+    setApprovalsList(getInitialApprovals());
 
     setSummary({
       totalEmployees: 4,
@@ -1374,9 +1516,10 @@ export default function App() {
 
   // ECharts Configurations using Lay Bare Logo Theme (Green #77BC2E, Warm Brown #4A2E1B, Pink #E89BB9, Lavender #B58EBE)
   const getAttendanceDonutOption = () => {
-    const presentCount = attendance.filter(a => ['Present', 'Approved'].includes(a.status)).length || 4;
-    const flagCount = exceptions.length || 1;
-    const restCount = attendance.filter(a => a.status === 'Rest Day').length || 1;
+    const presentCount = attendance.filter(a => ['Present', 'Approved'].includes(a.status)).length;
+    const flagCount = exceptions.length;
+    const restCount = attendance.filter(a => a.status === 'Rest Day').length;
+    const hasData = (presentCount + flagCount + restCount) > 0;
 
     return {
       backgroundColor: 'transparent',
@@ -1410,10 +1553,12 @@ export default function App() {
               show: false
             }
           },
-          data: [
+          data: hasData ? [
             { value: presentCount, name: 'Present', itemStyle: { color: '#77BC2E' } }, // Laybare Green
             { value: flagCount, name: 'Exceptions', itemStyle: { color: '#E89BB9' } },  // Logo Floral Pink
             { value: restCount, name: 'Rest Days', itemStyle: { color: '#B58EBE' } }   // Logo Floral Lilac
+          ] : [
+            { value: 1, name: 'Ready for Live Upload', itemStyle: { color: '#EAE8E2' } }
           ]
         }
       ]
@@ -1430,6 +1575,7 @@ export default function App() {
 
     const dates = Object.keys(dayCounts).sort();
     const counts = dates.map(d => dayCounts[d]);
+    const hasData = dates.length > 0;
 
     return {
       backgroundColor: 'transparent',
@@ -1450,7 +1596,7 @@ export default function App() {
       },
       xAxis: {
         type: 'category',
-        data: dates.length > 0 ? dates : ['07-16', '07-17', '07-18', '07-19', '07-20'],
+        data: hasData ? dates : ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5'],
         axisLine: { lineStyle: { color: '#EAE8E2' } },
         axisTick: { show: false },
         axisLabel: {
@@ -1461,6 +1607,7 @@ export default function App() {
       },
       yAxis: {
         type: 'value',
+        minInterval: 1,
         splitLine: {
           lineStyle: {
             color: '#F4F2EB',
@@ -1474,7 +1621,7 @@ export default function App() {
         }
       },
       series: [{
-        data: counts.length > 0 ? counts : [3, 4, 2, 4, 3],
+        data: hasData ? counts : [0, 0, 0, 0, 0],
         type: 'line',
         smooth: 0.35,
         symbol: 'circle',
@@ -1508,6 +1655,7 @@ export default function App() {
   const getTardinessChartOption = () => {
     const names = tardiness.slice(0, 5).map(t => t.employee_name);
     const lateCounts = tardiness.slice(0, 5).map(t => t.late_count);
+    const hasData = names.length > 0;
 
     return {
       backgroundColor: 'transparent',
@@ -1527,6 +1675,7 @@ export default function App() {
       },
       xAxis: {
         type: 'value',
+        minInterval: 1,
         splitLine: {
           lineStyle: {
             color: '#F4F2EB',
@@ -1541,7 +1690,7 @@ export default function App() {
       },
       yAxis: {
         type: 'category',
-        data: names.length > 0 ? names : ['Justine Atay', 'Cherry Rose P.', 'Cherimar C.'],
+        data: hasData ? names : ['No Tardiness Recorded'],
         axisLine: { show: false },
         axisTick: { show: false },
         axisLabel: {
@@ -1552,7 +1701,7 @@ export default function App() {
         }
       },
       series: [{
-        data: lateCounts.length > 0 ? lateCounts : [4, 2, 0],
+        data: hasData ? lateCounts : [0],
         type: 'bar',
         barWidth: 14,
         itemStyle: {
@@ -1564,6 +1713,133 @@ export default function App() {
         }
       }]
     };
+  };
+
+  // --- MULTI-LEVEL APPROVAL HANDLERS (CHAIN OF COMMAND ROUTING) ---
+  const handleAdvanceApproval = (approvalId) => {
+    const item = approvalsList.find(a => a.id === approvalId);
+    if (!item) return;
+
+    const nextLevel = item.currentLevel + 1;
+    let newStatus = '';
+    let toastMessage = '';
+
+    if (nextLevel === 2) {
+      newStatus = 'Pending Store Lead Endorsement';
+      toastMessage = `Request ${item.id} submitted & forwarded to Store Supervisor.`;
+    } else if (nextLevel === 3) {
+      newStatus = 'Pending HR / Accounting Audit';
+      toastMessage = `Store Lead endorsed ${item.id}! Forwarded to HR & Accounting Audit.`;
+    } else if (nextLevel === 4) {
+      newStatus = 'Awaiting Ms. Jehan Abedin Sign-off';
+      toastMessage = `HR/Accounting verified ${item.id}! Passed to Managing Director Ms. Jehan Abedin for executive authorization.`;
+    } else if (nextLevel >= 5) {
+      newStatus = 'Approved & Disbursed';
+      toastMessage = `👑 Managing Director Ms. Jehan Abedin officially authorized ${item.id}! Auto-posted to GL and queued for BPI release.`;
+    }
+
+    setApprovalsList(prev => prev.map(a => {
+      if (a.id === approvalId) {
+        const updatedStages = a.stages.map(s => {
+          if (s.level === a.currentLevel) {
+            return {
+              ...s,
+              status: 'Approved',
+              time: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) + ' ' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+              note: s.note || 'Verified & endorsed to next approval tier.'
+            };
+          }
+          if (s.level === nextLevel) {
+            return {
+              ...s,
+              status: nextLevel >= 5 ? 'Approved' : 'Pending'
+            };
+          }
+          return s;
+        });
+
+        return {
+          ...a,
+          currentLevel: Math.min(nextLevel, 5),
+          status: newStatus,
+          stages: updatedStages
+        };
+      }
+      return a;
+    }));
+
+    setApprovalToast(toastMessage);
+    setTimeout(() => setApprovalToast(''), 6000);
+  };
+
+  const handleRejectApproval = (approvalId, reason = 'Additional justification / Notice to Explain required.') => {
+    setApprovalsList(prev => prev.map(a => {
+      if (a.id === approvalId) {
+        return {
+          ...a,
+          status: 'Rejected / NTE Required',
+          stages: a.stages.map(s => s.level === a.currentLevel ? {
+            ...s,
+            status: 'Rejected',
+            time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+            note: reason
+          } : s)
+        };
+      }
+      return a;
+    }));
+    setApprovalToast(`Request ${approvalId} rejected / returned for store review.`);
+    setTimeout(() => setApprovalToast(''), 5000);
+  };
+
+  const handleCreateApprovalRequest = (e) => {
+    e.preventDefault();
+    const newId = `APR-2026-${String(approvalsList.length + 101).padStart(3, '0')}`;
+    
+    let typeName = 'General Store Request';
+    if (newApproval.type === 'dtr_override') typeName = 'DTR Punch Override';
+    else if (newApproval.type === 'commissary_po') typeName = 'MyTime Commissary PO';
+    else if (newApproval.type === 'payroll_disbursement') typeName = 'Payroll Disbursement';
+    else if (newApproval.type === 'cash_advance') typeName = 'Staff Cash Advance (Vale)';
+    else if (newApproval.type === 'leave_application') typeName = 'Leave Application (SIL)';
+    else if (newApproval.type === 'petty_cash') typeName = 'Petty Cash Expense Voucher';
+
+    const createdReq = {
+      id: newId,
+      type: newApproval.type,
+      typeName: typeName,
+      title: newApproval.title || `${typeName} - ${newApproval.branch}`,
+      requestor: newApproval.requestor || 'Salon Staff',
+      role: newApproval.role || 'Salon Specialist',
+      branch: newApproval.branch,
+      dateSubmitted: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) + ' ' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      amount: newApproval.amount ? Number(newApproval.amount) : null,
+      currentLevel: 2, // Starts at Level 2 (Awaiting Shift Supervisor Endorsement)
+      status: 'Pending Store Lead Endorsement',
+      priority: newApproval.priority || 'Normal',
+      description: newApproval.description || 'Submitted for multi-level approval routing.',
+      stages: [
+        { level: 1, name: 'Staff Filing', by: newApproval.requestor, time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), status: 'Approved', note: 'Filed via store portal.' },
+        { level: 2, name: 'Store Supervisor Endorsement', by: 'Branch Supervisor', time: null, status: 'Pending', note: 'Awaiting first-line store endorsement.' },
+        { level: 3, name: 'HR & Accounting Audit', by: 'Kristene (HR/Accounting)', time: null, status: 'Queued', note: 'Queued for compliance & ledger check.' },
+        { level: 4, name: 'Managing Director Sign-off', by: 'Ms. Jehan Abedin (MD)', time: null, status: 'Queued', note: 'Final executive authorization.' }
+      ]
+    };
+
+    setApprovalsList(prev => [createdReq, ...prev]);
+    setShowNewApprovalModal(false);
+    setNewApproval({
+      type: 'dtr_override',
+      title: '',
+      requestor: 'Justine Ann Atay',
+      role: 'Senior Waxing Specialist',
+      branch: 'Centrio Mall (Waxing)',
+      amount: '',
+      description: '',
+      priority: 'Normal'
+    });
+    setApprovalToast(`Multi-Level Request ${createdReq.id} filed and routed to Store Supervisor!`);
+    setTimeout(() => setApprovalToast(''), 5000);
   };
 
   // Filter logs for attendance list view
@@ -1966,6 +2242,28 @@ export default function App() {
                 <span>General Dashboard</span>
               </button>
 
+              {/* Multi-Level Approvals Hub Link */}
+              <button
+                onClick={() => { setActiveTab('approvals'); setSidebarOpen(false); }}
+                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl font-semibold transition-all ${
+                  activeTab === 'approvals'
+                    ? 'bg-[#031134] text-white shadow-sm shadow-[#031134]/25'
+                    : 'text-[#5A534E] hover:bg-[#F7F6F2] hover:text-[#031134]'
+                }`}
+              >
+                <div className="flex items-center space-x-3">
+                  <ShieldCheck className="h-4 w-4 text-[#77BC2E]" />
+                  <span>Approvals & Matrix</span>
+                </div>
+                {approvalsList.filter(a => a.currentLevel < 5).length > 0 && (
+                  <span className={`text-[10px] font-extrabold px-1.5 py-0.5 rounded-full ${
+                    activeTab === 'approvals' ? 'bg-[#77BC2E] text-white' : 'bg-[#77BC2E]/20 text-[#5A9A1E]'
+                  }`}>
+                    {approvalsList.filter(a => a.currentLevel < 5).length}
+                  </span>
+                )}
+              </button>
+
               <button
                 onClick={() => { setActiveTab('accounting'); setSidebarOpen(false); }}
                 className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl font-semibold transition-all ${
@@ -2067,7 +2365,7 @@ export default function App() {
                 <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${
                   activeTab === 'employees' ? 'bg-white text-[#4A2E1B]' : 'bg-[#FAF9F5] text-[#8A817C]'
                 }`}>
-                  {employees.length || 4}
+                  {employees.length}
                 </span>
               </button>
             </div>
@@ -2125,9 +2423,9 @@ export default function App() {
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-xs font-bold text-[#4A2E1B] truncate">Kristene HR</p>
-              <p className="text-[10px] text-[#8A817C] truncate">Operations Lead</p>
+              <p className="text-[10px] text-[#8A817C] truncate">Operations & HR Lead</p>
             </div>
-            <span className="w-2.5 h-2.5 bg-[#77BC2E] rounded-full border-2 border-white"></span>
+            <div className="w-2 h-2 rounded-full bg-[#77BC2E]" title="System Active"></div>
           </div>
         </div>
       </aside>
@@ -2179,6 +2477,24 @@ export default function App() {
               >
                 HR & Attendance
               </button>
+
+              <button
+                onClick={() => setActiveTab('approvals')}
+                className={`px-3 py-1.5 rounded-xl transition-all flex items-center space-x-1.5 ${
+                  activeTab === 'approvals'
+                    ? 'bg-[#031134] text-white font-bold shadow-2xs'
+                    : 'text-[#5A534E] hover:text-[#031134]'
+                }`}
+              >
+                <ShieldCheck className="h-3.5 w-3.5 text-[#77BC2E]" />
+                <span>⚡ Approvals</span>
+                {approvalsList.filter(a => a.currentLevel < 5).length > 0 && (
+                  <span className="bg-[#77BC2E] text-white text-[9px] font-extrabold px-1.5 py-0.2 rounded-full">
+                    {approvalsList.filter(a => a.currentLevel < 5).length}
+                  </span>
+                )}
+              </button>
+
               <button
                 onClick={() => setActiveTab('accounting')}
                 className={`px-3 py-1.5 rounded-xl transition-all flex items-center space-x-1.5 ${
@@ -2366,6 +2682,95 @@ export default function App() {
           {/* TAB 1: GENERAL DASHBOARD */}
           {activeTab === 'dashboard' && (
             <div className="space-y-6 animate-fadeIn">
+
+              {/* Row 1.5: Multi-Level Approval Pipeline Chain-of-Command Highlight Card */}
+              <div className="bg-gradient-to-r from-[#031134] via-[#082260] to-[#031134] rounded-3xl p-5 sm:p-6 text-white shadow-md border border-[#031134] space-y-4">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-white/10 pb-4">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-10 h-10 rounded-2xl bg-[#77BC2E] text-white flex items-center justify-center font-extrabold shadow-sm">
+                      <ShieldCheck className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <div className="flex items-center space-x-2">
+                        <h3 className="font-extrabold text-base text-white">Chain of Command Approval Matrix</h3>
+                        <span className="bg-[#77BC2E]/20 text-[#77BC2E] text-[10px] font-extrabold px-2 py-0.5 rounded-full border border-[#77BC2E]/40">
+                          Multi-Level Routing
+                        </span>
+                      </div>
+                      <p className="text-xs text-white/70">
+                        Tiered authorization: Store Specialist &rarr; Shift Supervisor &rarr; HR/Accounting Audit &rarr; Managing Director Ms. Jehan Abedin
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center space-x-2">
+                    <button
+                      onClick={() => setActiveTab('approvals')}
+                      className="bg-[#77BC2E] hover:bg-[#6DB027] text-white text-xs font-bold px-4 py-2 rounded-xl transition-all flex items-center space-x-1.5 shadow-sm shadow-[#77BC2E]/20"
+                    >
+                      <span>Open Approval Hub ({approvalsList.filter(a => a.currentLevel < 5).length})</span>
+                      <ArrowRight className="h-3.5 w-3.5" />
+                    </button>
+                    <button
+                      onClick={() => setShowNewApprovalModal(true)}
+                      className="bg-white/10 hover:bg-white/20 text-white text-xs font-semibold px-3 py-2 rounded-xl border border-white/20 transition-all flex items-center space-x-1"
+                    >
+                      <Plus className="h-3.5 w-3.5" />
+                      <span>New Request</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* 4-Tier Visual Routing Matrix Flow Banner */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
+                  
+                  {/* Tier 1: Staff Filing */}
+                  <div className="bg-white/5 border border-white/10 rounded-2xl p-3.5 space-y-1.5">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#77BC2E]">Level 1: Staff Filing</span>
+                      <span className="w-2 h-2 rounded-full bg-[#77BC2E]"></span>
+                    </div>
+                    <div className="font-bold text-white text-sm">Branch Staff / Specialist</div>
+                    <p className="text-[11px] text-white/60">DTR overrides, MyTime requisitions, Vale & SIL leaves</p>
+                  </div>
+
+                  {/* Tier 2: Store Supervisor */}
+                  <div className="bg-white/5 border border-white/10 rounded-2xl p-3.5 space-y-1.5">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#E89BB9]">Level 2: Store Lead</span>
+                      <span className="text-[10px] font-bold text-[#E89BB9]">
+                        {approvalsList.filter(a => a.currentLevel === 2).length} Pending
+                      </span>
+                    </div>
+                    <div className="font-bold text-white text-sm">Shift Lead Endorsement</div>
+                    <p className="text-[11px] text-white/60">Physical count, shift logbook & bed roster verification</p>
+                  </div>
+
+                  {/* Tier 3: HR & Accounting */}
+                  <div className="bg-white/5 border border-white/10 rounded-2xl p-3.5 space-y-1.5">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#D4AF37]">Level 3: Operations/HR</span>
+                      <span className="text-[10px] font-bold text-[#D4AF37]">
+                        {approvalsList.filter(a => a.currentLevel === 3).length} Pending
+                      </span>
+                    </div>
+                    <div className="font-bold text-white text-sm">Accounting & Compliance</div>
+                    <p className="text-[11px] text-white/60">DOLE compliance, GL budget audit & 3-way match</p>
+                  </div>
+
+                  {/* Tier 4: Managing Director */}
+                  <div className="bg-white/10 border border-[#77BC2E]/40 rounded-2xl p-3.5 space-y-1.5">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#77BC2E]">Level 4: Managing Director</span>
+                      <span className="text-[10px] font-bold text-[#77BC2E] animate-pulse">
+                        {approvalsList.filter(a => a.currentLevel === 4).length} Ready
+                      </span>
+                    </div>
+                    <div className="font-bold text-white text-sm">Ms. Jehan Abedin (MD)</div>
+                    <p className="text-[11px] text-white/60">Final executive sign-off & BPI BizLink fund release</p>
+                  </div>
+                </div>
+              </div>
               
               {/* Row 2: Attendance Donut Overview + Live Biometric Punch Widget (Behance HRMS Style) */}
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
@@ -2378,7 +2783,7 @@ export default function App() {
                       <p className="text-[11px] text-[#8A817C]">Current cycle attendance distribution</p>
                     </div>
                     <span className="text-[11px] font-bold text-[#77BC2E] bg-[#77BC2E]/15 px-2.5 py-0.5 rounded-full">
-                      Live Pulse
+                      {systemDataMode === 'live' ? 'Live Store' : 'Demo Pulse'}
                     </span>
                   </div>
 
@@ -2386,8 +2791,19 @@ export default function App() {
                   <div className="relative h-48 flex items-center justify-center">
                     <ReactECharts option={getAttendanceDonutOption()} style={{ height: '100%', width: '100%' }} />
                     <div className="absolute flex flex-col items-center justify-center pointer-events-none">
-                      <span className="text-3xl font-extrabold text-[#4A2E1B]">88%</span>
-                      <span className="text-[10px] uppercase font-bold text-[#8A817C] tracking-wider">Present</span>
+                      {(() => {
+                        const totalAtt = attendance.length;
+                        const presentCount = attendance.filter(a => ['Present', 'Approved'].includes(a.status)).length;
+                        const pct = totalAtt > 0 ? Math.round((presentCount / totalAtt) * 100) : 0;
+                        return (
+                          <>
+                            <span className="text-3xl font-extrabold text-[#4A2E1B]">{pct}%</span>
+                            <span className="text-[10px] uppercase font-bold text-[#8A817C] tracking-wider">
+                              {totalAtt > 0 ? 'Present' : 'Clean Slate'}
+                            </span>
+                          </>
+                        );
+                      })()}
                     </div>
                   </div>
 
@@ -2398,7 +2814,9 @@ export default function App() {
                         <span className="w-2.5 h-2.5 rounded-full bg-[#77BC2E]"></span>
                         <span>Present</span>
                       </span>
-                      <span className="text-[10px] text-[#8A817C]">4 staff</span>
+                      <span className="text-[10px] text-[#8A817C]">
+                        {attendance.filter(a => ['Present', 'Approved'].includes(a.status)).length} staff
+                      </span>
                     </div>
 
                     <div className="flex flex-col items-center">
@@ -2406,7 +2824,7 @@ export default function App() {
                         <span className="w-2.5 h-2.5 rounded-full bg-[#E89BB9]"></span>
                         <span>Flags</span>
                       </span>
-                      <span className="text-[10px] text-[#8A817C]">1 missing</span>
+                      <span className="text-[10px] text-[#8A817C]">{exceptions.length} missing</span>
                     </div>
 
                     <div className="flex flex-col items-center">
@@ -2414,7 +2832,9 @@ export default function App() {
                         <span className="w-2.5 h-2.5 rounded-full bg-[#B58EBE]"></span>
                         <span>Rest Day</span>
                       </span>
-                      <span className="text-[10px] text-[#8A817C]">1 log</span>
+                      <span className="text-[10px] text-[#8A817C]">
+                        {attendance.filter(a => a.status === 'Rest Day').length} logs
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -2437,43 +2857,72 @@ export default function App() {
                   </div>
 
                   {/* Punch logs list */}
-                  <div className="space-y-2.5 overflow-y-auto max-h-48 pr-1">
-                    {livePunches.map((punch) => (
-                      <div 
-                        key={punch.id} 
-                        className="flex items-center justify-between p-3 rounded-2xl bg-[#FAF9F5] border border-[#F2F0E8] text-xs hover:border-[#EAE8E2] transition-colors"
-                      >
-                        <div className="flex items-center space-x-3">
-                          <div className="w-8 h-8 rounded-xl bg-[#4A2E1B] text-[#77BC2E] flex items-center justify-center font-bold text-xs">
-                            {punch.name.charAt(0)}
+                  {livePunches.length > 0 ? (
+                    <div className="space-y-2.5 overflow-y-auto max-h-48 pr-1">
+                      {livePunches.map((punch) => (
+                        <div 
+                          key={punch.id} 
+                          className="flex items-center justify-between p-3 rounded-2xl bg-[#FAF9F5] border border-[#F2F0E8] text-xs hover:border-[#EAE8E2] transition-colors"
+                        >
+                          <div className="flex items-center space-x-3">
+                            <div className="w-8 h-8 rounded-xl bg-[#4A2E1B] text-[#77BC2E] flex items-center justify-center font-bold text-xs">
+                              {punch.name.charAt(0)}
+                            </div>
+                            <div>
+                              <p className="font-bold text-[#4A2E1B]">{punch.name}</p>
+                              <p className="text-[10px] text-[#8A817C]">{punch.branch} Branch</p>
+                            </div>
                           </div>
-                          <div>
-                            <p className="font-bold text-[#4A2E1B]">{punch.name}</p>
-                            <p className="text-[10px] text-[#8A817C]">{punch.branch} Branch</p>
-                          </div>
-                        </div>
 
-                        <div className="flex items-center space-x-3 text-right">
-                          <div>
-                            <p className="font-mono font-bold text-[#4A2E1B]">{punch.time}</p>
-                            <p className={`text-[10px] font-semibold ${
-                              punch.status === 'On Time' 
-                                ? 'text-[#77BC2E]' 
-                                : punch.status.includes('Late') 
-                                ? 'text-[#D47098]' 
-                                : 'text-rose-500 font-bold'
-                            }`}>
-                              {punch.status}
-                            </p>
+                          <div className="flex items-center space-x-3 text-right">
+                            <div>
+                              <p className="font-mono font-bold text-[#4A2E1B]">{punch.time}</p>
+                              <p className={`text-[10px] font-semibold ${
+                                punch.status === 'On Time' 
+                                  ? 'text-[#77BC2E]' 
+                                  : punch.status.includes('Late') 
+                                  ? 'text-[#D47098]' 
+                                  : 'text-rose-500 font-bold'
+                              }`}>
+                                {punch.status}
+                              </p>
+                            </div>
                           </div>
                         </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="p-6 rounded-2xl bg-[#FAF9F5] border-2 border-dashed border-[#EAE8E2] text-center space-y-2.5 flex flex-col items-center justify-center">
+                      <div className="w-10 h-10 rounded-xl bg-[#77BC2E]/15 text-[#77BC2E] flex items-center justify-center">
+                        <Upload className="h-5 w-5" />
                       </div>
-                    ))}
-                  </div>
+                      <div>
+                        <h4 className="font-extrabold text-xs text-[#4A2E1B]">Live Store Mode Active (0 Logs)</h4>
+                        <p className="text-[11px] text-[#8A817C] max-w-sm mt-0.5">
+                          No punch logs imported yet. Upload your store's NGTeco Excel (.xls) file to populate real staff DTR records.
+                        </p>
+                      </div>
+                      <div className="flex items-center space-x-2 pt-1">
+                        <button
+                          onClick={() => setActiveTab('upload')}
+                          className="bg-[#77BC2E] hover:bg-[#6DB027] text-white px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center space-x-1.5 shadow-2xs"
+                        >
+                          <Upload className="h-3 w-3" />
+                          <span>Import .XLS File</span>
+                        </button>
+                        <button
+                          onClick={handleReloadDemoData}
+                          className="bg-white border border-[#EAE8E2] hover:bg-[#FAF9F5] text-[#5A534E] px-3 py-1.5 rounded-xl text-xs font-semibold"
+                        >
+                          Restore Demo Data
+                        </button>
+                      </div>
+                    </div>
+                  )}
 
                   {/* Quick summary notice */}
                   <div className="bg-[#FAF9F5] p-3 rounded-2xl border border-[#EAE8E2] flex items-center justify-between text-xs text-[#5A534E]">
-                    <span>Payroll calculation period ready for July 16 - July 31.</span>
+                    <span>Payroll calculation ready for {startDate} to {endDate}.</span>
                     <button
                       onClick={() => setActiveTab('payroll')}
                       className="font-bold text-[#77BC2E] hover:underline"
@@ -2568,58 +3017,502 @@ export default function App() {
                 </div>
 
                 <div className="overflow-x-auto">
-                  <table className="w-full text-left border-collapse">
-                    <thead>
-                      <tr className="bg-[#FAF9F5] border-b border-[#F2F0E8] text-[10px] font-extrabold uppercase tracking-wider text-[#8A817C]">
-                        <th className="px-6 py-3.5">Employee</th>
-                        <th className="px-6 py-3.5">Date</th>
-                        <th className="px-6 py-3.5">Calculated IN</th>
-                        <th className="px-6 py-3.5">Calculated OUT</th>
-                        <th className="px-6 py-3.5">Regular Hrs</th>
-                        <th className="px-6 py-3.5">Late (mins)</th>
-                        <th className="px-6 py-3.5">OT (hrs)</th>
-                        <th className="px-6 py-3.5">Status</th>
-                        <th className="px-6 py-3.5">Notes</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-[#F2F0E8] text-xs">
-                      {filteredAttendance.map((rec) => (
-                        <tr key={rec.id} className="hover:bg-[#FAF9F5]/70 transition-colors">
-                          <td className="px-6 py-4 font-bold text-[#4A2E1B] flex items-center space-x-2.5">
-                            <div className="w-7 h-7 rounded-xl bg-[#4A2E1B] text-[#77BC2E] flex items-center justify-center font-bold text-[10px]">
-                              {rec.employee_name.charAt(0)}
-                            </div>
-                            <span>{rec.employee_name}</span>
-                          </td>
-                          <td className="px-6 py-4 font-mono text-[#5A534E]">{rec.date}</td>
-                          <td className="px-6 py-4 font-mono text-[#5A534E]">{rec.calculated_in || '--:--'}</td>
-                          <td className="px-6 py-4 font-mono text-[#5A534E]">{rec.calculated_out || '--:--'}</td>
-                          <td className="px-6 py-4 font-mono font-medium">{rec.regular_hours || 0}</td>
-                          <td className="px-6 py-4 font-mono">
-                            {rec.late_minutes > 0 ? (
-                              <span className="text-[#D47098] font-bold">{rec.late_minutes}m</span>
-                            ) : (
-                              <span className="text-[#A8A29E]">0</span>
-                            )}
-                          </td>
-                          <td className="px-6 py-4 font-mono text-[#77BC2E] font-bold">{rec.ot_hours || 0}</td>
-                          <td className="px-6 py-4">
-                            <span className={`px-2.5 py-1 rounded-full text-[10px] font-extrabold ${
-                              rec.status === 'Present' || rec.status === 'Approved'
-                                ? 'bg-[#77BC2E]/15 text-[#5A9A1E]'
-                                : rec.status === 'Flagged'
-                                ? 'bg-[#E89BB9]/25 text-[#D47098] animate-pulse'
-                                : 'bg-[#EAE8E2] text-[#5A534E]'
-                            }`}>
-                              {rec.status}
-                            </span>
-                          </td>
-                          <td className="px-6 py-4 text-[#8A817C]">{rec.notes || '--'}</td>
+                  {filteredAttendance.length > 0 ? (
+                    <table className="w-full text-left border-collapse">
+                      <thead>
+                        <tr className="bg-[#FAF9F5] border-b border-[#F2F0E8] text-[10px] font-extrabold uppercase tracking-wider text-[#8A817C]">
+                          <th className="px-6 py-3.5">Employee</th>
+                          <th className="px-6 py-3.5">Date</th>
+                          <th className="px-6 py-3.5">Calculated IN</th>
+                          <th className="px-6 py-3.5">Calculated OUT</th>
+                          <th className="px-6 py-3.5">Regular Hrs</th>
+                          <th className="px-6 py-3.5">Late (mins)</th>
+                          <th className="px-6 py-3.5">OT (hrs)</th>
+                          <th className="px-6 py-3.5">Status</th>
+                          <th className="px-6 py-3.5">Notes</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody className="divide-y divide-[#F2F0E8] text-xs">
+                        {filteredAttendance.map((rec) => (
+                          <tr key={rec.id} className="hover:bg-[#FAF9F5]/70 transition-colors">
+                            <td className="px-6 py-4 font-bold text-[#4A2E1B] flex items-center space-x-2.5">
+                              <div className="w-7 h-7 rounded-xl bg-[#4A2E1B] text-[#77BC2E] flex items-center justify-center font-bold text-[10px]">
+                                {rec.employee_name.charAt(0)}
+                              </div>
+                              <span>{rec.employee_name}</span>
+                            </td>
+                            <td className="px-6 py-4 font-mono text-[#5A534E]">{rec.date}</td>
+                            <td className="px-6 py-4 font-mono text-[#5A534E]">{rec.calculated_in || '--:--'}</td>
+                            <td className="px-6 py-4 font-mono text-[#5A534E]">{rec.calculated_out || '--:--'}</td>
+                            <td className="px-6 py-4 font-mono font-medium">{rec.regular_hours || 0}</td>
+                            <td className="px-6 py-4 font-mono">
+                              {rec.late_minutes > 0 ? (
+                                <span className="text-[#D47098] font-bold">{rec.late_minutes}m</span>
+                              ) : (
+                                <span className="text-[#A8A29E]">0</span>
+                              )}
+                            </td>
+                            <td className="px-6 py-4 font-mono text-[#77BC2E] font-bold">{rec.ot_hours || 0}</td>
+                            <td className="px-6 py-4">
+                              <span className={`px-2.5 py-1 rounded-full text-[10px] font-extrabold ${
+                                rec.status === 'Present' || rec.status === 'Approved'
+                                  ? 'bg-[#77BC2E]/15 text-[#5A9A1E]'
+                                  : rec.status === 'Flagged'
+                                  ? 'bg-[#E89BB9]/25 text-[#D47098] animate-pulse'
+                                  : 'bg-[#EAE8E2] text-[#5A534E]'
+                              }`}>
+                                {rec.status}
+                              </span>
+                            </td>
+                            <td className="px-6 py-4 text-[#8A817C]">{rec.notes || '--'}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  ) : (
+                    <div className="p-12 text-center space-y-3">
+                      <div className="w-12 h-12 rounded-2xl bg-[#FAF9F5] border border-[#EAE8E2] text-[#8A817C] flex items-center justify-center mx-auto">
+                        <Clock className="h-6 w-6" />
+                      </div>
+                      <div>
+                        <h4 className="font-extrabold text-sm text-[#4A2E1B]">No Biometric Timesheet Records Loaded</h4>
+                        <p className="text-xs text-[#8A817C] max-w-sm mx-auto mt-0.5">
+                          In Live Store Mode, timesheets will populate once raw NGTeco .xls punch spreadsheets are imported.
+                        </p>
+                      </div>
+                      <button
+                        onClick={() => setActiveTab('upload')}
+                        className="bg-[#77BC2E] hover:bg-[#6DB027] text-white px-4 py-2 rounded-xl text-xs font-bold inline-flex items-center space-x-1.5 shadow-2xs"
+                      >
+                        <Upload className="h-3.5 w-3.5" />
+                        <span>Go to Biometric Ingestion</span>
+                      </button>
+                    </div>
+                  )}
                 </div>
+              </div>
+            </div>
+          )}
+
+          {/* TAB: MULTI-LEVEL APPROVALS & CHAIN OF COMMAND ROUTING */}
+          {activeTab === 'approvals' && (
+            <div className="space-y-6 animate-fadeIn">
+              
+              {/* Approvals Header & Tiered Metric Cards */}
+              <div className="bg-white border border-[#EAE8E2] rounded-3xl p-6 sm:p-8 shadow-2xs space-y-6">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#F2F0E8] pb-6">
+                  <div className="space-y-1">
+                    <div className="flex items-center space-x-2.5">
+                      <div className="w-10 h-10 rounded-2xl bg-[#031134] text-[#77BC2E] flex items-center justify-center shadow-sm font-extrabold">
+                        <ShieldCheck className="h-5 w-5" />
+                      </div>
+                      <div>
+                        <h2 className="text-xl font-extrabold text-[#4A2E1B] tracking-tight">Multi-Level Approval Matrix</h2>
+                        <p className="text-xs text-[#8A817C]">
+                          Enterprise 4-Tier Chain of Command for DTR Exceptions, Commissary POs, BPI Payroll & Cash Advances
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center space-x-3">
+                    <button
+                      onClick={() => setShowNewApprovalModal(true)}
+                      className="bg-[#77BC2E] hover:bg-[#6DB027] text-white font-bold text-xs sm:text-sm rounded-xl px-4 py-2.5 flex items-center space-x-2 shadow-sm shadow-[#77BC2E]/20 transition-all active:scale-95"
+                    >
+                      <Plus className="h-4 w-4" />
+                      <span>File New Multi-Level Request</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* 4-Tier Approval Authority Cards */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                  
+                  {/* Level 1 Card */}
+                  <div 
+                    onClick={() => setApprovalLevelFilter('all')}
+                    className={`cursor-pointer rounded-2xl p-4 border transition-all ${
+                      approvalLevelFilter === 'all' 
+                        ? 'bg-[#FAF9F5] border-[#77BC2E] shadow-2xs' 
+                        : 'bg-white border-[#EAE8E2] hover:border-[#77BC2E]'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between pb-2">
+                      <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#8A817C]">Level 1: Origin</span>
+                      <span className="bg-[#77BC2E]/15 text-[#5A9A1E] text-[10px] font-extrabold px-2 py-0.5 rounded-full">
+                        {approvalsList.length} Total
+                      </span>
+                    </div>
+                    <div className="font-extrabold text-sm text-[#4A2E1B]">Branch Specialist / Staff</div>
+                    <p className="text-[11px] text-[#8A817C] mt-1">Centrio, Passion Nails, Ketkai, SM, Iligan staff requests</p>
+                  </div>
+
+                  {/* Level 2 Card */}
+                  <div 
+                    onClick={() => setApprovalLevelFilter('level2')}
+                    className={`cursor-pointer rounded-2xl p-4 border transition-all ${
+                      approvalLevelFilter === 'level2' 
+                        ? 'bg-[#FAF9F5] border-[#E89BB9] shadow-2xs' 
+                        : 'bg-white border-[#EAE8E2] hover:border-[#E89BB9]'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between pb-2">
+                      <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#D47098]">Level 2: Store Lead</span>
+                      <span className="bg-[#E89BB9]/20 text-[#D47098] text-[10px] font-extrabold px-2 py-0.5 rounded-full">
+                        {approvalsList.filter(a => a.currentLevel === 2).length} Pending
+                      </span>
+                    </div>
+                    <div className="font-extrabold text-sm text-[#4A2E1B]">Shift Supervisor Endorsement</div>
+                    <p className="text-[11px] text-[#8A817C] mt-1">Cherimar Concigo / Branch Leads log verification</p>
+                  </div>
+
+                  {/* Level 3 Card */}
+                  <div 
+                    onClick={() => setApprovalLevelFilter('level3')}
+                    className={`cursor-pointer rounded-2xl p-4 border transition-all ${
+                      approvalLevelFilter === 'level3' 
+                        ? 'bg-[#FAF9F5] border-[#D4AF37] shadow-2xs' 
+                        : 'bg-white border-[#EAE8E2] hover:border-[#D4AF37]'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between pb-2">
+                      <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#B48A10]">Level 3: Operations/Audit</span>
+                      <span className="bg-[#D4AF37]/20 text-[#966E0A] text-[10px] font-extrabold px-2 py-0.5 rounded-full">
+                        {approvalsList.filter(a => a.currentLevel === 3).length} Pending
+                      </span>
+                    </div>
+                    <div className="font-extrabold text-sm text-[#4A2E1B]">HR & Accounting Audit</div>
+                    <p className="text-[11px] text-[#8A817C] mt-1">Kristene HR / Accounting compliance & 3-way match</p>
+                  </div>
+
+                  {/* Level 4 Card */}
+                  <div 
+                    onClick={() => setApprovalLevelFilter('level4')}
+                    className={`cursor-pointer rounded-2xl p-4 border transition-all ${
+                      approvalLevelFilter === 'level4' 
+                        ? 'bg-[#FAF9F5] border-[#031134] shadow-2xs' 
+                        : 'bg-white border-[#EAE8E2] hover:border-[#031134]'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between pb-2">
+                      <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#031134]">Level 4: Managing Director</span>
+                      <span className="bg-[#031134] text-[#77BC2E] text-[10px] font-extrabold px-2 py-0.5 rounded-full">
+                        {approvalsList.filter(a => a.currentLevel === 4).length} Pending MD
+                      </span>
+                    </div>
+                    <div className="font-extrabold text-sm text-[#4A2E1B]">Ms. Jehan Abedin (MD)</div>
+                    <p className="text-[11px] text-[#8A817C] mt-1">Executive financial authorization & BPI BizLink sign-off</p>
+                  </div>
+                </div>
+
+                {/* Level Filters & Category Switcher */}
+                <div className="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-[#F2F0E8] text-xs font-semibold">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="text-[#8A817C] text-[11px] font-bold">Filter Tier:</span>
+                    <button
+                      onClick={() => setApprovalLevelFilter('all')}
+                      className={`px-3 py-1.5 rounded-xl transition-all ${
+                        approvalLevelFilter === 'all'
+                          ? 'bg-[#031134] text-white font-bold'
+                          : 'bg-[#FAF9F5] text-[#5A534E] hover:bg-[#F2F0E8]'
+                      }`}
+                    >
+                      All ({approvalsList.length})
+                    </button>
+                    <button
+                      onClick={() => setApprovalLevelFilter('level2')}
+                      className={`px-3 py-1.5 rounded-xl transition-all ${
+                        approvalLevelFilter === 'level2'
+                          ? 'bg-[#E89BB9] text-white font-bold'
+                          : 'bg-[#FAF9F5] text-[#5A534E] hover:bg-[#F2F0E8]'
+                      }`}
+                    >
+                      Supervisor Pending ({approvalsList.filter(a => a.currentLevel === 2).length})
+                    </button>
+                    <button
+                      onClick={() => setApprovalLevelFilter('level3')}
+                      className={`px-3 py-1.5 rounded-xl transition-all ${
+                        approvalLevelFilter === 'level3'
+                          ? 'bg-[#B48A10] text-white font-bold'
+                          : 'bg-[#FAF9F5] text-[#5A534E] hover:bg-[#F2F0E8]'
+                      }`}
+                    >
+                      HR/Audit Pending ({approvalsList.filter(a => a.currentLevel === 3).length})
+                    </button>
+                    <button
+                      onClick={() => setApprovalLevelFilter('level4')}
+                      className={`px-3 py-1.5 rounded-xl transition-all ${
+                        approvalLevelFilter === 'level4'
+                          ? 'bg-[#77BC2E] text-white font-bold'
+                          : 'bg-[#FAF9F5] text-[#5A534E] hover:bg-[#F2F0E8]'
+                      }`}
+                    >
+                      Awaiting Ms. Jehan Sign-off ({approvalsList.filter(a => a.currentLevel === 4).length})
+                    </button>
+                    <button
+                      onClick={() => setApprovalLevelFilter('completed')}
+                      className={`px-3 py-1.5 rounded-xl transition-all ${
+                        approvalLevelFilter === 'completed'
+                          ? 'bg-[#031134] text-white font-bold'
+                          : 'bg-[#FAF9F5] text-[#5A534E] hover:bg-[#F2F0E8]'
+                      }`}
+                    >
+                      Approved & Disbursed ({approvalsList.filter(a => a.currentLevel >= 5).length})
+                    </button>
+                  </div>
+
+                  <div className="flex items-center space-x-2">
+                    <span className="text-[#8A817C] text-[11px] font-bold">Category:</span>
+                    <select
+                      value={approvalTypeFilter}
+                      onChange={(e) => setApprovalTypeFilter(e.target.value)}
+                      className="bg-[#FAF9F5] border border-[#EAE8E2] rounded-xl px-3 py-1.5 text-xs text-[#4A2E1B] outline-none font-bold"
+                    >
+                      <option value="all">All Request Types</option>
+                      <option value="dtr_override">DTR Punch Overrides</option>
+                      <option value="commissary_po">MyTime Commissary PO</option>
+                      <option value="payroll_disbursement">BPI Payroll Disbursement</option>
+                      <option value="cash_advance">Staff Cash Advance (Vale)</option>
+                      <option value="leave_application">Leave Application (SIL)</option>
+                      <option value="petty_cash">Petty Cash Vouchers</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              {/* Approval Requests Interactive List */}
+              <div className="space-y-4">
+                {(() => {
+                  const filtered = approvalsList.filter(item => {
+                    const matchLevel = 
+                      approvalLevelFilter === 'all' ? true :
+                      approvalLevelFilter === 'level2' ? item.currentLevel === 2 :
+                      approvalLevelFilter === 'level3' ? item.currentLevel === 3 :
+                      approvalLevelFilter === 'level4' ? item.currentLevel === 4 :
+                      approvalLevelFilter === 'completed' ? item.currentLevel >= 5 : true;
+                    
+                    const matchType = approvalTypeFilter === 'all' ? true : item.type === approvalTypeFilter;
+                    return matchLevel && matchType;
+                  });
+
+                  if (filtered.length === 0) {
+                    return (
+                      <div className="bg-white border border-[#EAE8E2] rounded-3xl p-12 text-center space-y-3 shadow-2xs">
+                        <div className="w-12 h-12 rounded-2xl bg-[#77BC2E]/15 text-[#77BC2E] flex items-center justify-center mx-auto">
+                          <CheckCircle className="h-6 w-6" />
+                        </div>
+                        <h4 className="font-extrabold text-base text-[#4A2E1B]">No Pending Requests in this Approval Tier</h4>
+                        <p className="text-xs text-[#8A817C] max-w-md mx-auto">
+                          All requests matching this filter have been processed or no requests have been filed yet.
+                        </p>
+                        <button
+                          onClick={() => setShowNewApprovalModal(true)}
+                          className="bg-[#77BC2E] hover:bg-[#6DB027] text-white px-4 py-2 rounded-xl text-xs font-bold shadow-2xs inline-flex items-center space-x-1.5"
+                        >
+                          <Plus className="h-3.5 w-3.5" />
+                          <span>Submit a Multi-Level Request</span>
+                        </button>
+                      </div>
+                    );
+                  }
+
+                  return filtered.map((req) => (
+                    <div 
+                      key={req.id} 
+                      className="bg-white border border-[#EAE8E2] hover:border-[#77BC2E]/50 rounded-3xl p-6 sm:p-7 shadow-2xs space-y-5 transition-all"
+                    >
+                      {/* Top Meta Info */}
+                      <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-[#F2F0E8] pb-4">
+                        <div className="space-y-1">
+                          <div className="flex flex-wrap items-center gap-2">
+                            <span className="font-mono font-extrabold text-xs text-[#031134] bg-[#031134]/10 px-2.5 py-0.5 rounded-lg">
+                              {req.id}
+                            </span>
+                            <span className="font-bold text-xs bg-[#77BC2E]/15 text-[#5A9A1E] px-2.5 py-0.5 rounded-lg">
+                              {req.typeName}
+                            </span>
+                            <span className={`text-[10px] font-extrabold px-2 py-0.5 rounded-full ${
+                              req.priority === 'Urgent' 
+                                ? 'bg-rose-100 text-rose-700 animate-pulse' 
+                                : req.priority === 'High' 
+                                ? 'bg-[#E89BB9]/25 text-[#D47098]' 
+                                : 'bg-[#FAF9F5] text-[#5A534E] border border-[#EAE8E2]'
+                            }`}>
+                              {req.priority} Priority
+                            </span>
+                            <span className="text-xs text-[#8A817C] font-semibold">
+                              ● {req.branch}
+                            </span>
+                          </div>
+                          <h3 className="font-extrabold text-base text-[#4A2E1B]">{req.title}</h3>
+                        </div>
+
+                        <div className="text-right flex flex-col md:items-end">
+                          {req.amount && (
+                            <span className="text-lg font-mono font-extrabold text-[#77BC2E]">
+                              ₱{req.amount.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                            </span>
+                          )}
+                          <span className={`text-xs font-bold px-2.5 py-0.5 rounded-full inline-block ${
+                            req.currentLevel >= 5 
+                              ? 'bg-[#77BC2E] text-white' 
+                              : req.currentLevel === 4 
+                              ? 'bg-[#031134] text-[#77BC2E]' 
+                              : req.currentLevel === 3 
+                              ? 'bg-[#D4AF37]/20 text-[#966E0A]' 
+                              : 'bg-[#E89BB9]/20 text-[#D47098]'
+                          }`}>
+                            {req.status}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Request Description & Submitter Details */}
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 bg-[#FAF9F5] p-4 rounded-2xl border border-[#F2F0E8] text-xs">
+                        <div>
+                          <span className="text-[10px] font-bold text-[#8A817C] uppercase tracking-wider block">Requestor</span>
+                          <strong className="text-[#4A2E1B]">{req.requestor}</strong>
+                          <p className="text-[#8A817C] text-[11px]">{req.role}</p>
+                        </div>
+                        <div>
+                          <span className="text-[10px] font-bold text-[#8A817C] uppercase tracking-wider block">Date Filed</span>
+                          <strong className="text-[#4A2E1B]">{req.dateSubmitted}</strong>
+                          <p className="text-[#8A817C] text-[11px]">Branch: {req.branch}</p>
+                        </div>
+                        <div>
+                          <span className="text-[10px] font-bold text-[#8A817C] uppercase tracking-wider block">Justification / Remarks</span>
+                          <p className="text-[#5A534E] text-[11px] leading-relaxed">{req.description}</p>
+                        </div>
+                      </div>
+
+                      {/* 4-Stage Visual Progress Bar & Timestamps */}
+                      <div className="space-y-2">
+                        <div className="text-[11px] font-extrabold text-[#4A2E1B] uppercase tracking-wider flex items-center space-x-1.5">
+                          <ShieldCheck className="h-3.5 w-3.5 text-[#77BC2E]" />
+                          <span>Chain of Command Progression</span>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                          {req.stages.map((stage) => {
+                            const isPast = stage.status === 'Approved';
+                            const isCurrent = stage.level === req.currentLevel;
+                            const isQueued = stage.status === 'Queued';
+                            const isRejected = stage.status === 'Rejected';
+
+                            return (
+                              <div 
+                                key={stage.level} 
+                                className={`p-3.5 rounded-2xl border text-xs space-y-1.5 transition-all ${
+                                  isPast 
+                                    ? 'bg-[#77BC2E]/10 border-[#77BC2E]/30 text-[#4A2E1B]' 
+                                    : isCurrent 
+                                    ? 'bg-white border-[#031134] shadow-sm ring-2 ring-[#031134]/10' 
+                                    : isRejected 
+                                    ? 'bg-rose-50 border-rose-300 text-rose-800' 
+                                    : 'bg-[#FAF9F5] border-[#F2F0E8] text-[#8A817C]'
+                                }`}
+                              >
+                                <div className="flex items-center justify-between">
+                                  <span className={`text-[10px] font-extrabold uppercase tracking-wider ${
+                                    isPast ? 'text-[#5A9A1E]' : isCurrent ? 'text-[#031134]' : 'text-[#8A817C]'
+                                  }`}>
+                                    Tier {stage.level}
+                                  </span>
+                                  {isPast ? (
+                                    <CheckCircle className="h-4 w-4 text-[#77BC2E]" />
+                                  ) : isCurrent ? (
+                                    <span className="w-2.5 h-2.5 rounded-full bg-[#031134] animate-ping"></span>
+                                  ) : isRejected ? (
+                                    <XCircle className="h-4 w-4 text-rose-600" />
+                                  ) : (
+                                    <Clock className="h-3.5 w-3.5 text-[#8A817C]" />
+                                  )}
+                                </div>
+
+                                <div className="font-bold text-[#4A2E1B]">{stage.name}</div>
+                                <div className="text-[10px] text-[#8A817C]">{stage.by}</div>
+                                
+                                {stage.time && (
+                                  <div className="font-mono text-[10px] text-[#5A534E] font-semibold">{stage.time}</div>
+                                )}
+
+                                {stage.note && (
+                                  <p className="text-[10px] text-[#5A534E] italic pt-1 border-t border-[#F2F0E8] leading-tight">
+                                    "{stage.note}"
+                                  </p>
+                                )}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+
+                      {/* Action Toolbar Based on Current Authority Level */}
+                      <div className="pt-3 border-t border-[#F2F0E8] flex flex-wrap items-center justify-between gap-3">
+                        <div className="text-xs text-[#8A817C]">
+                          {req.currentLevel === 2 && (
+                            <span>Awaiting <strong>Level 2: Store Supervisor (Cherimar Concigo / Shift Lead)</strong> endorsement.</span>
+                          )}
+                          {req.currentLevel === 3 && (
+                            <span>Awaiting <strong>Level 3: Operations & HR Audit (Kristene HR / Accounting)</strong> compliance review.</span>
+                          )}
+                          {req.currentLevel === 4 && (
+                            <span className="text-[#031134] font-bold">
+                              👑 Awaiting <strong>Level 4: Managing Director Ms. Jehan Abedin</strong> executive sign-off & BPI disbursement.
+                            </span>
+                          )}
+                          {req.currentLevel >= 5 && (
+                            <span className="text-[#77BC2E] font-bold">
+                              ✅ Fully Approved & Disbursed! Auto-posted to General Ledger & BPI BizLink Batch file.
+                            </span>
+                          )}
+                        </div>
+
+                        {req.currentLevel < 5 && (
+                          <div className="flex items-center space-x-2">
+                            {req.currentLevel === 2 && (
+                              <button
+                                onClick={() => handleAdvanceApproval(req.id)}
+                                className="bg-[#77BC2E] hover:bg-[#6DB027] text-white text-xs font-bold px-4 py-2 rounded-xl transition-all flex items-center space-x-1.5 shadow-2xs"
+                              >
+                                <Check className="h-3.5 w-3.5" />
+                                <span>Endorse as Store Supervisor &rarr; Pass to HR</span>
+                              </button>
+                            )}
+
+                            {req.currentLevel === 3 && (
+                              <button
+                                onClick={() => handleAdvanceApproval(req.id)}
+                                className="bg-[#031134] hover:bg-[#082260] text-white text-xs font-bold px-4 py-2 rounded-xl transition-all flex items-center space-x-1.5 shadow-2xs"
+                              >
+                                <CheckCheck className="h-3.5 w-3.5 text-[#77BC2E]" />
+                                <span>Audit & Forward to Managing Director (Ms. Jehan Abedin)</span>
+                              </button>
+                            )}
+
+                            {req.currentLevel === 4 && (
+                              <button
+                                onClick={() => handleAdvanceApproval(req.id)}
+                                className="bg-gradient-to-r from-[#031134] to-[#77BC2E] hover:opacity-95 text-white text-xs font-extrabold px-5 py-2.5 rounded-xl transition-all flex items-center space-x-2 shadow-md"
+                              >
+                                <ShieldCheck className="h-4 w-4 text-[#77BC2E]" />
+                                <span>👑 Authorize as Managing Director (Ms. Jehan Abedin)</span>
+                              </button>
+                            )}
+
+                            <button
+                              onClick={() => handleRejectApproval(req.id)}
+                              className="bg-white border border-[#EAE8E2] hover:bg-rose-50 text-rose-600 text-xs font-bold px-3 py-2 rounded-xl transition-all"
+                            >
+                              Reject / Issue NTE
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ));
+                })()}
               </div>
             </div>
           )}
@@ -7499,6 +8392,152 @@ export default function App() {
               </div>
             </div>
           </div>
+        </div>
+      )}
+
+      {/* 17. NEW MULTI-LEVEL APPROVAL REQUEST MODAL */}
+      {showNewApprovalModal && (
+        <div className="fixed inset-0 bg-stone-900/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fadeIn">
+          <div className="bg-white rounded-3xl border border-[#EAE8E2] shadow-2xl w-full max-w-lg p-7 space-y-5">
+            <div className="flex items-start justify-between border-b border-[#F2F0E8] pb-4">
+              <div className="flex items-center space-x-3">
+                <div className="w-11 h-11 rounded-2xl bg-[#031134] text-[#77BC2E] flex items-center justify-center font-bold text-lg shadow-sm">
+                  <ShieldCheck className="h-6 w-6" />
+                </div>
+                <div>
+                  <h3 className="font-extrabold text-lg text-[#4A2E1B]">Submit Multi-Level Request</h3>
+                  <p className="text-xs text-[#8A817C]">Automated 4-tier chain of command routing across branches</p>
+                </div>
+              </div>
+              <button onClick={() => setShowNewApprovalModal(false)} className="text-[#8A817C] hover:text-[#4A2E1B]">
+                <XCircle className="h-5 w-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleCreateApprovalRequest} className="space-y-4 text-xs">
+              <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-1">
+                  <label className="font-bold text-[#4A2E1B]">Request Category</label>
+                  <select
+                    value={newApproval.type}
+                    onChange={(e) => setNewApproval({ ...newApproval, type: e.target.value })}
+                    className="w-full bg-[#FAF9F5] border border-[#EAE8E2] rounded-xl px-3 py-2 text-xs font-semibold text-[#4A2E1B] outline-none focus:ring-1 focus:ring-[#77BC2E]"
+                  >
+                    <option value="dtr_override">DTR Punch Override</option>
+                    <option value="commissary_po">MyTime Commissary PO</option>
+                    <option value="payroll_disbursement">Payroll Release (BPI)</option>
+                    <option value="cash_advance">Staff Cash Advance (Vale)</option>
+                    <option value="leave_application">Leave Application (SIL)</option>
+                    <option value="petty_cash">Petty Cash Expense Voucher</option>
+                  </select>
+                </div>
+
+                <div className="space-y-1">
+                  <label className="font-bold text-[#4A2E1B]">Branch Location</label>
+                  <select
+                    value={newApproval.branch}
+                    onChange={(e) => setNewApproval({ ...newApproval, branch: e.target.value })}
+                    className="w-full bg-[#FAF9F5] border border-[#EAE8E2] rounded-xl px-3 py-2 text-xs font-semibold text-[#4A2E1B] outline-none focus:ring-1 focus:ring-[#77BC2E]"
+                  >
+                    <option value="Centrio Mall (Waxing)">Centrio Mall (Waxing)</option>
+                    <option value="Passion Nails (Centrio)">Passion Nails (Centrio)</option>
+                    <option value="Limketkai Mall">Limketkai Mall</option>
+                    <option value="SM Downtown Branch">SM Downtown Branch</option>
+                    <option value="Iligan City (Upcoming)">Iligan City Branch</option>
+                    <option value="Consolidated (All Branches)">Consolidated (All Branches)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="space-y-1">
+                <label className="font-bold text-[#4A2E1B]">Request Subject / Title</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. Missed OUT Punch on July 20 / 10kg Sugar Wax Order"
+                  value={newApproval.title}
+                  onChange={(e) => setNewApproval({ ...newApproval, title: e.target.value })}
+                  className="w-full bg-[#FAF9F5] border border-[#EAE8E2] rounded-xl px-3 py-2 text-xs font-medium text-[#2D2520] outline-none focus:ring-1 focus:ring-[#77BC2E]"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-1">
+                  <label className="font-bold text-[#4A2E1B]">Requestor Name</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="Staff / Specialist Name"
+                    value={newApproval.requestor}
+                    onChange={(e) => setNewApproval({ ...newApproval, requestor: e.target.value })}
+                    className="w-full bg-[#FAF9F5] border border-[#EAE8E2] rounded-xl px-3 py-2 text-xs font-medium text-[#2D2520] outline-none focus:ring-1 focus:ring-[#77BC2E]"
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <label className="font-bold text-[#4A2E1B]">Amount (PHP - Optional)</label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    placeholder="₱ 0.00"
+                    value={newApproval.amount}
+                    onChange={(e) => setNewApproval({ ...newApproval, amount: e.target.value })}
+                    className="w-full bg-[#FAF9F5] border border-[#EAE8E2] rounded-xl px-3 py-2 text-xs font-medium text-[#2D2520] outline-none focus:ring-1 focus:ring-[#77BC2E]"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-1">
+                <label className="font-bold text-[#4A2E1B]">Reason & Justification</label>
+                <textarea
+                  rows="3"
+                  required
+                  placeholder="Provide complete details, timecard justification, emergency circumstances, or vendor quote reference..."
+                  value={newApproval.description}
+                  onChange={(e) => setNewApproval({ ...newApproval, description: e.target.value })}
+                  className="w-full bg-[#FAF9F5] border border-[#EAE8E2] rounded-xl p-3 text-xs font-medium text-[#2D2520] outline-none focus:ring-1 focus:ring-[#77BC2E]"
+                ></textarea>
+              </div>
+
+              {/* Chain of Command Routing Preview */}
+              <div className="bg-[#FAF9F5] p-3 rounded-2xl border border-[#EAE8E2] space-y-1.5 text-[11px]">
+                <span className="font-bold text-[#4A2E1B] block">Automatic 4-Stage Routing Pipeline:</span>
+                <div className="flex items-center space-x-1 text-[#5A534E] font-medium">
+                  <span className="text-[#77BC2E] font-bold">1. File</span>
+                  <span>&rarr;</span>
+                  <span className="text-[#E89BB9] font-bold">2. Store Lead</span>
+                  <span>&rarr;</span>
+                  <span className="text-[#B48A10] font-bold">3. HR Audit</span>
+                  <span>&rarr;</span>
+                  <span className="text-[#031134] font-bold">4. Ms. Jehan Abedin (MD)</span>
+                </div>
+              </div>
+
+              <div className="flex space-x-2 pt-2">
+                <button
+                  type="submit"
+                  className="flex-1 bg-[#77BC2E] hover:bg-[#6DB027] text-white font-bold py-2.5 rounded-xl shadow-sm transition-all"
+                >
+                  Submit & Route to Supervisor
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowNewApprovalModal(false)}
+                  className="bg-[#F2F0E8] text-[#5A534E] font-semibold px-4 py-2.5 rounded-xl"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Floating Approval Toast Notification */}
+      {approvalToast && (
+        <div className="fixed bottom-6 right-6 z-50 bg-[#031134] text-white px-5 py-3.5 rounded-2xl shadow-2xl border border-[#77BC2E]/50 flex items-center space-x-3 text-xs font-bold animate-bounce">
+          <ShieldCheck className="h-5 w-5 text-[#77BC2E] flex-shrink-0" />
+          <span>{approvalToast}</span>
         </div>
       )}
 
