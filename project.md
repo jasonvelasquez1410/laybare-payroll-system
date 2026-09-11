@@ -193,10 +193,19 @@ As Chief Technology Officer (CTO) & Lead Developer who architected, coded, and d
 
 ---
 
+### Module 6: PWA Offline Resilience & Google Workspace Custom Domain
+* **Offline PWA Architecture**: Progressive Web App with Service Worker (`sw.js`) and Web Manifest (`manifest.json`). Enables instant offline loading and desktop/iPad app installation.
+* **Network Status Sensing**: Real-time `Online (Cloud Live Sync)` vs `Offline Mode (Local Storage Active)` status indicator in the top navbar.
+* **Google Workspace Domain Linked**: Pre-configured for subdomain **`erp.alrajjlegacy-fortifiedbusinesscorp.com`** via Vercel CNAME `cname.vercel-dns.com`.
+* **Non-Techie 1-2-3 Easy Guide**: Built-in 4-step quick walkthrough modal for store managers and supervisors.
+
+---
+
 ## 📁 7. Key Files, Documents & Exported Deliverables
 
 1. **Official PDF Proposal Contract**:
-   * [`ALRAJJ_LEGACY_ERP_PROPOSAL_CONTRACT.pdf`](file:///c:/Users/USER/Documents/Programming%20Folder%20Rep/LAYBARE-payroll-system/ALRAJJ_LEGACY_ERP_PROPOSAL_CONTRACT.pdf) *(568 KB formal proposal with conforme signature blocks)*
+   * [`ALRAJJ_LEGACY_ERP_PROPOSAL_CONTRACT.pdf`](file:///c:/Users/USER/Documents/Programming%20Folder%20Rep/LAYBARE-payroll-system/ALRAJJ_LEGACY_ERP_PROPOSAL_CONTRACT.pdf) *(916 KB with SETHCON logo and ₱150k package pricing)*
+   * [`ALRAJJ_LEGACY_ERP_PROPOSAL_CONTRACT_150K.pdf`](file:///c:/Users/USER/Documents/Programming%20Folder%20Rep/LAYBARE-payroll-system/ALRAJJ_LEGACY_ERP_PROPOSAL_CONTRACT_150K.pdf)
 2. **Printable Executive HTML Contract**:
    * [`ALRAJJ_LEGACY_ERP_PROPOSAL_CONTRACT.html`](file:///c:/Users/USER/Documents/Programming%20Folder%20Rep/LAYBARE-payroll-system/ALRAJJ_LEGACY_ERP_PROPOSAL_CONTRACT.html) *(Open in browser and press `Ctrl + P` to print)*
 3. **Markdown Contract Document**:
@@ -208,6 +217,7 @@ As Chief Technology Officer (CTO) & Lead Developer who architected, coded, and d
    * [`TUESDAY_DEMO_SCRIPT_AND_GUIDE.md`](file:///c:/Users/USER/Documents/Programming%20Folder%20Rep/LAYBARE-payroll-system/TUESDAY_DEMO_SCRIPT_AND_GUIDE.md)
 5. **Core Application Source Code**:
    * Frontend App: [`frontend/src/App.jsx`](file:///c:/Users/USER/Documents/Programming%20Folder%20Rep/LAYBARE-payroll-system/frontend/src/App.jsx)
+   * PWA Manifest & Service Worker: [`frontend/public/manifest.json`](file:///c:/Users/USER/Documents/Programming%20Folder%20Rep/LAYBARE-payroll-system/frontend/public/manifest.json) & [`frontend/public/sw.js`](file:///c:/Users/USER/Documents/Programming%20Folder%20Rep/LAYBARE-payroll-system/frontend/public/sw.js)
    * Backend Server: [`backend/server.js`](file:///c:/Users/USER/Documents/Programming%20Folder%20Rep/LAYBARE-payroll-system/backend/server.js)
 
 ---
@@ -237,3 +247,4 @@ node server.js
 
 ### Step 4: Live Production URL
 * The cloud production deployment is always live at: **[https://alrajj-legacy.vercel.app](https://alrajj-legacy.vercel.app)**
+* Custom Google Workspace Subdomain: **`erp.alrajjlegacy-fortifiedbusinesscorp.com`**
