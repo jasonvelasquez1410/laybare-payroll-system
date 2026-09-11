@@ -2967,14 +2967,15 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
       <aside className={`fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-[#EAE8E2] flex flex-col justify-between transition-transform duration-300 lg:translate-x-0 ${
         sidebarOpen ? 'translate-x-0' : '-translate-x-full'
       }`}>
-        <div className="p-5 space-y-6">
+        {/* Scrollable Navigation Body */}
+        <div className="p-4 space-y-4 flex-1 min-h-0 overflow-y-auto">
           
           {/* Logo Branding */}
-          <div className="flex items-center space-x-3 pb-2 border-b border-[#F2F0E8]">
+          <div className="flex items-center space-x-3 pb-3 border-b border-[#F2F0E8]">
             <img 
               src="/alrajj-icon.png" 
               alt="ALRAJJ LEGACY Logo" 
-              className="h-11 w-11 object-contain rounded-xl border border-[#031134]/15 p-1 shadow-sm bg-[#031134]" 
+              className="h-10 w-10 object-contain rounded-xl border border-[#031134]/15 p-1 shadow-sm bg-[#031134]" 
             />
             <div>
               <div className="flex items-center space-x-1.5">
@@ -2991,20 +2992,20 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
             <input 
               type="text"
               placeholder="Search menus..."
-              className="w-full bg-[#F7F6F2] text-[#2D2520] placeholder-[#A8A29E] text-xs rounded-xl pl-8 pr-3 py-2 outline-none focus:ring-1 focus:ring-[#77BC2E] border border-transparent font-medium"
+              className="w-full bg-[#F7F6F2] text-[#2D2520] placeholder-[#A8A29E] text-xs rounded-xl pl-8 pr-3 py-1.5 outline-none focus:ring-1 focus:ring-[#77BC2E] border border-transparent font-medium"
             />
           </div>
 
           {/* Navigation Categories */}
-          <nav className="space-y-5 text-xs">
+          <nav className="space-y-4 text-xs">
             
             {/* Category 1: FINANCIAL & EXECUTIVE ERP */}
             <div className="space-y-1">
-              <span className="text-[10px] font-bold tracking-wider uppercase text-[#A8A29E] px-3">Financial & Executive ERP</span>
+              <span className="text-[10px] font-bold tracking-wider uppercase text-[#A8A29E] px-2.5">Financial & Executive ERP</span>
               
               <button
                 onClick={() => { setActiveTab('dashboard'); setSidebarOpen(false); }}
-                className={`w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl font-semibold transition-all ${
+                className={`w-full flex items-center space-x-2.5 px-2.5 py-2 rounded-xl font-semibold transition-all ${
                   activeTab === 'dashboard'
                     ? 'bg-[#77BC2E] text-white shadow-sm shadow-[#77BC2E]/25'
                     : 'text-[#5A534E] hover:bg-[#F7F6F2] hover:text-[#4A2E1B]'
@@ -3017,13 +3018,13 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
               {/* Multi-Level Approvals Hub Link */}
               <button
                 onClick={() => { setActiveTab('approvals'); setSidebarOpen(false); }}
-                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl font-semibold transition-all ${
+                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-xl font-semibold transition-all ${
                   activeTab === 'approvals'
                     ? 'bg-[#031134] text-white shadow-sm shadow-[#031134]/25'
                     : 'text-[#5A534E] hover:bg-[#F7F6F2] hover:text-[#031134]'
                 }`}
               >
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center space-x-2.5">
                   <ShieldCheck className="h-4 w-4 text-[#77BC2E]" />
                   <span>Approvals & Matrix</span>
                 </div>
@@ -3038,13 +3039,13 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
 
               <button
                 onClick={() => { setActiveTab('accounting'); setSidebarOpen(false); }}
-                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl font-semibold transition-all ${
+                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-xl font-semibold transition-all ${
                   activeTab === 'accounting'
                     ? 'bg-[#031134] text-white shadow-sm shadow-[#031134]/25'
                     : 'text-[#5A534E] hover:bg-[#F7F6F2] hover:text-[#031134]'
                 }`}
               >
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center space-x-2.5">
                   <Landmark className="h-4 w-4 text-[#D4AF37]" />
                   <span>Accounting & Financials</span>
                 </div>
@@ -3057,7 +3058,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
 
               <button
                 onClick={() => { setActiveTab('payroll'); setSidebarOpen(false); }}
-                className={`w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl font-semibold transition-all ${
+                className={`w-full flex items-center space-x-2.5 px-2.5 py-2 rounded-xl font-semibold transition-all ${
                   activeTab === 'payroll'
                     ? 'bg-[#77BC2E] text-white shadow-sm shadow-[#77BC2E]/25'
                     : 'text-[#5A534E] hover:bg-[#F7F6F2] hover:text-[#4A2E1B]'
@@ -3070,17 +3071,17 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
 
             {/* Category 2: WORKFORCE MANAGEMENT */}
             <div className="space-y-1">
-              <span className="text-[10px] font-bold tracking-wider uppercase text-[#A8A29E] px-3">Workforce Management</span>
+              <span className="text-[10px] font-bold tracking-wider uppercase text-[#A8A29E] px-2.5">Workforce Management</span>
               
               <button
                 onClick={() => { setActiveTab('exceptions'); setSidebarOpen(false); }}
-                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl font-semibold transition-all ${
+                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-xl font-semibold transition-all ${
                   activeTab === 'exceptions'
                     ? 'bg-[#77BC2E] text-white shadow-sm shadow-[#77BC2E]/25'
                     : 'text-[#5A534E] hover:bg-[#F7F6F2] hover:text-[#4A2E1B]'
                 }`}
               >
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center space-x-2.5">
                   <AlertTriangle className="h-4 w-4" />
                   <span>Exceptions & Flags</span>
                 </div>
@@ -3095,7 +3096,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
 
               <button
                 onClick={() => { setActiveTab('tardiness'); setSidebarOpen(false); }}
-                className={`w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl font-semibold transition-all ${
+                className={`w-full flex items-center space-x-2.5 px-2.5 py-2 rounded-xl font-semibold transition-all ${
                   activeTab === 'tardiness'
                     ? 'bg-[#77BC2E] text-white shadow-sm shadow-[#77BC2E]/25'
                     : 'text-[#5A534E] hover:bg-[#F7F6F2] hover:text-[#4A2E1B]'
@@ -3107,7 +3108,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
 
               <button
                 onClick={() => { setActiveTab('upload'); setSidebarOpen(false); }}
-                className={`w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl font-semibold transition-all ${
+                className={`w-full flex items-center space-x-2.5 px-2.5 py-2 rounded-xl font-semibold transition-all ${
                   activeTab === 'upload'
                     ? 'bg-[#77BC2E] text-white shadow-sm shadow-[#77BC2E]/25'
                     : 'text-[#5A534E] hover:bg-[#F7F6F2] hover:text-[#4A2E1B]'
@@ -3120,17 +3121,17 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
 
             {/* Category 3: EMPLOYEE MANAGEMENT */}
             <div className="space-y-1">
-              <span className="text-[10px] font-bold tracking-wider uppercase text-[#A8A29E] px-3">Employee Management</span>
+              <span className="text-[10px] font-bold tracking-wider uppercase text-[#A8A29E] px-2.5">Employee Management</span>
               
               <button
                 onClick={() => { setActiveTab('employees'); setSidebarOpen(false); }}
-                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl font-semibold transition-all ${
+                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-xl font-semibold transition-all ${
                   activeTab === 'employees'
                     ? 'bg-[#77BC2E] text-white shadow-sm shadow-[#77BC2E]/25'
                     : 'text-[#5A534E] hover:bg-[#F7F6F2] hover:text-[#4A2E1B]'
                 }`}
               >
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center space-x-2.5">
                   <Users className="h-4 w-4" />
                   <span>Staff Directory</span>
                 </div>
@@ -3144,13 +3145,13 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
 
             {/* Category 4: SALON OPERATIONS & COMMERCIAL */}
             <div className="space-y-1 pt-2 border-t border-[#F2F0E8]">
-              <span className="text-[10px] font-bold tracking-wider uppercase text-[#8A817C] px-3">
+              <span className="text-[10px] font-bold tracking-wider uppercase text-[#8A817C] px-2.5">
                 Salon Operations
               </span>
 
               <button
                 onClick={() => { setActiveTab('crm'); setSidebarOpen(false); }}
-                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl font-semibold transition-all ${
+                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-xl font-semibold transition-all ${
                   activeTab === 'crm'
                     ? 'bg-[#E89BB9] text-white shadow-sm shadow-[#E89BB9]/25'
                     : 'text-[#5A534E] hover:bg-[#F7F6F2] hover:text-[#4A2E1B]'
@@ -3169,7 +3170,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
 
               <button
                 onClick={() => { setActiveTab('procurement'); setSidebarOpen(false); }}
-                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl font-semibold transition-all ${
+                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-xl font-semibold transition-all ${
                   activeTab === 'procurement'
                     ? 'bg-[#031134] text-white shadow-sm shadow-[#031134]/25'
                     : 'text-[#5A534E] hover:bg-[#F7F6F2] hover:text-[#4A2E1B]'
@@ -3186,7 +3187,7 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
 
               <button
                 onClick={() => { setActiveTab('dms'); setSidebarOpen(false); }}
-                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl font-semibold transition-all ${
+                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-xl font-semibold transition-all ${
                   activeTab === 'dms'
                     ? 'bg-[#031134] text-white shadow-sm shadow-[#031134]/25'
                     : 'text-[#5A534E] hover:bg-[#F7F6F2] hover:text-[#031134]'
@@ -3206,13 +3207,13 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
 
             {/* Category 5: SYSTEM & CONFIGURATION */}
             <div className="space-y-1 pt-2 border-t border-[#F2F0E8]">
-              <span className="text-[10px] font-bold tracking-wider uppercase text-[#8A817C] px-3">
+              <span className="text-[10px] font-bold tracking-wider uppercase text-[#8A817C] px-2.5">
                 System & Config
               </span>
 
               <button
                 onClick={() => { setActiveTab('settings'); setSidebarOpen(false); }}
-                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl font-semibold transition-all ${
+                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-xl font-semibold transition-all ${
                   activeTab === 'settings'
                     ? 'bg-[#031134] text-white shadow-sm shadow-[#031134]/25'
                     : 'text-[#5A534E] hover:bg-[#F7F6F2] hover:text-[#031134]'
@@ -3233,10 +3234,10 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
         </div>
 
         {/* Sidebar Footer User Card */}
-        <div className="p-4 border-t border-[#F2F0E8] bg-[#FAF9F5]">
+        <div className="p-3.5 border-t border-[#F2F0E8] bg-[#FAF9F5] flex-shrink-0">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3 min-w-0">
-              <div className="w-9 h-9 rounded-xl bg-[#4A2E1B] text-[#77BC2E] flex items-center justify-center font-bold text-xs shadow-sm flex-shrink-0">
+            <div className="flex items-center space-x-2.5 min-w-0">
+              <div className="w-8 h-8 rounded-xl bg-[#4A2E1B] text-[#77BC2E] flex items-center justify-center font-bold text-xs shadow-sm flex-shrink-0">
                 KH
               </div>
               <div className="flex-1 min-w-0">
