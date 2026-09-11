@@ -468,6 +468,203 @@ export default function App() {
     content: ''
   });
 
+  // Sprout Solutions Enterprise HRMS & Employee Portal Suite
+  const [hrActiveSubTab, setHrActiveSubTab] = useState('directory'); // 'directory' | 'leaves' | 'roster' | 'ot_ob' | 'accruals' | 'ess'
+  const [selected201Employee, setSelected201Employee] = useState(null);
+  const [show201Drawer, setShow201Drawer] = useState(false);
+  const [showCoeModal, setShowCoeModal] = useState(false);
+  const [showBir2316Modal, setShowBir2316Modal] = useState(false);
+  const [showLeaveFilingModal, setShowLeaveFilingModal] = useState(false);
+  const [showOtObModal, setShowOtObModal] = useState(false);
+  const [showSproutEssModal, setShowSproutEssModal] = useState(false);
+  const [essLoggedInStaffId, setEssLoggedInStaffId] = useState(33); // Justine Ann Atay default
+  const [hrBranchFilter, setHrBranchFilter] = useState('all');
+  const [hrSearchQuery, setHrSearchQuery] = useState('');
+  const [sproutToast, setSproutToast] = useState('');
+
+  // Sprout Leaves & Time-Off Masterlist
+  const [sproutLeaves, setSproutLeaves] = useState([
+    {
+      id: 'LV-2026-001',
+      employeeId: 33,
+      employeeName: 'Justine Ann Atay',
+      branch: 'Centrio Mall (Waxing)',
+      type: 'Service Incentive Leave (SIL)',
+      days: 1.0,
+      startDate: '2026-07-25',
+      endDate: '2026-07-25',
+      reason: 'Annual medical physical exam & health card renewal',
+      status: 'Approved',
+      approvedBy: 'Kristene HR / Ms. Jehan Abedin',
+      appliedAt: '2026-07-20',
+      paid: true,
+      hasAttachment: true
+    },
+    {
+      id: 'LV-2026-002',
+      employeeId: 36,
+      employeeName: 'Cherry Rose Paculanang',
+      branch: 'Passion Nails (Centrio)',
+      type: 'Vacation Leave (VL)',
+      days: 2.0,
+      startDate: '2026-08-04',
+      endDate: '2026-08-05',
+      reason: 'Family out-of-town trip to Camiguin',
+      status: 'Pending Store Lead',
+      approvedBy: 'Awaiting Cherimar Concigo',
+      appliedAt: '2026-07-28',
+      paid: true,
+      hasAttachment: false
+    },
+    {
+      id: 'LV-2026-003',
+      employeeId: 34,
+      employeeName: 'Cherimar Concigo',
+      branch: 'Centrio Mall (Waxing)',
+      type: 'Sick Leave (SL)',
+      days: 1.0,
+      startDate: '2026-07-19',
+      endDate: '2026-07-19',
+      reason: 'Acute migraine & fever (Medical fit-to-work attached)',
+      status: 'Approved',
+      approvedBy: 'Kristene HR',
+      appliedAt: '2026-07-19',
+      paid: true,
+      hasAttachment: true
+    }
+  ]);
+
+  // Sprout Shift Rostering & Station Matrix
+  const [sproutRosters, setSproutRosters] = useState([
+    {
+      employeeId: 33,
+      name: 'Justine Ann Atay',
+      branch: 'Centrio Mall (Waxing)',
+      role: 'Senior Waxing Specialist',
+      station: 'Cubicle 2',
+      schedule: {
+        Mon: { shift: 'Morning (10AM - 7PM)', color: 'bg-[#77BC2E]/15 text-[#5A9A1E] border-[#77BC2E]/30' },
+        Tue: { shift: 'Morning (10AM - 7PM)', color: 'bg-[#77BC2E]/15 text-[#5A9A1E] border-[#77BC2E]/30' },
+        Wed: { shift: 'Closing (12PM - 9PM)', color: 'bg-[#031134]/10 text-[#031134] border-[#031134]/20' },
+        Thu: { shift: 'Morning (10AM - 7PM)', color: 'bg-[#77BC2E]/15 text-[#5A9A1E] border-[#77BC2E]/30' },
+        Fri: { shift: 'Closing (12PM - 9PM)', color: 'bg-[#031134]/10 text-[#031134] border-[#031134]/20' },
+        Sat: { shift: 'Mid (11AM - 8PM)', color: 'bg-[#E89BB9]/25 text-[#D47098] border-[#E89BB9]/40' },
+        Sun: { shift: 'Rest Day (RD)', color: 'bg-stone-100 text-stone-500 border-stone-200' }
+      }
+    },
+    {
+      employeeId: 34,
+      name: 'Cherimar Concigo',
+      branch: 'Centrio Mall (Waxing)',
+      role: 'Master Aesthetician',
+      station: 'Cubicle 1',
+      schedule: {
+        Mon: { shift: 'Closing (12PM - 9PM)', color: 'bg-[#031134]/10 text-[#031134] border-[#031134]/20' },
+        Tue: { shift: 'Closing (12PM - 9PM)', color: 'bg-[#031134]/10 text-[#031134] border-[#031134]/20' },
+        Wed: { shift: 'Mid (11AM - 8PM)', color: 'bg-[#E89BB9]/25 text-[#D47098] border-[#E89BB9]/40' },
+        Thu: { shift: 'Closing (12PM - 9PM)', color: 'bg-[#031134]/10 text-[#031134] border-[#031134]/20' },
+        Fri: { shift: 'Mid (11AM - 8PM)', color: 'bg-[#E89BB9]/25 text-[#D47098] border-[#E89BB9]/40' },
+        Sat: { shift: 'Morning (10AM - 7PM)', color: 'bg-[#77BC2E]/15 text-[#5A9A1E] border-[#77BC2E]/30' },
+        Sun: { shift: 'Rest Day (RD)', color: 'bg-stone-100 text-stone-500 border-stone-200' }
+      }
+    },
+    {
+      employeeId: 35,
+      name: 'Kristene HR',
+      branch: 'Limketkai Mall',
+      role: 'Operations & HR Lead',
+      station: 'Admin Office',
+      schedule: {
+        Mon: { shift: 'Office (09AM - 6PM)', color: 'bg-[#77BC2E]/15 text-[#5A9A1E] border-[#77BC2E]/30' },
+        Tue: { shift: 'Office (09AM - 6PM)', color: 'bg-[#77BC2E]/15 text-[#5A9A1E] border-[#77BC2E]/30' },
+        Wed: { shift: 'Office (09AM - 6PM)', color: 'bg-[#77BC2E]/15 text-[#5A9A1E] border-[#77BC2E]/30' },
+        Thu: { shift: 'Office (09AM - 6PM)', color: 'bg-[#77BC2E]/15 text-[#5A9A1E] border-[#77BC2E]/30' },
+        Fri: { shift: 'Office (09AM - 6PM)', color: 'bg-[#77BC2E]/15 text-[#5A9A1E] border-[#77BC2E]/30' },
+        Sat: { shift: 'Rest Day (RD)', color: 'bg-stone-100 text-stone-500 border-stone-200' },
+        Sun: { shift: 'Rest Day (RD)', color: 'bg-stone-100 text-stone-500 border-stone-200' }
+      }
+    },
+    {
+      employeeId: 36,
+      name: 'Cherry Rose Paculanang',
+      branch: 'Passion Nails (Centrio)',
+      role: 'Senior Nail Technician',
+      station: 'Nail Desk 3',
+      schedule: {
+        Mon: { shift: 'Morning (10AM - 7PM)', color: 'bg-[#77BC2E]/15 text-[#5A9A1E] border-[#77BC2E]/30' },
+        Tue: { shift: 'Mid (11AM - 8PM)', color: 'bg-[#E89BB9]/25 text-[#D47098] border-[#E89BB9]/40' },
+        Wed: { shift: 'Rest Day (RD)', color: 'bg-stone-100 text-stone-500 border-stone-200' },
+        Thu: { shift: 'Morning (10AM - 7PM)', color: 'bg-[#77BC2E]/15 text-[#5A9A1E] border-[#77BC2E]/30' },
+        Fri: { shift: 'Closing (12PM - 9PM)', color: 'bg-[#031134]/10 text-[#031134] border-[#031134]/20' },
+        Sat: { shift: 'Closing (12PM - 9PM)', color: 'bg-[#031134]/10 text-[#031134] border-[#031134]/20' },
+        Sun: { shift: 'Morning (10AM - 7PM)', color: 'bg-[#77BC2E]/15 text-[#5A9A1E] border-[#77BC2E]/30' }
+      }
+    }
+  ]);
+
+  // Sprout Overtime (OT) & Official Business (OB) Filings
+  const [sproutOtOb, setSproutOtOb] = useState([
+    {
+      id: 'OT-2026-001',
+      employeeId: 33,
+      employeeName: 'Justine Ann Atay',
+      branch: 'Centrio Mall (Waxing)',
+      type: 'Post-Shift Overtime',
+      hours: 1.77,
+      date: '2026-07-16',
+      purpose: 'Centrio Mall peak waxing rush & walk-in queue overrun',
+      status: 'Approved',
+      approvedBy: 'Cherimar Concigo (Shift Lead)',
+      ticketRef: 'LB-2026-8921'
+    },
+    {
+      id: 'OB-2026-001',
+      employeeId: 34,
+      employeeName: 'Cherimar Concigo',
+      branch: 'Centrio Mall (Waxing)',
+      type: 'Official Business (OB)',
+      hours: 1.5,
+      date: '2026-07-17',
+      purpose: 'BPI BizLink Branch Cash Deposit & Passbook Verification',
+      status: 'Approved',
+      approvedBy: 'Kristene HR / MD Auth',
+      ticketRef: 'BPI-DEP-492'
+    },
+    {
+      id: 'OT-2026-002',
+      employeeId: 36,
+      employeeName: 'Cherry Rose Paculanang',
+      branch: 'Passion Nails (Centrio)',
+      type: 'Post-Shift Overtime',
+      hours: 1.0,
+      date: '2026-07-20',
+      purpose: 'Full Gel Nail Extension VIP Client Overrun',
+      status: 'Pending HR Audit',
+      approvedBy: 'Awaiting Kristene HR',
+      ticketRef: 'PN-2026-4412'
+    }
+  ]);
+
+  // Forms for new leave and OT/OB
+  const [newLeaveForm, setNewLeaveForm] = useState({
+    employeeId: 33,
+    type: 'Service Incentive Leave (SIL)',
+    startDate: '2026-08-10',
+    endDate: '2026-08-10',
+    days: 1.0,
+    reason: '',
+    paid: true
+  });
+
+  const [newOtObForm, setNewOtObForm] = useState({
+    employeeId: 33,
+    type: 'Post-Shift Overtime',
+    hours: 1.5,
+    date: '2026-07-22',
+    purpose: '',
+    ticketRef: ''
+  });
+
   // Payroll date range
   const [startDate, setStartDate] = useState('2026-07-16');
   const [endDate, setEndDate] = useState('2026-07-31');
@@ -3119,26 +3316,26 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
               </button>
             </div>
 
-            {/* Category 3: EMPLOYEE MANAGEMENT */}
+            {/* Category 3: EMPLOYEE & HR MANAGEMENT */}
             <div className="space-y-1">
-              <span className="text-[10px] font-bold tracking-wider uppercase text-[#A8A29E] px-2.5">Employee Management</span>
+              <span className="text-[10px] font-bold tracking-wider uppercase text-[#A8A29E] px-2.5">HR & Workforce Suite</span>
               
               <button
                 onClick={() => { setActiveTab('employees'); setSidebarOpen(false); }}
                 className={`w-full flex items-center justify-between px-2.5 py-2 rounded-xl font-semibold transition-all ${
                   activeTab === 'employees'
-                    ? 'bg-[#77BC2E] text-white shadow-sm shadow-[#77BC2E]/25'
-                    : 'text-[#5A534E] hover:bg-[#F7F6F2] hover:text-[#4A2E1B]'
+                    ? 'bg-[#031134] text-white shadow-sm shadow-[#031134]/25'
+                    : 'text-[#5A534E] hover:bg-[#F7F6F2] hover:text-[#031134]'
                 }`}
               >
                 <div className="flex items-center space-x-2.5">
-                  <Users className="h-4 w-4" />
-                  <span>Staff Directory</span>
+                  <Users className={`h-4 w-4 ${activeTab === 'employees' ? 'text-[#77BC2E]' : 'text-[#8A817C]'}`} />
+                  <span>HR Hub & 201 Files</span>
                 </div>
-                <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${
-                  activeTab === 'employees' ? 'bg-white text-[#4A2E1B]' : 'bg-[#FAF9F5] text-[#8A817C]'
+                <span className={`text-[9px] font-extrabold px-1.5 py-0.5 rounded-md uppercase tracking-wider ${
+                  activeTab === 'employees' ? 'bg-[#77BC2E] text-white' : 'bg-[#77BC2E]/15 text-[#5A9A1E]'
                 }`}>
-                  {employees.length}
+                  Sprout Suite
                 </span>
               </button>
             </div>
@@ -6700,180 +6897,1309 @@ Please acknowledge receipt and adhere strictly to these guidelines.`
             </div>
           )}
 
-          {/* TAB 8: STAFF DIRECTORY & BPI MASTERFILE */}
+          {/* TAB: ENTERPRISE HR HUB & SPROUT SOLUTIONS WORKFORCE SUITE */}
           {activeTab === 'employees' && (
             <div className="space-y-6 animate-fadeIn">
               
-              {/* Directory Top Header Card */}
-              <div className="bg-white border border-[#EAE8E2] rounded-3xl p-6 shadow-2xs flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div>
-                  <div className="flex items-center space-x-2">
-                    <span className="bg-[#77BC2E]/15 text-[#5A9A1E] text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase">
-                      Staff Masterfile
+              {/* Sprout Suite Header Banner */}
+              <div className="bg-gradient-to-r from-[#031134] via-[#091D4C] to-[#031134] rounded-3xl p-6 sm:p-7 text-white shadow-xl border border-[#031134] space-y-5">
+                <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-white/10 pb-5">
+                  <div className="flex items-start space-x-3.5">
+                    <div className="w-12 h-12 rounded-2xl bg-[#77BC2E] text-white flex items-center justify-center font-black text-xl shadow-md flex-shrink-0">
+                      <Users className="h-6 w-6" />
+                    </div>
+                    <div>
+                      <div className="flex flex-wrap items-center gap-2">
+                        <h2 className="text-xl font-extrabold text-white tracking-tight">ALRAJJ Enterprise HRMS & Sprout Suite</h2>
+                        <span className="bg-[#77BC2E]/20 text-[#77BC2E] text-[10px] font-extrabold px-2.5 py-0.5 rounded-full border border-[#77BC2E]/40 flex items-center space-x-1">
+                          <Sparkles className="h-3 w-3" />
+                          <span>Sprout HR + Payday Integrated</span>
+                        </span>
+                      </div>
+                      <p className="text-xs text-white/70 mt-1 max-w-2xl">
+                        Unified 201 File Management, DOLE Leaves & SIL, Visual Shift Rostering, Overtime / OB Slips, 13th-Month Accruals, and Employee Self-Service (ESS).
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-wrap items-center gap-2.5">
+                    <button
+                      onClick={() => setShowLeaveFilingModal(true)}
+                      className="bg-white/10 hover:bg-white/20 text-white font-bold text-xs px-3.5 py-2.5 rounded-xl border border-white/15 transition-all flex items-center space-x-1.5 backdrop-blur-sm"
+                    >
+                      <Coffee className="h-3.5 w-3.5 text-[#E89BB9]" />
+                      <span>Apply Leave / SIL</span>
+                    </button>
+                    <button
+                      onClick={() => setShowOtObModal(true)}
+                      className="bg-white/10 hover:bg-white/20 text-white font-bold text-xs px-3.5 py-2.5 rounded-xl border border-white/15 transition-all flex items-center space-x-1.5 backdrop-blur-sm"
+                    >
+                      <Clock className="h-3.5 w-3.5 text-[#77BC2E]" />
+                      <span>File OT / OB</span>
+                    </button>
+                    <button
+                      onClick={() => {
+                        const nextId = employees.length > 0 ? Math.max(...employees.map(e => e.id)) + 1 : 37;
+                        setNewEmployee({
+                          id: nextId,
+                          name: '',
+                          branch: 'Centrio Mall (Waxing)',
+                          rate: 600,
+                          taxStatus: 'S',
+                          bpiAccount: `02498214${nextId < 10 ? '0' + nextId : nextId}`,
+                          sssNo: `34-${Math.floor(1000000 + Math.random() * 9000000)}-1`,
+                          philhealthNo: `12-${Math.floor(100000000 + Math.random() * 900000000)}-2`,
+                          pagibigNo: `1210-${Math.floor(1000 + Math.random() * 9000)}-${Math.floor(1000 + Math.random() * 9000)}`,
+                          tinNo: `${Math.floor(100 + Math.random() * 900)}-${Math.floor(100 + Math.random() * 900)}-${Math.floor(100 + Math.random() * 900)}-000`
+                        });
+                        setShowAddEmployeeModal(true);
+                      }}
+                      className="bg-[#77BC2E] hover:bg-[#6DB027] text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-md shadow-[#77BC2E]/25 transition-all flex items-center space-x-1.5"
+                    >
+                      <UserPlus className="h-4 w-4" />
+                      <span>+ Add Staff</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Sprout 6 Sub-Tab Navigation Bar */}
+                <div className="flex flex-wrap items-center gap-2 pt-1 text-xs">
+                  <button
+                    onClick={() => setHrActiveSubTab('directory')}
+                    className={`px-3.5 py-2 rounded-xl font-bold flex items-center space-x-2 transition-all ${
+                      hrActiveSubTab === 'directory'
+                        ? 'bg-[#77BC2E] text-white shadow-sm'
+                        : 'bg-white/10 text-white/80 hover:bg-white/15'
+                    }`}
+                  >
+                    <Users className="h-3.5 w-3.5" />
+                    <span>201 Dossiers & Masterfile</span>
+                    <span className="bg-white/20 text-white text-[10px] px-1.5 py-0.2 rounded-full">{employees.length}</span>
+                  </button>
+
+                  <button
+                    onClick={() => setHrActiveSubTab('leaves')}
+                    className={`px-3.5 py-2 rounded-xl font-bold flex items-center space-x-2 transition-all ${
+                      hrActiveSubTab === 'leaves'
+                        ? 'bg-[#77BC2E] text-white shadow-sm'
+                        : 'bg-white/10 text-white/80 hover:bg-white/15'
+                    }`}
+                  >
+                    <Coffee className="h-3.5 w-3.5" />
+                    <span>Leave & SIL Balances</span>
+                    <span className="bg-[#E89BB9] text-white text-[10px] px-1.5 py-0.2 rounded-full">
+                      {sproutLeaves.filter(l => l.status.includes('Pending')).length > 0 ? `${sproutLeaves.filter(l => l.status.includes('Pending')).length} Req` : 'Active'}
                     </span>
-                    <span className="text-[11px] font-bold text-[#8A817C]">BPI BizLink Enrolled</span>
-                  </div>
-                  <h3 className="font-extrabold text-base text-[#4A2E1B] mt-1">Staff Directory & Payroll Configuration</h3>
-                  <p className="text-xs text-[#8A817C]">
-                    Manage biometric device mappings, daily wage rates, branch assignments, and 10-digit BPI BizLink accounts.
-                  </p>
-                </div>
+                  </button>
 
-                <button
-                  onClick={() => {
-                    const nextId = employees.length > 0 ? Math.max(...employees.map(e => e.id)) + 1 : 37;
-                    setNewEmployee({
-                      id: nextId,
-                      name: '',
-                      branch: 'Centrio Mall (Waxing)',
-                      rate: 600,
-                      taxStatus: 'S',
-                      bpiAccount: `02498214${nextId < 10 ? '0' + nextId : nextId}`,
-                      sssNo: `34-${Math.floor(1000000 + Math.random() * 9000000)}-1`,
-                      philhealthNo: `12-${Math.floor(100000000 + Math.random() * 900000000)}-2`,
-                      pagibigNo: `1210-${Math.floor(1000 + Math.random() * 9000)}-${Math.floor(1000 + Math.random() * 9000)}`,
-                      tinNo: `${Math.floor(100 + Math.random() * 900)}-${Math.floor(100 + Math.random() * 900)}-${Math.floor(100 + Math.random() * 900)}-000`
-                    });
-                    setShowAddEmployeeModal(true);
-                  }}
-                  className="bg-[#77BC2E] hover:bg-[#6DB027] text-white font-bold text-xs px-4 py-2.5 rounded-xl transition-all flex items-center space-x-1.5 shadow-sm shadow-[#77BC2E]/20"
-                >
-                  <Plus className="h-4 w-4" />
-                  <span>Add New Employee</span>
-                </button>
-              </div>
+                  <button
+                    onClick={() => setHrActiveSubTab('roster')}
+                    className={`px-3.5 py-2 rounded-xl font-bold flex items-center space-x-2 transition-all ${
+                      hrActiveSubTab === 'roster'
+                        ? 'bg-[#77BC2E] text-white shadow-sm'
+                        : 'bg-white/10 text-white/80 hover:bg-white/15'
+                    }`}
+                  >
+                    <Calendar className="h-3.5 w-3.5" />
+                    <span>Weekly Shift Scheduler</span>
+                    <span className="bg-white/20 text-white text-[10px] px-1.5 py-0.2 rounded-full">5 Branches</span>
+                  </button>
 
-              {/* Statutory Formula & Computation Rules Box */}
-              <div className="bg-[#FAF9F5] border border-[#EAE8E2] rounded-3xl p-5 space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#031134] flex items-center space-x-1.5">
-                    <SlidersHorizontal className="h-3.5 w-3.5 text-[#77BC2E]" />
-                    <span>Philippine Statutory Computation Basis & Government Mandates</span>
-                  </span>
-                  <span className="text-[10px] text-[#8A817C] font-semibold">Configured for ALRAJJ LEGACY Branches</span>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs">
-                  <div className="bg-white p-3 rounded-2xl border border-[#F2F0E8]">
-                    <span className="text-[10px] font-bold text-[#8A817C] uppercase block">SSS Employee Share</span>
-                    <strong className="text-[#4A2E1B] block mt-0.5 font-mono text-[11px]">4.5% of Gross Pay</strong>
-                    <span className="text-[10px] text-[#5A534E]">Semi-monthly bracket base</span>
-                  </div>
-                  <div className="bg-white p-3 rounded-2xl border border-[#F2F0E8]">
-                    <span className="text-[10px] font-bold text-[#8A817C] uppercase block">PhilHealth (UHC Law)</span>
-                    <strong className="text-[#0284C7] block mt-0.5 font-mono text-[11px]">2.0% Employee Share</strong>
-                    <span className="text-[10px] text-[#5A534E]">5% total premium split 50/50</span>
-                  </div>
-                  <div className="bg-white p-3 rounded-2xl border border-[#F2F0E8]">
-                    <span className="text-[10px] font-bold text-[#8A817C] uppercase block">Pag-IBIG (HDMF)</span>
-                    <strong className="text-[#77BC2E] block mt-0.5 font-mono text-[11px]">₱100.00 / Cutoff</strong>
-                    <span className="text-[10px] text-[#5A534E]">₱200/mo mandated cap</span>
-                  </div>
-                  <div className="bg-white p-3 rounded-2xl border border-[#F2F0E8]">
-                    <span className="text-[10px] font-bold text-[#8A817C] uppercase block">BIR Withholding (TRAIN)</span>
-                    <strong className="text-[#16A34A] block mt-0.5 font-mono text-[11px]">Tax-Exempt (&lt;₱10,417)</strong>
-                    <span className="text-[10px] text-[#5A534E]">0% for basic salon wage</span>
-                  </div>
+                  <button
+                    onClick={() => setHrActiveSubTab('ot_ob')}
+                    className={`px-3.5 py-2 rounded-xl font-bold flex items-center space-x-2 transition-all ${
+                      hrActiveSubTab === 'ot_ob'
+                        ? 'bg-[#77BC2E] text-white shadow-sm'
+                        : 'bg-white/10 text-white/80 hover:bg-white/15'
+                    }`}
+                  >
+                    <Clock className="h-3.5 w-3.5" />
+                    <span>OT & Official Business (OB)</span>
+                    <span className="bg-white/20 text-white text-[10px] px-1.5 py-0.2 rounded-full">{sproutOtOb.length}</span>
+                  </button>
+
+                  <button
+                    onClick={() => setHrActiveSubTab('accruals')}
+                    className={`px-3.5 py-2 rounded-xl font-bold flex items-center space-x-2 transition-all ${
+                      hrActiveSubTab === 'accruals'
+                        ? 'bg-[#77BC2E] text-white shadow-sm'
+                        : 'bg-white/10 text-white/80 hover:bg-white/15'
+                    }`}
+                  >
+                    <Award className="h-3.5 w-3.5" />
+                    <span>13th Month & BIR 2316</span>
+                    <span className="bg-[#D4AF37] text-[#031134] text-[10px] font-extrabold px-1.5 py-0.2 rounded-full">DOLE Hub</span>
+                  </button>
+
+                  <button
+                    onClick={() => setHrActiveSubTab('ess')}
+                    className={`px-3.5 py-2 rounded-xl font-bold flex items-center space-x-2 transition-all ${
+                      hrActiveSubTab === 'ess'
+                        ? 'bg-[#E89BB9] text-white shadow-sm'
+                        : 'bg-white/10 text-white/80 hover:bg-white/15'
+                    }`}
+                  >
+                    <Smartphone className="h-3.5 w-3.5" />
+                    <span>Employee Self-Service (ESS)</span>
+                    <span className="bg-white/20 text-white text-[10px] px-1.5 py-0.2 rounded-full">Sprout SSO</span>
+                  </button>
                 </div>
               </div>
 
-              {/* Staff Table Card */}
-              <div className="bg-white border border-[#EAE8E2] rounded-3xl overflow-hidden shadow-2xs">
-                <div className="overflow-x-auto">
-                  <table className="w-full text-left border-collapse text-xs">
-                    <thead>
-                      <tr className="bg-[#FAF9F5] border-b border-[#F2F0E8] text-[10px] font-extrabold uppercase tracking-wider text-[#8A817C]">
-                        <th className="px-5 py-3.5">Biometric ID</th>
-                        <th className="px-5 py-3.5">Employee Name & Role</th>
-                        <th className="px-5 py-3.5">Branch</th>
-                        <th className="px-5 py-3.5">Wage (Daily/Hourly)</th>
-                        <th className="px-5 py-3.5">BPI BizLink</th>
-                        <th className="px-5 py-3.5">Philippine Statutory IDs (SSS / PH / HDMF / TIN)</th>
-                        <th className="px-5 py-3.5">Status</th>
-                        <th className="px-5 py-3.5">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-[#F2F0E8]">
-                      {employees.map((emp, idx) => {
-                        const bpiAcct = emp.bpi_account || `024982140${idx + 1}`;
-                        const role = emp.role || (emp.name.includes('HR') ? 'Operations & HR Lead' : 'Senior Waxing Specialist');
-                        const hourly = (emp.rate / 8).toFixed(2);
-                        const sssNo = emp.sss_no || `34-8192019-${idx + 1}`;
-                        const phNo = emp.philhealth_no || `12-054918230-${idx + 1}`;
-                        const pagibigNo = emp.pagibig_no || `1210-9482-110${idx + 1}`;
-                        const tinNo = emp.tin_no || `291-840-19${idx + 1}-000`;
+              {/* Toast Notification */}
+              {sproutToast && (
+                <div className="bg-[#031134] text-white px-5 py-3.5 rounded-2xl text-xs font-bold shadow-lg flex items-center justify-between animate-fadeIn border border-[#77BC2E]/40">
+                  <div className="flex items-center space-x-2">
+                    <CheckCircle className="h-4 w-4 text-[#77BC2E]" />
+                    <span>{sproutToast}</span>
+                  </div>
+                  <button onClick={() => setSproutToast('')} className="text-white/60 hover:text-white">
+                    <XCircle className="h-4 w-4" />
+                  </button>
+                </div>
+              )}
 
-                        return (
-                          <tr key={emp.id} className="hover:bg-[#FAF9F5]/70 transition-colors">
-                            <td className="px-5 py-4 font-mono font-extrabold text-[#031134]">
-                              <span className="bg-[#FAF9F5] border border-[#EAE8E2] px-2 py-0.5 rounded-lg">
-                                #{emp.id}
-                              </span>
-                            </td>
-                            <td className="px-5 py-4">
-                              <p className="font-bold text-[#4A2E1B]">{emp.name}</p>
-                              <p className="text-[10px] text-[#8A817C]">{role}</p>
-                            </td>
-                            <td className="px-5 py-4 font-semibold text-[#5A534E]">
-                              {emp.branch}
-                            </td>
-                            <td className="px-5 py-4 font-mono">
-                              <p className="font-extrabold text-[#4A2E1B]">₱{parseFloat(emp.rate).toFixed(2)}/day</p>
-                              <p className="text-[10px] text-[#8A817C]">₱{hourly}/hr</p>
-                            </td>
-                            <td className="px-5 py-4 font-mono">
-                              <span className="bg-[#031134]/10 text-[#031134] font-bold px-2 py-0.5 rounded-md text-[10px]">
-                                {bpiAcct}
-                              </span>
-                            </td>
-                            <td className="px-5 py-4 font-mono text-[10px] space-y-1">
-                              <div className="flex items-center space-x-2">
-                                <span className="bg-stone-100 px-1.5 py-0.5 rounded text-[#5A534E]"><strong>SSS:</strong> {sssNo}</span>
-                                <span className="bg-sky-50 text-sky-800 px-1.5 py-0.5 rounded"><strong>PH:</strong> {phNo}</span>
-                              </div>
-                              <div className="flex items-center space-x-2">
-                                <span className="bg-emerald-50 text-emerald-800 px-1.5 py-0.5 rounded"><strong>HDMF:</strong> {pagibigNo}</span>
-                                <span className="bg-amber-50 text-amber-900 px-1.5 py-0.5 rounded"><strong>TIN:</strong> {tinNo}</span>
-                              </div>
-                            </td>
-                            <td className="px-5 py-4">
-                              <span className="bg-[#77BC2E]/15 text-[#5A9A1E] font-bold text-[10px] px-2 py-0.5 rounded-md">
-                                {emp.tax_status === 'ME' ? 'Married (ME)' : 'Single (S)'}
-                              </span>
-                            </td>
-                            <td className="px-5 py-4">
-                              <button
-                                onClick={() => {
-                                  setNewEmployee({
-                                    id: emp.id,
-                                    name: emp.name,
-                                    branch: emp.branch || 'Centrio Mall (Waxing)',
-                                    rate: emp.rate || 600,
-                                    taxStatus: emp.tax_status || 'S',
-                                    bpiAccount: bpiAcct,
-                                    sssNo: sssNo,
-                                    philhealthNo: phNo,
-                                    pagibigNo: pagibigNo,
-                                    tinNo: tinNo,
-                                    otherDeductions: emp.other_deductions || 0,
-                                    otherDeductionRemarks: emp.other_deduction_remarks || 'Cash Advance (Vale)'
-                                  });
-                                  setShowAddEmployeeModal(true);
-                                }}
-                                className="bg-[#FAF9F5] hover:bg-[#F2F0E8] border border-[#EAE8E2] text-[#4A2E1B] font-bold text-[10px] px-2.5 py-1.5 rounded-lg transition-all"
-                              >
-                                Edit Profile
-                              </button>
-                            </td>
+              {/* SUB-TAB 1: 201 DOSSIERS & STAFF MASTERFILE */}
+              {hrActiveSubTab === 'directory' && (
+                <div className="space-y-6">
+                  {/* Statutory Formula & Computation Rules Box */}
+                  <div className="bg-[#FAF9F5] border border-[#EAE8E2] rounded-3xl p-5 space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#031134] flex items-center space-x-1.5">
+                        <SlidersHorizontal className="h-3.5 w-3.5 text-[#77BC2E]" />
+                        <span>Philippine Statutory Computation Basis & DOLE Mandates</span>
+                      </span>
+                      <span className="text-[10px] text-[#8A817C] font-semibold">ALRAJJ LEGACY Fortified Business Corp.</span>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs">
+                      <div className="bg-white p-3 rounded-2xl border border-[#F2F0E8]">
+                        <span className="text-[10px] font-bold text-[#8A817C] uppercase block">SSS Employee Share</span>
+                        <strong className="text-[#4A2E1B] block mt-0.5 font-mono text-[11px]">4.5% of Gross Pay</strong>
+                        <span className="text-[10px] text-[#5A534E]">Semi-monthly bracket base</span>
+                      </div>
+                      <div className="bg-white p-3 rounded-2xl border border-[#F2F0E8]">
+                        <span className="text-[10px] font-bold text-[#8A817C] uppercase block">PhilHealth (UHC Law)</span>
+                        <strong className="text-[#0284C7] block mt-0.5 font-mono text-[11px]">2.0% Employee Share</strong>
+                        <span className="text-[10px] text-[#5A534E]">5% total premium split 50/50</span>
+                      </div>
+                      <div className="bg-white p-3 rounded-2xl border border-[#F2F0E8]">
+                        <span className="text-[10px] font-bold text-[#8A817C] uppercase block">Pag-IBIG (HDMF)</span>
+                        <strong className="text-[#77BC2E] block mt-0.5 font-mono text-[11px]">₱100.00 / Cutoff</strong>
+                        <span className="text-[10px] text-[#5A534E]">₱200/mo mandated cap</span>
+                      </div>
+                      <div className="bg-white p-3 rounded-2xl border border-[#F2F0E8]">
+                        <span className="text-[10px] font-bold text-[#8A817C] uppercase block">BIR Withholding (TRAIN)</span>
+                        <strong className="text-[#16A34A] block mt-0.5 font-mono text-[11px]">Tax-Exempt (&lt;₱10,417)</strong>
+                        <span className="text-[10px] text-[#5A534E]">0% for basic salon wage</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Staff Masterfile Table */}
+                  <div className="bg-white border border-[#EAE8E2] rounded-3xl overflow-hidden shadow-2xs">
+                    <div className="p-5 border-b border-[#F2F0E8] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                      <div>
+                        <h4 className="font-extrabold text-sm text-[#4A2E1B]">Employee 201 Files & BPI BizLink Directory</h4>
+                        <p className="text-[11px] text-[#8A817C]">Click any staff member to open their complete 201 file dossier, generate DOLE COE, or print BIR Form 2316.</p>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <select
+                          value={hrBranchFilter}
+                          onChange={(e) => setHrBranchFilter(e.target.value)}
+                          className="bg-[#FAF9F5] border border-[#EAE8E2] text-[#4A2E1B] text-xs font-semibold rounded-xl px-3 py-1.5 outline-none"
+                        >
+                          <option value="all">All Branches ({employees.length})</option>
+                          <option value="Centrio Mall (Waxing)">Centrio Mall (Waxing)</option>
+                          <option value="Passion Nails (Centrio)">Passion Nails</option>
+                          <option value="Limketkai Mall">Limketkai Mall</option>
+                          <option value="SM Downtown Premier">SM Downtown</option>
+                          <option value="Iligan City Branch">Iligan City</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-left border-collapse text-xs">
+                        <thead>
+                          <tr className="bg-[#FAF9F5] border-b border-[#F2F0E8] text-[10px] font-extrabold uppercase tracking-wider text-[#8A817C]">
+                            <th className="px-5 py-3.5">Biometric ID</th>
+                            <th className="px-5 py-3.5">Staff Name & Role</th>
+                            <th className="px-5 py-3.5">Branch</th>
+                            <th className="px-5 py-3.5">Wage (Daily/Hourly)</th>
+                            <th className="px-5 py-3.5">BPI BizLink</th>
+                            <th className="px-5 py-3.5">Gov Statutory IDs</th>
+                            <th className="px-5 py-3.5">201 Actions</th>
                           </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
+                        </thead>
+                        <tbody className="divide-y divide-[#F2F0E8]">
+                          {employees
+                            .filter(e => hrBranchFilter === 'all' || e.branch === hrBranchFilter)
+                            .map((emp, idx) => {
+                              const bpiAcct = emp.bpi_account || `024982140${idx + 1}`;
+                              const role = emp.role || (emp.name.includes('HR') ? 'Operations & HR Lead' : 'Senior Waxing Specialist');
+                              const hourly = (emp.rate / 8).toFixed(2);
+                              const sssNo = emp.sss_no || `34-8192019-${idx + 1}`;
+                              const phNo = emp.philhealth_no || `12-054918230-${idx + 1}`;
+                              const pagibigNo = emp.pagibig_no || `1210-9482-110${idx + 1}`;
+                              const tinNo = emp.tin_no || `291-840-19${idx + 1}-000`;
+
+                              return (
+                                <tr key={emp.id} className="hover:bg-[#FAF9F5]/70 transition-colors">
+                                  <td className="px-5 py-4 font-mono font-extrabold text-[#031134]">
+                                    <span className="bg-[#FAF9F5] border border-[#EAE8E2] px-2 py-0.5 rounded-lg">
+                                      #{emp.id}
+                                    </span>
+                                  </td>
+                                  <td className="px-5 py-4">
+                                    <div className="flex items-center space-x-2.5">
+                                      <div className="w-8 h-8 rounded-xl bg-[#4A2E1B] text-[#77BC2E] flex items-center justify-center font-bold text-xs shadow-xs">
+                                        {emp.name.charAt(0)}
+                                      </div>
+                                      <div>
+                                        <p className="font-bold text-[#4A2E1B]">{emp.name}</p>
+                                        <p className="text-[10px] text-[#8A817C]">{role}</p>
+                                      </div>
+                                    </div>
+                                  </td>
+                                  <td className="px-5 py-4 font-semibold text-[#5A534E]">
+                                    {emp.branch}
+                                  </td>
+                                  <td className="px-5 py-4 font-mono">
+                                    <p className="font-extrabold text-[#4A2E1B]">₱{parseFloat(emp.rate).toFixed(2)}/day</p>
+                                    <p className="text-[10px] text-[#8A817C]">₱{hourly}/hr</p>
+                                  </td>
+                                  <td className="px-5 py-4 font-mono">
+                                    <span className="bg-[#031134]/10 text-[#031134] font-bold px-2 py-0.5 rounded-md text-[10px]">
+                                      {bpiAcct}
+                                    </span>
+                                  </td>
+                                  <td className="px-5 py-4 font-mono text-[10px] space-y-1">
+                                    <div className="flex items-center space-x-2">
+                                      <span className="bg-stone-100 px-1.5 py-0.5 rounded text-[#5A534E]"><strong>SSS:</strong> {sssNo}</span>
+                                      <span className="bg-sky-50 text-sky-800 px-1.5 py-0.5 rounded"><strong>PH:</strong> {phNo}</span>
+                                    </div>
+                                    <div className="flex items-center space-x-2">
+                                      <span className="bg-emerald-50 text-emerald-800 px-1.5 py-0.5 rounded"><strong>HDMF:</strong> {pagibigNo}</span>
+                                      <span className="bg-amber-50 text-amber-900 px-1.5 py-0.5 rounded"><strong>TIN:</strong> {tinNo}</span>
+                                    </div>
+                                  </td>
+                                  <td className="px-5 py-4">
+                                    <div className="flex items-center space-x-1.5">
+                                      <button
+                                        onClick={() => {
+                                          setSelected201Employee(emp);
+                                          setShow201Drawer(true);
+                                        }}
+                                        className="bg-[#031134] hover:bg-[#091D4C] text-white font-bold text-[10px] px-2.5 py-1.5 rounded-lg transition-all flex items-center space-x-1 shadow-2xs"
+                                        title="View 201 Dossier"
+                                      >
+                                        <FileText className="h-3 w-3 text-[#77BC2E]" />
+                                        <span>201 File</span>
+                                      </button>
+                                      <button
+                                        onClick={() => {
+                                          setSelected201Employee(emp);
+                                          setShowCoeModal(true);
+                                        }}
+                                        className="bg-[#77BC2E]/15 hover:bg-[#77BC2E]/25 text-[#5A9A1E] font-bold text-[10px] px-2.5 py-1.5 rounded-lg transition-all flex items-center space-x-1"
+                                        title="Generate DOLE Certificate of Employment"
+                                      >
+                                        <Award className="h-3 w-3" />
+                                        <span>COE</span>
+                                      </button>
+                                      <button
+                                        onClick={() => {
+                                          setSelected201Employee(emp);
+                                          setShowBir2316Modal(true);
+                                        }}
+                                        className="bg-[#D4AF37]/20 hover:bg-[#D4AF37]/30 text-[#8F6B0A] font-bold text-[10px] px-2 py-1.5 rounded-lg transition-all"
+                                        title="Generate BIR 2316 Tax Certificate"
+                                      >
+                                        2316
+                                      </button>
+                                    </div>
+                                  </td>
+                                </tr>
+                              );
+                            })}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              )}
+
+              {/* SUB-TAB 2: LEAVE & SIL MANAGEMENT (SPROUT LEAVES) */}
+              {hrActiveSubTab === 'leaves' && (
+                <div className="space-y-6">
+                  {/* Leave Metrics Row */}
+                  <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
+                    <div className="bg-white border border-[#EAE8E2] rounded-3xl p-5 shadow-2xs space-y-1">
+                      <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#8A817C] block">Mandated SIL Entitlement</span>
+                      <div className="text-2xl font-black text-[#4A2E1B]">5.0 Days / Yr</div>
+                      <p className="text-[11px] text-[#77BC2E] font-bold">DOLE Service Incentive Leave</p>
+                    </div>
+                    <div className="bg-white border border-[#EAE8E2] rounded-3xl p-5 shadow-2xs space-y-1">
+                      <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#8A817C] block">Vacation Leave (VL)</span>
+                      <div className="text-2xl font-black text-[#0284C7]">5.0 Days</div>
+                      <p className="text-[11px] text-[#8A817C]">Annual Company Policy</p>
+                    </div>
+                    <div className="bg-white border border-[#EAE8E2] rounded-3xl p-5 shadow-2xs space-y-1">
+                      <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#8A817C] block">Sick Leave (SL)</span>
+                      <div className="text-2xl font-black text-[#E89BB9]">5.0 Days</div>
+                      <p className="text-[11px] text-[#8A817C]">Fit-to-work verified</p>
+                    </div>
+                    <div className="bg-white border border-[#EAE8E2] rounded-3xl p-5 shadow-2xs space-y-1">
+                      <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#8A817C] block">Pending Leaves Queue</span>
+                      <div className="text-2xl font-black text-[#D47098]">{sproutLeaves.filter(l => l.status.includes('Pending')).length} Req</div>
+                      <p className="text-[11px] text-[#8A817C]">Requires Lead Endorsement</p>
+                    </div>
+                  </div>
+
+                  {/* Leave Application & Requests Table */}
+                  <div className="bg-white border border-[#EAE8E2] rounded-3xl overflow-hidden shadow-2xs">
+                    <div className="p-5 border-b border-[#F2F0E8] flex items-center justify-between">
+                      <div>
+                        <h4 className="font-extrabold text-sm text-[#4A2E1B]">Leave Applications & SIL Approvals</h4>
+                        <p className="text-[11px] text-[#8A817C]">Manage DOLE Service Incentive Leaves, Vacation, and Medical Sick Leaves across branches.</p>
+                      </div>
+                      <button
+                        onClick={() => setShowLeaveFilingModal(true)}
+                        className="bg-[#77BC2E] hover:bg-[#6DB027] text-white font-bold text-xs px-3.5 py-2 rounded-xl transition-all flex items-center space-x-1.5 shadow-2xs"
+                      >
+                        <Plus className="h-3.5 w-3.5" />
+                        <span>File New Leave</span>
+                      </button>
+                    </div>
+
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-left border-collapse text-xs">
+                        <thead>
+                          <tr className="bg-[#FAF9F5] border-b border-[#F2F0E8] text-[10px] font-extrabold uppercase tracking-wider text-[#8A817C]">
+                            <th className="px-5 py-3.5">Ref ID</th>
+                            <th className="px-5 py-3.5">Employee Name</th>
+                            <th className="px-5 py-3.5">Leave Type</th>
+                            <th className="px-5 py-3.5">Inclusive Dates</th>
+                            <th className="px-5 py-3.5">Days</th>
+                            <th className="px-5 py-3.5">Reason & Attachment</th>
+                            <th className="px-5 py-3.5">Status</th>
+                            <th className="px-5 py-3.5">Action</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-[#F2F0E8]">
+                          {sproutLeaves.map(leave => (
+                            <tr key={leave.id} className="hover:bg-[#FAF9F5]/70 transition-colors">
+                              <td className="px-5 py-4 font-mono font-bold text-[#031134]">{leave.id}</td>
+                              <td className="px-5 py-4">
+                                <p className="font-bold text-[#4A2E1B]">{leave.employeeName}</p>
+                                <p className="text-[10px] text-[#8A817C]">{leave.branch}</p>
+                              </td>
+                              <td className="px-5 py-4">
+                                <span className="bg-[#031134]/10 text-[#031134] font-bold px-2 py-0.5 rounded-md text-[10px]">
+                                  {leave.type}
+                                </span>
+                              </td>
+                              <td className="px-5 py-4 font-mono text-[#5A534E]">
+                                {leave.startDate} {leave.startDate !== leave.endDate ? `to ${leave.endDate}` : ''}
+                              </td>
+                              <td className="px-5 py-4 font-bold text-[#4A2E1B]">
+                                {leave.days} Day{leave.days > 1 ? 's' : ''}
+                              </td>
+                              <td className="px-5 py-4 text-[#5A534E] max-w-xs truncate">
+                                <p className="truncate">{leave.reason}</p>
+                                {leave.hasAttachment && (
+                                  <span className="inline-flex items-center space-x-1 text-[10px] text-[#77BC2E] font-semibold mt-0.5">
+                                    <FileCheck className="h-3 w-3" />
+                                    <span>Medical Fit-to-Work attached</span>
+                                  </span>
+                                )}
+                              </td>
+                              <td className="px-5 py-4">
+                                <span className={`px-2.5 py-1 rounded-full text-[10px] font-extrabold ${
+                                  leave.status === 'Approved'
+                                    ? 'bg-[#77BC2E]/15 text-[#5A9A1E]'
+                                    : 'bg-[#E89BB9]/25 text-[#D47098] animate-pulse'
+                                }`}>
+                                  {leave.status}
+                                </span>
+                              </td>
+                              <td className="px-5 py-4">
+                                {leave.status !== 'Approved' ? (
+                                  <div className="flex items-center space-x-1.5">
+                                    <button
+                                      onClick={() => {
+                                        setSproutLeaves(prev => prev.map(l => l.id === leave.id ? { ...l, status: 'Approved', approvedBy: 'Kristene HR / MD' } : l));
+                                        setSproutToast(`Leave ${leave.id} for ${leave.employeeName} approved and credited to SIL/VL records.`);
+                                        setTimeout(() => setSproutToast(''), 4000);
+                                      }}
+                                      className="bg-[#77BC2E] hover:bg-[#6DB027] text-white font-bold text-[10px] px-2.5 py-1.5 rounded-lg transition-all shadow-2xs"
+                                    >
+                                      Approve
+                                    </button>
+                                    <button
+                                      onClick={() => {
+                                        setSproutLeaves(prev => prev.map(l => l.id === leave.id ? { ...l, status: 'Declined' } : l));
+                                        setSproutToast(`Leave ${leave.id} declined.`);
+                                        setTimeout(() => setSproutToast(''), 4000);
+                                      }}
+                                      className="bg-stone-100 hover:bg-stone-200 text-stone-700 font-bold text-[10px] px-2 py-1.5 rounded-lg transition-all"
+                                    >
+                                      Decline
+                                    </button>
+                                  </div>
+                                ) : (
+                                  <span className="text-[10px] text-[#8A817C] font-semibold">Processed</span>
+                                )}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* SUB-TAB 3: WEEKLY SHIFT SCHEDULER & ROSTERING (SPROUT SCHEDULE) */}
+              {hrActiveSubTab === 'roster' && (
+                <div className="space-y-6">
+                  <div className="bg-white border border-[#EAE8E2] rounded-3xl p-6 shadow-2xs space-y-4">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#F2F0E8] pb-4">
+                      <div>
+                        <h4 className="font-extrabold text-base text-[#4A2E1B]">Weekly Store Shift Roster & Station Grid</h4>
+                        <p className="text-xs text-[#8A817C]">Current Cycle: July 16, 2026 – July 22, 2026 &bull; Multi-Branch Salon Floor Assignments</p>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <button
+                          onClick={() => {
+                            setSproutToast('📅 Weekly shift schedule broadcasted via SMS and synced to Biometric NGTeco terminals.');
+                            setTimeout(() => setSproutToast(''), 4000);
+                          }}
+                          className="bg-[#031134] hover:bg-[#091D4C] text-white font-bold text-xs px-3.5 py-2 rounded-xl transition-all flex items-center space-x-1.5 shadow-2xs"
+                        >
+                          <Send className="h-3.5 w-3.5 text-[#77BC2E]" />
+                          <span>Publish Roster to Staff</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Roster Legend */}
+                    <div className="flex flex-wrap items-center gap-3 text-[11px] font-bold">
+                      <span className="text-[#8A817C]">Shift Legend:</span>
+                      <span className="px-2.5 py-1 rounded-lg bg-[#77BC2E]/15 text-[#5A9A1E] border border-[#77BC2E]/30">🟢 Morning (10AM - 7PM)</span>
+                      <span className="px-2.5 py-1 rounded-lg bg-[#E89BB9]/25 text-[#D47098] border border-[#E89BB9]/40">🟣 Mid (11AM - 8PM)</span>
+                      <span className="px-2.5 py-1 rounded-lg bg-[#031134]/10 text-[#031134] border border-[#031134]/20">🔵 Closing (12PM - 9PM)</span>
+                      <span className="px-2.5 py-1 rounded-lg bg-stone-100 text-stone-500 border border-stone-200">⚪ Rest Day (RD)</span>
+                    </div>
+
+                    {/* Roster Matrix Table */}
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-left border-collapse text-xs">
+                        <thead>
+                          <tr className="bg-[#FAF9F5] border-b border-[#F2F0E8] text-[10px] font-extrabold uppercase tracking-wider text-[#8A817C]">
+                            <th className="px-4 py-3.5">Staff & Station</th>
+                            <th className="px-3 py-3.5 text-center">Mon (16th)</th>
+                            <th className="px-3 py-3.5 text-center">Tue (17th)</th>
+                            <th className="px-3 py-3.5 text-center">Wed (18th)</th>
+                            <th className="px-3 py-3.5 text-center">Thu (19th)</th>
+                            <th className="px-3 py-3.5 text-center">Fri (20th)</th>
+                            <th className="px-3 py-3.5 text-center">Sat (21st)</th>
+                            <th className="px-3 py-3.5 text-center">Sun (22nd)</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-[#F2F0E8]">
+                          {sproutRosters.map(ros => (
+                            <tr key={ros.employeeId} className="hover:bg-[#FAF9F5]/60 transition-colors">
+                              <td className="px-4 py-3.5">
+                                <p className="font-bold text-[#4A2E1B]">{ros.name}</p>
+                                <p className="text-[10px] text-[#8A817C]">{ros.branch} &bull; <strong className="text-[#031134]">{ros.station}</strong></p>
+                              </td>
+                              {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(day => {
+                                const dayObj = ros.schedule[day] || { shift: 'RD', color: 'bg-stone-100 text-stone-500' };
+                                return (
+                                  <td key={day} className="px-2 py-3 text-center">
+                                    <div className={`p-1.5 rounded-xl border text-[10px] font-bold ${dayObj.color} leading-tight`}>
+                                      {dayObj.shift}
+                                    </div>
+                                  </td>
+                                );
+                              })}
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* SUB-TAB 4: OT & OFFICIAL BUSINESS (OB) FILINGS */}
+              {hrActiveSubTab === 'ot_ob' && (
+                <div className="space-y-6">
+                  <div className="bg-white border border-[#EAE8E2] rounded-3xl overflow-hidden shadow-2xs">
+                    <div className="p-5 border-b border-[#F2F0E8] flex items-center justify-between">
+                      <div>
+                        <h4 className="font-extrabold text-sm text-[#4A2E1B]">Overtime (OT) & Official Business (OB) Ledger</h4>
+                        <p className="text-[11px] text-[#8A817C]">Track pre/post shift client overruns, bank deposit runs, and Lay Bare Commissary errands.</p>
+                      </div>
+                      <button
+                        onClick={() => setShowOtObModal(true)}
+                        className="bg-[#77BC2E] hover:bg-[#6DB027] text-white font-bold text-xs px-3.5 py-2 rounded-xl transition-all flex items-center space-x-1.5 shadow-2xs"
+                      >
+                        <Plus className="h-3.5 w-3.5" />
+                        <span>File New OT / OB Slip</span>
+                      </button>
+                    </div>
+
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-left border-collapse text-xs">
+                        <thead>
+                          <tr className="bg-[#FAF9F5] border-b border-[#F2F0E8] text-[10px] font-extrabold uppercase tracking-wider text-[#8A817C]">
+                            <th className="px-5 py-3.5">Ref No</th>
+                            <th className="px-5 py-3.5">Employee Name</th>
+                            <th className="px-5 py-3.5">Request Type</th>
+                            <th className="px-5 py-3.5">Date</th>
+                            <th className="px-5 py-3.5">Approved Hours</th>
+                            <th className="px-5 py-3.5">Purpose & Reference</th>
+                            <th className="px-5 py-3.5">Status</th>
+                            <th className="px-5 py-3.5">Action</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-[#F2F0E8]">
+                          {sproutOtOb.map(ot => (
+                            <tr key={ot.id} className="hover:bg-[#FAF9F5]/70 transition-colors">
+                              <td className="px-5 py-4 font-mono font-bold text-[#031134]">{ot.id}</td>
+                              <td className="px-5 py-4">
+                                <p className="font-bold text-[#4A2E1B]">{ot.employeeName}</p>
+                                <p className="text-[10px] text-[#8A817C]">{ot.branch}</p>
+                              </td>
+                              <td className="px-5 py-4">
+                                <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold ${
+                                  ot.type.includes('Overtime') ? 'bg-[#77BC2E]/15 text-[#5A9A1E]' : 'bg-[#031134]/10 text-[#031134]'
+                                }`}>
+                                  {ot.type}
+                                </span>
+                              </td>
+                              <td className="px-5 py-4 font-mono text-[#5A534E]">{ot.date}</td>
+                              <td className="px-5 py-4 font-mono font-bold text-[#4A2E1B]">{ot.hours} Hours</td>
+                              <td className="px-5 py-4 text-[#5A534E]">
+                                <p>{ot.purpose}</p>
+                                {ot.ticketRef && <span className="text-[10px] font-mono text-[#8A817C]">Ref: #{ot.ticketRef}</span>}
+                              </td>
+                              <td className="px-5 py-4">
+                                <span className={`px-2.5 py-1 rounded-full text-[10px] font-extrabold ${
+                                  ot.status === 'Approved' ? 'bg-[#77BC2E]/15 text-[#5A9A1E]' : 'bg-[#E89BB9]/25 text-[#D47098]'
+                                }`}>
+                                  {ot.status}
+                                </span>
+                              </td>
+                              <td className="px-5 py-4">
+                                {ot.status !== 'Approved' ? (
+                                  <button
+                                    onClick={() => {
+                                      setSproutOtOb(prev => prev.map(o => o.id === ot.id ? { ...o, status: 'Approved', approvedBy: 'Kristene HR' } : o));
+                                      setSproutToast(`${ot.type} ${ot.id} approved and credited to payroll hours.`);
+                                      setTimeout(() => setSproutToast(''), 4000);
+                                    }}
+                                    className="bg-[#77BC2E] hover:bg-[#6DB027] text-white font-bold text-[10px] px-2.5 py-1.5 rounded-lg transition-all"
+                                  >
+                                    Approve
+                                  </button>
+                                ) : (
+                                  <span className="text-[10px] text-[#77BC2E] font-bold flex items-center space-x-1">
+                                    <Check className="h-3 w-3" />
+                                    <span>Credited</span>
+                                  </span>
+                                )}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* SUB-TAB 5: 13TH MONTH PAY & BIR 2316 CENTER */}
+              {hrActiveSubTab === 'accruals' && (
+                <div className="space-y-6">
+                  <div className="bg-white border border-[#EAE8E2] rounded-3xl p-6 shadow-2xs space-y-4">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#F2F0E8] pb-4">
+                      <div>
+                        <h4 className="font-extrabold text-base text-[#4A2E1B]">DOLE 13th-Month Pay Accruals & BIR Form 2316 Center</h4>
+                        <p className="text-xs text-[#8A817C]">Automated statutory formula: Total Basic Salary Earned YTD / 12 Months &bull; Mandated by Dec 24</p>
+                      </div>
+                      <span className="bg-[#D4AF37]/20 text-[#8F6B0A] font-extrabold text-xs px-3 py-1 rounded-xl">
+                        2026 Fiscal Year
+                      </span>
+                    </div>
+
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-left border-collapse text-xs">
+                        <thead>
+                          <tr className="bg-[#FAF9F5] border-b border-[#F2F0E8] text-[10px] font-extrabold uppercase tracking-wider text-[#8A817C]">
+                            <th className="px-5 py-3.5">Staff Name</th>
+                            <th className="px-5 py-3.5">Branch</th>
+                            <th className="px-5 py-3.5">Basic Daily Rate</th>
+                            <th className="px-5 py-3.5">YTD Basic Earnings</th>
+                            <th className="px-5 py-3.5">Monthly Accrual</th>
+                            <th className="px-5 py-3.5">Projected 13th Month</th>
+                            <th className="px-5 py-3.5">BIR 2316 Certificate</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-[#F2F0E8]">
+                          {employees.map((emp, idx) => {
+                            const basicDaily = emp.rate || 600;
+                            const ytdBasic = basicDaily * 26 * 7.5; // ~7.5 months
+                            const accrualPerMonth = (basicDaily * 26) / 12;
+                            const projected13th = basicDaily * 26;
+
+                            return (
+                              <tr key={emp.id} className="hover:bg-[#FAF9F5]/70 transition-colors">
+                                <td className="px-5 py-4 font-bold text-[#4A2E1B]">{emp.name}</td>
+                                <td className="px-5 py-4 text-[#5A534E]">{emp.branch}</td>
+                                <td className="px-5 py-4 font-mono font-bold">₱{parseFloat(basicDaily).toFixed(2)}</td>
+                                <td className="px-5 py-4 font-mono text-[#031134]">₱{ytdBasic.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+                                <td className="px-5 py-4 font-mono text-[#77BC2E] font-bold">₱{accrualPerMonth.toFixed(2)}/mo</td>
+                                <td className="px-5 py-4 font-mono font-black text-[#4A2E1B] bg-[#FAF9F5]">₱{projected13th.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+                                <td className="px-5 py-4">
+                                  <button
+                                    onClick={() => {
+                                      setSelected201Employee(emp);
+                                      setShowBir2316Modal(true);
+                                    }}
+                                    className="bg-[#031134] hover:bg-[#091D4C] text-white font-bold text-[10px] px-3 py-1.5 rounded-lg transition-all flex items-center space-x-1"
+                                  >
+                                    <Printer className="h-3 w-3 text-[#77BC2E]" />
+                                    <span>Print Form 2316</span>
+                                  </button>
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* SUB-TAB 6: EMPLOYEE SELF-SERVICE (ESS) SIMULATOR */}
+              {hrActiveSubTab === 'ess' && (
+                <div className="space-y-6">
+                  <div className="bg-white border border-[#EAE8E2] rounded-3xl p-6 shadow-2xs space-y-5">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#F2F0E8] pb-4">
+                      <div>
+                        <div className="flex items-center space-x-2">
+                          <span className="bg-[#E89BB9]/25 text-[#D47098] text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase">
+                            Sprout Payday &bull; SSO ESS Hub
+                          </span>
+                          <span className="text-[11px] font-bold text-[#8A817C]">Mobile & Desktop View</span>
+                        </div>
+                        <h4 className="font-extrabold text-base text-[#4A2E1B] mt-1">Employee Self-Service (ESS) Portal Simulator</h4>
+                        <p className="text-xs text-[#8A817C]">Experience what branch specialists see when they log into their confidential portal (e.g. at <strong>theabbasorchard.hrhub.ph</strong>).</p>
+                      </div>
+
+                      {/* Staff Selector */}
+                      <div className="flex items-center space-x-2">
+                        <span className="text-xs font-bold text-[#8A817C]">Logged in as:</span>
+                        <select
+                          value={essLoggedInStaffId}
+                          onChange={(e) => setEssLoggedInStaffId(Number(e.target.value))}
+                          className="bg-[#FAF9F5] border border-[#77BC2E] text-[#4A2E1B] text-xs font-bold rounded-xl px-3 py-2 outline-none"
+                        >
+                          {employees.map(e => (
+                            <option key={e.id} value={e.id}>{e.name} ({e.branch})</option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+
+                    {/* ESS Simulated Dashboard Card */}
+                    {(() => {
+                      const activeStaff = employees.find(e => e.id === essLoggedInStaffId) || employees[0] || { name: 'Justine Ann Atay', rate: 600, branch: 'Centrio Mall (Waxing)', role: 'Senior Waxing Specialist' };
+                      const staffLeaves = sproutLeaves.filter(l => l.employeeId === activeStaff.id);
+                      const staffOt = sproutOtOb.filter(o => o.employeeId === activeStaff.id);
+
+                      return (
+                        <div className="bg-[#FAF9F5] border border-[#EAE8E2] rounded-3xl p-6 space-y-6">
+                          {/* Welcome Staff Banner */}
+                          <div className="bg-white border border-[#EAE8E2] rounded-2xl p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-2xs">
+                            <div className="flex items-center space-x-3.5">
+                              <div className="w-12 h-12 rounded-2xl bg-[#031134] text-[#77BC2E] flex items-center justify-center font-black text-base shadow-sm">
+                                {activeStaff.name.charAt(0)}
+                              </div>
+                              <div>
+                                <h3 className="font-extrabold text-base text-[#4A2E1B]">Mabuhay, {activeStaff.name}!</h3>
+                                <p className="text-xs text-[#8A817C]">{activeStaff.role || 'Salon Specialist'} &bull; <strong>{activeStaff.branch}</strong></p>
+                              </div>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                              <button
+                                onClick={() => setShowLeaveFilingModal(true)}
+                                className="bg-[#77BC2E] hover:bg-[#6DB027] text-white font-bold text-xs px-3.5 py-2 rounded-xl transition-all shadow-2xs"
+                              >
+                                Apply Leave
+                              </button>
+                              <button
+                                onClick={() => setShowOtObModal(true)}
+                                className="bg-[#031134] hover:bg-[#091D4C] text-white font-bold text-xs px-3.5 py-2 rounded-xl transition-all shadow-2xs"
+                              >
+                                File Overtime
+                              </button>
+                            </div>
+                          </div>
+
+                          {/* ESS 3-Col Metric Grid */}
+                          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+                            <div className="bg-white p-4 rounded-2xl border border-[#EAE8E2] space-y-1">
+                              <span className="text-[10px] font-bold text-[#8A817C] uppercase block">Available Leave Balance</span>
+                              <div className="text-xl font-black text-[#4A2E1B]">4.0 / 5.0 Days SIL</div>
+                              <span className="text-[10px] text-[#77BC2E] font-semibold">1 Day Taken YTD</span>
+                            </div>
+                            <div className="bg-white p-4 rounded-2xl border border-[#EAE8E2] space-y-1">
+                              <span className="text-[10px] font-bold text-[#8A817C] uppercase block">Current Cutoff Punches</span>
+                              <div className="text-xl font-black text-[#031134]">84.5 Regular Hours</div>
+                              <span className="text-[10px] text-[#5A534E]">1.77 OT Hours Approved</span>
+                            </div>
+                            <div className="bg-white p-4 rounded-2xl border border-[#EAE8E2] space-y-1">
+                              <span className="text-[10px] font-bold text-[#8A817C] uppercase block">Estimated Net Take-Home</span>
+                              <div className="text-xl font-black text-[#77BC2E]">₱8,142.50</div>
+                              <span className="text-[10px] text-[#8A817C]">BPI BizLink Direct Credit</span>
+                            </div>
+                          </div>
+
+                          {/* My Recent Requests */}
+                          <div className="bg-white p-5 rounded-2xl border border-[#EAE8E2] space-y-3">
+                            <h5 className="font-extrabold text-xs text-[#4A2E1B] uppercase tracking-wider">My Active Requests & Filings</h5>
+                            {staffLeaves.length === 0 && staffOt.length === 0 ? (
+                              <p className="text-xs text-[#8A817C]">No pending leave or OT applications filed this cutoff.</p>
+                            ) : (
+                              <div className="space-y-2">
+                                {staffLeaves.map(l => (
+                                  <div key={l.id} className="flex items-center justify-between p-3 rounded-xl bg-[#FAF9F5] border border-[#F2F0E8] text-xs">
+                                    <div>
+                                      <strong className="text-[#4A2E1B]">{l.type}</strong> &bull; <span className="text-[#8A817C]">{l.startDate}</span>
+                                      <p className="text-[11px] text-[#5A534E]">{l.reason}</p>
+                                    </div>
+                                    <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
+                                      l.status === 'Approved' ? 'bg-[#77BC2E]/15 text-[#5A9A1E]' : 'bg-[#E89BB9]/25 text-[#D47098]'
+                                    }`}>
+                                      {l.status}
+                                    </span>
+                                  </div>
+                                ))}
+                                {staffOt.map(o => (
+                                  <div key={o.id} className="flex items-center justify-between p-3 rounded-xl bg-[#FAF9F5] border border-[#F2F0E8] text-xs">
+                                    <div>
+                                      <strong className="text-[#4A2E1B]">{o.type} ({o.hours} hrs)</strong> &bull; <span className="text-[#8A817C]">{o.date}</span>
+                                      <p className="text-[11px] text-[#5A534E]">{o.purpose}</p>
+                                    </div>
+                                    <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
+                                      o.status === 'Approved' ? 'bg-[#77BC2E]/15 text-[#5A9A1E]' : 'bg-[#E89BB9]/25 text-[#D47098]'
+                                    }`}>
+                                      {o.status}
+                                    </span>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })()}
+                  </div>
+                </div>
+              )}
+
+              {/* MODAL: 201 FILE DOSSIER DRAWER */}
+              {show201Drawer && selected201Employee && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-fadeIn">
+                  <div className="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-7 space-y-5 shadow-2xl border border-[#EAE8E2] max-h-[90vh] overflow-y-auto">
+                    <div className="flex items-center justify-between border-b border-[#F2F0E8] pb-4">
+                      <div className="flex items-center space-x-3">
+                        <div className="w-10 h-10 rounded-2xl bg-[#031134] text-[#77BC2E] flex items-center justify-center font-black text-sm">
+                          {selected201Employee.name.charAt(0)}
+                        </div>
+                        <div>
+                          <span className="text-[10px] font-extrabold text-[#77BC2E] uppercase tracking-wider">DOLE 201 Personnel Dossier</span>
+                          <h3 className="font-extrabold text-base text-[#4A2E1B]">{selected201Employee.name}</h3>
+                        </div>
+                      </div>
+                      <button onClick={() => setShow201Drawer(false)} className="text-[#8A817C] hover:text-[#4A2E1B]">
+                        <XCircle className="h-6 w-6" />
+                      </button>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                      <div className="bg-[#FAF9F5] p-3.5 rounded-2xl border border-[#F2F0E8] space-y-1">
+                        <span className="text-[10px] font-bold text-[#8A817C] uppercase">Branch Assignment</span>
+                        <p className="font-bold text-[#4A2E1B]">{selected201Employee.branch}</p>
+                      </div>
+                      <div className="bg-[#FAF9F5] p-3.5 rounded-2xl border border-[#F2F0E8] space-y-1">
+                        <span className="text-[10px] font-bold text-[#8A817C] uppercase">Role / Position</span>
+                        <p className="font-bold text-[#4A2E1B]">{selected201Employee.role || 'Senior Specialist'}</p>
+                      </div>
+                      <div className="bg-[#FAF9F5] p-3.5 rounded-2xl border border-[#F2F0E8] space-y-1">
+                        <span className="text-[10px] font-bold text-[#8A817C] uppercase">Daily Basic Wage</span>
+                        <p className="font-bold font-mono text-[#77BC2E]">₱{parseFloat(selected201Employee.rate).toFixed(2)}/day (₱{(selected201Employee.rate/8).toFixed(2)}/hr)</p>
+                      </div>
+                      <div className="bg-[#FAF9F5] p-3.5 rounded-2xl border border-[#F2F0E8] space-y-1">
+                        <span className="text-[10px] font-bold text-[#8A817C] uppercase">BPI BizLink Account</span>
+                        <p className="font-bold font-mono text-[#031134]">{selected201Employee.bpi_account || '0249821401'}</p>
+                      </div>
+                    </div>
+
+                    {/* Government IDs */}
+                    <div className="space-y-2">
+                      <h5 className="font-extrabold text-xs text-[#4A2E1B] uppercase tracking-wider">Philippine Statutory IDs</h5>
+                      <div className="grid grid-cols-2 gap-3 text-xs">
+                        <div className="p-2.5 rounded-xl bg-white border border-[#EAE8E2]">
+                          <span className="text-[10px] text-[#8A817C] block">SSS Number</span>
+                          <strong className="font-mono text-[#4A2E1B]">{selected201Employee.sss_no || '34-8192019-3'}</strong>
+                        </div>
+                        <div className="p-2.5 rounded-xl bg-white border border-[#EAE8E2]">
+                          <span className="text-[10px] text-[#8A817C] block">PhilHealth ID</span>
+                          <strong className="font-mono text-[#0284C7]">{selected201Employee.philhealth_no || '12-054918230-1'}</strong>
+                        </div>
+                        <div className="p-2.5 rounded-xl bg-white border border-[#EAE8E2]">
+                          <span className="text-[10px] text-[#8A817C] block">Pag-IBIG (HDMF)</span>
+                          <strong className="font-mono text-[#77BC2E]">{selected201Employee.pagibig_no || '1210-9482-1104'}</strong>
+                        </div>
+                        <div className="p-2.5 rounded-xl bg-white border border-[#EAE8E2]">
+                          <span className="text-[10px] text-[#8A817C] block">BIR TIN</span>
+                          <strong className="font-mono text-[#16A34A]">{selected201Employee.tin_no || '291-840-192-000'}</strong>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* 201 Action Buttons */}
+                    <div className="flex flex-wrap items-center justify-end gap-2.5 pt-3 border-t border-[#F2F0E8]">
+                      <button
+                        onClick={() => {
+                          setShow201Drawer(false);
+                          setShowCoeModal(true);
+                        }}
+                        className="bg-[#77BC2E] hover:bg-[#6DB027] text-white font-bold text-xs px-4 py-2.5 rounded-xl transition-all flex items-center space-x-1.5 shadow-2xs"
+                      >
+                        <Award className="h-4 w-4" />
+                        <span>Generate Certificate of Employment (COE)</span>
+                      </button>
+                      <button
+                        onClick={() => {
+                          setShow201Drawer(false);
+                          setShowBir2316Modal(true);
+                        }}
+                        className="bg-[#031134] hover:bg-[#091D4C] text-white font-bold text-xs px-4 py-2.5 rounded-xl transition-all flex items-center space-x-1.5 shadow-2xs"
+                      >
+                        <FileText className="h-4 w-4 text-[#77BC2E]" />
+                        <span>Print BIR Form 2316</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* MODAL: DOLE CERTIFICATE OF EMPLOYMENT (COE) */}
+              {showCoeModal && selected201Employee && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-fadeIn">
+                  <div className="bg-white rounded-3xl max-w-xl w-full p-7 space-y-6 shadow-2xl border border-[#EAE8E2] max-h-[90vh] overflow-y-auto">
+                    <div className="flex items-center justify-between border-b border-[#F2F0E8] pb-3">
+                      <div>
+                        <span className="text-[10px] font-bold text-[#77BC2E] uppercase">Official DOLE Document</span>
+                        <h4 className="font-extrabold text-base text-[#4A2E1B]">Certificate of Employment (COE)</h4>
+                      </div>
+                      <button onClick={() => setShowCoeModal(false)} className="text-[#8A817C] hover:text-[#4A2E1B]">
+                        <XCircle className="h-6 w-6" />
+                      </button>
+                    </div>
+
+                    <div className="bg-[#FAF9F5] p-6 rounded-2xl border border-[#EAE8E2] space-y-4 text-xs leading-relaxed text-[#2D2520]">
+                      <div className="text-center border-b border-[#EAE8E2] pb-3 space-y-0.5">
+                        <strong className="font-black text-sm text-[#031134] block uppercase">ALRAJJ LEGACY FORTIFIED BUSINESS CORP.</strong>
+                        <p className="text-[10px] text-[#8A817C]">Authorized Lay Bare Waxing Salon & Passion Nails Franchisee &bull; Cagayan de Oro City</p>
+                      </div>
+
+                      <div className="text-center font-bold text-xs uppercase tracking-widest text-[#4A2E1B] py-1">
+                        CERTIFICATE OF EMPLOYMENT
+                      </div>
+
+                      <p>
+                        This is to certify that <strong>{selected201Employee.name}</strong> is a bonafide employee of <strong>ALRAJJ LEGACY Fortified Business Corp.</strong>, assigned at our <strong>{selected201Employee.branch}</strong> branch.
+                      </p>
+
+                      <p>
+                        She currently holds the position of <strong>{selected201Employee.role || 'Senior Specialist'}</strong> with a basic compensation rate of <strong>₱{parseFloat(selected201Employee.rate).toFixed(2)} PHP per day</strong> plus statutory benefits.
+                      </p>
+
+                      <p>
+                        This certification is issued upon the request of the interested party for whatever legal purpose it may serve.
+                      </p>
+
+                      <div className="pt-6 flex justify-between items-end border-t border-[#EAE8E2]">
+                        <div>
+                          <p className="text-[10px] text-[#8A817C]">Date Issued: <strong>September 11, 2026</strong></p>
+                          <p className="text-[10px] text-[#8A817C]">Ref Hash: <strong className="font-mono">COE-ALR-{selected201Employee.id}-2026</strong></p>
+                        </div>
+                        <div className="text-right">
+                          <div className="border-b border-stone-800 w-40 mb-1 ml-auto"></div>
+                          <strong className="font-bold text-xs text-[#031134] block">MS. JEHAN ABEDIN</strong>
+                          <span className="text-[10px] text-[#8A817C] block">General Manager / Managing Director</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex justify-end space-x-2">
+                      <button
+                        onClick={() => window.print()}
+                        className="bg-[#77BC2E] hover:bg-[#6DB027] text-white font-bold text-xs px-4 py-2.5 rounded-xl flex items-center space-x-1.5 shadow-2xs"
+                      >
+                        <Printer className="h-4 w-4" />
+                        <span>Print / Save as PDF</span>
+                      </button>
+                      <button
+                        onClick={() => setShowCoeModal(false)}
+                        className="bg-[#FAF9F5] text-[#5A534E] font-semibold text-xs px-4 py-2.5 rounded-xl border border-[#EAE8E2]"
+                      >
+                        Close
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* MODAL: BIR FORM 2316 CERTIFICATE */}
+              {showBir2316Modal && selected201Employee && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-fadeIn">
+                  <div className="bg-white rounded-3xl max-w-xl w-full p-7 space-y-5 shadow-2xl border border-[#EAE8E2] max-h-[90vh] overflow-y-auto">
+                    <div className="flex items-center justify-between border-b border-[#F2F0E8] pb-3">
+                      <div>
+                        <span className="text-[10px] font-bold text-[#D4AF37] uppercase">Bureau of Internal Revenue</span>
+                        <h4 className="font-extrabold text-base text-[#4A2E1B]">BIR Form No. 2316</h4>
+                      </div>
+                      <button onClick={() => setShowBir2316Modal(false)} className="text-[#8A817C] hover:text-[#4A2E1B]">
+                        <XCircle className="h-6 w-6" />
+                      </button>
+                    </div>
+
+                    <div className="bg-[#FAF9F5] p-5 rounded-2xl border border-[#EAE8E2] space-y-3 text-xs">
+                      <div className="grid grid-cols-2 gap-2 border-b border-[#EAE8E2] pb-3">
+                        <div>
+                          <span className="text-[10px] text-[#8A817C] block">Employee TIN</span>
+                          <strong className="font-mono">{selected201Employee.tin_no || '291-840-192-000'}</strong>
+                        </div>
+                        <div>
+                          <span className="text-[10px] text-[#8A817C] block">Employee Name</span>
+                          <strong>{selected201Employee.name}</strong>
+                        </div>
+                      </div>
+                      <div className="space-y-1 text-[11px]">
+                        <div className="flex justify-between py-1 border-b border-[#F2F0E8]">
+                          <span>Gross Compensation Income (YTD):</span>
+                          <strong className="font-mono">₱{(selected201Employee.rate * 26 * 7.5).toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
+                        </div>
+                        <div className="flex justify-between py-1 border-b border-[#F2F0E8]">
+                          <span>Non-Taxable Mandatory SSS/PH/HDMF:</span>
+                          <strong className="font-mono text-[#77BC2E]">₱8,410.00</strong>
+                        </div>
+                        <div className="flex justify-between py-1 border-b border-[#F2F0E8]">
+                          <span>Total Taxable Compensation:</span>
+                          <strong className="font-mono">₱{((selected201Employee.rate * 26 * 7.5) - 8410).toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
+                        </div>
+                        <div className="flex justify-between py-1 font-bold text-[#031134]">
+                          <span>Tax Withheld (TRAIN Law Minimum Wage Exempt):</span>
+                          <span className="font-mono text-[#16A34A]">₱0.00 (Exempt)</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex justify-end space-x-2">
+                      <button
+                        onClick={() => window.print()}
+                        className="bg-[#031134] hover:bg-[#091D4C] text-white font-bold text-xs px-4 py-2.5 rounded-xl flex items-center space-x-1.5 shadow-2xs"
+                      >
+                        <Printer className="h-4 w-4 text-[#77BC2E]" />
+                        <span>Print BIR 2316</span>
+                      </button>
+                      <button
+                        onClick={() => setShowBir2316Modal(false)}
+                        className="bg-[#FAF9F5] text-[#5A534E] font-semibold text-xs px-4 py-2.5 rounded-xl border border-[#EAE8E2]"
+                      >
+                        Close
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* MODAL: APPLY NEW LEAVE / SIL */}
+              {showLeaveFilingModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-fadeIn">
+                  <div className="bg-white rounded-3xl max-w-lg w-full p-6 space-y-4 shadow-2xl border border-[#EAE8E2]">
+                    <div className="flex items-center justify-between border-b border-[#F2F0E8] pb-3">
+                      <div>
+                        <span className="text-[10px] font-bold text-[#77BC2E] uppercase">Sprout Leaves</span>
+                        <h4 className="font-extrabold text-base text-[#4A2E1B]">File Leave Application</h4>
+                      </div>
+                      <button onClick={() => setShowLeaveFilingModal(false)} className="text-[#8A817C] hover:text-[#4A2E1B]">
+                        <XCircle className="h-5 w-5" />
+                      </button>
+                    </div>
+
+                    <form
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        const staff = employees.find(emp => emp.id === Number(newLeaveForm.employeeId)) || employees[0];
+                        const createdLeave = {
+                          id: `LV-2026-00${sproutLeaves.length + 1}`,
+                          employeeId: staff.id,
+                          employeeName: staff.name,
+                          branch: staff.branch,
+                          type: newLeaveForm.type,
+                          days: Number(newLeaveForm.days) || 1.0,
+                          startDate: newLeaveForm.startDate,
+                          endDate: newLeaveForm.endDate,
+                          reason: newLeaveForm.reason || 'Personal / Medical Leave',
+                          status: 'Pending Store Lead',
+                          approvedBy: 'Awaiting Supervisor',
+                          appliedAt: new Date().toISOString().split('T')[0],
+                          paid: true,
+                          hasAttachment: false
+                        };
+                        setSproutLeaves(prev => [createdLeave, ...prev]);
+                        setShowLeaveFilingModal(false);
+                        setSproutToast(`Leave request filed for ${staff.name} (${newLeaveForm.type}). Routed to Shift Supervisor.`);
+                        setTimeout(() => setSproutToast(''), 4000);
+                      }}
+                      className="space-y-3.5 text-xs"
+                    >
+                      <div>
+                        <label className="block font-bold text-[#5A534E] mb-1">Employee</label>
+                        <select
+                          value={newLeaveForm.employeeId}
+                          onChange={(e) => setNewLeaveForm({ ...newLeaveForm, employeeId: Number(e.target.value) })}
+                          className="w-full bg-[#FAF9F5] border border-[#EAE8E2] rounded-xl px-3 py-2 font-semibold"
+                        >
+                          {employees.map(e => (
+                            <option key={e.id} value={e.id}>{e.name} ({e.branch})</option>
+                          ))}
+                        </select>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-3">
+                        <div>
+                          <label className="block font-bold text-[#5A534E] mb-1">Leave Type</label>
+                          <select
+                            value={newLeaveForm.type}
+                            onChange={(e) => setNewLeaveForm({ ...newLeaveForm, type: e.target.value })}
+                            className="w-full bg-[#FAF9F5] border border-[#EAE8E2] rounded-xl px-3 py-2 font-semibold"
+                          >
+                            <option value="Service Incentive Leave (SIL)">Service Incentive Leave (SIL)</option>
+                            <option value="Vacation Leave (VL)">Vacation Leave (VL)</option>
+                            <option value="Sick Leave (SL)">Sick Leave (SL)</option>
+                            <option value="Maternity Leave">Maternity Leave</option>
+                            <option value="Paternity Leave">Paternity Leave</option>
+                            <option value="Solo Parent Leave">Solo Parent Leave</option>
+                          </select>
+                        </div>
+                        <div>
+                          <label className="block font-bold text-[#5A534E] mb-1">Number of Days</label>
+                          <input
+                            type="number"
+                            step="0.5"
+                            value={newLeaveForm.days}
+                            onChange={(e) => setNewLeaveForm({ ...newLeaveForm, days: Number(e.target.value) })}
+                            className="w-full bg-[#FAF9F5] border border-[#EAE8E2] rounded-xl px-3 py-2 font-mono font-bold"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-3">
+                        <div>
+                          <label className="block font-bold text-[#5A534E] mb-1">Start Date</label>
+                          <input
+                            type="date"
+                            value={newLeaveForm.startDate}
+                            onChange={(e) => setNewLeaveForm({ ...newLeaveForm, startDate: e.target.value })}
+                            className="w-full bg-[#FAF9F5] border border-[#EAE8E2] rounded-xl px-3 py-2"
+                          />
+                        </div>
+                        <div>
+                          <label className="block font-bold text-[#5A534E] mb-1">End Date</label>
+                          <input
+                            type="date"
+                            value={newLeaveForm.endDate}
+                            onChange={(e) => setNewLeaveForm({ ...newLeaveForm, endDate: e.target.value })}
+                            className="w-full bg-[#FAF9F5] border border-[#EAE8E2] rounded-xl px-3 py-2"
+                          />
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="block font-bold text-[#5A534E] mb-1">Reason / Justification</label>
+                        <textarea
+                          placeholder="State purpose of leave application..."
+                          rows={2}
+                          value={newLeaveForm.reason}
+                          onChange={(e) => setNewLeaveForm({ ...newLeaveForm, reason: e.target.value })}
+                          className="w-full bg-[#FAF9F5] border border-[#EAE8E2] rounded-xl px-3 py-2"
+                        />
+                      </div>
+
+                      <div className="flex justify-end space-x-2 pt-2">
+                        <button
+                          type="submit"
+                          className="bg-[#77BC2E] hover:bg-[#6DB027] text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-2xs"
+                        >
+                          Submit Application
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setShowLeaveFilingModal(false)}
+                          className="bg-stone-100 text-stone-600 font-semibold text-xs px-4 py-2.5 rounded-xl"
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              )}
+
+              {/* MODAL: FILE OT / OB SLIP */}
+              {showOtObModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-fadeIn">
+                  <div className="bg-white rounded-3xl max-w-lg w-full p-6 space-y-4 shadow-2xl border border-[#EAE8E2]">
+                    <div className="flex items-center justify-between border-b border-[#F2F0E8] pb-3">
+                      <div>
+                        <span className="text-[10px] font-bold text-[#77BC2E] uppercase">Sprout Attendance</span>
+                        <h4 className="font-extrabold text-base text-[#4A2E1B]">File Overtime / OB Slip</h4>
+                      </div>
+                      <button onClick={() => setShowOtObModal(false)} className="text-[#8A817C] hover:text-[#4A2E1B]">
+                        <XCircle className="h-5 w-5" />
+                      </button>
+                    </div>
+
+                    <form
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        const staff = employees.find(emp => emp.id === Number(newOtObForm.employeeId)) || employees[0];
+                        const createdOt = {
+                          id: `OT-2026-00${sproutOtOb.length + 1}`,
+                          employeeId: staff.id,
+                          employeeName: staff.name,
+                          branch: staff.branch,
+                          type: newOtObForm.type,
+                          hours: Number(newOtObForm.hours) || 1.0,
+                          date: newOtObForm.date,
+                          purpose: newOtObForm.purpose || 'Store operational overrun',
+                          status: 'Pending HR Audit',
+                          approvedBy: 'Awaiting Lead',
+                          ticketRef: newOtObForm.ticketRef || 'LB-POS-GEN'
+                        };
+                        setSproutOtOb(prev => [createdOt, ...prev]);
+                        setShowOtObModal(false);
+                        setSproutToast(`${newOtObForm.type} slip filed for ${staff.name}.`);
+                        setTimeout(() => setSproutToast(''), 4000);
+                      }}
+                      className="space-y-3.5 text-xs"
+                    >
+                      <div>
+                        <label className="block font-bold text-[#5A534E] mb-1">Employee</label>
+                        <select
+                          value={newOtObForm.employeeId}
+                          onChange={(e) => setNewOtObForm({ ...newOtObForm, employeeId: Number(e.target.value) })}
+                          className="w-full bg-[#FAF9F5] border border-[#EAE8E2] rounded-xl px-3 py-2 font-semibold"
+                        >
+                          {employees.map(e => (
+                            <option key={e.id} value={e.id}>{e.name} ({e.branch})</option>
+                          ))}
+                        </select>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-3">
+                        <div>
+                          <label className="block font-bold text-[#5A534E] mb-1">Request Type</label>
+                          <select
+                            value={newOtObForm.type}
+                            onChange={(e) => setNewOtObForm({ ...newOtObForm, type: e.target.value })}
+                            className="w-full bg-[#FAF9F5] border border-[#EAE8E2] rounded-xl px-3 py-2 font-semibold"
+                          >
+                            <option value="Post-Shift Overtime">Post-Shift Overtime</option>
+                            <option value="Pre-Shift Overtime">Pre-Shift Overtime</option>
+                            <option value="Official Business (OB)">Official Business (OB Slip)</option>
+                          </select>
+                        </div>
+                        <div>
+                          <label className="block font-bold text-[#5A534E] mb-1">Hours</label>
+                          <input
+                            type="number"
+                            step="0.5"
+                            value={newOtObForm.hours}
+                            onChange={(e) => setNewOtObForm({ ...newOtObForm, hours: Number(e.target.value) })}
+                            className="w-full bg-[#FAF9F5] border border-[#EAE8E2] rounded-xl px-3 py-2 font-mono font-bold"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-3">
+                        <div>
+                          <label className="block font-bold text-[#5A534E] mb-1">Date</label>
+                          <input
+                            type="date"
+                            value={newOtObForm.date}
+                            onChange={(e) => setNewOtObForm({ ...newOtObForm, date: e.target.value })}
+                            className="w-full bg-[#FAF9F5] border border-[#EAE8E2] rounded-xl px-3 py-2"
+                          />
+                        </div>
+                        <div>
+                          <label className="block font-bold text-[#5A534E] mb-1">Ticket / Store Ref (Optional)</label>
+                          <input
+                            type="text"
+                            placeholder="e.g. LB-2026-8921"
+                            value={newOtObForm.ticketRef}
+                            onChange={(e) => setNewOtObForm({ ...newOtObForm, ticketRef: e.target.value })}
+                            className="w-full bg-[#FAF9F5] border border-[#EAE8E2] rounded-xl px-3 py-2"
+                          />
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="block font-bold text-[#5A534E] mb-1">Purpose / Errand Details</label>
+                        <textarea
+                          placeholder="e.g. Centrio peak waxing client queue overrun, bank deposit run..."
+                          rows={2}
+                          value={newOtObForm.purpose}
+                          onChange={(e) => setNewOtObForm({ ...newOtObForm, purpose: e.target.value })}
+                          className="w-full bg-[#FAF9F5] border border-[#EAE8E2] rounded-xl px-3 py-2"
+                        />
+                      </div>
+
+                      <div className="flex justify-end space-x-2 pt-2">
+                        <button
+                          type="submit"
+                          className="bg-[#77BC2E] hover:bg-[#6DB027] text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-2xs"
+                        >
+                          Submit OT / OB
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setShowOtObModal(false)}
+                          className="bg-stone-100 text-stone-600 font-semibold text-xs px-4 py-2.5 rounded-xl"
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              )}
 
             </div>
           )}
+
+          {/* TAB 8: DOCUMENT MANAGEMENT SYSTEM (DMS) & E-SIGNATURE HUB */}
 
           {/* TAB 8: DOCUMENT MANAGEMENT SYSTEM (DMS) & E-SIGNATURE HUB */}
           {activeTab === 'dms' && (

@@ -38,7 +38,13 @@ SETHCON shall deliver, configure, and maintain the following seven (7) integrate
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
 │                        ALRAJJ LEGACY ENTERPRISE ERP ARCHITECTURE                       │
 ├────────────────────────────────┬───────────────────────────────────────────────────────┤
-│ Module 1: Biometric & HRMS     │ • NGTeco offline raw Excel log ingestion (.xls/.xlsx) │
+│ Module 1: Sprout HRMS &        │ • Complete 201 Personnel Files & DOLE COE Generator   │
+│           Biometric Ingestion  │ • Mandated Service Incentive Leave (SIL) balances     │
+│                                │ • Branch Weekly Shift Rostering & Bed/Station Matrix  │
+│                                │ • Overtime (OT) & Official Business (OB) filing queue │
+│                                │ • 13th-Month Accrual Tracker & BIR Form 2316 Center   │
+│                                │ • Employee Self-Service (ESS) & Sprout SSO Simulator  │
+│                                │ • NGTeco offline raw Excel log ingestion (.xls/.xlsx) │
 │                                │ • Cross-midnight & split-shift automatic pairing      │
 │                                │ • 1-Click Supervisor Exception Overrides & Audit Log  │
 │                                │ • Automated DOLE-compliant Notice to Explain (NTE)    │
