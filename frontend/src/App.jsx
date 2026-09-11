@@ -68,7 +68,9 @@ import {
   Smartphone,
   Laptop,
   Globe,
-  Info
+  Info,
+  Database,
+  RotateCcw
 } from 'lucide-react';
 
 const API_BASE = import.meta.env.VITE_API_URL || (window.location.origin.includes('localhost') ? 'http://localhost:5000/api' : '/api');
@@ -83,6 +85,8 @@ export default function App() {
   const [showPwaModal, setShowPwaModal] = useState(false);
   const [showHelpGuideModal, setShowHelpGuideModal] = useState(false);
   const [showDomainModal, setShowDomainModal] = useState(false);
+  const [showDataModeModal, setShowDataModeModal] = useState(false);
+  const [systemDataMode, setSystemDataMode] = useState('demo'); // 'demo' | 'live'
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [pwaInstalled, setPwaInstalled] = useState(false);
 
@@ -128,6 +132,33 @@ export default function App() {
     } else {
       setShowPwaModal(true);
     }
+  };
+
+  const handleSwitchToLiveData = () => {
+    setSystemDataMode('live');
+    setEmployees([]);
+    setAttendance([]);
+    setExceptions([]);
+    setTardiness([]);
+    setPayroll([]);
+    setServiceTickets([]);
+    setSummary({
+      totalEmployees: 0,
+      pendingExceptions: 0,
+      totalLateMins: 0,
+      averageHours: 0
+    });
+    setShowDataModeModal(false);
+    setEmailToast('🏢 Live Store Mode Active: Sample data cleared. Ready for actual NGTeco biometric upload & employee roster!');
+    setTimeout(() => setEmailToast(''), 5000);
+  };
+
+  const handleReloadDemoData = () => {
+    setSystemDataMode('demo');
+    loadMockData();
+    setShowDataModeModal(false);
+    setEmailToast('🧪 Demo Dataset Restored: Full 4-branch Lay Bare simulation reloaded.');
+    setTimeout(() => setEmailToast(''), 5000);
   };
 
   // Data States
@@ -2197,10 +2228,24 @@ export default function App() {
               <span>{startDate} ~ {endDate}</span>
             </div>
 
+            {/* Live Data vs Demo Mode Switcher Button */}
+            <button
+              onClick={() => setShowDataModeModal(true)}
+              className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all border shadow-2xs ${
+                systemDataMode === 'live'
+                  ? 'bg-[#031134] text-white border-[#031134]'
+                  : 'bg-[#FAF9F5] border-[#EAE8E2] text-[#4A2E1B] hover:bg-[#F2F0E8]'
+              }`}
+              title="Switch between Live Store Testing and Demo Simulation Data"
+            >
+              <Database className={`h-3.5 w-3.5 ${systemDataMode === 'live' ? 'text-[#77BC2E]' : 'text-[#8A817C]'}`} />
+              <span>{systemDataMode === 'live' ? '🏢 Live Store Mode' : '🧪 Demo Mode'}</span>
+            </button>
+
             {/* Network Online / Offline PWA Status Badge */}
             <button
               onClick={() => setShowPwaModal(true)}
-              className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all border shadow-2xs ${
+              className={`hidden sm:flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all border shadow-2xs ${
                 isOnline
                   ? 'bg-[#77BC2E]/10 border-[#77BC2E]/30 text-[#5A9A1E]'
                   : 'bg-[#D4AF37]/20 border-[#D4AF37]/50 text-[#B48A10] animate-pulse'
@@ -2208,7 +2253,7 @@ export default function App() {
               title={isOnline ? 'Online (Real-time Cloud Sync)' : 'Offline Mode (Local Storage Active)'}
             >
               {isOnline ? <Wifi className="h-3.5 w-3.5 text-[#77BC2E]" /> : <WifiOff className="h-3.5 w-3.5 text-[#B48A10]" />}
-              <span className="hidden sm:inline">{isOnline ? 'Cloud Live' : 'Offline Mode'}</span>
+              <span>{isOnline ? 'Cloud Live' : 'Offline'}</span>
             </button>
 
             {/* PWA / Desktop App Install Button */}
@@ -2221,24 +2266,25 @@ export default function App() {
               <span>{pwaInstalled ? 'App Ready' : 'Install App'}</span>
             </button>
 
-            {/* Google Workspace Domain Pill */}
+            {/* Google Workspace Domain Pill (Visible on standard screens) */}
             <button
               onClick={() => setShowDomainModal(true)}
-              className="hidden 2xl:flex items-center space-x-1.5 bg-[#031134]/5 border border-[#031134]/15 hover:bg-[#031134]/10 text-[#031134] px-3 py-1.5 rounded-xl text-xs font-bold transition-all"
-              title="Google Workspace Linked Domain"
+              className="flex items-center space-x-1.5 bg-[#031134]/5 border border-[#031134]/15 hover:bg-[#031134]/10 text-[#031134] px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-bold transition-all shadow-2xs"
+              title="Google Workspace Linked Domain: alrajjlegacy-fortifiedbusinesscorp.com"
             >
               <Globe className="h-3.5 w-3.5 text-[#031134]" />
-              <span className="truncate max-w-[140px]">erp.alrajjlegacy...</span>
+              <span className="hidden sm:inline">erp.alrajj...</span>
+              <span className="sm:hidden">Domain</span>
             </button>
 
             {/* Non-Techie Easy Guide Button */}
             <button
               onClick={() => setShowHelpGuideModal(true)}
-              className="flex items-center space-x-1.5 bg-[#FAF9F5] hover:bg-[#F2F0E8] border border-[#EAE8E2] text-[#4A2E1B] px-3 py-1.5 rounded-xl text-xs font-bold transition-all shadow-2xs"
+              className="hidden md:flex items-center space-x-1.5 bg-[#FAF9F5] hover:bg-[#F2F0E8] border border-[#EAE8E2] text-[#4A2E1B] px-3 py-1.5 rounded-xl text-xs font-bold transition-all shadow-2xs"
               title="Non-Techie Help & Quick Tour"
             >
               <Sparkles className="h-3.5 w-3.5 text-[#77BC2E]" />
-              <span className="hidden sm:inline">Easy Guide</span>
+              <span>Easy Guide</span>
             </button>
 
             {/* Notification Bell with Badge */}
@@ -7354,6 +7400,101 @@ export default function App() {
                   className="bg-[#F2F0E8] text-[#5A534E] font-semibold px-4 py-2.5 rounded-xl"
                 >
                   Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 16. DATA MODE CONTROL MODAL (LIVE DATA VS DEMO DATA RESET) */}
+      {showDataModeModal && (
+        <div className="fixed inset-0 bg-stone-900/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fadeIn">
+          <div className="bg-white rounded-3xl border border-[#EAE8E2] shadow-2xl w-full max-w-lg p-7 space-y-5">
+            <div className="flex items-start justify-between border-b border-[#F2F0E8] pb-4">
+              <div className="flex items-center space-x-3">
+                <div className="w-12 h-12 rounded-2xl bg-[#031134] text-[#77BC2E] flex items-center justify-center font-bold text-lg shadow-sm">
+                  <Database className="h-6 w-6" />
+                </div>
+                <div>
+                  <div className="flex items-center space-x-2">
+                    <h3 className="font-extrabold text-lg text-[#4A2E1B]">Data & Testing Control Center</h3>
+                    <span className={`text-[10px] font-extrabold px-2 py-0.5 rounded-full ${
+                      systemDataMode === 'live' ? 'bg-[#031134] text-[#77BC2E]' : 'bg-[#FAF9F5] text-[#5A534E] border border-[#EAE8E2]'
+                    }`}>
+                      {systemDataMode === 'live' ? '🏢 Live Store Active' : '🧪 Demo Simulation'}
+                    </span>
+                  </div>
+                  <p className="text-xs text-[#8A817C]">Switch between actual live store testing and 4-branch demo simulation</p>
+                </div>
+              </div>
+              <button onClick={() => setShowDataModeModal(false)} className="text-[#8A817C] hover:text-[#4A2E1B]">
+                <XCircle className="h-5 w-5" />
+              </button>
+            </div>
+
+            <div className="space-y-4 text-xs">
+              
+              {/* Option 1: Live Mode */}
+              <div className="bg-[#FAF9F5] border border-[#EAE8E2] rounded-2xl p-4 space-y-2">
+                <div className="flex items-center justify-between">
+                  <strong className="text-sm font-extrabold text-[#4A2E1B] flex items-center space-x-1.5">
+                    <span>🏢 Switch to Live Store Mode (Clean Slate)</span>
+                  </strong>
+                  <span className="text-[10px] font-bold text-[#77BC2E]">Ready for Real Data</span>
+                </div>
+                <p className="text-[#5A534E] text-[11px] leading-relaxed">
+                  Clears the sample records so Kristene and your store leads can import your <strong>actual raw NGTeco Excel biometric punch file</strong>, register real salon employees, ring up real service tickets, and test real payroll computations immediately.
+                </p>
+                <button
+                  onClick={handleSwitchToLiveData}
+                  className="w-full bg-[#031134] hover:bg-[#082260] text-white font-bold py-2.5 rounded-xl transition-all flex items-center justify-center space-x-2 shadow-sm"
+                >
+                  <Database className="h-3.5 w-3.5 text-[#77BC2E]" />
+                  <span>Activate Live Store Mode (Clear Demo Data)</span>
+                </button>
+              </div>
+
+              {/* Option 2: Reload Demo Data */}
+              <div className="bg-white border border-[#EAE8E2] rounded-2xl p-4 space-y-2">
+                <div className="flex items-center justify-between">
+                  <strong className="text-sm font-extrabold text-[#4A2E1B] flex items-center space-x-1.5">
+                    <span>🧪 Reload 4-Branch Demo Dataset</span>
+                  </strong>
+                  <span className="text-[10px] font-bold text-[#8A817C]">Simulation Preset</span>
+                </div>
+                <p className="text-[#5A534E] text-[11px] leading-relaxed">
+                  Done with testing your actual data? In 1-click, restore the pre-populated multi-branch simulation (Centrio Waxing, Passion Nails, Ketkai, SM Downtown) for presentations or training.
+                </p>
+                <button
+                  onClick={handleReloadDemoData}
+                  className="w-full bg-[#FAF9F5] hover:bg-[#F2F0E8] border border-[#EAE8E2] text-[#4A2E1B] font-bold py-2.5 rounded-xl transition-all flex items-center justify-center space-x-2"
+                >
+                  <RotateCcw className="h-3.5 w-3.5 text-[#77BC2E]" />
+                  <span>Restore Sample Demo Dataset</span>
+                </button>
+              </div>
+
+              {/* Direct Link to Biometric Upload */}
+              <div className="flex items-center justify-between p-3 rounded-xl bg-[#77BC2E]/10 border border-[#77BC2E]/30">
+                <span className="text-[11px] font-bold text-[#4A2E1B]">Have an NGTeco biometric punch file ready?</span>
+                <button
+                  onClick={() => {
+                    setActiveTab('upload');
+                    setShowDataModeModal(false);
+                  }}
+                  className="bg-[#77BC2E] text-white font-bold text-[10px] px-3 py-1.5 rounded-lg shadow-2xs hover:bg-[#6DB027]"
+                >
+                  Go to Ingestion Portal &rarr;
+                </button>
+              </div>
+
+              <div className="pt-1">
+                <button
+                  onClick={() => setShowDataModeModal(false)}
+                  className="w-full bg-[#F2F0E8] text-[#5A534E] font-semibold py-2 rounded-xl"
+                >
+                  Close Window
                 </button>
               </div>
             </div>
