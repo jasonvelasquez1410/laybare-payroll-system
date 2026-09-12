@@ -1,7 +1,7 @@
 # ALRAJJ LEGACY Multi-Branch Enterprise ERP System
 
 > **Comprehensive Project Memory, Architecture & Context Document**  
-> **Last Updated**: September 11, 2026  
+> **Last Updated**: September 13, 2026  
 > **Repository**: `jasonvelasquez1410/laybare-payroll-system` (Branch: `main`)  
 > **Primary Live Production URL**: [https://alrajj-legacy.vercel.app](https://alrajj-legacy.vercel.app)  
 > **Client / Entity**: ALRAJJ LEGACY Fortified Business Corp.  
@@ -20,6 +20,7 @@
 6. [Design Tokens & Brand Aesthetic](#6-design-tokens--brand-aesthetic)
 7. [Key Files, Documents & Exported Deliverables](#7-key-files-documents--exported-deliverables)
 8. [Quick Resume Guide After Laptop Restart](#8-quick-resume-guide-after-laptop-restart)
+9. [Client Email & Proposal Terms vs. System Navigation Cross-Reference](#9-client-email--proposal-terms-vs-system-navigation-cross-reference)
 
 ---
 
@@ -277,3 +278,35 @@ node server.js
 ### Step 4: Live Production URL
 * The cloud production deployment is always live at: **[https://alrajj-legacy.vercel.app](https://alrajj-legacy.vercel.app)**
 * Custom Google Workspace Subdomain: **`erp.alrajjlegacy-fortifiedbusinesscorp.com`**
+
+---
+
+## 🧭 9. Client Email & Proposal Terms vs. System Navigation Cross-Reference
+
+> **Context & Rule for Future Sessions:**  
+> When communicating with **Ms. Jehan Abedin** (Managing Director) or ALRAJJ LEGACY management via email, formal proposals, or presentation decks, we use **executive capability descriptions**. In the application, the **Sidebar Navigation** uses short, clean UI labels to preserve screen real estate, while the **internal page headers, sub-tabs, and workflow banners** mirror the exact phrases from the email.
+
+### A. Baseline Modules (Initial HR & Payroll Scope)
+
+| # | Client Email / Proposal Term | System Sidebar Tab | Internal Page / Section Header & View | Notes & Exact Functionality |
+| :-: | :--- | :--- | :--- | :--- |
+| **1** | **Biometric Ingestion & Attendance Engine** | `Biometric Ingestion` (`upload`) | **NGTeco Biometric Ingestion & Attendance Log Parser** | Offline NGTeco `.xls`/`.xlsx` parser, raw punch verification, and cross-midnight shift tracking. |
+| **2** | **Exceptions & Shift Flagging Hub** | `Exceptions & Flags` (`exceptions`) | **Exceptions & Audit Resolution Hub** | Instant resolution of missing clock-outs and irregular shifts with supervisor audit logs. |
+| **3** | **Tardiness Engine & DOLE Notice to Explain (NTE)** | `Tardiness & NTE` (`tardiness`) | **Tardiness Engine & DOLE NTE Generator** | Automated grace period & late-minute calculations with 1-click DOLE-compliant NTE letter generator. |
+| **4** | **1-Click Biometric Payroll & 5-Step BPI BizLink Disbursement** | `Biometric Payroll` (`payroll`) | **5-Step BPI BizLink Disbursement Pipeline** | Automated SSS, PhilHealth, Pag-IBIG, and withholding tax computations with 1-click BPI BizLink Batch CSV export for direct ATM crediting. |
+
+---
+
+### B. Newly Added Modules (Enterprise ERP Expansion)
+
+| # | Client Email / Proposal Term | System Sidebar Tab | Internal Page / Section Header & View | Notes & Exact Functionality |
+| :-: | :--- | :--- | :--- | :--- |
+| **5** | **Philippine GAAP Accounting & General Ledger** | `Accounting & Financials` (`accounting`) | **Financial & Accounting Hub** &bull; Sub-tabs: `Profit & Loss (P&L)` (`pl`), `Balance Sheet` (`balance_sheet`), `General Ledger` (`journal`) | Multi-branch P&L statements, Balance Sheet (₱4.121M Assets), Trial Balance, and automated double-entry journal entries. |
+| **6** | **Daily POS Cash Drawer & Anti-Shrinkage Audit** | `Accounting & Financials` (`accounting`) | Sub-tab: **POS Drawer Audit** (`pos_recon`) &bull; Header: **"Daily POS Cash Drawer & Anti-Shrinkage Audit"** | End-of-day register reconciliation (Cash, Maya, GCash, Cards) to eliminate branch cash leakage. |
+| **7** | **BIR Statutory Tax & Compliance Hub** | `Accounting & Financials` (`accounting`) | Sub-tab: **BIR Tax Hub** (`taxes`) &bull; Header: **"BIR Statutory Tax & Compliance Hub"** | Automated pre-computation of BIR Forms 1601-C, 2550Q, and 0619-E. |
+| **8** | **HR Hub & 201 Digital Files** | `HR Hub & 201 Files` (`employees`) | **HR Hub & 201 Personnel Files** | Complete 201 employee records, Certificate of Employment (COE) generator, BIR Form 2316 generator, and Employee Self-Service (ESS) portal. |
+| **9** | **Salon CRM & Live POS Ring-Up** | `Salon CRM & Loyalty` (`crm`) | Sub-tab: **Service Tickets & Live POS Ring-Up** (`tickets`) | Fast checkout supporting automated 10% technician commission crediting per service ticket. |
+| **10** | **5-Step MyTime Commissary Procurement Pipeline** | `PO to Accounting` (`procurement`) | Header: **"5-Step Purchase Order & MyTime Commissary Pipeline"** (Badge: `5-Step`) | Branch stock requisitions aligned with Lay Bare Franchisor (MyTime Commissary) and store Delivery Receipt (DR) logging. |
+| **11** | **Automated 3-Way Match & Accounts Payable (AP) Hub** | Shared: `PO to Accounting` & `Accounting` | Step 5 of PO Pipeline: **"3-Way Match (PO ↔ DR ↔ Invoice)"** & Accounts Payable (`invoices`) | Automated reconciliation across Purchase Orders (PO), DRs, and Supplier Invoices into AP vouchers with 1-click BPI pay. |
+| **12** | **Multi-Level Approval Matrix** | `Approvals & Matrix` (`approvals`) | **Multi-Level Executive Approvals Hub** | 4-tier routing ending with Managing Director Ms. Jehan Abedin's executive sign-off. |
+
